@@ -61,7 +61,6 @@ function App() {
 
   return (
     <div className="site" id="top">
-      <ProductRail />
       <header className="nav-wrap">
         <nav className="nav container">
           <Logo />
