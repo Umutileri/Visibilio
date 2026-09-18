@@ -312,32 +312,38 @@ button:disabled {
   font-weight: 800;
 }
 
-.metric-grid {
+.metric-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 22px;
+  grid-template-columns: 1fr 1.25fr 0.9fr;
+  gap: 22px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgb(21 45 53 / 9%);
+  border-bottom: 1px solid rgb(21 45 53 / 9%);
+  padding-bottom: 18px;
 }
 
-.metric-card {
-  padding: 15px;
-  border: 1px solid rgb(21 45 53 / 9%);
-  border-radius: 14px;
+.metric-strip div + div {
+  padding-left: 22px;
+  border-left: 1px solid rgb(21 45 53 / 9%);
 }
 
-.metric-card span {
+.metric-strip span,
+.metric-strip strong {
   display: block;
+}
+
+.metric-strip span {
   color: rgb(21 45 53 / 48%);
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.metric-card strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 1.45rem;
-  letter-spacing: -0.03em;
+.metric-strip strong {
+  margin-top: 5px;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .issue-preview {
@@ -391,6 +397,15 @@ button:disabled {
 
 .issue-arrow {
   color: rgb(21 45 53 / 35%);
+}
+
+.preview-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 11px;
+  color: rgb(21 45 53 / 42%);
+  font-size: 0.68rem;
 }
 
 .scanner-section {
@@ -488,9 +503,12 @@ button:disabled {
 }
 
 .issue-card {
-  padding: 18px;
-  border: 1px solid rgb(21 45 53 / 9%);
-  border-radius: 15px;
+  padding: 18px 0;
+  border-top: 1px solid rgb(21 45 53 / 9%);
+}
+
+.issue-card:first-child {
+  border-top: 0;
 }
 
 .issue-card-top,
@@ -612,7 +630,8 @@ button:disabled {
 }
 
 .section-tinted {
-  border-radius: 28px;
+  border-top: 1px solid rgb(21 45 53 / 10%);
+  border-bottom: 1px solid rgb(21 45 53 / 10%);
   background: #eef4f0;
 }
 
@@ -899,6 +918,18 @@ button:disabled {
 
   .button-dark {
     width: 100%;
+  }
+
+  .metric-strip {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .metric-strip div + div {
+    padding-left: 0;
+    padding-top: 12px;
+    border-left: 0;
+    border-top: 1px solid rgb(21 45 53 / 9%);
   }
 
   .steps {
