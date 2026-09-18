@@ -40,6 +40,46 @@ function Logo() {
   );
 }
 
+const shellNav = [
+  ["Overview", "#top", "⌂"],
+  ["Analyze", "#scanner", "↗"],
+  ["Findings", "#example", "◉"],
+  ["Evidence", "#example", "◌"],
+  ["Settings", "#principles", "⚙"],
+];
+
+function ProductRail() {
+  return (
+    <aside className="product-rail" aria-label="Product navigation">
+      <div className="rail-inner">
+        <div className="rail-brand" aria-hidden="true">
+          <span className="rail-brand-mark">V</span>
+          <span className="rail-brand-name">VISIBILIO</span>
+        </div>
+
+        <div className="rail-items">
+          {shellNav.map(([label, href, icon], index) => (
+            <a
+              className={`rail-item${index === 0 ? " is-active" : ""}`}
+              href={href}
+              key={label}
+              aria-label={label}
+            >
+              <span className="rail-icon" aria-hidden="true">{icon}</span>
+              <span className="rail-label">{label}</span>
+            </a>
+          ))}
+        </div>
+
+        <div className="rail-footer">
+          <span className="rail-status-dot" aria-hidden="true" />
+          <span className="rail-status-label">UI AUDIT</span>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 function App() {
   const [url, setUrl] = useState("");
   const [scanning, setScanning] = useState(false);
@@ -59,7 +99,8 @@ function App() {
   }
 
   return (
-    <div className="site">
+    <div className="site" id="top">
+      <ProductRail />
       <header className="nav-wrap">
         <nav className="nav container">
           <Logo />
