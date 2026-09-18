@@ -141,7 +141,6 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
         </section>
 
         <section className="scanner-section container" id="scanner">
