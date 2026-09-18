@@ -29,4 +29,13 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      globals: {
+        module: "readonly",
+        require: "readonly",
+      },
+    },
+  },
 );
