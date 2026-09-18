@@ -98,15 +98,13 @@ button:disabled {
   letter-spacing: -0.03em;
 }
 
-.brand-mark {
-  display: grid;
+.brand-logo {
   width: 32px;
   height: 32px;
-  place-items: center;
-  border-radius: 10px;
-  background: #152d35;
-  color: #d4ecdd;
-  font-size: 0.82rem;
+  display: block;
+  border-radius: 8px;
+  background: #d4ecdd;
+  object-fit: cover;
 }
 
 .nav-links {
@@ -1198,18 +1196,14 @@ button:disabled {
   padding: 0 4px;
 }
 
-.rail-brand-mark {
-  display: grid;
+.rail-brand-logo {
+  display: block;
   width: 34px;
   height: 34px;
   flex: 0 0 34px;
-  place-items: center;
-  border: 1px solid rgb(212 236 221 / 22%);
-  border-radius: 10px;
+  border-radius: 9px;
   background: #d4ecdd;
-  color: #152d35;
-  font-size: 0.8rem;
-  font-weight: 850;
+  object-fit: cover;
 }
 
 .rail-brand-name,
