@@ -41,31 +41,30 @@ function Logo() {
 }
 
 const shellNav = [
-  ["Overview", "#top", "01"],
-  ["Analyze", "#scanner", "02"],
-  ["Findings", "#example", "03"],
-  ["Evidence", "#example", "04"],
-  ["Principles", "#principles", "05"],
+  ["Overview", "#top", "⌂"],
+  ["Analyze", "#scanner", "◌"],
+  ["Findings", "#example", "◉"],
+  ["Evidence", "#example", "◈"],
+  ["Principles", "#principles", "◍"],
 ];
 
 function ProductRail() {
   return (
     <aside className="product-rail" aria-label="Page navigation">
       <div className="rail-inner">
-        <span className="rail-line" aria-hidden="true" />
+        <a className="rail-logo" href="#top" aria-label="Visibilio home">
+          <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
+        </a>
         <nav className="rail-items">
-          {shellNav.map(([label, href, number], index) => (
+          {shellNav.map(([label, href, icon], index) => (
             <a
               className={`rail-item${index === 0 ? " is-active" : ""}`}
               href={href}
               key={label}
-              aria-label={`${number} — ${label}`}
+              aria-label={label}
             >
-              <span className="rail-number" aria-hidden="true">{number}</span>
-              <span className="rail-label">
-                <span className="rail-label-index">{number}</span>
-                <span>{label}</span>
-              </span>
+              <span className="rail-icon" aria-hidden="true">{icon}</span>
+              <span className="rail-label">{label}</span>
             </a>
           ))}
         </nav>
