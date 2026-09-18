@@ -1,33 +1,139 @@
 # Visibilio Design System
 
-## Direction
+## Design direction
 
-Modern, calm, intelligent, professional, clear, and trustworthy. Avoid excessive gradients, glows, and noisy AI aesthetics.
+Visibilio should feel:
 
-## Brand colors
+- modern
+- calm
+- intelligent
+- professional
+- clear
+- trustworthy
 
-- Primary Deep Teal: `#152D35`
-- Secondary Soft Sage: `#D4ECDD`
+Avoid excessive gradients, glows, decorative noise, and generic "AI aesthetic" patterns.
 
-Neutrals must be selected and checked for accessible contrast before finalizing.
+The interface should make the product itself the visual focus.
+
+## Brand
+
+### Primary
+
+`#152D35` — Deep Teal
+
+### Secondary
+
+`#D4ECDD` — Soft Sage
+
+Neutrals are not fixed yet. Choose them deliberately and verify contrast before standardizing them.
 
 ## Typography
 
-- UI: Inter or Geist
-- Code: Geist Mono or JetBrains Mono
+Preferred UI fonts:
 
-Use a clear hierarchy, generous whitespace, consistent spacing, and responsive containers.
+- Inter
+- Geist
 
-## Accessibility
+Preferred monospace fonts:
 
-- Semantic HTML
-- Keyboard navigation
-- Visible focus states
-- Sufficient contrast
-- Labeled controls
-- Meaningful button and link text
-- Sensible heading structure
+- Geist Mono
+- JetBrains Mono
 
-## UI principle
+The final font choice should be made once the application shell exists rather than creating unnecessary dependency work early.
 
-**Clarity over decoration.** Issue views should make it easy to understand what is wrong, where it happens, how it was detected, how significant it is, and what to do next.
+## Spacing and layout
+
+Use a consistent spacing scale and responsive containers.
+
+Prefer:
+
+- generous whitespace
+- clear alignment
+- readable content widths
+- simple grids
+- predictable vertical rhythm
+
+Avoid dense layouts unless the information genuinely requires density.
+
+## Visual hierarchy
+
+Prioritize:
+
+1. What is the issue?
+2. Where is it happening?
+3. How was it detected?
+4. Why does it matter?
+5. What can the user do next?
+
+Evidence should support the explanation rather than compete with it.
+
+## Components
+
+Initial component families:
+
+- Button
+- Input
+- Card
+- Badge
+- Alert
+- Tabs
+- Issue Summary
+- Issue Detail
+- Screenshot / Evidence Viewer
+- Viewport Selector
+- Code Block
+- Status Indicator
+
+Do not build every component in advance. Create components when a real UI needs them.
+
+## Responsive behavior
+
+Visibilio itself must work across:
+
+- mobile
+- tablet
+- desktop
+
+Do not design desktop-first behavior that becomes unusable on smaller screens.
+
+## Accessibility baseline
+
+At minimum:
+
+- semantic HTML
+- keyboard navigation
+- visible focus states
+- sufficient color contrast
+- labeled form controls
+- meaningful button/link text
+- sensible heading structure
+- reduced-motion consideration for non-essential animation
+
+## Interaction
+
+Prefer predictable interactions and clear feedback.
+
+Important states should be visually distinguishable:
+
+- idle
+- loading
+- success
+- warning
+- error
+- disabled
+
+Do not rely on color alone to communicate state.
+
+## Issue visualization
+
+An issue view should make these pieces easy to scan:
+
+**Finding → Evidence → Context → Suggested action**
+
+Severity should be clear but not visually overwhelming.
+
+## Design principle
+
+> **Clarity over decoration.**
+
+The UI should help users understand website problems, not create more visual noise.
