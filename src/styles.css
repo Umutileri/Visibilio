@@ -1158,195 +1158,161 @@ button:disabled {
 }
 
 
+
 .product-rail {
   position: fixed;
-  top: 98px;
-  left: 20px;
+  top: 50%;
+  left: 18px;
   z-index: 30;
-  width: 58px;
-  transition: width 220ms ease;
+  width: 42px;
+  transform: translateY(-50%);
+  transition: opacity 180ms ease;
 }
 
 .rail-inner {
+  position: relative;
   width: 100%;
-  overflow: hidden;
-  padding: 10px;
-  border: 1px solid rgb(21 45 53 / 12%);
-  border-radius: 18px;
-  background: rgb(21 45 53 / 96%);
-  box-shadow: 0 18px 46px rgb(21 45 53 / 16%);
-  color: #fff;
-}
-
-.product-rail:hover,
-.product-rail:focus-within {
-  width: 186px;
-}
-
-.rail-brand,
-.rail-item,
-.rail-footer {
-  display: flex;
-  align-items: center;
-}
-
-.rail-brand {
-  gap: 10px;
-  min-height: 40px;
-  padding: 0 4px;
-}
-
-.rail-brand-logo {
-  display: block;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  border-radius: 9px;
-  background: #d4ecdd;
-  object-fit: cover;
-}
-
-.rail-brand-name,
-.rail-label,
-.rail-status-label {
-  opacity: 0;
-  transform: translateX(-6px);
-  white-space: nowrap;
-  transition: opacity 160ms ease, transform 180ms ease;
-}
-
-.product-rail:hover .rail-brand-name,
-.product-rail:focus-within .rail-brand-name,
-.product-rail:hover .rail-label,
-.product-rail:focus-within .rail-label,
-.product-rail:hover .rail-status-label,
-.product-rail:focus-within .rail-status-label {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.rail-brand-name {
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  padding: 7px 5px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 15px;
+  background: rgb(255 255 255 / 22%);
+  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+  box-shadow: 0 12px 30px rgb(21 45 53 / 8%);
 }
 
 .rail-items {
+  position: relative;
   display: grid;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 3px;
+}
+
+.rail-line {
+  position: absolute;
+  top: 13px;
+  bottom: 13px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: rgb(21 45 53 / 15%);
 }
 
 .rail-item {
-  gap: 10px;
-  min-height: 40px;
-  padding: 0 4px;
-  border: 1px solid transparent;
-  border-radius: 11px;
-  color: rgb(255 255 255 / 62%);
-}
-
-.rail-item:hover,
-.rail-item:focus-visible {
-  border-color: rgb(212 236 221 / 16%);
-  background: rgb(255 255 255 / 7%);
-  color: #fff;
-  outline: none;
-}
-
-.rail-item.is-active {
-  background: rgb(212 236 221 / 12%);
-  color: #d4ecdd;
-}
-
-.rail-icon {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  place-items: center;
+  position: relative;
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
   border-radius: 9px;
-  font-size: 0.9rem;
+  color: rgb(21 45 53 / 42%);
+  transition: color 150ms ease, background 150ms ease;
 }
 
-.rail-label {
-  font-size: 0.75rem;
+.rail-number {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgb(247 250 248 / 72%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
 
-.rail-footer {
-  gap: 9px;
-  margin-top: 12px;
-  padding: 10px 4px 2px;
-  border-top: 1px solid rgb(255 255 255 / 9%);
-  color: rgb(255 255 255 / 42%);
+.rail-label {
+  position: absolute;
+  top: 50%;
+  left: 34px;
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  width: max-content;
+  max-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 82%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 24px rgb(21 45 53 / 9%);
+  color: #152d35;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-5px, -50%);
+  transition: max-width 160ms ease, padding 160ms ease, opacity 130ms ease, transform 160ms ease;
+  pointer-events: none;
 }
 
-.rail-status-dot {
-  width: 7px;
-  height: 7px;
-  flex: 0 0 7px;
-  border-radius: 50%;
-  background: #d4ecdd;
-  box-shadow: 0 0 0 3px rgb(212 236 221 / 10%);
-}
-
-.rail-status-label {
+.rail-label-index {
+  color: rgb(21 45 53 / 34%);
   font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.07em;
+  font-size: 0.56rem;
+}
+
+.product-rail:hover .rail-label,
+.product-rail:focus-within .rail-label {
+  max-width: 170px;
+  padding: 7px 10px;
+  border-color: rgb(21 45 53 / 9%);
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.rail-item:hover .rail-number,
+.rail-item:focus-visible .rail-number,
+.rail-item.is-active .rail-number {
+  background: #152d35;
+  color: #d4ecdd;
+}
+
+.rail-item:hover,
+.rail-item:focus-visible {
+  color: #152d35;
+  outline: none;
 }
 
 @media (max-width: 980px) {
   .product-rail {
     top: auto;
-    bottom: 18px;
+    bottom: 16px;
     left: 50%;
     width: auto;
     transform: translateX(-50%);
   }
 
   .rail-inner {
-    display: flex;
-    gap: 4px;
-    padding: 7px;
-    border-radius: 16px;
-  }
-
-  .rail-brand,
-  .rail-footer {
-    display: none;
+    padding: 6px;
+    border-radius: 14px;
   }
 
   .rail-items {
     display: flex;
-    gap: 4px;
-    margin-top: 0;
+    gap: 2px;
   }
 
-  .product-rail:hover,
-  .product-rail:focus-within {
-    width: auto;
+  .rail-line {
+    display: none;
   }
 
   .rail-item {
-    min-width: 40px;
-    justify-content: center;
+    min-width: 36px;
   }
 
-  .product-rail:hover .rail-label,
-  .product-rail:focus-within .rail-label {
+  .rail-label {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .product-rail,
-  .rail-brand-name,
-  .rail-label,
-  .rail-status-label {
+  .rail-item,
+  .rail-label {
     transition: none;
   }
 }
