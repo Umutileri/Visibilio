@@ -140,7 +140,8 @@ function App() {
                 <span>Measured, not guessed</span>
               </div>
             </div>
-          </div></div>
+          </div>
+        </div>
         </section>
 
         <section className="scanner-section container" id="scanner">
