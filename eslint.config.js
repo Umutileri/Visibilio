@@ -7,7 +7,6 @@ export default tseslint.config(
   { ignores: ["dist"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  reactHooks.configs["recommended-latest"],
   {
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
@@ -18,7 +17,12 @@ export default tseslint.config(
         window: "readonly",
       },
     },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
     rules: {
+      ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
