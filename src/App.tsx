@@ -41,40 +41,36 @@ function Logo() {
 }
 
 const shellNav = [
-  ["Overview", "#top", "⌂"],
-  ["Analyze", "#scanner", "↗"],
-  ["Findings", "#example", "◉"],
-  ["Evidence", "#example", "◌"],
-  ["Settings", "#principles", "⚙"],
+  ["Overview", "#top", "01", "⌂"],
+  ["Analyze", "#scanner", "02", "◌"],
+  ["Findings", "#example", "03", "◉"],
+  ["Evidence", "#example", "04", "◈"],
+  ["Principles", "#principles", "05", "◍"],
 ];
 
 function ProductRail() {
   return (
-    <aside className="product-rail" aria-label="Product navigation">
+    <aside className="product-rail" aria-label="Page navigation">
       <div className="rail-inner">
-        <div className="rail-brand" aria-hidden="true">
-          <img className="rail-brand-logo" src="/Visibilio/visibilio-icon.svg" alt="" />
-          <span className="rail-brand-name">VISIBILIO</span>
-        </div>
-
-        <div className="rail-items">
-          {shellNav.map(([label, href, icon], index) => (
+        <nav className="rail-items">
+          <a className="rail-logo" href="#top" aria-label="Visibilio home">
+            <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
+          </a>
+          {shellNav.map(([label, href, number, icon], index) => (
             <a
               className={`rail-item${index === 0 ? " is-active" : ""}`}
               href={href}
               key={label}
-              aria-label={label}
+              aria-label={`${number} — ${label}`}
             >
-              <span className="rail-icon" aria-hidden="true">{icon}</span>
+              <span className="rail-icon" aria-hidden="true">
+                <span className="rail-number">{number}</span>
+                <span className="rail-glyph">{icon}</span>
+              </span>
               <span className="rail-label">{label}</span>
             </a>
           ))}
-        </div>
-
-        <div className="rail-footer">
-          <span className="rail-status-dot" aria-hidden="true" />
-          <span className="rail-status-label">UI AUDIT</span>
-        </div>
+        </nav>
       </div>
     </aside>
   );
