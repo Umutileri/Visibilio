@@ -1159,122 +1159,116 @@ button:disabled {
 
 
 
+
 .product-rail {
   position: fixed;
   top: 50%;
-  left: 18px;
+  left: 22px;
   z-index: 30;
-  width: 42px;
+  width: 58px;
   transform: translateY(-50%);
-  transition: opacity 180ms ease;
+  transition: width 220ms ease;
 }
 
 .rail-inner {
   position: relative;
   width: 100%;
-  padding: 7px 5px;
-  border: 1px solid rgb(255 255 255 / 28%);
-  border-radius: 15px;
-  background: rgb(255 255 255 / 22%);
-  backdrop-filter: blur(20px) saturate(125%);
-  -webkit-backdrop-filter: blur(20px) saturate(125%);
-  box-shadow: 0 12px 30px rgb(21 45 53 / 8%);
+  overflow: hidden;
+  padding: 9px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 20px;
+  background: rgb(255 255 255 / 18%);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  box-shadow: 0 16px 42px rgb(21 45 53 / 12%);
+}
+
+.rail-logo {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 8px;
+  place-items: center;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 58%);
+}
+
+.rail-logo img {
+  width: 28px;
+  height: 28px;
+  display: block;
 }
 
 .rail-items {
-  position: relative;
   display: grid;
-  gap: 3px;
-}
-
-.rail-line {
-  position: absolute;
-  top: 13px;
-  bottom: 13px;
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
-  background: rgb(21 45 53 / 15%);
+  gap: 4px;
 }
 
 .rail-item {
   position: relative;
   display: flex;
-  min-height: 34px;
+  min-height: 42px;
   align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-  color: rgb(21 45 53 / 42%);
-  transition: color 150ms ease, background 150ms ease;
+  gap: 11px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: rgb(21 45 53 / 55%);
+  transition: background 180ms ease, color 180ms ease;
 }
 
-.rail-number {
+.rail-icon {
   display: grid;
-  width: 27px;
-  height: 27px;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
   place-items: center;
-  border-radius: 8px;
-  background: rgb(247 250 248 / 72%);
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity 160ms ease, transform 160ms ease;
 }
 
 .rail-label {
-  position: absolute;
-  top: 50%;
-  left: 34px;
-  display: inline-flex;
-  gap: 7px;
-  align-items: center;
-  width: max-content;
-  max-width: 0;
   overflow: hidden;
-  padding: 0;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: rgb(255 255 255 / 82%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 24px rgb(21 45 53 / 9%);
-  color: #152d35;
-  font-size: 0.68rem;
+  max-width: 0;
+  font-size: 0.72rem;
   font-weight: 750;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   white-space: nowrap;
   opacity: 0;
-  transform: translate(-5px, -50%);
-  transition: max-width 160ms ease, padding 160ms ease, opacity 130ms ease, transform 160ms ease;
-  pointer-events: none;
+  transform: translateX(-6px);
+  transition: max-width 180ms ease, opacity 160ms ease, transform 180ms ease;
 }
 
-.rail-label-index {
-  color: rgb(21 45 53 / 34%);
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.56rem;
+.product-rail:hover,
+.product-rail:focus-within {
+  width: 190px;
+}
+
+.product-rail:hover .rail-icon,
+.product-rail:focus-within .rail-icon,
+.product-rail:hover .rail-label,
+.product-rail:focus-within .rail-label {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .product-rail:hover .rail-label,
 .product-rail:focus-within .rail-label {
-  max-width: 170px;
-  padding: 7px 10px;
-  border-color: rgb(21 45 53 / 9%);
-  opacity: 1;
-  transform: translate(0, -50%);
-}
-
-.rail-item:hover .rail-number,
-.rail-item:focus-visible .rail-number,
-.rail-item.is-active .rail-number {
-  background: #152d35;
-  color: #d4ecdd;
+  max-width: 120px;
 }
 
 .rail-item:hover,
-.rail-item:focus-visible {
+.rail-item:focus-visible,
+.rail-item.is-active {
+  background: rgb(255 255 255 / 52%);
   color: #152d35;
   outline: none;
+}
+
+.rail-item.is-active {
+  box-shadow: inset 2px 0 0 #152d35;
 }
 
 @media (max-width: 980px) {
@@ -1287,8 +1281,22 @@ button:disabled {
   }
 
   .rail-inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     padding: 6px;
-    border-radius: 14px;
+    border-radius: 16px;
+  }
+
+  .rail-logo {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+  }
+
+  .rail-logo img {
+    width: 24px;
+    height: 24px;
   }
 
   .rail-items {
@@ -1296,22 +1304,31 @@ button:disabled {
     gap: 2px;
   }
 
-  .rail-line {
-    display: none;
+  .rail-item {
+    min-height: 36px;
+    justify-content: center;
+    padding: 0 6px;
   }
 
-  .rail-item {
-    min-width: 36px;
+  .rail-icon {
+    opacity: 1;
+    transform: none;
   }
 
   .rail-label {
     display: none;
+  }
+
+  .product-rail:hover,
+  .product-rail:focus-within {
+    width: auto;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .product-rail,
   .rail-item,
+  .rail-icon,
   .rail-label {
     transition: none;
   }
