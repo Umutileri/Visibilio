@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const demoIssues = [
   {
@@ -44,23 +44,42 @@ const shellNav = [
   ["Overview", "#top", "⌂"],
   ["Analyze", "#scanner", "↗"],
   ["Findings", "#example", "◉"],
-  ["Evidence", "#example", "◌"],
-  ["Settings", "#principles", "⚙"],
+  ["Principles", "#principles", "◍"],
 ];
 
 function ProductRail() {
-  return (
-    <aside className="product-rail" aria-label="Product navigation">
-      <div className="rail-inner">
-        <div className="rail-brand" aria-hidden="true">
-          <img className="rail-brand-logo" src="/Visibilio/visibilio-icon.svg" alt="" />
-          <span className="rail-brand-name">VISIBILIO</span>
-        </div>
+  const [active, setActive] = useState("Overview");
 
-        <div className="rail-items">
-          {shellNav.map(([label, href, icon], index) => (
+  useEffect(() => {
+    const sections = shellNav
+      .map(([label, href]) => document.querySelector(href))
+      .filter((section): section is HTMLElement => section instanceof HTMLElement);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible?.target.id) {
+          const match = shellNav.find(([, href]) => href === `#${visible.target.id}`);
+          if (match) setActive(match[0]);
+        }
+      },
+      { rootMargin: "-35% 0px -45% 0px", threshold: [0.15, 0.35, 0.6] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <aside className="product-rail" aria-label="Page navigation">
+      <div className="rail-inner">
+        <nav className="rail-items">
+          {shellNav.map(([label, href, icon]) => (
             <a
-              className={`rail-item${index === 0 ? " is-active" : ""}`}
+              className={`rail-item${active === label ? " is-active" : ""}`}
               href={href}
               key={label}
               aria-label={label}
@@ -69,12 +88,7 @@ function ProductRail() {
               <span className="rail-label">{label}</span>
             </a>
           ))}
-        </div>
-
-        <div className="rail-footer">
-          <span className="rail-status-dot" aria-hidden="true" />
-          <span className="rail-status-label">UI AUDIT</span>
-        </div>
+        </nav>
       </div>
     </aside>
   );
