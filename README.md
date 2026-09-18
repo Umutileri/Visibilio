@@ -1,42 +1,180 @@
+<div align="center">
+
 # Visibilio
 
-> **See what's wrong. Fix what matters.**
+### See what's wrong. Fix what matters.
 
-Visibilio is an AI-assisted website UI analysis and improvement platform for website owners, developers, and designers.
+AI-assisted website UI analysis that helps you **find**, **understand**, and **fix** real interface problems.
 
-## Core idea
+<p>
+  <img src="https://img.shields.io/badge/status-in%20development-152D35?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/React-TypeScript-152D35?style=flat-square" alt="React + TypeScript" />
+  <img src="https://img.shields.io/github/stars/Umutileri/Visibilio?style=flat-square" alt="GitHub Stars" />
+</p>
 
-Turn hidden website problems into visible, understandable, actionable issues.
+</div>
+
+---
+
+## What is Visibilio?
+
+Visibilio is a **website UI analysis and improvement platform** built to make website problems easier to see, understand, and fix.
+
+Instead of simply giving you a score, Visibilio is designed around one simple loop:
 
 **Detect → Explain → Show → Suggest → Re-test**
 
-- Simple explanations for everyone
-- Technical details for developers
-- Visual evidence and reproducible checks
+It aims to answer:
 
-## MVP direction
+> **What is wrong?**  
+> **Where is it happening?**  
+> **Why does it matter?**  
+> **How can I fix it?**  
+> **Did the fix work?**
 
-1. Scan a test website
-2. Check controlled viewport sizes
-3. Detect horizontal overflow with deterministic rules
-4. Capture evidence
-5. Present a clear issue report
+---
 
-The initial goal is trustworthy, evidence-backed detection—not trying to judge every design decision with AI.
+## Why Visibilio?
 
-## Brand
+Website problems are often easy to notice but difficult to understand.
 
-- **Primary:** `#152D35`
-- **Secondary:** `#D4ECDD`
-- **UI font:** Inter or Geist
-- **Code font:** Geist Mono or JetBrains Mono
+A website owner might see that something feels wrong without knowing why. A developer might know where to look, but still spend time manually checking different viewport sizes and reproducing issues.
 
-## Development approach
+Visibilio aims to connect both perspectives.
 
-Visibilio is developed incrementally. Each milestone should produce a small, testable improvement. AI coding agents may assist with implementation, but product decisions, UX decisions, acceptance criteria, and final review remain human-driven.
+**For everyone**
+- Clear explanations
+- Visual evidence
+- Simple language
+- Actionable next steps
 
-## Status
+**For developers**
+- Technical details
+- Affected elements
+- Viewport information
+- Reproducible checks
+- Implementation guidance
 
-**Early development — repository setup and product definition.**
+---
 
-See also: [PRODUCT.md](./PRODUCT.md), [ROADMAP.md](./ROADMAP.md), [AGENTS.md](./AGENTS.md), and [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md).
+## Evidence first. AI second.
+
+Visibilio is built around **measurable browser data and reproducible checks**.
+
+The system should first determine what actually happened. AI can then help explain the result and suggest possible improvements.
+
+```text
+Browser
+   ↓
+Measurements
+   ↓
+Detection Rules
+   ↓
+Structured Issue
+   ↓
+AI Explanation
+   ↓
+Suggested Fix
+   ↓
+Re-test
+```
+
+This keeps measured evidence separate from interpretation.
+
+---
+
+## MVP
+
+The first version is intentionally focused.
+
+| Capability | Goal |
+|---|---|
+| 🔍 Website scanning | Scan a test website across selected viewports |
+| ⚠️ UI issue detection | Detect measurable responsive problems |
+| 🖼️ Visual evidence | Capture screenshots and measurements |
+| 📋 Issue reports | Turn findings into clear reports |
+| ✨ AI explanations | Explain issues in simple and technical language |
+| 🔄 Re-test | Verify whether a change resolved the issue |
+
+The first concrete detection target is **horizontal overflow**.
+
+---
+
+## Tech direction
+
+**Frontend**
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+**Testing / analysis**
+- Playwright
+
+The architecture will evolve as the product grows. New infrastructure should be introduced only when it solves a real product problem.
+
+---
+
+## Design
+
+Visibilio follows a clean and calm visual language.
+
+| Token | Value |
+|---|---|
+| **Deep Teal** | `#152D35` |
+| **Soft Sage** | `#D4ECDD` |
+
+> **Clarity over decoration.**
+
+The interface should help users understand website problems rather than create more visual noise.
+
+---
+
+## Roadmap
+
+`M0` Project foundation  
+`M1` Local website scanning  
+`M2` First UI issue detection  
+`M3` Visual evidence  
+`M4` Audit dashboard  
+`M5` AI explanations  
+`M6` Suggested fixes  
+`M7` Re-testing  
+`M8` Public website scanning
+
+See [`ROADMAP.md`](./ROADMAP.md) for the detailed plan.
+
+---
+
+## Principles
+
+**Evidence over assumptions.**  
+Measured results should come before AI interpretation.
+
+**Small steps.**  
+Each milestone should produce a small, testable improvement.
+
+**Human-driven product decisions.**  
+AI can assist implementation, but product direction and UX decisions remain human-driven.
+
+**Honest output.**  
+Uncertain observations should not be presented as confirmed defects.
+
+---
+
+## Documentation
+
+[`PRODUCT.md`](./PRODUCT.md) ·
+[`ROADMAP.md`](./ROADMAP.md) ·
+[`AGENTS.md`](./AGENTS.md) ·
+[`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)
+
+---
+
+<div align="center">
+
+🚧 **Early development**
+
+**Make website problems visible.**
+
+</div>
