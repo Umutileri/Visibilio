@@ -112,9 +112,12 @@ button:disabled {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
-  color: rgb(21 45 53 / 68%);
-  font-size: 0.92rem;
+  gap: 30px;
+  color: rgb(21 45 53 / 58%);
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .nav-links a,
@@ -134,12 +137,14 @@ button:disabled {
 }
 
 .nav-cta {
-  padding: 11px 17px;
-  border: 1px solid rgb(21 45 53 / 13%);
-  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgb(21 45 53 / 15%);
+  border-radius: 9px;
   background: #fff;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .hero {
@@ -158,14 +163,11 @@ button:disabled {
 .eyebrow {
   display: inline-flex;
   width: fit-content;
-  padding: 7px 10px;
-  border: 1px solid rgb(21 45 53 / 10%);
-  border-radius: 999px;
-  background: #d4ecdd;
-  color: #152d35;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
+  padding: 0;
+  color: #5c7b70;
+  font-size: 0.69rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -175,10 +177,24 @@ button:disabled {
   color: #d4ecdd;
 }
 
-.hero h1 {
+.hero-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
   max-width: 650px;
-  margin: 22px 0 0;
-  font-size: clamp(3.7rem, 7vw, 6.7rem);
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgb(21 45 53 / 12%);
+  color: rgb(21 45 53 / 45%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.hero h1 {
+  max-width: 720px;
+  margin: 25px 0 0;
+  font-size: clamp(3.55rem, 6.9vw, 6.45rem);
   line-height: 0.93;
   letter-spacing: -0.065em;
 }
@@ -233,15 +249,19 @@ button:disabled {
 .trust-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 0;
   margin-top: 22px;
-  color: rgb(21 45 53 / 50%);
-  font-size: 0.8rem;
+  color: rgb(21 45 53 / 47%);
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.trust-row span::before {
-  content: "•";
-  margin-right: 7px;
+.trust-row span + span {
+  padding-left: 14px;
+  margin-left: 14px;
+  border-left: 1px solid rgb(21 45 53 / 12%);
 }
 
 .hero-analysis {
@@ -575,7 +595,7 @@ button:disabled {
   display: grid;
   gap: 22px;
   padding: 34px;
-  border-radius: 22px;
+  border-radius: 12px;
   background: #152d35;
   color: #fff;
   box-shadow: 0 24px 70px rgb(21 45 53 / 18%);
@@ -791,7 +811,7 @@ button:disabled {
 .section-tinted {
   border-top: 1px solid rgb(21 45 53 / 10%);
   border-bottom: 1px solid rgb(21 45 53 / 10%);
-  background: #eef4f0;
+  background: #edf3ef;
 }
 
 .example-grid {
@@ -947,7 +967,7 @@ button:disabled {
 .cta-section {
   margin-top: 20px;
   padding: 86px 0;
-  background: #152d35;
+  background: #18333b;
   color: #fff;
 }
 
