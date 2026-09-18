@@ -10,10 +10,10 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Create core product documentation
 - [x] Define agent guidelines
 - [x] Define initial design system
-- [ ] Initialize React + TypeScript + Vite
-- [ ] Configure Tailwind CSS
-- [ ] Add linting and formatting
-- [ ] Add application shell
+- [x] Initialize React + TypeScript + Vite
+- [x] Configure Tailwind CSS
+- [x] Add linting and formatting
+- [x] Add application shell
 - [ ] Add basic CI checks
 
 **Exit criteria:** The app installs, runs locally, builds successfully, and basic checks pass.
