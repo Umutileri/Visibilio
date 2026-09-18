@@ -33,8 +33,8 @@ const steps = [
 
 function Logo() {
   return (
-    <a className="brand" href="/" aria-label="Visibilio home">
-      <span className="brand-mark">V</span>
+    <a className="brand" href="#top" aria-label="Visibilio home">
+      <img className="brand-logo" src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
       <span>Visibilio</span>
     </a>
   );
@@ -53,7 +53,7 @@ function ProductRail() {
     <aside className="product-rail" aria-label="Product navigation">
       <div className="rail-inner">
         <div className="rail-brand" aria-hidden="true">
-          <span className="rail-brand-mark">V</span>
+          <img className="rail-brand-logo" src="/Visibilio/visibilio-icon.svg" alt="" />
           <span className="rail-brand-name">VISIBILIO</span>
         </div>
 
