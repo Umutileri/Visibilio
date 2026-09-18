@@ -65,13 +65,13 @@ function App() {
           <Logo />
 
           <div className="nav-links">
-            <a href="#how-it-works">How it works</a>
-            <a href="#example">Example</a>
-            <a href="#principles">Why Visibilio</a>
+            <a href="#how-it-works">Product</a>
+            <a href="#example">Evidence</a>
+            <a href="#principles">Principles</a>
           </div>
 
           <a className="nav-cta" href="#scanner">
-            Try it
+            Analyze
           </a>
         </nav>
       </header>
@@ -79,8 +79,11 @@ function App() {
       <main>
         <section className="hero container">
           <div className="hero-copy">
-            <span className="eyebrow">Website UI analysis</span>
-            <h1>See what&apos;s wrong. Fix what matters.</h1>
+            <div className="hero-kicker">
+              <span>VISIBILIO / UI AUDIT</span>
+              <span>01 — FIND THE ISSUE</span>
+            </div>
+            <h1>See what&apos;s wrong.<br />Fix what matters.</h1>
             <p className="hero-subtitle">
               Visibilio finds real UI and responsive problems, explains what they mean, and shows you
               where to start fixing them.
@@ -96,17 +99,17 @@ function App() {
             </div>
 
             <div className="trust-row">
-              <span>Evidence-first</span>
-              <span>Responsive checks</span>
-              <span>Built for humans and developers</span>
+              <span>Measured</span>
+              <span>Responsive</span>
+              <span>Actionable</span>
             </div>
           </div>
 
           <div className="hero-product hero-analysis" aria-label="Visibilio analysis evidence preview">
             <div className="analysis-canvas">
               <div className="analysis-topline">
-                <span>Example page</span>
-                <span>390 × 844 viewport</span>
+                <span>VISIBILIO AUDIT / SAMPLE</span>
+                <span>390 × 844</span>
               </div>
 
               <div className="page-preview">
@@ -136,7 +139,7 @@ function App() {
               </div>
 
               <div className="analysis-footnote">
-                <span>Evidence attached</span>
+                <span>01 / FINDING</span>
                 <span>Measured, not guessed</span>
               </div>
             </div>
