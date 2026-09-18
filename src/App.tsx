@@ -120,34 +120,34 @@ function App() {
                   <span className="score-pill">6 issues</span>
                 </div>
 
-                <div className="metric-grid">
-                  <div className="metric-card">
-                    <span>High</span>
-                    <strong>1</strong>
+                <div className="metric-strip">
+                  <div>
+                    <span>Issues found</span>
+                    <strong>6</strong>
                   </div>
-                  <div className="metric-card">
-                    <span>Medium</span>
-                    <strong>2</strong>
+                  <div>
+                    <span>Most affected</span>
+                    <strong>Mobile</strong>
                   </div>
-                  <div className="metric-card">
-                    <span>Low</span>
-                    <strong>3</strong>
+                  <div>
+                    <span>Evidence</span>
+                    <strong>Ready</strong>
                   </div>
                 </div>
 
                 <div className="issue-preview">
-                  {demoIssues.map((issue) => (
-                    <div className="issue-line" key={issue.title}>
-                      <span
-                        className={`severity-dot severity-${issue.severity.toLowerCase()}`}
-                      />
-                      <div>
-                        <strong>{issue.title}</strong>
-                        <span>{issue.severity} · evidence-backed finding</span>
-                      </div>
-                      <span className="issue-arrow">→</span>
+                  <div className="issue-line issue-line-featured">
+                    <span className="severity-dot severity-high" />
+                    <div>
+                      <strong>Horizontal overflow</strong>
+                      <span>390px viewport · +34px document width</span>
                     </div>
-                  ))}
+                    <span className="issue-arrow">→</span>
+                  </div>
+                  <div className="preview-meta">
+                    <span>+ 5 other findings</span>
+                    <span>Open audit →</span>
+                  </div>
                 </div>
               </div>
             </div>
