@@ -2,7 +2,7 @@
 
 :root {
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #152d35;
   background: #f7faf8;
   font-synthesis: none;
@@ -242,6 +242,165 @@ button:disabled {
 .trust-row span::before {
   content: "•";
   margin-right: 7px;
+}
+
+.hero-analysis {
+  min-width: 0;
+}
+
+.analysis-canvas {
+  position: relative;
+  padding: 26px;
+  border-top: 1px solid rgb(21 45 53 / 9%);
+  border-bottom: 1px solid rgb(21 45 53 / 9%);
+  background: #f3f7f4;
+}
+
+.analysis-topline,
+.analysis-footnote {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: rgb(21 45 53 / 47%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.page-preview {
+  position: relative;
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid rgb(21 45 53 / 10%);
+  background: #fff;
+  min-height: 320px;
+}
+
+.page-header-line {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgb(21 45 53 / 8%);
+}
+
+.preview-logo {
+  width: 56px;
+  height: 9px;
+  border-radius: 999px;
+  background: #18343d;
+}
+
+.preview-nav {
+  width: 58px;
+  height: 7px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: #d8e3de;
+}
+
+.preview-nav.short {
+  width: 34px;
+  margin-left: 0;
+}
+
+.page-copy-line {
+  width: 54%;
+  height: 14px;
+  margin: 28px 26px 0;
+  border-radius: 999px;
+  background: #bfd2c8;
+}
+
+.page-copy-line.medium {
+  width: 39%;
+  height: 9px;
+  margin-top: 11px;
+  background: #e0e9e4;
+}
+
+.preview-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 14px;
+  margin: 24px 26px 26px;
+}
+
+.preview-block {
+  min-height: 132px;
+  background: #edf3ef;
+  border: 1px solid #dce7e0;
+}
+
+.preview-block.small {
+  min-height: 132px;
+  background: #f7faf8;
+}
+
+.overflow-edge {
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 64px;
+  height: 100%;
+  border-left: 1px dashed rgb(185 79 79 / 70%);
+  background: rgb(185 79 79 / 6%);
+}
+
+.overflow-edge span {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  padding: 5px 7px;
+  background: #152d35;
+  color: #d4ecdd;
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+}
+
+.analysis-rule {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid rgb(21 45 53 / 10%);
+}
+
+.rule-marker {
+  padding: 5px 7px;
+  border: 1px solid rgb(21 45 53 / 13%);
+  color: rgb(21 45 53 / 53%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+}
+
+.analysis-rule strong,
+.analysis-rule span {
+  display: block;
+}
+
+.analysis-rule strong {
+  font-size: 0.83rem;
+}
+
+.analysis-rule div span {
+  margin-top: 3px;
+  color: rgb(21 45 53 / 47%);
+  font-size: 0.7rem;
+}
+
+.rule-value {
+  color: rgb(21 45 53 / 48%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.analysis-footnote {
+  margin-top: 14px;
 }
 
 .product-window {
@@ -897,8 +1056,22 @@ button:disabled {
     font-size: 1rem;
   }
 
-  .product-window {
-    transform: none;
+  .analysis-canvas {
+    padding: 18px;
+  }
+
+  .analysis-rule {
+    grid-template-columns: 1fr auto;
+  }
+
+  .rule-marker {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+
+  .rule-value {
+    grid-column: 2;
+    grid-row: 2;
   }
 
   .window-body,
