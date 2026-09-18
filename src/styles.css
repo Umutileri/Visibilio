@@ -1158,145 +1158,124 @@ button:disabled {
 }
 
 
+
 .product-rail {
   position: fixed;
-  top: 98px;
-  left: 20px;
+  top: 50%;
+  left: 18px;
   z-index: 30;
-  width: 58px;
-  transition: width 220ms ease;
+  width: 44px;
+  transform: translateY(-50%);
 }
 
 .rail-inner {
+  position: relative;
   width: 100%;
-  overflow: hidden;
-  padding: 10px;
-  border: 1px solid rgb(21 45 53 / 12%);
+  padding: 8px 6px;
+  border: 1px solid rgb(21 45 53 / 13%);
   border-radius: 18px;
-  background: rgb(21 45 53 / 96%);
-  box-shadow: 0 18px 46px rgb(21 45 53 / 16%);
-  color: #fff;
+  background: rgb(255 255 255 / 34%);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  box-shadow: 0 14px 34px rgb(21 45 53 / 9%);
 }
 
-.product-rail:hover,
-.product-rail:focus-within {
-  width: 186px;
+.rail-items {
+  position: relative;
+  display: grid;
+  gap: 3px;
 }
 
-.rail-brand,
-.rail-item,
-.rail-footer {
+.rail-line {
+  position: absolute;
+  top: 13px;
+  bottom: 13px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: rgb(21 45 53 / 14%);
+}
+
+.rail-item {
+  position: relative;
   display: flex;
+  min-height: 36px;
   align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: rgb(21 45 53 / 48%);
+  transition: background 160ms ease, color 160ms ease;
 }
 
-.rail-brand {
-  gap: 10px;
-  min-height: 40px;
-  padding: 0 4px;
+.rail-number {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgb(247 250 248 / 78%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
-.rail-brand-logo {
-  display: block;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  border-radius: 9px;
-  background: #d4ecdd;
-  object-fit: cover;
-}
-
-.rail-brand-name,
-.rail-label,
-.rail-status-label {
-  opacity: 0;
-  transform: translateX(-6px);
+.rail-label {
+  position: absolute;
+  left: 36px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  width: max-content;
+  max-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 78%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 26px rgb(21 45 53 / 9%);
+  color: #152d35;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.03em;
   white-space: nowrap;
-  transition: opacity 160ms ease, transform 180ms ease;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: max-width 160ms ease, padding 160ms ease, opacity 140ms ease, transform 160ms ease;
+  pointer-events: none;
 }
 
-.product-rail:hover .rail-brand-name,
-.product-rail:focus-within .rail-brand-name,
+.rail-label-index {
+  color: rgb(21 45 53 / 36%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.59rem;
+}
+
 .product-rail:hover .rail-label,
-.product-rail:focus-within .rail-label,
-.product-rail:hover .rail-status-label,
-.product-rail:focus-within .rail-status-label {
+.product-rail:focus-within .rail-label {
+  max-width: 180px;
+  padding: 7px 10px;
+  border-color: rgb(21 45 53 / 9%);
   opacity: 1;
   transform: translateX(0);
 }
 
-.rail-brand-name {
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.rail-items {
-  display: grid;
-  gap: 6px;
-  margin-top: 12px;
-}
-
-.rail-item {
-  gap: 10px;
-  min-height: 40px;
-  padding: 0 4px;
-  border: 1px solid transparent;
-  border-radius: 11px;
-  color: rgb(255 255 255 / 62%);
+.rail-item:hover .rail-number,
+.rail-item:focus-visible .rail-number,
+.rail-item.is-active .rail-number {
+  background: #152d35;
+  color: #d4ecdd;
 }
 
 .rail-item:hover,
 .rail-item:focus-visible {
-  border-color: rgb(212 236 221 / 16%);
-  background: rgb(255 255 255 / 7%);
-  color: #fff;
+  color: #152d35;
   outline: none;
-}
-
-.rail-item.is-active {
-  background: rgb(212 236 221 / 12%);
-  color: #d4ecdd;
-}
-
-.rail-icon {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  place-items: center;
-  border-radius: 9px;
-  font-size: 0.9rem;
-}
-
-.rail-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-}
-
-.rail-footer {
-  gap: 9px;
-  margin-top: 12px;
-  padding: 10px 4px 2px;
-  border-top: 1px solid rgb(255 255 255 / 9%);
-  color: rgb(255 255 255 / 42%);
-}
-
-.rail-status-dot {
-  width: 7px;
-  height: 7px;
-  flex: 0 0 7px;
-  border-radius: 50%;
-  background: #d4ecdd;
-  box-shadow: 0 0 0 3px rgb(212 236 221 / 10%);
-}
-
-.rail-status-label {
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.07em;
 }
 
 @media (max-width: 980px) {
@@ -1309,44 +1288,31 @@ button:disabled {
   }
 
   .rail-inner {
-    display: flex;
-    gap: 4px;
-    padding: 7px;
+    padding: 6px;
     border-radius: 16px;
-  }
-
-  .rail-brand,
-  .rail-footer {
-    display: none;
   }
 
   .rail-items {
     display: flex;
-    gap: 4px;
-    margin-top: 0;
+    gap: 2px;
   }
 
-  .product-rail:hover,
-  .product-rail:focus-within {
-    width: auto;
+  .rail-line {
+    display: none;
   }
 
   .rail-item {
-    min-width: 40px;
-    justify-content: center;
+    min-width: 38px;
   }
 
-  .product-rail:hover .rail-label,
-  .product-rail:focus-within .rail-label {
+  .rail-label {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .product-rail,
-  .rail-brand-name,
-  .rail-label,
-  .rail-status-label {
+  .rail-item,
+  .rail-label {
     transition: none;
   }
 }
