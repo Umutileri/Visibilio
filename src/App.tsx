@@ -102,56 +102,45 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-product" aria-label="Visibilio audit preview">
-            <div className="product-window">
-              <div className="window-bar">
-                <span className="window-dot" />
-                <span className="window-dot" />
-                <span className="window-dot" />
-                <span className="window-url">visibilio.app/audit/acme</span>
+          <div className="hero-product hero-analysis" aria-label="Visibilio analysis evidence preview">
+            <div className="analysis-canvas">
+              <div className="analysis-topline">
+                <span>Example page</span>
+                <span>390 × 844 viewport</span>
               </div>
 
-              <div className="window-body">
-                <div className="window-topline">
-                  <div>
-                    <span className="mini-label">Audit</span>
-                    <h2>Acme Studio</h2>
-                  </div>
-                  <span className="score-pill">6 issues</span>
+              <div className="page-preview">
+                <div className="page-header-line">
+                  <span className="preview-logo" />
+                  <span className="preview-nav" />
+                  <span className="preview-nav short" />
                 </div>
+                <div className="page-copy-line" />
+                <div className="page-copy-line medium" />
+                <div className="preview-content">
+                  <div className="preview-block" />
+                  <div className="preview-block small" />
+                  <div className="overflow-edge">
+                    <span>+34px</span>
+                  </div>
+                </div>
+              </div>
 
-                <div className="metric-strip">
-                  <div>
-                    <span>Issues found</span>
-                    <strong>6</strong>
-                  </div>
-                  <div>
-                    <span>Most affected</span>
-                    <strong>Mobile</strong>
-                  </div>
-                  <div>
-                    <span>Evidence</span>
-                    <strong>Ready</strong>
-                  </div>
+              <div className="analysis-rule">
+                <span className="rule-marker">UI-001</span>
+                <div>
+                  <strong>Horizontal overflow</strong>
+                  <span>Document width exceeds the viewport.</span>
                 </div>
+                <span className="rule-value">424px</span>
+              </div>
 
-                <div className="issue-preview">
-                  <div className="issue-line issue-line-featured">
-                    <span className="severity-dot severity-high" />
-                    <div>
-                      <strong>Horizontal overflow</strong>
-                      <span>390px viewport · +34px document width</span>
-                    </div>
-                    <span className="issue-arrow">→</span>
-                  </div>
-                  <div className="preview-meta">
-                    <span>+ 5 other findings</span>
-                    <span>Open audit →</span>
-                  </div>
-                </div>
+              <div className="analysis-footnote">
+                <span>Evidence attached</span>
+                <span>Measured, not guessed</span>
               </div>
             </div>
-          </div>
+          </div></div>
         </section>
 
         <section className="scanner-section container" id="scanner">
