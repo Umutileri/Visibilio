@@ -100,13 +100,15 @@ async function detectElementOverflow(
           right: rect.right,
           left: rect.left,
           width: rect.width,
+          top: rect.top,
+          bottom: rect.bottom,
           position: window.getComputedStyle(element).position,
         };
       })
       .filter(
         (element) =>
           element.width > 0 &&
-          element.position !== "fixed" &&
+          !["fixed", "sticky"].includes(element.position) &&
           (element.right > window.innerWidth || element.left < 0),
       ),
   );
