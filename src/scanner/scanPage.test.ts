@@ -117,9 +117,8 @@ describe("scanPage", () => {
     });
 
     assert.equal(result.ok, false);
-    if (result.ok) {
-      const issueCount = result.issues.length;
-      assert.fail(`Expected page failure, got success with ${issueCount} issues`);
-    }
+    assert.notEqual(result.ok, true);
+    if (!result.ok) return;
+    assert.fail("Expected page failure, but scanPage returned success");
   });
 });
