@@ -150,11 +150,12 @@ async function detectImageAltIssues(
     Array.from(document.images).map((image) => ({
       selector: selectorForElement(image),
       hasAltAttribute: image.hasAttribute("alt"),
+      isDecorative: image.getAttribute("role") === "presentation",
     })),
   );
 
   return findings
-    .filter((image) => !image.hasAltAttribute)
+    .filter((image) => !image.hasAltAttribute && !image.isDecorative)
     .map((image, index) => ({
       id: issueId(
         "accessibility.image-missing-alt",
