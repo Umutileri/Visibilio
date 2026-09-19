@@ -117,10 +117,10 @@ describe("scanPage", () => {
     });
 
     assert.equal(result.ok, false);
-    if (!result.ok) return;
-
-    assert.fail(
-      `Expected page failure, got success with ${result.issues.length} issues`,
-    );
+    if (result.ok) {
+      assert.fail(
+        `Expected page failure, got success with ${result.issues.length} issues`,
+      );
+    }
   });
 });
