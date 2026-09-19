@@ -22,3 +22,6 @@ tsconfig.json
 src/scanner/detectionRules.ts
 src/scanner/scanPage.test.ts
 src/scanner/scanPage.ts
+
+# Product planning document is intentionally maintained as structured roadmap prose.
+PRODUCT_UX_PLAN.md
