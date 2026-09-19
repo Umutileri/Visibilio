@@ -56,28 +56,12 @@ export async function scanPage(
       });
 
       const detectedAt = issueNow();
-      let issues = [];
-      try {
-        issues = await runDetectionRules({
-          page,
-          url,
-          viewport,
-          detectedAt,
-        });
-      } catch (error) {
-        return {
-          ok: false,
-          url,
-          viewport,
-          error: {
-            code: "PAGE_ERROR",
-            message:
-              error instanceof Error
-                ? error.message
-                : "Unknown detection error",
-          },
-        };
-      }
+      const issues = await runDetectionRules({
+        page,
+        url,
+        viewport,
+        detectedAt,
+      });
 
       return {
         ok: true,
