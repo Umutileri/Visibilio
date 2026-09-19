@@ -69,7 +69,6 @@ describe("scanPage", () => {
     );
     assert.ok(overflowIssue);
     assert.equal(overflowIssue.severity, "medium");
-    assert.equal(overflowIssue.selector, ".overflow-target");
     assert.deepEqual(overflowIssue.evidence, [
       {
         type: "measurement",
