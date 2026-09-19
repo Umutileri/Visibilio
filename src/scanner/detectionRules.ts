@@ -96,9 +96,6 @@ async function detectElementOverflow(
       .map((element) => {
         const rect = element.getBoundingClientRect();
         return {
-          tagName: element.tagName,
-          id: element.id,
-          className: element.className,
           selector: element.id
             ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
             : element.classList.length
