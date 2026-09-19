@@ -1,6 +1,6 @@
 # Visibilio Product & UX Delivery Plan
 
-UX work can move in parallel with scanner architecture; public URL scanning remains gated by security controls.
+UX work can move in parallel with scanner architecture. Public URL scanning remains gated by security controls.
 
 ## Track A — Foundation / quality
 
@@ -14,7 +14,8 @@ UX work can move in parallel with scanner architecture; public URL scanning rema
 ### A2 — Preserve the safe scanner boundary
 - Keep Playwright out of the Vite client bundle.
 - Define the scan API contract before wiring real scans into the UI.
-- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites for public scanning.
+- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites.
+- Public scanning remains blocked until those controls exist.
 
 **Exit:** The client can use a typed scan contract without importing the scanner runtime.
 
@@ -95,18 +96,21 @@ Start with finding count change, new findings, resolved findings, and changed me
 ## Track D — Trust and accessibility
 
 ### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and status cues that do not rely on color alone.
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and non-color status cues.
 
 ### D2 — State completeness
 Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
 
 ### D3 — Trust surfaces
-Show scan time, viewport, rules run, evidence availability, and distinguish measured facts from suggestions.
+Show scan time, viewport, rules run, and evidence availability.
+- Distinguish measured facts from suggestions.
 
 ## Track E — Intelligence
 
 ### E1 — AI explanation contract
-AI receives structured findings and evidence. It may explain or suggest, but may not invent measurements, selectors, tested browsers or devices, or deterministic results.
+AI receives structured findings and evidence.
+- It may explain or suggest.
+- It may not invent measurements, selectors, tested browsers/devices, or deterministic results.
 
 ### E2 — Suggested fixes
 Add implementation guidance and label uncertainty.
