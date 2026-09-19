@@ -219,8 +219,25 @@ function AnalyzeEntry() {
     if (!url.trim() || status === "validating" || status === "scanning") return;
 
     setStatus("validating");
-    window.setTimeout(() => setStatus("scanning"), 650);
-    window.setTimeout(() => setStatus("completed"), 1450);
+
+    window.setTimeout(() => {
+      try {
+        const target = new URL(url.trim());
+
+        if (!["http:", "https:"].includes(target.protocol)) {
+          setStatus("failed");
+          return;
+        }
+
+        setStatus("scanning");
+      } catch {
+        setStatus("failed");
+      }
+    }, 650);
+
+    window.setTimeout(() => {
+      setStatus((current) => (current === "scanning" ? "completed" : current));
+    }, 1450);
   }
 
   function reset() {
