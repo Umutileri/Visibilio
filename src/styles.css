@@ -1065,6 +1065,12 @@ input:focus-visible {
   color: #152d35;
 }
 
+.app-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .shell-header-action {
   display: inline-flex;
   min-height: 38px;
@@ -1445,6 +1451,14 @@ input:focus-visible {
   .app-breadcrumbs span:first-child,
   .app-build-label {
     display: none;
+  }
+
+  .app-header-actions {
+    gap: 10px;
+  }
+
+  .shell-header-home {
+    font-size: 0.62rem;
   }
 
   .shell-header-action {
