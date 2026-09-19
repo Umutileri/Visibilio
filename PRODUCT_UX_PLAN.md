@@ -165,7 +165,7 @@ Before calling the product surface complete:
 - Keep navigation persistent and predictable; do not reintroduce a floating rail.
 - Treat evidence as a first-class product object, not a secondary detail panel.
 - Design for a non-developer reader first, then expose technical detail progressively.
-- Avoid generic AI SaaS patterns: excessive gradients, glow effects, floating assistants, and dense KPI grids.
+- Avoid generic AI SaaS patterns: gradients, glow, floating assistants, and dense KPI grids.
 
 
 UX work may start during A1/A2, but public scanning cannot bypass server or security prerequisites.
