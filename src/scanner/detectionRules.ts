@@ -112,16 +112,7 @@ async function detectElementOverflow(
           !["fixed", "sticky"].includes(item.position) &&
           (item.right > window.innerWidth || item.left < 0),
       )
-      .filter((item, index, all) => {
-        const matchingParent = all.find(
-          (candidate) =>
-            candidate.selector !== item.selector &&
-            candidate.right >= item.right &&
-            candidate.left <= item.left &&
-            candidate.width >= item.width,
-        );
-        return !matchingParent || index === 0;
-      }),
+      .filter((item) => item.width > 0),
   );
 
   return findings.slice(0, 20).map((element, index) => {
