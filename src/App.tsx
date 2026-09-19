@@ -177,6 +177,8 @@ function AppShell() {
 
           {activeSection.id === "analyze" ? (
             <AnalyzeEntry />
+          ) : activeSection.id === "findings" ? (
+            <FindingsPreview />
           ) : (
             <WorkspacePlaceholder section={activeSection.id} />
           )}
