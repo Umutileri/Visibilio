@@ -202,6 +202,30 @@ function AppShell() {
 
 function AnalyzeEntry() {
   const [url, setUrl] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "validating" | "scanning" | "completed" | "failed"
+  >("idle");
+
+  const stages = [
+    { id: "validating", label: "Validate target" },
+    { id: "scanning", label: "Scan configured viewports" },
+    { id: "completed", label: "Prepare findings" },
+  ];
+
+  function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!url.trim() || status === "validating" || status === "scanning") return;
+
+    setStatus("validating");
+    window.setTimeout(() => setStatus("scanning"), 650);
+    window.setTimeout(() => setStatus("completed"), 1450);
+  }
+
+  function reset() {
+    setStatus("idle");
+  }
+
+  const activeStage = status === "completed" ? 3 : status === "scanning" ? 2 : status === "validating" ? 1 : 0;
 
   return (
     <section className="analyze-entry">
@@ -209,38 +233,83 @@ function AnalyzeEntry() {
         <span className="shell-step">01 / TARGET</span>
         <h2>What should we inspect?</h2>
         <p>
-          Public URL scanning is intentionally not connected yet. This
-          foundation keeps the product flow separate from the browser scanner
-          until the server and security boundary are ready.
+          This workflow is wired as a product state machine only. Public URL
+          scanning stays disconnected until the server-side security boundary is ready.
         </p>
+
+        <div className="scan-stages" aria-label="Analysis stages">
+          {stages.map((stage, index) => (
+            <div className={`scan-stage ${index < activeStage ? "is-done" : ""} ${index === activeStage - 1 ? "is-current" : ""}`} key={stage.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <strong>{stage.label}</strong>
+                <small>
+                  {index === 0
+                    ? "Check the target before any browser work."
+                    : index === 1
+                      ? "Run the configured viewport matrix."
+                      : "Normalize structured findings for the workspace."}
+                </small>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <form
-        className="shell-url-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!url.trim()) return;
-          window.location.hash = "app/analyze";
-        }}
-      >
-        <label htmlFor="workspace-url">Website URL</label>
-        <div className="shell-url-row">
-          <input
-            id="workspace-url"
-            type="url"
-            value={url}
-            onChange={(event) => setUrl(event.target.value)}
-            placeholder="https://example.com"
-            required
-          />
-          <button type="submit" disabled={!url.trim()}>
-            Continue
-          </button>
-        </div>
-        <span className="shell-form-note">
-          Next: validate → scan → findings → evidence
-        </span>
-      </form>
+      <div className="shell-url-panel">
+        {status === "completed" ? (
+          <div className="scan-state scan-state-success" aria-live="polite">
+            <span className="scan-state-label">Analysis ready</span>
+            <h3>Target accepted for the next scan layer.</h3>
+            <p>
+              The UI flow is complete, but no production result has been created.
+              Connect this state to the secure scan API in the next milestone.
+            </p>
+            <div className="scan-state-meta">
+              <span>{url}</span>
+              <span>2 configured viewports</span>
+            </div>
+            <button type="button" onClick={reset}>
+              Start again
+            </button>
+          </div>
+        ) : (
+          <form className="shell-url-form" onSubmit={submit}>
+            <label htmlFor="workspace-url">Website URL</label>
+            <div className="shell-url-row">
+              <input
+                id="workspace-url"
+                type="url"
+                value={url}
+                onChange={(event) => {
+                  setUrl(event.target.value);
+                  if (status !== "idle") setStatus("idle");
+                }}
+                placeholder="https://example.com"
+                required
+                disabled={status === "validating" || status === "scanning"}
+              />
+              <button
+                type="submit"
+                disabled={!url.trim() || status === "validating" || status === "scanning"}
+              >
+                {status === "validating"
+                  ? "Validating…"
+                  : status === "scanning"
+                    ? "Scanning…"
+                    : "Start analysis"}
+              </button>
+            </div>
+            <span className="shell-form-note">
+              {status === "validating"
+                ? "Checking the target and preparing the scan."
+                : status === "scanning"
+                  ? "Simulating the scan stage in the product shell."
+                  : "No request is sent yet. This is the B2 UI foundation."}
+            </span>
+          </form>
+        )}
+      </div>
     </section>
   );
 }
