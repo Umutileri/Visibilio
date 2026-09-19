@@ -79,9 +79,8 @@ export async function scanPage(
         viewport,
         error: {
           code: isTimeout ? "TIMEOUT" : "PAGE_ERROR",
-          message: error instanceof Error
-            ? error.message
-            : "Unknown page error",
+          message:
+            error instanceof Error ? error.message : "Unknown page error",
         },
       };
     }
@@ -92,9 +91,8 @@ export async function scanPage(
       viewport,
       error: {
         code: "BROWSER_ERROR",
-        message: error instanceof Error
-          ? error.message
-          : "Unknown browser error",
+        message:
+          error instanceof Error ? error.message : "Unknown browser error",
       },
     };
   } finally {
