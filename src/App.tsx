@@ -362,35 +362,56 @@ function AnalyzeEntry() {
   );
 }
 
-const previewFindings = [
+import type { IssueSeverity, UIssue } from "./scanner/types";
+
+const previewFindings: UIssue[] = [
   {
     id: "preview-overflow",
-    severity: "high",
+    rule: "responsive.horizontal-overflow",
     category: "responsive",
     title: "Horizontal overflow detected",
+    severity: "high",
     description: "A section extends beyond the viewport on a mobile layout.",
-    evidence: "Document width is 424px at a 390px viewport.",
+    url: "https://example.com",
+    viewport: { name: "Mobile", width: 390, height: 844 },
+    selector: ".pricing-grid",
+    measurements: { documentWidth: 424, viewportWidth: 390, overflow: 34 },
+    evidence: [
+      { type: "measurement", metric: "horizontalOverflow", value: 34, unit: "px" },
+    ],
+    detectedAt: "2026-01-01T00:00:00.000Z",
+    status: "open",
   },
   {
     id: "preview-alt",
-    severity: "medium",
+    rule: "accessibility.image-alt",
     category: "accessibility",
     title: "Image is missing alternative text",
+    severity: "medium",
     description: "An image does not expose an accessible text alternative.",
-    evidence: "The image element has no alt attribute.",
+    url: "https://example.com",
+    viewport: { name: "Desktop", width: 1440, height: 900 },
+    selector: "img#hero-image",
+    detectedAt: "2026-01-01T00:00:00.000Z",
+    status: "open",
   },
   {
     id: "preview-label",
-    severity: "medium",
+    rule: "accessibility.form-control-name",
     category: "accessibility",
     title: "Form control has no accessible name",
+    severity: "medium",
     description: "A form input cannot be identified by assistive technology.",
-    evidence: "No associated label or ARIA naming mechanism was found.",
+    url: "https://example.com",
+    viewport: { name: "Mobile", width: 390, height: 844 },
+    selector: "input#email",
+    detectedAt: "2026-01-01T00:00:00.000Z",
+    status: "open",
   },
 ];
 
 function FindingsPreview() {
-  const [severity, setSeverity] = useState<"all" | "high" | "medium" | "low">("all");
+  const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [category, setCategory] = useState<
     "all" | "responsive" | "accessibility" | "layout"
   >("all");
@@ -401,6 +422,16 @@ function FindingsPreview() {
     const categoryMatches = category === "all" || finding.category === category;
     return severityMatches && categoryMatches;
   });
+
+  const selected =
+    visibleFindings.find((finding) => finding.id === selectedId) ??
+    visibleFindings[0];
+
+  const severityCounts = {
+    high: previewFindings.filter((finding) => finding.severity === "high").length,
+    medium: previewFindings.filter((finding) => finding.severity === "medium").length,
+    low: previewFindings.filter((finding) => finding.severity === "low").length,
+  };
 
   return (
     <section className="findings-workspace">
@@ -415,25 +446,44 @@ function FindingsPreview() {
         </div>
       </div>
 
+      <div className="finding-severity-strip" aria-label="Finding counts">
+        <span>All <strong>{previewFindings.length}</strong></span>
+        <span>High <strong>{severityCounts.high}</strong></span>
+        <span>Medium <strong>{severityCounts.medium}</strong></span>
+        <span>Low <strong>{severityCounts.low}</strong></span>
+      </div>
+
       <div className="findings-toolbar" aria-label="Finding filters">
         <label>
           <span>Severity</span>
-          <select value={severity} onChange={(event) => setSeverity(event.target.value as typeof severity)}>
+          <select
+            value={severity}
+            onChange={(event) =>
+              setSeverity(event.target.value as typeof severity)
+            }
+          >
             <option value="all">All severities</option>
             <option value="high">High</option>
             <option value="medium">Medium</option>
             <option value="low">Low</option>
           </select>
         </label>
+
         <label>
           <span>Category</span>
-          <select value={category} onChange={(event) => setCategory(event.target.value as typeof category)}>
+          <select
+            value={category}
+            onChange={(event) =>
+              setCategory(event.target.value as typeof category)
+            }
+          >
             <option value="all">All categories</option>
             <option value="responsive">Responsive</option>
             <option value="accessibility">Accessibility</option>
             <option value="layout">Layout</option>
           </select>
         </label>
+
         <span className="findings-toolbar-note">
           Sample UI only · not a scan result
         </span>
@@ -449,12 +499,19 @@ function FindingsPreview() {
                 key={finding.id}
                 onClick={() => setSelectedId(finding.id)}
               >
-                <span className={`severity-dot severity-dot-${finding.severity}`} aria-hidden="true" />
+                <span
+                  className={`severity-dot severity-dot-${finding.severity}`}
+                  aria-hidden="true"
+                />
                 <span className="finding-row-copy">
                   <strong>{finding.title}</strong>
-                  <small>{finding.category}</small>
+                  <small>
+                    {finding.category} · {finding.viewport.name}
+                  </small>
                 </span>
-                <span className="finding-chevron" aria-hidden="true">→</span>
+                <span className="finding-chevron" aria-hidden="true">
+                  →
+                </span>
               </button>
             ))
           ) : (
@@ -465,43 +522,60 @@ function FindingsPreview() {
           )}
         </div>
 
-        <aside className="finding-detail">
-          {(() => {
-            const selected = visibleFindings.find((finding) => finding.id === selectedId) ?? visibleFindings[0];
-            return selected ? (
-              <>
-                <div className="finding-detail-top">
-                  <span className={`severity-badge severity-badge-${selected.severity}`}>
-                    {selected.severity}
-                  </span>
-                  <span>{selected.category}</span>
-                </div>
-                <h3>{selected.title}</h3>
-                <p>{selected.description}</p>
-                <div className="finding-evidence-box">
-                  <span>Measured evidence</span>
-                  <strong>{selected.evidence}</strong>
-                </div>
-                <div className="finding-detail-meta">
-                  <span>Evidence status</span>
-                  <strong>Available</strong>
-                </div>
-                <div className="finding-detail-meta">
-                  <span>Interpretation</span>
-                  <strong>Not generated yet</strong>
-                </div>
-              </>
-            ) : (
-              <div className="finding-detail-empty">
-                Select a finding to inspect its details.
+        <aside className="finding-detail" aria-live="polite">
+          {selected ? (
+            <>
+              <div className="finding-detail-top">
+                <span
+                  className={`severity-badge severity-badge-${selected.severity}`}
+                >
+                  {selected.severity}
+                </span>
+                <span>{selected.category}</span>
               </div>
-            );
-          })()}
+
+              <h3>{selected.title}</h3>
+              <p>{selected.description}</p>
+
+              <div className="finding-evidence-box">
+                <span>Measured evidence</span>
+                <strong>
+                  {selected.evidence?.[0]?.value}
+                  {selected.evidence?.[0]?.unit}{" "}
+                  {selected.evidence?.[0]?.metric === "horizontalOverflow"
+                    ? "horizontal overflow"
+                    : "measured value"}
+                </strong>
+              </div>
+
+              <div className="finding-detail-meta">
+                <span>Viewport</span>
+                <strong>
+                  {selected.viewport.width} × {selected.viewport.height}
+                </strong>
+              </div>
+
+              <div className="finding-detail-meta">
+                <span>Selector</span>
+                <strong>{selected.selector ?? "Not available"}</strong>
+              </div>
+
+              <div className="finding-detail-meta">
+                <span>Source</span>
+                <strong>Deterministic rule</strong>
+              </div>
+            </>
+          ) : (
+            <div className="finding-detail-empty">
+              Select a finding to inspect its details.
+            </div>
+          )}
         </aside>
       </div>
     </section>
   );
 }
+
 
 
 function WorkspacePlaceholder({ section }: { section: AppSection }) {
