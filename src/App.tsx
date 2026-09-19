@@ -1,36 +1,5 @@
+import { useEffect, useMemo, useState } from "react";
 
-
-
-const steps = [
-  ["01", "Detect", "Measure the page across controlled viewports and find reproducible UI problems."],
-  ["02", "Explain", "Turn raw measurements into language that anyone on the team can understand."],
-  ["03", "Show", "Connect each finding to the viewport, measurement, and visual evidence behind it."],
-  ["04", "Fix", "Give a practical starting point, then re-test to see whether the issue remains."],
-];import { useEffect, useMemo, useState } from "react";
-
-const demoIssues = [
-  {
-    title: "Horizontal overflow detected",
-    description: "A section extends beyond the viewport on smaller screens.",
-    severity: "High",
-    evidence: "At 390px viewport width, the document is 34px wider than the visible page.",
-    selector: ".pricing-grid",
-  },
-  {
-    title: "Low text contrast",
-    description: "Secondary text may be difficult to read on its current background.",
-    severity: "Medium",
-    evidence: "The current text color provides limited visual separation.",
-    selector: ".muted-copy",
-  },
-  {
-    title: "Dense mobile navigation",
-    description: "Navigation controls may feel crowded on narrow screens.",
-    severity: "Low",
-    evidence: "The current layout leaves limited horizontal breathing room below 640px.",
-    selector: ".site-nav",
-  },
-];
 type AppSection =
   | "overview"
   | "analyze"
@@ -97,7 +66,10 @@ const sectionContent: Record<
 function getAppSection(): AppSection | null {
   const match = window.location.hash.match(/^#app\/(.+)$/);
   const section = match?.[1] as AppSection | undefined;
-  return section && appSections.some((item) => item.id === section) ? section : null;
+
+  return section && appSections.some((item) => item.id === section)
+    ? section
+    : null;
 }
 
 function AppShell() {
@@ -111,7 +83,9 @@ function AppShell() {
 
   useEffect(() => {
     const handleHashChange = () => setSection(getAppSection() ?? "overview");
+
     window.addEventListener("hashchange", handleHashChange);
+
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
@@ -123,7 +97,11 @@ function AppShell() {
     <div className="app-shell">
       <aside className="app-sidebar">
         <div className="app-sidebar-top">
-          <a className="shell-brand" href="#app/overview" aria-label="Visibilio overview">
+          <a
+            className="shell-brand"
+            href="#app/overview"
+            aria-label="Visibilio overview"
+          >
             <img
               className="shell-brand-logo"
               src="/Visibilio/visibilio-icon.svg"
@@ -134,7 +112,9 @@ function AppShell() {
           </a>
 
           <div className="workspace-switcher">
-            <span className="workspace-mark" aria-hidden="true">V</span>
+            <span className="workspace-mark" aria-hidden="true">
+              V
+            </span>
             <div>
               <strong>My workspace</strong>
               <span>Personal</span>
@@ -150,9 +130,10 @@ function AppShell() {
               href={`#app/${item.id}`}
               key={item.id}
               aria-current={item.id === activeSection.id ? "page" : undefined}
-              onClick={() => setSection(item.id)}
             >
-              <span className="app-nav-glyph" aria-hidden="true">{item.label.charAt(0)}</span>
+              <span className="app-nav-glyph" aria-hidden="true">
+                {item.label.charAt(0)}
+              </span>
               <span>
                 <strong>{item.label}</strong>
                 <small>{item.description}</small>
@@ -163,7 +144,9 @@ function AppShell() {
 
         <div className="app-sidebar-footer">
           <a href="#principles">View product principles</a>
-          <span className="shell-status"><i aria-hidden="true" /> Early product</span>
+          <span className="shell-status">
+            <i aria-hidden="true" /> Early product
+          </span>
         </div>
       </aside>
 
@@ -174,13 +157,17 @@ function AppShell() {
             <span aria-hidden="true">/</span>
             <strong>{activeSection.label}</strong>
           </div>
-          <a className="shell-header-action" href="#app/analyze">New analysis</a>
+          <a className="shell-header-action" href="#app/analyze">
+            New analysis
+          </a>
         </header>
 
         <div className="app-content">
           <div className="app-content-heading">
             <div>
-              <span className="eyebrow">{sectionContent[activeSection.id].eyebrow}</span>
+              <span className="eyebrow">
+                {sectionContent[activeSection.id].eyebrow}
+              </span>
               <h1>{sectionContent[activeSection.id].title}</h1>
               <p>{sectionContent[activeSection.id].description}</p>
             </div>
@@ -188,21 +175,26 @@ function AppShell() {
           </div>
 
           {activeSection.id === "analyze" ? (
-            <AnalyzeEntry onNavigate={navigate} />
+            <AnalyzeEntry />
           ) : (
-            <WorkspacePlaceholder section={activeSection.id} onNavigate={navigate} />
+            <WorkspacePlaceholder
+              section={activeSection.id}
+              onNavigate={navigate}
+            />
           )}
         </div>
       </main>
 
-      <nav className="app-mobile-nav" aria-label="Mobile product navigation">
+      <nav
+        className="app-mobile-nav"
+        aria-label="Mobile product navigation"
+      >
         {appSections.map((item) => (
           <a
             className={item.id === activeSection.id ? "is-active" : ""}
             href={`#app/${item.id}`}
             key={item.id}
             aria-current={item.id === activeSection.id ? "page" : undefined}
-            onClick={() => setSection(item.id)}
           >
             <span aria-hidden="true">{item.label.charAt(0)}</span>
             <small>{item.label}</small>
@@ -213,13 +205,14 @@ function AppShell() {
   );
 }
 
-function AnalyzeEntry({ onNavigate }: { onNavigate: (section: AppSection) => void }) {
+function AnalyzeEntry() {
   const [url, setUrl] = useState("");
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     if (!url.trim()) return;
-    onNavigate("analyze");
+    window.location.hash = "app/analyze";
   }
 
   return (
@@ -228,9 +221,9 @@ function AnalyzeEntry({ onNavigate }: { onNavigate: (section: AppSection) => voi
         <span className="shell-step">01 / TARGET</span>
         <h2>What should we inspect?</h2>
         <p>
-          Public URL scanning is intentionally not connected yet. This foundation keeps the
-          product flow separate from the browser scanner until the server and security boundary
-          are ready.
+          Public URL scanning is intentionally not connected yet. This
+          foundation keeps the product flow separate from the browser scanner
+          until the server and security boundary are ready.
         </p>
       </div>
 
@@ -245,7 +238,9 @@ function AnalyzeEntry({ onNavigate }: { onNavigate: (section: AppSection) => voi
             placeholder="https://example.com"
             required
           />
-          <button type="submit" disabled={!url.trim()}>Continue</button>
+          <button type="submit" disabled={!url.trim()}>
+            Continue
+          </button>
         </div>
         <span className="shell-form-note">
           Next: validate → scan → findings → evidence
@@ -262,7 +257,10 @@ function WorkspacePlaceholder({
   section: AppSection;
   onNavigate: (section: AppSection) => void;
 }) {
-  const actions: Record<AppSection, { label: string; target: AppSection } | null> = {
+  const actions: Record<
+    AppSection,
+    { label: string; target: AppSection } | null
+  > = {
     overview: { label: "Start an analysis", target: "analyze" },
     findings: { label: "Run a new analysis", target: "analyze" },
     evidence: { label: "Open findings", target: "findings" },
@@ -290,11 +288,16 @@ function WorkspacePlaceholder({
                   : "No analysis has been run yet."}
         </h2>
         <p>
-          This surface is intentionally honest about the current product state. It does not render
-          fabricated scan results or imply that the production scanner is already connected.
+          This surface is intentionally honest about the current product state.
+          It does not render fabricated scan results or imply that the production
+          scanner is already connected.
         </p>
         {actions[section] && (
-          <button type="button" className="shell-inline-action" onClick={() => onNavigate(actions[section]!.target)}>
+          <button
+            type="button"
+            className="shell-inline-action"
+            onClick={() => onNavigate(actions[section]!.target)}
+          >
             {actions[section]!.label}
           </button>
         )}
@@ -303,23 +306,80 @@ function WorkspacePlaceholder({
   );
 }
 
+const demoIssues = [
+  {
+    title: "Horizontal overflow detected",
+    description: "A section extends beyond the viewport on smaller screens.",
+    severity: "High",
+    evidence:
+      "At 390px viewport width, the document is 34px wider than the visible page.",
+    selector: ".pricing-grid",
+  },
+  {
+    title: "Low text contrast",
+    description: "Secondary text may be difficult to read on its current background.",
+    severity: "Medium",
+    evidence: "The current text color provides limited visual separation.",
+    selector: ".muted-copy",
+  },
+  {
+    title: "Dense mobile navigation",
+    description: "Navigation controls may feel crowded on narrow screens.",
+    severity: "Low",
+    evidence:
+      "The current layout leaves limited horizontal breathing room below 640px.",
+    selector: ".site-nav",
+  },
+];
+
+const steps = [
+  [
+    "01",
+    "Detect",
+    "Measure the page across controlled viewports and find reproducible UI problems.",
+  ],
+  [
+    "02",
+    "Explain",
+    "Turn raw measurements into language that anyone on the team can understand.",
+  ],
+  [
+    "03",
+    "Show",
+    "Connect each finding to the viewport, measurement, and visual evidence behind it.",
+  ],
+  [
+    "04",
+    "Fix",
+    "Give a practical starting point, then re-test to see whether the issue remains.",
+  ],
+];
+
 function Logo() {
   return (
     <a className="brand" href="#top" aria-label="Visibilio home">
-      <img className="brand-logo" src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
+      <img
+        className="brand-logo"
+        src="/Visibilio/visibilio-icon.svg"
+        alt=""
+        aria-hidden="true"
+      />
       <span>Visibilio</span>
     </a>
   );
 }
 
-
 function App() {
   const [url, setUrl] = useState("");
   const [scanning, setScanning] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
+  const appSection = getAppSection();
+
+  if (appSection) return <AppShell />;
 
   function handleScan(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     if (!url.trim()) return;
 
     setScanning(true);
@@ -331,10 +391,7 @@ function App() {
     }, 900);
   }
 
-  const appSection = getAppSection();
-
-  if (appSection) return <AppShell />;
-
+  return (
   return (
     <div className="site" id="top">
       <header className="nav-wrap">
