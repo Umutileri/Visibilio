@@ -58,7 +58,7 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Detect documents without a language
 - [x] Add selector evidence where practical
 - [x] Add regression coverage for representative findings
-- [ ] Verify the full CI workflow on GitHub
+- [x] Verify the full CI workflow on GitHub
 
 **Exit criteria:** A controlled page scan can produce multiple deterministic UI findings across configured viewports without relying on AI.
 
