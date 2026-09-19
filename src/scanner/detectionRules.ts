@@ -1,19 +1,6 @@
 import type { Page } from "playwright";
 import type { UIssue, ViewportPreset } from "./types";
 
-function selectorForElement(element: Element): string {
-  if (element.id) {
-    return `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`;
-  }
-
-  const classes = Array.from(element.classList).slice(0, 2);
-  return classes.length
-    ? `${element.tagName.toLowerCase()}.${classes
-        .map((name) => CSS.escape(name))
-        .join(".")}`
-    : element.tagName.toLowerCase();
-}
-
 export interface DetectionContext {
   url: string;
   viewport: ViewportPreset;
@@ -97,13 +84,13 @@ async function detectElementOverflow(
         const rect = element.getBoundingClientRect();
         return {
           selector: element.id
-            ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
-            : element.classList.length
-              ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
-                  .slice(0, 2)
-                  .map((name) => CSS.escape(name))
-                  .join(".")}`
-              : element.tagName.toLowerCase(),
+        ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
+        : element.classList.length
+          ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
+              .slice(0, 2)
+              .map((name) => CSS.escape(name))
+              .join(".")}`
+          : element.tagName.toLowerCase(),
           right: rect.right,
           left: rect.left,
           width: rect.width,
@@ -177,7 +164,14 @@ async function detectImageAltIssues(
   const { page, url, viewport, detectedAt } = context;
   const findings = await page.evaluate(() =>
     Array.from(document.images).map((image) => ({
-      selector: selectorForElement(image),
+      selector: image.id
+        ? `img#${CSS.escape(image.id)}`
+        : image.classList.length
+          ? `img.${Array.from(image.classList)
+              .slice(0, 2)
+              .map((name) => CSS.escape(name))
+              .join(".")}`
+          : "img",
       hasAltAttribute: image.hasAttribute("alt"),
       isDecorative: image.getAttribute("role") === "presentation",
     })),
@@ -217,7 +211,14 @@ async function detectFormControlNames(
     )
       .filter((control) => control.type !== "hidden")
       .map((control) => ({
-        selector: selectorForElement(control),
+        selector: control.id
+          ? `${control.tagName.toLowerCase()}#${CSS.escape(control.id)}`
+          : control.classList.length
+            ? `${control.tagName.toLowerCase()}.${Array.from(control.classList)
+                .slice(0, 2)
+                .map((name) => CSS.escape(name))
+                .join(".")}`
+            : control.tagName.toLowerCase(),
         hasLabel: Boolean(control.labels && control.labels.length > 0),
         hasAriaLabel: Boolean(
           control.getAttribute("aria-label") ||
