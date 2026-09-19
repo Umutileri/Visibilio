@@ -22,7 +22,11 @@ before(async () => {
             .overflow-target { width: 424px; height: 80px; }
           </style>
         </head>
-        <body><div class="overflow-target"></div></body>
+        <body>
+          <img id="missing-alt" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+          <input id="missing-name" />
+          <div class="overflow-target"></div>
+        </body>
       </html>
     `);
   });
@@ -52,6 +56,7 @@ describe("scanPage", () => {
       );
       assert.ok(overflowIssue);
       assert.equal(overflowIssue.severity, "medium");
+      assert.equal(overflowIssue.selector, ".overflow-target");
       assert.deepEqual(overflowIssue.evidence, [
         {
           type: "measurement",
@@ -63,17 +68,27 @@ describe("scanPage", () => {
     }
   });
 
-  it("reports accessibility findings with selectors", async () => {
+  it("reports deterministic accessibility findings", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
 
     assert.equal(result.ok, true);
     if (result.ok) {
+      const rules = result.issues.map((issue) => issue.rule);
+      assert.ok(rules.includes("accessibility.image-missing-alt"));
+      assert.ok(rules.includes("accessibility.form-control-name"));
+      assert.ok(rules.includes("accessibility.html-lang"));
       assert.ok(
         result.issues.some(
           (issue) =>
-            issue.rule === "accessibility.image-missing-alt" ||
-            issue.rule === "accessibility.form-control-name" ||
-            issue.rule === "accessibility.html-lang",
+            issue.rule === "accessibility.image-missing-alt" &&
+            issue.selector === "img#missing-alt",
+        ),
+      );
+      assert.ok(
+        result.issues.some(
+          (issue) =>
+            issue.rule === "accessibility.form-control-name" &&
+            issue.selector === "#missing-name",
         ),
       );
     }
@@ -89,7 +104,7 @@ describe("scanPage", () => {
     }
   });
 
-  it("reports a timeout failure for an unreachable page", async () => {
+  it("returns a page failure for an unreachable page", async () => {
     const result = await scanPage("http://127.0.0.1:1/unreachable", {
       name: "Test",
       width: 390,
@@ -98,7 +113,7 @@ describe("scanPage", () => {
 
     assert.equal(result.ok, false);
     if (!result.ok) {
-      assert.ok(["PAGE_ERROR", "TIMEOUT"].includes(result.error.code));
+      assert.equal(result.error.code, "PAGE_ERROR");
     }
   });
 });
