@@ -1077,6 +1077,12 @@ input:focus-visible {
   font-weight: 750;
 }
 
+.shell-header-home {
+  color: rgb(21 45 53 / 42%);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
 .app-content {
   width: min(1120px, calc(100% - 76px));
   margin: 0 auto;
