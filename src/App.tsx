@@ -1,3 +1,5 @@
+import type { IssueSeverity, UIssue } from "./scanner/types";
+
 import { useEffect, useMemo, useState } from "react";
 
 type AppSection =
@@ -202,7 +204,6 @@ function AppShell() {
   );
 }
 
-import type { IssueSeverity, UIssue } from "./scanner/types";
 
 function AnalyzeEntry() {
   const [url, setUrl] = useState("");
