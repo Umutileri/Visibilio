@@ -20,18 +20,23 @@ function issueId(
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
+function escapeCssIdentifier(value: string): string {
+  return value.replace(/([^a-zA-Z0-9_-])/g, "\\$1");
+}
+
 function selectorFromParts(
   tagName: string,
   id: string,
   className: string,
 ): string {
-  if (id) return `${tagName.toLowerCase()}#${CSS.escape(id)}`;
+  const tag = tagName.toLowerCase();
+  if (id) return `${tag}#${escapeCssIdentifier(id)}`;
   const classes = className.split(/\s+/).filter(Boolean).slice(0, 2);
   return classes.length
-    ? `${tagName.toLowerCase()}.${classes
-        .map((name) => CSS.escape(name))
+    ? `${tag}.${classes
+        .map((name) => escapeCssIdentifier(name))
         .join(".")}`
-    : tagName.toLowerCase();
+    : tag;
 }
 
 async function detectHorizontalOverflow(
