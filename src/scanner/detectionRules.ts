@@ -96,21 +96,29 @@ async function detectElementOverflow(
       .map((element) => {
         const rect = element.getBoundingClientRect();
         return {
+          element,
           selector: selectorForElement(element),
           right: rect.right,
           left: rect.left,
           width: rect.width,
-          top: rect.top,
-          bottom: rect.bottom,
           position: window.getComputedStyle(element).position,
         };
       })
       .filter(
-        (element) =>
-          element.width > 0 &&
-          !["fixed", "sticky"].includes(element.position) &&
-          (element.right > window.innerWidth || element.left < 0),
-      ),
+        (item) =>
+          item.width > 0 &&
+          !["fixed", "sticky"].includes(item.position) &&
+          (item.right > window.innerWidth || item.left < 0),
+      )
+      .filter((item) => {
+        const parent = item.element.parentElement;
+        if (!parent) return true;
+        const parentRect = parent.getBoundingClientRect();
+        const parentOverflow =
+          parentRect.right > window.innerWidth || parentRect.left < 0;
+        return !parentOverflow;
+      })
+      .map(({ element: _element, ...item }) => item),
   );
 
   return findings.slice(0, 20).map((element, index) => {
