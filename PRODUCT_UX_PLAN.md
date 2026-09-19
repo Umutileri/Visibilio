@@ -97,8 +97,8 @@ Start with finding count change, new findings, resolved findings, and changed me
 ## Track D — Trust and accessibility
 
 ### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast,
-responsive behavior, and non-color status cues.
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion,
+contrast, responsive behavior, and non-color status cues.
 
 ### D2 — State completeness
 Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
