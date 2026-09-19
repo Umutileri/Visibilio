@@ -225,7 +225,14 @@ function AnalyzeEntry() {
     setStatus("idle");
   }
 
-  const activeStage = status === "completed" ? 3 : status === "scanning" ? 2 : status === "validating" ? 1 : 0;
+  const activeStage =
+    status === "completed"
+      ? 3
+      : status === "scanning"
+        ? 2
+        : status === "validating"
+          ? 1
+          : 0;
 
   return (
     <section className="analyze-entry">
