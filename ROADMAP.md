@@ -36,18 +36,33 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Goal:** Convert measurements into a stable issue model.
 
-- [ ] Define issue schema
-- [ ] Define rule identifiers
-- [ ] Implement horizontal-overflow rule
-- [ ] Define deterministic severity behavior
-- [ ] Store detection evidence
-- [ ] Add positive tests
-- [ ] Add negative tests
-- [ ] Add boundary tests
+- [x] Define issue schema
+- [x] Define rule identifiers
+- [x] Implement horizontal-overflow rule
+- [x] Define deterministic severity behavior
+- [x] Store detection evidence
+- [x] Add positive tests
+- [x] Add negative tests
+- [x] Add boundary tests
 
 **Exit criteria:** Horizontal overflow can be detected consistently with automated tests and clear evidence.
 
-## M3 — Visual Evidence
+## M3 — Deterministic UI Audit Rules
+
+**Goal:** Turn the scanner into a reusable rule runner with evidence-backed responsive and accessibility findings.
+
+- [x] Separate detection rules from the Playwright page runner
+- [x] Detect rendered elements that extend beyond the viewport
+- [x] Detect images without an alt attribute
+- [x] Detect form controls without a programmatic name
+- [x] Detect documents without a language
+- [x] Add selector evidence where practical
+- [x] Add regression coverage for representative findings
+- [ ] Verify the full CI workflow on GitHub
+
+**Exit criteria:** A controlled page scan can produce multiple deterministic UI findings across configured viewports without relying on AI.
+
+## M4 — Visual Evidence
 
 **Goal:** Make findings easy to understand.
 
