@@ -94,7 +94,7 @@ describe("scanPage", () => {
       result.issues.some(
         (issue) =>
           issue.rule === "accessibility.form-control-name" &&
-          issue.selector === "#missing-name",
+          issue.selector === "input#missing-name",
       ),
     );
   });
