@@ -1,6 +1,19 @@
 import type { Page } from "playwright";
 import type { UIssue, ViewportPreset } from "./types";
 
+function selectorForElement(element: Element): string {
+  if (element.id) {
+    return `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`;
+  }
+
+  const classes = Array.from(element.classList).slice(0, 2);
+  return classes.length
+    ? `${element.tagName.toLowerCase()}.${classes
+        .map((name) => CSS.escape(name))
+        .join(".")}`
+    : element.tagName.toLowerCase();
+}
+
 export interface DetectionContext {
   url: string;
   viewport: ViewportPreset;
