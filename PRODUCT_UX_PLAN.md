@@ -1,13 +1,11 @@
 # Visibilio Product & UX Delivery Plan
 
-> Formatting follows the repository Prettier configuration; headings and task descriptions remain concise so the plan stays readable in code review.
-
-This plan keeps product UX work moving in parallel with the scanner architecture without creating dependencies that force premature public URL scanning.
+This plan keeps product UX work moving in parallel with the scanner architecture without forcing premature public URL scanning.
 
 ## Track A — Foundation / quality
 
 ### A1 — Close M3 cleanly
-- Fix remaining formatter and scanner-test failures in PR #30.
+- Fix formatter and scanner-test failures in PR #30.
 - Verify build, lint, format, and scanner tests.
 - Merge only after the complete CI workflow is green.
 
@@ -16,9 +14,9 @@ This plan keeps product UX work moving in parallel with the scanner architecture
 ### A2 — Preserve the safe scanner boundary
 - Keep Playwright out of the Vite client bundle.
 - Define the scan API contract before wiring real scans into the UI.
-- Keep URL validation, SSRF protection, resource limits, and browser isolation as prerequisites for public URL scanning.
+- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites for public URL scanning.
 
-**Exit:** The client can depend on a typed scan contract without importing the scanner runtime.
+**Exit:** The client can use a typed scan contract without importing the scanner runtime.
 
 ## Track B — Product shell
 
@@ -108,7 +106,7 @@ Show last scan time, viewport tested, rules run, evidence availability, and clea
 ## Track E — Intelligence
 
 ### E1 — AI explanation contract
-AI receives only structured findings and evidence. It may explain and summarize or propose possibilities, but may not invent measurements, selectors, tested browsers/devices, or deterministic results.
+AI receives only structured findings and evidence. It may explain, summarize, or propose possibilities, but may not invent measurements, selectors, tested browsers/devices, or deterministic results.
 
 ### E2 — Suggested fixes
 Add implementation guidance and label uncertainty.
