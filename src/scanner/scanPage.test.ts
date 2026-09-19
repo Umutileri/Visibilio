@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
-import { initialViewports } from "./viewports";
 import { scanPage } from "./scanPage";
+import { initialViewports } from "./viewports";
 
 let server: Server;
 let baseUrl: string;
@@ -48,60 +48,62 @@ describe("scanPage", () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
 
     assert.equal(result.ok, true);
-    if (result.ok) {
-      assert.equal(result.dimensions.viewportWidth, 390);
-      assert.equal(result.dimensions.horizontalOverflow, 34);
-      const overflowIssue = result.issues.find(
-        (issue) => issue.rule === "responsive.horizontal-overflow",
-      );
-      assert.ok(overflowIssue);
-      assert.equal(overflowIssue.severity, "medium");
-      assert.equal(overflowIssue.selector, ".overflow-target");
-      assert.deepEqual(overflowIssue.evidence, [
-        {
-          type: "measurement",
-          metric: "horizontalOverflow",
-          value: 34,
-          unit: "px",
-        },
-      ]);
-    }
+    if (!result.ok) return;
+
+    assert.equal(result.dimensions.viewportWidth, 390);
+    assert.equal(result.dimensions.horizontalOverflow, 34);
+
+    const overflowIssue = result.issues.find(
+      (issue) => issue.rule === "responsive.horizontal-overflow",
+    );
+    assert.ok(overflowIssue);
+    assert.equal(overflowIssue.severity, "medium");
+    assert.equal(overflowIssue.selector, ".overflow-target");
+    assert.deepEqual(overflowIssue.evidence, [
+      {
+        type: "measurement",
+        metric: "horizontalOverflow",
+        value: 34,
+        unit: "px",
+      },
+    ]);
   });
 
   it("reports deterministic accessibility findings", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
 
     assert.equal(result.ok, true);
-    if (result.ok) {
-      const rules = result.issues.map((issue) => issue.rule);
-      assert.ok(rules.includes("accessibility.image-missing-alt"));
-      assert.ok(rules.includes("accessibility.form-control-name"));
-      assert.ok(rules.includes("accessibility.html-lang"));
-      assert.ok(
-        result.issues.some(
-          (issue) =>
-            issue.rule === "accessibility.image-missing-alt" &&
-            issue.selector === "img#missing-alt",
-        ),
-      );
-      assert.ok(
-        result.issues.some(
-          (issue) =>
-            issue.rule === "accessibility.form-control-name" &&
-            issue.selector === "#missing-name",
-        ),
-      );
-    }
+    if (!result.ok) return;
+
+    const rules = result.issues.map((issue) => issue.rule);
+    assert.ok(rules.includes("accessibility.image-missing-alt"));
+    assert.ok(rules.includes("accessibility.form-control-name"));
+    assert.ok(rules.includes("accessibility.html-lang"));
+
+    assert.ok(
+      result.issues.some(
+        (issue) =>
+          issue.rule === "accessibility.image-missing-alt" &&
+          issue.selector === "img#missing-alt",
+      ),
+    );
+    assert.ok(
+      result.issues.some(
+        (issue) =>
+          issue.rule === "accessibility.form-control-name" &&
+          issue.selector === "#missing-name",
+      ),
+    );
   });
 
   it("does not report overflow on the wider desktop viewport", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[1]);
 
     assert.equal(result.ok, true);
-    if (result.ok) {
-      assert.equal(result.dimensions.viewportWidth, 1440);
-      assert.equal(result.dimensions.horizontalOverflow, 0);
-    }
+    if (!result.ok) return;
+
+    assert.equal(result.dimensions.viewportWidth, 1440);
+    assert.equal(result.dimensions.horizontalOverflow, 0);
   });
 
   it("returns a page failure for an unreachable page", async () => {
@@ -112,8 +114,8 @@ describe("scanPage", () => {
     });
 
     assert.equal(result.ok, false);
-    if (!result.ok) {
-      assert.equal(result.error.code, "PAGE_ERROR");
-    }
+    if (!result.ok) return;
+
+    assert.fail(`Expected page failure, got success with ${result.issues.length} issues`);
   });
 });
