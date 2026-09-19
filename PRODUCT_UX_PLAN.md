@@ -105,7 +105,6 @@ Add implementation guidance and clearly label uncertainty.
 Re-run relevant rules and compare before/after evidence.
 
 ## F — Production scanning
-
 - Server-side scan API
 - URL validation and SSRF controls
 - Resource limits and browser isolation
@@ -115,7 +114,6 @@ Re-run relevant rules and compare before/after evidence.
 Public scanning remains gated by these controls.
 
 ## Acceptance checklist
-
 - First action is obvious.
 - Navigation is predictable.
 - Scan state is understandable.
@@ -128,11 +126,9 @@ Public scanning remains gated by these controls.
 - Visual styling reinforces clarity and evidence.
 
 ## Working order
-
 A1 → A2 → B1 → B2 → B3 → B4 → C1 → C2 → C3 → D1 → D2 → D3 → E1 → E2 → E3 → F
 
 ## Design guardrails
-
 - Prefer hierarchy, whitespace, and progressive disclosure over decoration.
 - Keep navigation persistent and predictable.
 - Treat evidence as a first-class product object.
