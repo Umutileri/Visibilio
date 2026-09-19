@@ -14,7 +14,7 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Configure Tailwind CSS
 - [x] Add linting and formatting
 - [x] Add application shell
-- [ ] Add basic CI checks
+- [x] Add basic CI checks
 
 **Exit criteria:** The app installs, runs locally, builds successfully, and basic checks pass.
 
@@ -22,13 +22,13 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Goal:** Execute a controlled test page and collect browser measurements.
 
-- [ ] Define scan input
-- [ ] Add Playwright runner
-- [ ] Add initial viewport presets
-- [ ] Capture page/document dimensions
-- [ ] Detect horizontal overflow
-- [ ] Return structured scan output
-- [ ] Add error and timeout handling
+- [x] Define scan input
+- [x] Add Playwright runner
+- [x] Add initial viewport presets
+- [x] Capture page/document dimensions
+- [x] Detect horizontal overflow
+- [x] Return structured scan output
+- [x] Add error and timeout handling
 
 **Exit criteria:** A controlled test page can be scanned and return reproducible measurement data.
 
