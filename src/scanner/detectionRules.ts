@@ -20,6 +20,20 @@ function issueId(
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
+function selectorFromParts(
+  tagName: string,
+  id: string,
+  className: string,
+): string {
+  if (id) return `${tagName.toLowerCase()}#${CSS.escape(id)}`;
+  const classes = className.split(/\s+/).filter(Boolean).slice(0, 2);
+  return classes.length
+    ? `${tagName.toLowerCase()}.${classes
+        .map((name) => CSS.escape(name))
+        .join(".")}`
+    : tagName.toLowerCase();
+}
+
 async function detectHorizontalOverflow(
   context: DetectionContext,
 ): Promise<UIssue[]> {
@@ -83,14 +97,9 @@ async function detectElementOverflow(
       .map((element) => {
         const rect = element.getBoundingClientRect();
         return {
-          selector: element.id
-            ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
-            : element.classList.length
-              ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
-                  .slice(0, 2)
-                  .map((name) => CSS.escape(name))
-                  .join(".")}`
-              : element.tagName.toLowerCase(),
+          tagName: element.tagName,
+          id: element.id,
+          className: typeof element.className === "string" ? element.className : "",
           right: rect.right,
           left: rect.left,
           width: rect.width,
@@ -136,7 +145,11 @@ async function detectElementOverflow(
         "This rendered element extends outside the visible viewport at this viewport size.",
       url,
       viewport,
-      selector: element.selector,
+      selector: selectorFromParts(
+        element.tagName,
+        element.id,
+        element.className,
+      ),
       measurements: {
         overflowPixels,
         elementWidth: element.width,
@@ -164,14 +177,9 @@ async function detectImageAltIssues(
   const { page, url, viewport, detectedAt } = context;
   const findings = await page.evaluate(() =>
     Array.from(document.images).map((image) => ({
-      selector: image.id
-        ? `img#${CSS.escape(image.id)}`
-        : image.classList.length
-          ? `img.${Array.from(image.classList)
-              .slice(0, 2)
-              .map((name) => CSS.escape(name))
-              .join(".")}`
-          : "img",
+      tagName: image.tagName,
+      id: image.id,
+      className: image.className,
       hasAltAttribute: image.hasAttribute("alt"),
       isDecorative: image.getAttribute("role") === "presentation",
     })),
@@ -193,7 +201,11 @@ async function detectImageAltIssues(
         "An image element does not define alt text. Decorative images should use an empty alt attribute.",
       url,
       viewport,
-      selector: image.selector,
+      selector: selectorFromParts(
+        image.tagName,
+        image.id,
+        image.className,
+      ),
       detectedAt,
       status: "open" as const,
     }));
@@ -211,14 +223,9 @@ async function detectFormControlNames(
     )
       .filter((control) => control.type !== "hidden")
       .map((control) => ({
-        selector: control.id
-          ? `${control.tagName.toLowerCase()}#${CSS.escape(control.id)}`
-          : control.classList.length
-            ? `${control.tagName.toLowerCase()}.${Array.from(control.classList)
-                .slice(0, 2)
-                .map((name) => CSS.escape(name))
-                .join(".")}`
-            : control.tagName.toLowerCase(),
+        tagName: control.tagName,
+        id: control.id,
+        className: control.className,
         hasLabel: Boolean(control.labels && control.labels.length > 0),
         hasAriaLabel: Boolean(
           control.getAttribute("aria-label") ||
@@ -242,7 +249,11 @@ async function detectFormControlNames(
       "A form control has no associated label or accessible naming attribute.",
     url,
     viewport,
-    selector: control.selector,
+    selector: selectorFromParts(
+      control.tagName,
+      control.id,
+      control.className,
+    ),
     detectedAt,
     status: "open" as const,
   }));
