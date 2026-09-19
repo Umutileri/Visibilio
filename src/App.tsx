@@ -214,6 +214,15 @@ function AnalyzeEntry() {
     { id: "completed", label: "Prepare findings" },
   ];
 
+  function validateTarget(rawUrl: string): boolean {
+    try {
+      const target = new URL(rawUrl.trim());
+      return target.protocol === "http:" || target.protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!url.trim() || status === "validating" || status === "scanning") return;
@@ -221,18 +230,12 @@ function AnalyzeEntry() {
     setStatus("validating");
 
     window.setTimeout(() => {
-      try {
-        const target = new URL(url.trim());
-
-        if (!["http:", "https:"].includes(target.protocol)) {
-          setStatus("failed");
-          return;
-        }
-
-        setStatus("scanning");
-      } catch {
+      if (!validateTarget(url)) {
         setStatus("failed");
+        return;
       }
+
+      setStatus("scanning");
     }, 650);
 
     window.setTimeout(() => {
@@ -265,7 +268,10 @@ function AnalyzeEntry() {
 
         <div className="scan-stages" aria-label="Analysis stages">
           {stages.map((stage, index) => (
-            <div className={`scan-stage ${index < activeStage ? "is-done" : ""} ${index === activeStage - 1 ? "is-current" : ""}`} key={stage.id}>
+            <div
+              className={`scan-stage ${index < activeStage ? "is-done" : ""} ${index === activeStage - 1 ? "is-current" : ""}`}
+              key={stage.id}
+            >
               <span>{String(index + 1).padStart(2, "0")}</span>
               <div>
                 <strong>{stage.label}</strong>
@@ -297,6 +303,22 @@ function AnalyzeEntry() {
             </div>
             <button type="button" onClick={reset}>
               Start again
+            </button>
+          </div>
+        ) : status === "failed" ? (
+          <div className="scan-state scan-state-error" aria-live="assertive">
+            <span className="scan-state-label">Validation failed</span>
+            <h3>That target cannot be used for this analysis flow.</h3>
+            <p>
+              Use a complete HTTP or HTTPS URL and try again. No network request
+              was made from this product preview.
+            </p>
+            <div className="scan-state-meta">
+              <span>{url || "No target entered"}</span>
+              <span>Expected: http:// or https://</span>
+            </div>
+            <button type="button" onClick={reset}>
+              Edit target
             </button>
           </div>
         ) : (
@@ -339,7 +361,6 @@ function AnalyzeEntry() {
     </section>
   );
 }
-
 
 function FindingsPreview() {
   return (
