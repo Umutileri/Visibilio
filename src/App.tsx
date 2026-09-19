@@ -202,6 +202,8 @@ function AppShell() {
   );
 }
 
+import type { IssueSeverity, UIssue } from "./scanner/types";
+
 function AnalyzeEntry() {
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<
@@ -361,8 +363,6 @@ function AnalyzeEntry() {
     </section>
   );
 }
-
-import type { IssueSeverity, UIssue } from "./scanner/types";
 
 const previewFindings: UIssue[] = [
   {
