@@ -362,29 +362,147 @@ function AnalyzeEntry() {
   );
 }
 
+const previewFindings = [
+  {
+    id: "preview-overflow",
+    severity: "high",
+    category: "responsive",
+    title: "Horizontal overflow detected",
+    description: "A section extends beyond the viewport on a mobile layout.",
+    evidence: "Document width is 424px at a 390px viewport.",
+  },
+  {
+    id: "preview-alt",
+    severity: "medium",
+    category: "accessibility",
+    title: "Image is missing alternative text",
+    description: "An image does not expose an accessible text alternative.",
+    evidence: "The image element has no alt attribute.",
+  },
+  {
+    id: "preview-label",
+    severity: "medium",
+    category: "accessibility",
+    title: "Form control has no accessible name",
+    description: "A form input cannot be identified by assistive technology.",
+    evidence: "No associated label or ARIA naming mechanism was found.",
+  },
+];
+
 function FindingsPreview() {
+  const [severity, setSeverity] = useState<"all" | "high" | "medium" | "low">("all");
+  const [category, setCategory] = useState<
+    "all" | "responsive" | "accessibility" | "layout"
+  >("all");
+  const [selectedId, setSelectedId] = useState(previewFindings[0].id);
+
+  const visibleFindings = previewFindings.filter((finding) => {
+    const severityMatches = severity === "all" || finding.severity === severity;
+    const categoryMatches = category === "all" || finding.category === category;
+    return severityMatches && categoryMatches;
+  });
+
   return (
-    <section className="findings-preview">
-      <div className="findings-preview-header">
+    <section className="findings-workspace">
+      <div className="findings-summary">
         <div>
           <span className="shell-step">02 / FINDINGS</span>
-          <h2>The result surface should stay focused.</h2>
+          <h2>Review the issues, then open the evidence.</h2>
         </div>
-        <span className="findings-preview-count">0 findings loaded</span>
+        <div className="findings-summary-count">
+          <strong>{previewFindings.length}</strong>
+          <span>sample findings</span>
+        </div>
       </div>
-      <div className="findings-preview-empty">
-        <span aria-hidden="true">—</span>
-        <div>
-          <strong>No scan data yet</strong>
-          <p>
-            Findings will appear here once the secure scan API returns structured
-            results. Measurements will remain separate from interpretation.
-          </p>
+
+      <div className="findings-toolbar" aria-label="Finding filters">
+        <label>
+          <span>Severity</span>
+          <select value={severity} onChange={(event) => setSeverity(event.target.value as typeof severity)}>
+            <option value="all">All severities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </label>
+        <label>
+          <span>Category</span>
+          <select value={category} onChange={(event) => setCategory(event.target.value as typeof category)}>
+            <option value="all">All categories</option>
+            <option value="responsive">Responsive</option>
+            <option value="accessibility">Accessibility</option>
+            <option value="layout">Layout</option>
+          </select>
+        </label>
+        <span className="findings-toolbar-note">
+          Sample UI only · not a scan result
+        </span>
+      </div>
+
+      <div className="findings-grid">
+        <div className="finding-list" aria-label="Sample findings">
+          {visibleFindings.length ? (
+            visibleFindings.map((finding) => (
+              <button
+                type="button"
+                className={`finding-row ${selectedId === finding.id ? "is-selected" : ""}`}
+                key={finding.id}
+                onClick={() => setSelectedId(finding.id)}
+              >
+                <span className={`severity-dot severity-dot-${finding.severity}`} aria-hidden="true" />
+                <span className="finding-row-copy">
+                  <strong>{finding.title}</strong>
+                  <small>{finding.category}</small>
+                </span>
+                <span className="finding-chevron" aria-hidden="true">→</span>
+              </button>
+            ))
+          ) : (
+            <div className="finding-list-empty">
+              <strong>No findings match these filters.</strong>
+              <span>Try another severity or category.</span>
+            </div>
+          )}
         </div>
+
+        <aside className="finding-detail">
+          {(() => {
+            const selected = visibleFindings.find((finding) => finding.id === selectedId) ?? visibleFindings[0];
+            return selected ? (
+              <>
+                <div className="finding-detail-top">
+                  <span className={`severity-badge severity-badge-${selected.severity}`}>
+                    {selected.severity}
+                  </span>
+                  <span>{selected.category}</span>
+                </div>
+                <h3>{selected.title}</h3>
+                <p>{selected.description}</p>
+                <div className="finding-evidence-box">
+                  <span>Measured evidence</span>
+                  <strong>{selected.evidence}</strong>
+                </div>
+                <div className="finding-detail-meta">
+                  <span>Evidence status</span>
+                  <strong>Available</strong>
+                </div>
+                <div className="finding-detail-meta">
+                  <span>Interpretation</span>
+                  <strong>Not generated yet</strong>
+                </div>
+              </>
+            ) : (
+              <div className="finding-detail-empty">
+                Select a finding to inspect its details.
+              </div>
+            );
+          })()}
+        </aside>
       </div>
     </section>
   );
 }
+
 
 function WorkspacePlaceholder({ section }: { section: AppSection }) {
   const action =
