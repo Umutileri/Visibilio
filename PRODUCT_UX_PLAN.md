@@ -1,6 +1,6 @@
 # Visibilio Product & UX Delivery Plan
 
-This plan keeps product UX work moving in parallel with scanner architecture without forcing premature public URL scanning.
+UX work can move in parallel with scanner architecture, but public URL scanning remains gated by security controls.
 
 ## Track A — Foundation / quality
 
@@ -14,7 +14,7 @@ This plan keeps product UX work moving in parallel with scanner architecture wit
 ### A2 — Preserve the safe scanner boundary
 - Keep Playwright out of the Vite client bundle.
 - Define the scan API contract before wiring real scans into the UI.
-- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites for public URL scanning.
+- Treat URL validation, SSRF protection, resource limits, and browser isolation as public-scanning prerequisites.
 
 **Exit:** The client can use a typed scan contract without importing the scanner runtime.
 
@@ -95,18 +95,18 @@ Start with finding count change, new findings, resolved findings, and changed me
 ## Track D — Trust and accessibility
 
 ### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, sufficient contrast, responsive behavior, and status that is not communicated by color alone.
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and non-color status cues.
 
 ### D2 — State completeness
 Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
 
 ### D3 — Trust surfaces
-Show last scan time, viewport tested, rules run, evidence availability, and clearly distinguish measured facts from suggestions.
+Show scan time, viewport, rules run, evidence availability, and distinguish measured facts from suggestions.
 
 ## Track E — Intelligence
 
 ### E1 — AI explanation contract
-AI receives only structured findings and evidence. It may explain, summarize, or propose possibilities, but may not invent measurements, selectors, tested browsers/devices, or deterministic results.
+AI receives structured findings and evidence. It may explain or suggest, but may not invent measurements, selectors, tested browsers/devices, or deterministic results.
 
 ### E2 — Suggested fixes
 Add implementation guidance and label uncertainty.
@@ -153,4 +153,4 @@ Before calling the product surface complete:
 11. E1–E3 — Intelligence
 12. F1–F5 — Production/public scanning
 
-UX implementation can start while A1/A2 are being completed, but no UI milestone may bypass server/security prerequisites when it would require real public scanning.
+UX work may start during A1/A2, but real public scanning cannot bypass server/security prerequisites.
