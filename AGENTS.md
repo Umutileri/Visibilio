@@ -141,6 +141,8 @@ Bug fixes should normally include a regression test.
 
 Do not mark a task complete based only on visual inspection when an automated check is practical.
 
+Do not write or expose test-page URLs as part of user-facing scanning functionality unless the feature explicitly requires a local fixture.
+
 ## 10. Honest claims
 
 Never claim:
