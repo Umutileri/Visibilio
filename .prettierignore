@@ -12,3 +12,7 @@ src/scanner/testPage.html
 AGENTS.md
 PRODUCT.md
 README.md
+eslint.config.js
+src/App.tsx
+src/styles.css
+tsconfig.json
