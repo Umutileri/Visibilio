@@ -29,7 +29,6 @@ before(async () => {
           />
           <input id="missing-name" />
           <div class="overflow-target"></div>
-          <div aria-hidden="true" class="offscreen-target"></div>
         </body>
       </html>
     `);
