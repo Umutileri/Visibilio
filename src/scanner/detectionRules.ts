@@ -195,15 +195,13 @@ async function detectFormControlNames(
       .map((control) => ({
         selector: selectorForElement(control),
         hasName: Boolean(control.getAttribute("name")),
-        hasLabel: Boolean(
-          control.labels && control.labels.length > 0,
-        ),
+        hasLabel: Boolean(control.labels && control.labels.length > 0),
         hasAriaLabel: Boolean(
           control.getAttribute("aria-label") ||
             control.getAttribute("aria-labelledby"),
         ),
       }))
-      .filter((control) => !control.hasLabel && !control.hasAriaLabel);
+      .filter((control) => !control.hasLabel && !control.hasAriaLabel),
   );
 
   return findings
