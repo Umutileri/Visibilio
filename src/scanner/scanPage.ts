@@ -1,8 +1,45 @@
 import { chromium } from "playwright";
 import { initialViewports } from "./viewports";
-import type { ScanResult, ViewportPreset } from "./types";
+import type { ScanResult, UIssue, ViewportPreset } from "./types";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
+const issueNow = () => new Date().toISOString();
+
+function toIssue(
+  url: string,
+  viewport: ViewportPreset,
+  overflow: number,
+  detectedAt: string,
+): UIssue | null {
+  if (overflow <= 0) return null;
+
+  return {
+    id: `responsive.horizontal-overflow.${viewport.name.toLowerCase()}`,
+    rule: "responsive.horizontal-overflow",
+    category: "responsive",
+    title: "Horizontal overflow detected",
+    severity: overflow >= 48 ? "high" : overflow >= 16 ? "medium" : "low",
+    description:
+      "The document extends beyond the visible viewport, so some content may require horizontal scrolling.",
+    url,
+    viewport,
+    measurements: {
+      documentWidth: overflow + viewport.width,
+      viewportWidth: viewport.width,
+      horizontalOverflow: overflow,
+    },
+    evidence: [
+      {
+        type: "measurement",
+        metric: "horizontalOverflow",
+        value: overflow,
+        unit: "px",
+      },
+    ],
+    detectedAt,
+    status: "open",
+  };
+}
 
 export async function scanPage(
   url: string,
@@ -53,11 +90,20 @@ export async function scanPage(
         };
       });
 
+      const detectedAt = issueNow();
+      const issue = toIssue(
+        url,
+        viewport,
+        dimensions.horizontalOverflow,
+        detectedAt,
+      );
+
       return {
         ok: true,
         url,
         viewport,
         dimensions,
+        issues: issue ? [issue] : [],
       };
     } catch (error) {
       const isTimeout = error instanceof Error && /timeout/i.test(error.message);
