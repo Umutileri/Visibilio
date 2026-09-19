@@ -89,10 +89,6 @@ function AppShell() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  function navigate(nextSection: AppSection) {
-    window.location.hash = `app/${nextSection}`;
-  }
-
   return (
     <div className="app-shell">
       <aside className="app-sidebar">
@@ -177,18 +173,12 @@ function AppShell() {
           {activeSection.id === "analyze" ? (
             <AnalyzeEntry />
           ) : (
-            <WorkspacePlaceholder
-              section={activeSection.id}
-              onNavigate={navigate}
-            />
+            <WorkspacePlaceholder section={activeSection.id} />
           )}
         </div>
       </main>
 
-      <nav
-        className="app-mobile-nav"
-        aria-label="Mobile product navigation"
-      >
+      <nav className="app-mobile-nav" aria-label="Mobile product navigation">
         {appSections.map((item) => (
           <a
             className={item.id === activeSection.id ? "is-active" : ""}
@@ -208,13 +198,6 @@ function AppShell() {
 function AnalyzeEntry() {
   const [url, setUrl] = useState("");
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!url.trim()) return;
-    window.location.hash = "app/analyze";
-  }
-
   return (
     <section className="analyze-entry">
       <div className="analyze-entry-copy">
@@ -227,7 +210,14 @@ function AnalyzeEntry() {
         </p>
       </div>
 
-      <form className="shell-url-form" onSubmit={submit}>
+      <form
+        className="shell-url-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!url.trim()) return;
+          window.location.hash = "app/analyze";
+        }}
+      >
         <label htmlFor="workspace-url">Website URL</label>
         <div className="shell-url-row">
           <input
@@ -250,24 +240,17 @@ function AnalyzeEntry() {
   );
 }
 
-function WorkspacePlaceholder({
-  section,
-  onNavigate,
-}: {
-  section: AppSection;
-  onNavigate: (section: AppSection) => void;
-}) {
-  const actions: Record<
-    AppSection,
-    { label: string; target: AppSection } | null
-  > = {
-    overview: { label: "Start an analysis", target: "analyze" },
-    findings: { label: "Run a new analysis", target: "analyze" },
-    evidence: { label: "Open findings", target: "findings" },
-    history: { label: "Start first analysis", target: "analyze" },
-    settings: null,
-    analyze: null,
-  };
+function WorkspacePlaceholder({ section }: { section: AppSection }) {
+  const action =
+    section === "overview"
+      ? "Start an analysis"
+      : section === "findings"
+        ? "Run a new analysis"
+        : section === "evidence"
+          ? "Open findings"
+          : section === "history"
+            ? "Start first analysis"
+            : null;
 
   return (
     <section className="shell-placeholder">
@@ -292,14 +275,10 @@ function WorkspacePlaceholder({
           It does not render fabricated scan results or imply that the production
           scanner is already connected.
         </p>
-        {actions[section] && (
-          <button
-            type="button"
-            className="shell-inline-action"
-            onClick={() => onNavigate(actions[section]!.target)}
-          >
-            {actions[section]!.label}
-          </button>
+        {action && (
+          <a className="shell-inline-action" href="#app/analyze">
+            {action}
+          </a>
         )}
       </div>
     </section>
