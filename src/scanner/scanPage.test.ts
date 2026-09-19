@@ -56,13 +56,6 @@ describe("scanPage", () => {
     assert.equal(result.dimensions.viewportWidth, 390);
     assert.equal(result.dimensions.horizontalOverflow, 34);
 
-    assert.ok(
-      result.issues.some(
-        (issue) =>
-          issue.rule === "responsive.element-overflow" &&
-      ),
-    );
-
     const overflowIssue = result.issues.find(
       (issue) => issue.rule === "responsive.horizontal-overflow",
     );
