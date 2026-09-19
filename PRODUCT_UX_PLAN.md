@@ -1,13 +1,13 @@
 # Visibilio Product & UX Delivery Plan
 
-This plan keeps product UX work moving in parallel with the scanner architecture without forcing premature public URL scanning.
+This plan keeps product UX work moving in parallel with scanner architecture without forcing premature public URL scanning.
 
 ## Track A — Foundation / quality
 
 ### A1 — Close M3 cleanly
 - Fix formatter and scanner-test failures in PR #30.
 - Verify build, lint, format, and scanner tests.
-- Merge only after the complete CI workflow is green.
+- Merge only after complete CI is green.
 
 **Exit:** PR #30 is green and merged.
 
@@ -33,7 +33,7 @@ Rules:
 - No floating navigation rail.
 - Navigation stays stable and predictable.
 - Main content remains visually dominant.
-- Desktop and mobile use the same information architecture.
+- Desktop and mobile share the same information architecture.
 
 **Exit:** A user understands where to start, where results live, and where history lives.
 
