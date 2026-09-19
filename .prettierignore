@@ -17,6 +17,3 @@ src/App.tsx
 src/styles.css
 tsconfig.json
 
-# Existing source files kept out of the formatting gate until migration is complete.
-src/scanner/detectionRules.ts
-src/scanner/scanPage.test.ts
