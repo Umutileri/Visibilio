@@ -1159,6 +1159,111 @@ input:focus-visible {
   line-height: 1.7;
 }
 
+.scan-stages {
+  display: grid;
+  gap: 0;
+  margin-top: 28px;
+  border-top: 1px solid rgb(21 45 53 / 9%);
+}
+
+.scan-stage {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgb(21 45 53 / 9%);
+  color: rgb(21 45 53 / 40%);
+}
+
+.scan-stage > span {
+  padding-top: 2px;
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.64rem;
+}
+
+.scan-stage strong,
+.scan-stage small {
+  display: block;
+}
+
+.scan-stage strong {
+  color: #152d35;
+  font-size: 0.79rem;
+}
+
+.scan-stage small {
+  margin-top: 4px;
+  color: rgb(21 45 53 / 45%);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.scan-stage.is-current > span {
+  color: #5c7b70;
+}
+
+.scan-stage.is-done > span {
+  color: #65896f;
+}
+
+.shell-url-panel {
+  min-width: 0;
+}
+
+.scan-state {
+  min-height: 228px;
+  padding: 22px;
+  border: 1px solid rgb(21 45 53 / 10%);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.scan-state-label {
+  color: #5c7b70;
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.scan-state h3 {
+  margin: 13px 0 0;
+  font-size: 1.35rem;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.scan-state p {
+  margin: 12px 0 0;
+  color: rgb(21 45 53 / 57%);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.scan-state-meta {
+  display: grid;
+  gap: 7px;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgb(21 45 53 / 9%);
+  color: rgb(21 45 53 / 42%);
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.64rem;
+  overflow-wrap: anywhere;
+}
+
+.scan-state button {
+  min-height: 40px;
+  margin-top: 18px;
+  padding: 0 13px;
+  border-radius: 8px;
+  background: #152d35;
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
 .shell-step {
   color: rgb(21 45 53 / 39%);
 }
@@ -1487,6 +1592,14 @@ input:focus-visible {
   .analyze-entry {
     gap: 28px;
     padding-top: 30px;
+  }
+
+  .scan-stage {
+    grid-template-columns: 34px 1fr;
+  }
+
+  .scan-state {
+    padding: 18px;
   }
 
   .shell-url-row {
