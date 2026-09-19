@@ -201,7 +201,6 @@ async function detectFormControlNames(
       .filter((control) => control.type !== "hidden")
       .map((control) => ({
         selector: selectorForElement(control),
-        hasName: Boolean(control.getAttribute("name")),
         hasLabel: Boolean(control.labels && control.labels.length > 0),
         hasAriaLabel: Boolean(
           control.getAttribute("aria-label") ||
@@ -211,26 +210,24 @@ async function detectFormControlNames(
       .filter((control) => !control.hasLabel && !control.hasAriaLabel),
   );
 
-  return findings
-    .filter((control) => !control.hasName)
-    .map((control, index) => ({
-      id: issueId(
-        "accessibility.form-control-name",
-        viewport,
-        String(index + 1),
-      ),
-      rule: "accessibility.form-control-name",
-      category: "accessibility" as const,
-      title: "Form control has no programmatic name",
-      severity: "medium" as const,
-      description:
-        "A form control has no name and no associated label or accessible naming attribute.",
-      url,
+  return findings.map((control, index) => ({
+    id: issueId(
+      "accessibility.form-control-name",
       viewport,
-      selector: control.selector,
-      detectedAt,
-      status: "open" as const,
-    }));
+      String(index + 1),
+    ),
+    rule: "accessibility.form-control-name",
+    category: "accessibility" as const,
+    title: "Form control has no accessible name",
+    severity: "medium" as const,
+    description:
+      "A form control has no associated label or accessible naming attribute.",
+    url,
+    viewport,
+    selector: control.selector,
+    detectedAt,
+    status: "open" as const,
+  }));
 }
 
 async function detectHtmlLanguage(
