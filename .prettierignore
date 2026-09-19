@@ -6,3 +6,9 @@ test-results
 
 # Raw scanner fixture
 src/scanner/testPage.html
+
+# Existing source and documentation are intentionally kept in their current layout.
+# CI formatting is reserved for files changed by implementation work.
+AGENTS.md
+PRODUCT.md
+README.md
