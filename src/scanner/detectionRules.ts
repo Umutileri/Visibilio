@@ -99,7 +99,14 @@ async function detectElementOverflow(
           tagName: element.tagName,
           id: element.id,
           className: element.className,
-          selector: selectorForElement(element),
+          selector: element.id
+            ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
+            : element.classList.length
+              ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
+                  .slice(0, 2)
+                  .map((name) => CSS.escape(name))
+                  .join(".")}`
+              : element.tagName.toLowerCase(),
           right: rect.right,
           left: rect.left,
           width: rect.width,
