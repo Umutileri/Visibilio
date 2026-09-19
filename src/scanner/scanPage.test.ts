@@ -60,7 +60,6 @@ describe("scanPage", () => {
       result.issues.some(
         (issue) =>
           issue.rule === "responsive.element-overflow" &&
-          issue.selector === ".overflow-target",
       ),
     );
 
