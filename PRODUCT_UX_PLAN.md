@@ -1,28 +1,21 @@
 # Visibilio Product & UX Delivery Plan
 
-UX work can move in parallel with scanner architecture.
-Public URL scanning remains gated by security controls.
+## A — Foundation
 
-## Track A — Foundation / quality
+### A1 — Close M3
+- Finish PR #30 only when formatting, build, lint, and scanner tests are green.
+- Keep deterministic findings evidence-backed and tested.
 
-### A1 — Close M3 cleanly
-- Fix formatter and scanner-test failures in PR #30.
-- Verify build, lint, format, and scanner tests.
-- Merge only after complete CI is green.
-
-**Exit:** PR #30 is green and merged.
-
-### A2 — Preserve the safe scanner boundary
+### A2 — Safe scanner boundary
 - Keep Playwright out of the Vite client bundle.
-- Define the scan API contract before wiring real scans into the UI.
-- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites.
-- Public scanning remains blocked until those controls exist.
+- Define a typed scan API before real scan wiring.
+- Require URL validation, SSRF protection, resource limits, and browser isolation before public scanning.
 
-**Exit:** The client can use a typed scan contract without importing the scanner runtime.
+**Exit:** The client can consume scan results without importing the scanner runtime.
 
-## Track B — Product shell
+## B — Product shell
 
-### B1 — Product information architecture
+### B1 — Information architecture
 Primary areas:
 - Overview
 - Analyze
@@ -31,16 +24,12 @@ Primary areas:
 - History
 - Settings
 
-Rules:
-- No floating navigation rail.
-- Navigation stays stable and predictable.
-- Main content remains visually dominant.
-- Desktop and mobile share the same information architecture.
+Keep navigation stable and predictable. Do not use a floating navigation rail. Keep the main content visually dominant on desktop and mobile.
 
-**Exit:** A user understands where to start, where results live, and where history lives.
+**Exit:** A user can tell where to start, where results live, and where history lives.
 
 ### B2 — Analyze workflow
-States:
+Support these explicit states:
 - Idle
 - Validating
 - Scanning
@@ -48,124 +37,104 @@ States:
 - Failed
 - Empty
 
-Progress should show meaningful scan stages rather than only a generic spinner.
+Show meaningful scan stages and recovery actions.
 
-**Exit:** A user can start a scan, understand its state, and recover from failure.
+**Exit:** A user can start a scan, understand its progress, and recover from failure.
 
 ### B3 — Findings workspace
-Core UI:
-- Finding count
-- Severity counts
-- Category filters
+Include:
+- Total findings
+- Severity and category filters
 - Sort/filter controls
 - Finding list
 - Selected finding state
 - Clear empty state
 
-**Exit:** A user can move from scan completion to a specific finding quickly.
+**Exit:** A user can reach a specific finding quickly.
 
 ### B4 — Evidence detail
-Every finding should expose:
+For each finding, show:
 1. What happened
 2. Where it happened
-3. Evidence
+3. The measured evidence
 4. Why it matters
 5. Suggested next action
 
-Technical context should be progressive rather than overwhelming.
+Use progressive disclosure for selectors and implementation detail.
 
-**Exit:** A finding can be understood and reproduced from the information shown.
+**Exit:** A finding can be understood and reproduced from the shown evidence.
 
-## Track C — Retention / SaaS structure
+## C — SaaS structure
 
-### C1 — Scan history
-Include timestamp, URL/project, finding count, status, and scan detail entry.
+### C1 — History
+Show scan time, site/project, finding count, status, and entry to scan details.
 
-**Exit:** Users can return to previous scans and understand their history.
+### C2 — Projects
+Use the model:
+**User → Website/Project → Scans → Findings → Evidence**
 
-### C2 — Projects / websites
-Structure:
-User → Website/Project → Scans → Findings → Evidence
+### C3 — Comparison
+Start with:
+- Finding count change
+- New findings
+- Resolved findings
+- Changed measurements
 
-**Exit:** Multiple websites can be represented without changing the core finding model.
+**Exit:** A user can see what changed between scans.
 
-### C3 — Before/after comparison
-Start with finding count change, new findings, resolved findings, and changed measurements.
+## D — Trust and accessibility
 
-**Exit:** A user can see whether a subsequent scan changed the state of a finding.
+### D1 — Application baseline
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and non-color status cues.
 
-## Track D — Trust and accessibility
-
-### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion,
-contrast, responsive behavior, and non-color status cues.
-
-### D2 — State completeness
-Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
+### D2 — Complete states
+Every important view has loading, success, empty, error, disabled, and retry states.
 
 ### D3 — Trust surfaces
-Show scan time, viewport, rules run, and evidence availability.
-Distinguish measured facts from suggestions.
+Show scan time, viewport, rules run, and evidence availability. Separate measurements from interpretation and suggestions.
 
-## Track E — Intelligence
+## E — Intelligence
 
-### E1 — AI explanation contract
-AI receives structured findings and evidence.
-- It may explain or suggest.
-- It may not invent measurements, selectors, tested browsers/devices, or deterministic results.
+### E1 — AI contract
+AI receives structured findings and evidence. It may explain or suggest, but cannot invent measurements, selectors, tested viewports, or deterministic results.
 
 ### E2 — Suggested fixes
-Add implementation guidance and label uncertainty.
+Add implementation guidance and clearly label uncertainty.
 
-### E3 — Re-test loop
-Re-run the relevant rule and compare before/after evidence.
+### E3 — Re-test
+Re-run relevant rules and compare before/after evidence.
 
-## Track F — Public scanning / production
+## F — Production scanning
 
-### F1 — Server-side scan API
-### F2 — URL validation + SSRF controls
-### F3 — Resource limits + browser isolation
-### F4 — Job status / retry behavior
-### F5 — Public URL scanning
+- Server-side scan API
+- URL validation and SSRF controls
+- Resource limits and browser isolation
+- Job status and retry behavior
+- Public URL scanning
 
-Public scanning stays behind these controls.
+Public scanning remains gated by these controls.
 
-## UI/UX acceptance checklist
+## Acceptance checklist
 
-Before calling the product surface complete:
 - First action is obvious.
 - Navigation is predictable.
 - Scan state is understandable.
-- Results remain readable with many findings.
+- Many findings remain readable.
 - Evidence is easy to inspect.
 - Technical detail is progressive.
-- Empty and error states explain what to do next.
+- Empty and error states explain the next action.
 - Mobile remains usable.
-- Critical interactions support keyboard/focus.
-- Visual styling reinforces evidence and clarity rather than generic AI decoration.
+- Critical interactions support keyboard and focus.
+- Visual styling reinforces clarity and evidence.
 
 ## Working order
 
-1. A1 — Close M3
-2. A2 — Safe scanner boundary
-3. B1 — Product shell
-4. B2 — Analyze
-5. B3 — Findings
-6. B4 — Evidence
-7. C1 — History
-8. C2 — Projects
-9. C3 — Comparison
-10. D1–D3 — Trust/accessibility
-11. E1–E3 — Intelligence
-12. F1–F5 — Production/public scanning
+A1 → A2 → B1 → B2 → B3 → B4 → C1 → C2 → C3 → D1 → D2 → D3 → E1 → E2 → E3 → F
 
-## Product design guardrails
+## Design guardrails
 
-- Prefer clear hierarchy, whitespace, and progressive disclosure over decorative UI.
-- Keep navigation persistent and predictable; do not reintroduce a floating rail.
-- Treat evidence as a first-class product object, not a secondary detail panel.
-- Design for a non-developer reader first, then expose technical detail progressively.
-- Avoid generic AI SaaS patterns: gradients, glow, floating assistants, and dense KPI grids.
-
-
-UX work may start during A1/A2, but public scanning cannot bypass server or security prerequisites.
+- Prefer hierarchy, whitespace, and progressive disclosure over decoration.
+- Keep navigation persistent and predictable.
+- Treat evidence as a first-class product object.
+- Design for non-developers first; expose technical detail progressively.
+- Avoid generic AI SaaS patterns such as gradients, glow, floating assistants, and dense KPI grids.
