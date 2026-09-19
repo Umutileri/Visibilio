@@ -16,6 +16,14 @@ function issueId(rule: string, viewport: ViewportPreset, suffix: string): string
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
+function selectorForElement(element: Element): string {
+  if (element.id) return `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`;
+  const classes = Array.from(element.classList).slice(0, 2);
+  return classes.length
+    ? `${element.tagName.toLowerCase()}.${classes.map((name) => CSS.escape(name)).join(".")}`
+    : element.tagName.toLowerCase();
+}
+
 async function detectHorizontalOverflow(
   context: DetectionContext,
 ): Promise<UIssue[]> {
@@ -41,11 +49,7 @@ async function detectHorizontalOverflow(
 
   return [
     {
-      id: issueId(
-        "responsive.horizontal-overflow",
-        viewport,
-        String(overflow.horizontalOverflow),
-      ),
+      id: issueId("responsive.horizontal-overflow", viewport, "document"),
       rule: "responsive.horizontal-overflow",
       category: "responsive",
       title: "Horizontal overflow detected",
@@ -74,17 +78,77 @@ async function detectHorizontalOverflow(
   ];
 }
 
+async function detectElementOverflow(
+  context: DetectionContext,
+): Promise<UIssue[]> {
+  const { page, url, viewport, detectedAt } = context;
+  const findings = await page.evaluate(() =>
+    Array.from(document.querySelectorAll<HTMLElement>("body *"))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          selector: selectorForElement(element),
+          right: rect.right,
+          left: rect.left,
+          width: rect.width,
+        };
+      })
+      .filter(
+        (element) =>
+          element.width > 0 &&
+          (element.right > window.innerWidth || element.left < 0),
+      ),
+  );
+
+  return findings.slice(0, 20).map((element, index) => {
+    const overflowPixels =
+      element.right > viewport.width
+        ? Math.ceil(element.right - viewport.width)
+        : Math.ceil(-element.left);
+    return {
+      id: issueId("responsive.element-overflow", viewport, String(index + 1)),
+      rule: "responsive.element-overflow",
+      category: "responsive" as const,
+      title: "Element extends beyond the viewport",
+      severity:
+        overflowPixels >= 48
+          ? ("high" as const)
+          : overflowPixels >= 16
+            ? ("medium" as const)
+            : ("low" as const),
+      description:
+        "This rendered element extends outside the visible viewport at this viewport size.",
+      url,
+      viewport,
+      selector: element.selector,
+      measurements: {
+        overflowPixels,
+        elementWidth: element.width,
+        elementLeft: element.left,
+        elementRight: element.right,
+        viewportWidth: viewport.width,
+      },
+      evidence: [
+        {
+          type: "measurement" as const,
+          metric: "overflowPixels",
+          value: overflowPixels,
+          unit: "px" as const,
+        },
+      ],
+      detectedAt,
+      status: "open" as const,
+    };
+  });
+}
+
 async function detectImageAltIssues(
   context: DetectionContext,
 ): Promise<UIssue[]> {
   const { page, url, viewport, detectedAt } = context;
   const findings = await page.evaluate(() =>
     Array.from(document.images).map((image) => ({
-      selector: image.id
-        ? `img#${CSS.escape(image.id)}`
-        : image.className
-          ? `img.${String(image.className).trim().split(/\\s+/)[0] ?? ""}`
-          : "img",
+      selector: selectorForElement(image),
       hasAltAttribute: image.hasAttribute("alt"),
     })),
   );
@@ -123,11 +187,7 @@ async function detectFormControlNames(
     )
       .filter((control) => control.type !== "hidden")
       .map((control) => ({
-        selector: control.id
-          ? `#${CSS.escape(control.id)}`
-          : control.name
-            ? `[name="${CSS.escape(control.name)}"]`
-            : control.tagName.toLowerCase(),
+        selector: selectorForElement(control),
         hasName: Boolean(control.getAttribute("name")),
         hasLabel: Boolean(
           control.labels && control.labels.length > 0,
