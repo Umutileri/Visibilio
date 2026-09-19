@@ -14,7 +14,7 @@ UX work can move in parallel with scanner architecture; public URL scanning rema
 ### A2 — Preserve the safe scanner boundary
 - Keep Playwright out of the Vite client bundle.
 - Define the scan API contract before wiring real scans into the UI.
-- Treat URL validation, SSRF protection, resource limits, and browser isolation as public-scanning prerequisites.
+- Treat URL validation, SSRF protection, resource limits, and browser isolation as prerequisites for public scanning.
 
 **Exit:** The client can use a typed scan contract without importing the scanner runtime.
 
@@ -95,7 +95,7 @@ Start with finding count change, new findings, resolved findings, and changed me
 ## Track D — Trust and accessibility
 
 ### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and non-color status cues.
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast, responsive behavior, and status cues that do not rely on color alone.
 
 ### D2 — State completeness
 Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
@@ -106,7 +106,7 @@ Show scan time, viewport, rules run, evidence availability, and distinguish meas
 ## Track E — Intelligence
 
 ### E1 — AI explanation contract
-AI receives structured findings and evidence. It may explain or suggest, but may not invent measurements, selectors, tested browsers/devices, or deterministic results.
+AI receives structured findings and evidence. It may explain or suggest, but may not invent measurements, selectors, tested browsers or devices, or deterministic results.
 
 ### E2 — Suggested fixes
 Add implementation guidance and label uncertainty.
@@ -153,4 +153,4 @@ Before calling the product surface complete:
 11. E1–E3 — Intelligence
 12. F1–F5 — Production/public scanning
 
-UX work may start during A1/A2, but real public scanning cannot bypass server/security prerequisites.
+UX work may start during A1/A2, but public scanning cannot bypass server or security prerequisites.
