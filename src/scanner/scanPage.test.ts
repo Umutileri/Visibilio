@@ -23,7 +23,10 @@ before(async () => {
           </style>
         </head>
         <body>
-          <img id="missing-alt" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+          <img
+            id="missing-alt"
+            src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+          />
           <input id="missing-name" />
           <div class="overflow-target"></div>
         </body>
@@ -116,6 +119,8 @@ describe("scanPage", () => {
     assert.equal(result.ok, false);
     if (!result.ok) return;
 
-    assert.fail(`Expected page failure, got success with ${result.issues.length} issues`);
+    assert.fail(
+      `Expected page failure, got success with ${result.issues.length} issues`,
+    );
   });
 });
