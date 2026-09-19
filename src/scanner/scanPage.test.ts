@@ -116,9 +116,9 @@ describe("scanPage", () => {
       height: 844,
     });
 
-    if (result.ok) {
-      assert.fail("Expected page failure, but scanPage returned success");
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.ok(result.error);
     }
-    assert.ok(result.error);
   });
 });
