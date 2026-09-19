@@ -92,7 +92,7 @@ export async function scanPage(
       error: {
         code: "BROWSER_ERROR",
         message:
-        error instanceof Error ? error.message : "Unknown browser error",
+          error instanceof Error ? error.message : "Unknown browser error",
       },
     };
   } finally {
