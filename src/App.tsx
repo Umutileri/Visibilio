@@ -376,7 +376,6 @@ function App() {
   }
 
   return (
-  return (
     <div className="site" id="top">
       <header className="nav-wrap">
         <nav className="nav container">
