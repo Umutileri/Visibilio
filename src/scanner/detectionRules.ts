@@ -256,6 +256,7 @@ async function detectHtmlLanguage(
 
 export const detectionRules: RuleDefinition[] = [
   detectHorizontalOverflow,
+  detectElementOverflow,
   detectImageAltIssues,
   detectFormControlNames,
   detectHtmlLanguage,
