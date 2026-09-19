@@ -56,28 +56,12 @@ export async function scanPage(
       });
 
       const detectedAt = issueNow();
-      let issues = [];
-      try {
-        issues = await runDetectionRules({
-          page,
-          url,
-          viewport,
-          detectedAt,
-        });
-      } catch (error) {
-        return {
-          ok: false,
-          url,
-          viewport,
-          error: {
-            code: "PAGE_ERROR",
-            message:
-              error instanceof Error
-                ? error.message
-                : "Unknown detection error",
-          },
-        };
-      }
+      const issues = await runDetectionRules({
+        page,
+        url,
+        viewport,
+        detectedAt,
+      });
 
       return {
         ok: true,
@@ -95,7 +79,8 @@ export async function scanPage(
         viewport,
         error: {
           code: isTimeout ? "TIMEOUT" : "PAGE_ERROR",
-          message: error instanceof Error ? error.message : "Unknown page error",
+          message:
+            error instanceof Error ? error.message : "Unknown page error",
         },
       };
     }
@@ -106,7 +91,8 @@ export async function scanPage(
       viewport,
       error: {
         code: "BROWSER_ERROR",
-        message: error instanceof Error ? error.message : "Unknown browser error",
+        message:
+        error instanceof Error ? error.message : "Unknown browser error",
       },
     };
   } finally {
