@@ -579,6 +579,158 @@ function FindingsPreview() {
 
 
 
+function EvidenceDetail() {
+  const [expanded, setExpanded] = useState(false);
+
+  const finding = previewFindings[0];
+  const measurement = finding.evidence?.[0];
+
+  return (
+    <section className="evidence-workspace">
+      <div className="evidence-intro">
+        <div>
+          <span className="shell-step">03 / EVIDENCE</span>
+          <h2>Understand the finding from the measurement outward.</h2>
+          <p>
+            The evidence view separates what the scanner measured from the
+            interpretation and the implementation suggestion that may follow.
+          </p>
+        </div>
+        <span className="evidence-trust-label">DETERMINISTIC SOURCE</span>
+      </div>
+
+      <div className="evidence-layout">
+        <article className="evidence-main">
+          <div className="evidence-section">
+            <span className="evidence-section-label">What happened</span>
+            <h3>{finding.title}</h3>
+            <p>{finding.description}</p>
+          </div>
+
+          <div className="evidence-section">
+            <span className="evidence-section-label">Where</span>
+            <dl className="evidence-facts">
+              <div>
+                <dt>URL</dt>
+                <dd>{finding.url}</dd>
+              </div>
+              <div>
+                <dt>Viewport</dt>
+                <dd>
+                  {finding.viewport.name} · {finding.viewport.width} ×{" "}
+                  {finding.viewport.height}
+                </dd>
+              </div>
+              <div>
+                <dt>Selector</dt>
+                <dd>{finding.selector ?? "Not available"}</dd>
+              </div>
+              <div>
+                <dt>Rule</dt>
+                <dd>{finding.rule}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="evidence-section">
+            <div className="evidence-section-heading">
+              <div>
+                <span className="evidence-section-label">Measured evidence</span>
+                <h3>{measurement?.metric ?? "No measurement recorded"}</h3>
+              </div>
+              <strong className="evidence-measurement">
+                {measurement?.value ?? "—"} {measurement?.unit ?? ""}
+              </strong>
+            </div>
+            <div className="evidence-measurement-visual" aria-label="Measured horizontal overflow">
+              <span className="evidence-viewport-line">
+                viewport · {finding.viewport.width}px
+              </span>
+              <div className="evidence-ruler">
+                <span />
+                <i aria-hidden="true" />
+              </div>
+              <div className="evidence-ruler-labels">
+                <span>0</span>
+                <span>{finding.viewport.width}px</span>
+                <span>
+                  {finding.measurements?.documentWidth ?? "—"}px document
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="evidence-section">
+            <span className="evidence-section-label">Why it matters</span>
+            <p>
+              The measured overflow means content extends beyond the tested
+              viewport. The scanner provides the measurement; the product can
+              add contextual interpretation later.
+            </p>
+          </div>
+
+          <div className="evidence-section evidence-suggestion">
+            <span className="evidence-section-label">Suggested next action</span>
+            <h3>Inspect the element at the affected viewport.</h3>
+            <p>
+              Start with the selector and width relationship shown above, then
+              re-test the same viewport after making a change.
+            </p>
+            <span className="evidence-suggestion-note">
+              Suggestion · not an automatically generated fix
+            </span>
+          </div>
+        </article>
+
+        <aside className="evidence-side">
+          <div className="evidence-side-card">
+            <div className="evidence-side-heading">
+              <span>Finding status</span>
+              <span className={`severity-badge severity-badge-${finding.severity}`}>
+                {finding.severity}
+              </span>
+            </div>
+            <dl className="evidence-side-facts">
+              <div>
+                <dt>Status</dt>
+                <dd>{finding.status}</dd>
+              </div>
+              <div>
+                <dt>Evidence</dt>
+                <dd>{measurement ? "Available" : "Missing"}</dd>
+              </div>
+              <div>
+                <dt>Detected</dt>
+                <dd>{finding.detectedAt}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="evidence-side-card">
+            <button
+              type="button"
+              className="evidence-disclosure"
+              aria-expanded={expanded}
+              onClick={() => setExpanded((value) => !value)}
+            >
+              <span>Implementation detail</span>
+              <span aria-hidden="true">{expanded ? "−" : "+"}</span>
+            </button>
+            {expanded && (
+              <div className="evidence-disclosure-body">
+                <span>Raw measurements</span>
+                <code>{JSON.stringify(finding.measurements)}</code>
+                <span>Rule source</span>
+                <code>{finding.rule}</code>
+              </div>
+            )}
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 function WorkspacePlaceholder({ section }: { section: AppSection }) {
   const action =
     section === "overview"
