@@ -91,12 +91,7 @@ export async function scanPage(
       });
 
       const detectedAt = issueNow();
-      const issue = toIssue(
-        url,
-        viewport,
-        dimensions.horizontalOverflow,
-        detectedAt,
-      );
+      const issue = toIssue(url, viewport, dimensions.horizontalOverflow, detectedAt);
 
       return {
         ok: true,
