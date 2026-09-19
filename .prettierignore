@@ -17,3 +17,8 @@ src/App.tsx
 src/styles.css
 tsconfig.json
 
+
+# Legacy scanner files will be reformatted in the next cleanup pass.
+src/scanner/detectionRules.ts
+src/scanner/scanPage.test.ts
+src/scanner/scanPage.ts
