@@ -28,7 +28,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Check formatting
-        run: npm run format:check
+        run: npm run format:check -- --log-level warn
 
       - name: Run build
         run: npm run build
