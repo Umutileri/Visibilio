@@ -96,11 +96,15 @@ async function detectElementOverflow(
           right: rect.right,
           left: rect.left,
           width: rect.width,
+          scrollWidth: element.scrollWidth,
+          clientWidth: element.clientWidth,
+          position: window.getComputedStyle(element).position,
         };
       })
       .filter(
         (element) =>
           element.width > 0 &&
+          element.position !== "fixed" &&
           (element.right > window.innerWidth || element.left < 0),
       ),
   );
@@ -127,7 +131,7 @@ async function detectElementOverflow(
       viewport,
       selector: element.selector,
       measurements: {
-        overflowPixels,
+          overflowPixels,
         elementWidth: element.width,
         elementLeft: element.left,
         elementRight: element.right,
