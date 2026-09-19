@@ -29,7 +29,280 @@ const steps = [
   ["02", "Explain", "Turn raw measurements into language that anyone on the team can understand."],
   ["03", "Show", "Connect each finding to the viewport, measurement, and visual evidence behind it."],
   ["04", "Fix", "Give a practical starting point, then re-test to see whether the issue remains."],
+];import { useEffect, useMemo, useState } from "react";
+
+type AppSection =
+  | "overview"
+  | "analyze"
+  | "findings"
+  | "evidence"
+  | "history"
+  | "settings";
+
+const appSections: Array<{
+  id: AppSection;
+  label: string;
+  description: string;
+}> = [
+  { id: "overview", label: "Overview", description: "Your audit workspace" },
+  { id: "analyze", label: "Analyze", description: "Start a new audit" },
+  { id: "findings", label: "Findings", description: "Review detected issues" },
+  { id: "evidence", label: "Evidence", description: "Inspect measurements" },
+  { id: "history", label: "History", description: "Compare past scans" },
+  { id: "settings", label: "Settings", description: "Workspace preferences" },
 ];
+
+const sectionContent: Record<
+  AppSection,
+  { eyebrow: string; title: string; description: string }
+> = {
+  overview: {
+    eyebrow: "Workspace",
+    title: "See the state of your website.",
+    description:
+      "Your audit workspace will keep scans, findings, and evidence in one predictable place.",
+  },
+  analyze: {
+    eyebrow: "New audit",
+    title: "Start with a website URL.",
+    description:
+      "The analysis flow will validate the target, scan controlled viewports, and return evidence-backed findings.",
+  },
+  findings: {
+    eyebrow: "Findings",
+    title: "Review what needs attention.",
+    description:
+      "Findings will be grouped by severity and category, with the evidence behind each result kept close at hand.",
+  },
+  evidence: {
+    eyebrow: "Evidence",
+    title: "Inspect the measurement behind a finding.",
+    description:
+      "Viewport, selector, measurements, and visual evidence will be progressively revealed without burying the main finding.",
+  },
+  history: {
+    eyebrow: "History",
+    title: "Track how audits change over time.",
+    description:
+      "Past scans will become the baseline for before-and-after comparisons and re-test workflows.",
+  },
+  settings: {
+    eyebrow: "Settings",
+    title: "Keep your workspace predictable.",
+    description:
+      "Account, project, notification, and analysis preferences will live here as the product grows.",
+  },
+};
+
+function getAppSection(): AppSection | null {
+  const match = window.location.hash.match(/^#app\/(.+)$/);
+  const section = match?.[1] as AppSection | undefined;
+  return section && appSections.some((item) => item.id === section) ? section : null;
+}
+
+function AppShell() {
+  const [section, setSection] = useState<AppSection>(
+    getAppSection() ?? "overview",
+  );
+  const activeSection = useMemo(
+    () => appSections.find((item) => item.id === section) ?? appSections[0],
+    [section],
+  );
+
+  useEffect(() => {
+    const handleHashChange = () => setSection(getAppSection() ?? "overview");
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  function navigate(nextSection: AppSection) {
+    window.location.hash = `app/${nextSection}`;
+  }
+
+  return (
+    <div className="app-shell">
+      <aside className="app-sidebar">
+        <div className="app-sidebar-top">
+          <a className="shell-brand" href="#app/overview" aria-label="Visibilio overview">
+            <img
+              className="shell-brand-logo"
+              src="/Visibilio/visibilio-icon.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>Visibilio</span>
+          </a>
+
+          <div className="workspace-switcher">
+            <span className="workspace-mark" aria-hidden="true">V</span>
+            <div>
+              <strong>My workspace</strong>
+              <span>Personal</span>
+            </div>
+          </div>
+        </div>
+
+        <nav className="app-nav" aria-label="Product navigation">
+          <span className="app-nav-label">Workspace</span>
+          {appSections.map((item) => (
+            <a
+              className={`app-nav-item ${item.id === activeSection.id ? "is-active" : ""}`}
+              href={`#app/${item.id}`}
+              key={item.id}
+              aria-current={item.id === activeSection.id ? "page" : undefined}
+              onClick={() => setSection(item.id)}
+            >
+              <span className="app-nav-glyph" aria-hidden="true">{item.label.charAt(0)}</span>
+              <span>
+                <strong>{item.label}</strong>
+                <small>{item.description}</small>
+              </span>
+            </a>
+          ))}
+        </nav>
+
+        <div className="app-sidebar-footer">
+          <a href="#principles">View product principles</a>
+          <span className="shell-status"><i aria-hidden="true" /> Early product</span>
+        </div>
+      </aside>
+
+      <main className="app-main">
+        <header className="app-header">
+          <div className="app-breadcrumbs">
+            <span>Workspace</span>
+            <span aria-hidden="true">/</span>
+            <strong>{activeSection.label}</strong>
+          </div>
+          <a className="shell-header-action" href="#app/analyze">New analysis</a>
+        </header>
+
+        <div className="app-content">
+          <div className="app-content-heading">
+            <div>
+              <span className="eyebrow">{sectionContent[activeSection.id].eyebrow}</span>
+              <h1>{sectionContent[activeSection.id].title}</h1>
+              <p>{sectionContent[activeSection.id].description}</p>
+            </div>
+            <span className="app-build-label">MVP / FOUNDATION</span>
+          </div>
+
+          {activeSection.id === "analyze" ? (
+            <AnalyzeEntry onNavigate={navigate} />
+          ) : (
+            <WorkspacePlaceholder section={activeSection.id} onNavigate={navigate} />
+          )}
+        </div>
+      </main>
+
+      <nav className="app-mobile-nav" aria-label="Mobile product navigation">
+        {appSections.map((item) => (
+          <a
+            className={item.id === activeSection.id ? "is-active" : ""}
+            href={`#app/${item.id}`}
+            key={item.id}
+            aria-current={item.id === activeSection.id ? "page" : undefined}
+            onClick={() => setSection(item.id)}
+          >
+            <span aria-hidden="true">{item.label.charAt(0)}</span>
+            <small>{item.label}</small>
+          </a>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+function AnalyzeEntry({ onNavigate }: { onNavigate: (section: AppSection) => void }) {
+  const [url, setUrl] = useState("");
+
+  function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!url.trim()) return;
+    onNavigate("analyze");
+  }
+
+  return (
+    <section className="analyze-entry">
+      <div className="analyze-entry-copy">
+        <span className="shell-step">01 / TARGET</span>
+        <h2>What should we inspect?</h2>
+        <p>
+          Public URL scanning is intentionally not connected yet. This foundation keeps the
+          product flow separate from the browser scanner until the server and security boundary
+          are ready.
+        </p>
+      </div>
+
+      <form className="shell-url-form" onSubmit={submit}>
+        <label htmlFor="workspace-url">Website URL</label>
+        <div className="shell-url-row">
+          <input
+            id="workspace-url"
+            type="url"
+            value={url}
+            onChange={(event) => setUrl(event.target.value)}
+            placeholder="https://example.com"
+            required
+          />
+          <button type="submit" disabled={!url.trim()}>Continue</button>
+        </div>
+        <span className="shell-form-note">
+          Next: validate → scan → findings → evidence
+        </span>
+      </form>
+    </section>
+  );
+}
+
+function WorkspacePlaceholder({
+  section,
+  onNavigate,
+}: {
+  section: AppSection;
+  onNavigate: (section: AppSection) => void;
+}) {
+  const actions: Record<AppSection, { label: string; target: AppSection } | null> = {
+    overview: { label: "Start an analysis", target: "analyze" },
+    findings: { label: "Run a new analysis", target: "analyze" },
+    evidence: { label: "Open findings", target: "findings" },
+    history: { label: "Start first analysis", target: "analyze" },
+    settings: null,
+    analyze: null,
+  };
+
+  return (
+    <section className="shell-placeholder">
+      <div className="shell-placeholder-mark" aria-hidden="true">
+        {section === "overview" ? "00" : "—"}
+      </div>
+      <div>
+        <span className="shell-placeholder-kicker">FOUNDATION STATE</span>
+        <h2>
+          {section === "history"
+            ? "Your audit history starts here."
+            : section === "findings"
+              ? "No findings loaded yet."
+              : section === "evidence"
+                ? "Evidence becomes useful after a completed scan."
+                : section === "settings"
+                  ? "Workspace settings are not connected yet."
+                  : "No analysis has been run yet."}
+        </h2>
+        <p>
+          This surface is intentionally honest about the current product state. It does not render
+          fabricated scan results or imply that the production scanner is already connected.
+        </p>
+        {actions[section] && (
+          <button type="button" className="shell-inline-action" onClick={() => onNavigate(actions[section]!.target)}>
+            {actions[section]!.label}
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
 
 function Logo() {
   return (
