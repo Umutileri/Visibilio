@@ -181,6 +181,8 @@ function AppShell() {
             <AnalyzeEntry />
           ) : activeSection.id === "findings" ? (
             <FindingsPreview />
+          ) : activeSection.id === "evidence" ? (
+            <EvidenceDetail />
           ) : (
             <WorkspacePlaceholder section={activeSection.id} />
           )}
