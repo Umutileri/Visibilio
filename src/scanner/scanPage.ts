@@ -71,7 +71,8 @@ export async function scanPage(
         issues,
       };
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown page error";
+      const message =
+        error instanceof Error ? error.message : "Unknown page error";
       const isTimeout = /timeout/i.test(message);
 
       return {
