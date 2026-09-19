@@ -100,7 +100,9 @@ async function detectElementOverflow(
           tagName: element.tagName,
           id: element.id,
           className:
-            typeof element.className === "string" ? element.className : "",
+            typeof element.className === "string"
+              ? element.className
+              : "",
           right: rect.right,
           left: rect.left,
           width: rect.width,
