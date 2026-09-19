@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
-import { scanPage } from "./scanPage";
 import { initialViewports } from "./viewports";
+import { scanPage } from "./scanPage";
 
 let server: Server;
 let baseUrl: string;
@@ -39,13 +39,24 @@ after(async () => {
 });
 
 describe("scanPage", () => {
-  it("detects horizontal overflow on the mobile viewport", async () => {
+  it("detects mobile overflow and emits a structured issue", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
 
     assert.equal(result.ok, true);
     if (result.ok) {
       assert.equal(result.dimensions.viewportWidth, 390);
       assert.equal(result.dimensions.horizontalOverflow, 34);
+      assert.equal(result.issues.length, 1);
+      assert.equal(result.issues[0]?.rule, "responsive.horizontal-overflow");
+      assert.equal(result.issues[0]?.severity, "medium");
+      assert.deepEqual(result.issues[0]?.evidence, [
+        {
+          type: "measurement",
+          metric: "horizontalOverflow",
+          value: 34,
+          unit: "px",
+        },
+      ]);
     }
   });
 
@@ -56,6 +67,7 @@ describe("scanPage", () => {
     if (result.ok) {
       assert.equal(result.dimensions.viewportWidth, 1440);
       assert.equal(result.dimensions.horizontalOverflow, 0);
+      assert.deepEqual(result.issues, []);
     }
   });
 });
