@@ -118,9 +118,8 @@ describe("scanPage", () => {
 
     assert.equal(result.ok, false);
     if (result.ok) {
-      assert.fail(
-        `Expected page failure, got success with ${result.issues.length} issues`,
-      );
+      const issueCount = result.issues.length;
+      assert.fail(`Expected page failure, got success with ${issueCount} issues`);
     }
   });
 });
