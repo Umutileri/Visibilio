@@ -8,13 +8,15 @@ export interface DetectionContext {
   page: Page;
 }
 
+type RuleDefinition = (
+  context: DetectionContext,
+) => Promise<UIssue[]>;
+
 function issueId(
   rule: string,
   viewport: ViewportPreset,
   suffix: string,
 ): string {
-  return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
-}
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
@@ -98,8 +100,6 @@ async function detectElementOverflow(
           right: rect.right,
           left: rect.left,
           width: rect.width,
-          scrollWidth: element.scrollWidth,
-          clientWidth: element.clientWidth,
           position: window.getComputedStyle(element).position,
         };
       })
@@ -116,6 +116,7 @@ async function detectElementOverflow(
       element.right > viewport.width
         ? Math.ceil(element.right - viewport.width)
         : Math.ceil(-element.left);
+
     return {
       id: issueId("responsive.element-overflow", viewport, String(index + 1)),
       rule: "responsive.element-overflow",
@@ -133,7 +134,7 @@ async function detectElementOverflow(
       viewport,
       selector: element.selector,
       measurements: {
-          overflowPixels,
+        overflowPixels,
         elementWidth: element.width,
         elementLeft: element.left,
         elementRight: element.right,
@@ -178,7 +179,7 @@ async function detectImageAltIssues(
       title: "Image is missing an alt attribute",
       severity: "medium" as const,
       description:
-        "An image element does not define alt text. Decorative images should still use an empty alt attribute.",
+        "An image element does not define alt text. Decorative images should use an empty alt attribute.",
       url,
       viewport,
       selector: image.selector,
