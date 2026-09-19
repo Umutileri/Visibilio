@@ -332,6 +332,10 @@ function App() {
     }, 900);
   }
 
+  const appSection = getAppSection();
+
+  if (appSection) return <AppShell />;
+
   return (
     <div className="site" id="top">
       <header className="nav-wrap">
