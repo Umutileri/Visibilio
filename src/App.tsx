@@ -1,5 +1,13 @@
 
 
+
+const steps = [
+  ["01", "Detect", "Measure the page across controlled viewports and find reproducible UI problems."],
+  ["02", "Explain", "Turn raw measurements into language that anyone on the team can understand."],
+  ["03", "Show", "Connect each finding to the viewport, measurement, and visual evidence behind it."],
+  ["04", "Fix", "Give a practical starting point, then re-test to see whether the issue remains."],
+];import { useEffect, useMemo, useState } from "react";
+
 const demoIssues = [
   {
     title: "Horizontal overflow detected",
@@ -23,14 +31,6 @@ const demoIssues = [
     selector: ".site-nav",
   },
 ];
-
-const steps = [
-  ["01", "Detect", "Measure the page across controlled viewports and find reproducible UI problems."],
-  ["02", "Explain", "Turn raw measurements into language that anyone on the team can understand."],
-  ["03", "Show", "Connect each finding to the viewport, measurement, and visual evidence behind it."],
-  ["04", "Fix", "Give a practical starting point, then re-test to see whether the issue remains."],
-];import { useEffect, useMemo, useState } from "react";
-
 type AppSection =
   | "overview"
   | "analyze"
@@ -302,7 +302,6 @@ function WorkspacePlaceholder({
     </section>
   );
 }
-
 
 function Logo() {
   return (
