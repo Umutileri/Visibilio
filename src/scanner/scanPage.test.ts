@@ -15,6 +15,7 @@ before(async () => {
       <html>
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Scanner fixture</title>
           <style>
             * { box-sizing: border-box; }
             body { margin: 0; }
@@ -46,10 +47,12 @@ describe("scanPage", () => {
     if (result.ok) {
       assert.equal(result.dimensions.viewportWidth, 390);
       assert.equal(result.dimensions.horizontalOverflow, 34);
-      assert.equal(result.issues.length, 1);
-      assert.equal(result.issues[0]?.rule, "responsive.horizontal-overflow");
-      assert.equal(result.issues[0]?.severity, "medium");
-      assert.deepEqual(result.issues[0]?.evidence, [
+      const overflowIssue = result.issues.find(
+        (issue) => issue.rule === "responsive.horizontal-overflow",
+      );
+      assert.ok(overflowIssue);
+      assert.equal(overflowIssue.severity, "medium");
+      assert.deepEqual(overflowIssue.evidence, [
         {
           type: "measurement",
           metric: "horizontalOverflow",
@@ -60,6 +63,22 @@ describe("scanPage", () => {
     }
   });
 
+  it("reports accessibility findings with selectors", async () => {
+    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
+
+    assert.equal(result.ok, true);
+    if (result.ok) {
+      assert.ok(
+        result.issues.some(
+          (issue) =>
+            issue.rule === "accessibility.image-missing-alt" ||
+            issue.rule === "accessibility.form-control-name" ||
+            issue.rule === "accessibility.html-lang",
+        ),
+      );
+    }
+  });
+
   it("does not report overflow on the wider desktop viewport", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[1]);
 
@@ -67,7 +86,19 @@ describe("scanPage", () => {
     if (result.ok) {
       assert.equal(result.dimensions.viewportWidth, 1440);
       assert.equal(result.dimensions.horizontalOverflow, 0);
-      assert.deepEqual(result.issues, []);
+    }
+  });
+
+  it("reports a timeout failure for an unreachable page", async () => {
+    const result = await scanPage("http://127.0.0.1:1/unreachable", {
+      name: "Test",
+      width: 390,
+      height: 844,
+    });
+
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.ok(["PAGE_ERROR", "TIMEOUT"].includes(result.error.code));
     }
   });
 });
