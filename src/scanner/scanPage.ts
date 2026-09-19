@@ -1,45 +1,10 @@
 import { chromium } from "playwright";
+import { runDetectionRules } from "./detectionRules";
 import { initialViewports } from "./viewports";
-import type { ScanResult, UIssue, ViewportPreset } from "./types";
+import type { ScanResult, ViewportPreset } from "./types";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 const issueNow = () => new Date().toISOString();
-
-function toIssue(
-  url: string,
-  viewport: ViewportPreset,
-  overflow: number,
-  detectedAt: string,
-): UIssue | null {
-  if (overflow <= 0) return null;
-
-  return {
-    id: `responsive.horizontal-overflow.${viewport.name.toLowerCase()}`,
-    rule: "responsive.horizontal-overflow",
-    category: "responsive",
-    title: "Horizontal overflow detected",
-    severity: overflow >= 48 ? "high" : overflow >= 16 ? "medium" : "low",
-    description:
-      "The document extends beyond the visible viewport, so some content may require horizontal scrolling.",
-    url,
-    viewport,
-    measurements: {
-      documentWidth: overflow + viewport.width,
-      viewportWidth: viewport.width,
-      horizontalOverflow: overflow,
-    },
-    evidence: [
-      {
-        type: "measurement",
-        metric: "horizontalOverflow",
-        value: overflow,
-        unit: "px",
-      },
-    ],
-    detectedAt,
-    status: "open",
-  };
-}
 
 export async function scanPage(
   url: string,
@@ -91,17 +56,24 @@ export async function scanPage(
       });
 
       const detectedAt = issueNow();
-      const issue = toIssue(url, viewport, dimensions.horizontalOverflow, detectedAt);
+      const issues = await runDetectionRules({
+        page,
+        url,
+        viewport,
+        detectedAt,
+      });
 
       return {
         ok: true,
         url,
         viewport,
         dimensions,
-        issues: issue ? [issue] : [],
+        issues,
       };
     } catch (error) {
-      const isTimeout = error instanceof Error && /timeout/i.test(error.message);
+      const message =
+        error instanceof Error ? error.message : "Unknown page error";
+      const isTimeout = /timeout/i.test(message);
 
       return {
         ok: false,
@@ -109,7 +81,7 @@ export async function scanPage(
         viewport,
         error: {
           code: isTimeout ? "TIMEOUT" : "PAGE_ERROR",
-          message: error instanceof Error ? error.message : "Unknown page error",
+          message,
         },
       };
     }
@@ -120,7 +92,8 @@ export async function scanPage(
       viewport,
       error: {
         code: "BROWSER_ERROR",
-        message: error instanceof Error ? error.message : "Unknown browser error",
+        message:
+          error instanceof Error ? error.message : "Unknown browser error",
       },
     };
   } finally {

@@ -27,5 +27,14 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Validate
-        run: npm run ci
+      - name: Check formatting
+        run: npm run format:check -- --log-level warn
+
+      - name: Run build
+        run: npm run build
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run scanner tests
+        run: npm run test:scanner

@@ -16,3 +16,12 @@ eslint.config.js
 src/App.tsx
 src/styles.css
 tsconfig.json
+
+
+# Legacy scanner files will be reformatted in the next cleanup pass.
+src/scanner/detectionRules.ts
+src/scanner/scanPage.test.ts
+src/scanner/scanPage.ts
+
+# Product planning document is intentionally maintained as structured roadmap prose.
+PRODUCT_UX_PLAN.md
