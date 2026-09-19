@@ -2000,3 +2000,24 @@ input:focus-visible {
     animation-iteration-count: 1 !important;
   }
 }
+
+.finding-severity-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid rgb(21 45 53 / 8%);
+}
+
+.finding-severity-strip span {
+  color: rgb(21 45 53 / 42%);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.finding-severity-strip strong {
+  margin-left: 4px;
+  color: #152d35;
+  font-family: "Geist Mono", "JetBrains Mono", monospace;
+}
