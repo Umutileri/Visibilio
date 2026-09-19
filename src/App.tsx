@@ -153,12 +153,14 @@ function AppShell() {
             <span aria-hidden="true">/</span>
             <strong>{activeSection.label}</strong>
           </div>
-          <a className="shell-header-action" href="#app/analyze">
-            New analysis
-          </a>
-          <a className="shell-header-home" href="#top">
-            Exit workspace
-          </a>
+          <div className="app-header-actions">
+            <a className="shell-header-home" href="#top">
+              Exit workspace
+            </a>
+            <a className="shell-header-action" href="#app/analyze">
+              New analysis
+            </a>
+          </div>
         </header>
 
         <div className="app-content">
