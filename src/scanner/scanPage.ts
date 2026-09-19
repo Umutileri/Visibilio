@@ -71,8 +71,7 @@ export async function scanPage(
         issues,
       };
     } catch (error) {
-      const isTimeout =
-        error instanceof Error && /timeout/i.test(error.message);
+      const isTimeout = error instanceof Error && /timeout/i.test(error.message);
 
       return {
         ok: false,
