@@ -156,6 +156,9 @@ function AppShell() {
           <a className="shell-header-action" href="#app/analyze">
             New analysis
           </a>
+          <a className="shell-header-home" href="#top">
+            Exit workspace
+          </a>
         </header>
 
         <div className="app-content">
