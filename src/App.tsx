@@ -321,6 +321,31 @@ function AnalyzeEntry() {
   );
 }
 
+
+function FindingsPreview() {
+  return (
+    <section className="findings-preview">
+      <div className="findings-preview-header">
+        <div>
+          <span className="shell-step">02 / FINDINGS</span>
+          <h2>The result surface should stay focused.</h2>
+        </div>
+        <span className="findings-preview-count">0 findings loaded</span>
+      </div>
+      <div className="findings-preview-empty">
+        <span aria-hidden="true">—</span>
+        <div>
+          <strong>No scan data yet</strong>
+          <p>
+            Findings will appear here once the secure scan API returns structured
+            results. Measurements will remain separate from interpretation.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function WorkspacePlaceholder({ section }: { section: AppSection }) {
   const action =
     section === "overview"
