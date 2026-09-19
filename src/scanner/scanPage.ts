@@ -80,7 +80,9 @@ export async function scanPage(
         error: {
           code: isTimeout ? "TIMEOUT" : "PAGE_ERROR",
           message:
-            error instanceof Error ? error.message : "Unknown page error",
+            error instanceof Error
+              ? error.message
+              : "Unknown page error",
         },
       };
     }
