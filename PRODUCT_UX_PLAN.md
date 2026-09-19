@@ -159,4 +159,13 @@ Before calling the product surface complete:
 11. E1–E3 — Intelligence
 12. F1–F5 — Production/public scanning
 
+## Product design guardrails
+
+- Prefer clear hierarchy, whitespace, and progressive disclosure over decorative UI.
+- Keep navigation persistent and predictable; do not reintroduce a floating rail.
+- Treat evidence as a first-class product object, not a secondary detail panel.
+- Design for a non-developer reader first, then expose technical detail progressively.
+- Avoid generic AI SaaS patterns such as excessive gradients, glow effects, floating assistants, and dense KPI card grids.
+
+
 UX work may start during A1/A2, but public scanning cannot bypass server or security prerequisites.
