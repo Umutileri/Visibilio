@@ -76,6 +76,7 @@ async function detectHorizontalOverflow(
             : "low",
       description:
         "The document extends beyond the visible viewport, so some content may require horizontal scrolling.",
+
       url,
       viewport,
       measurements: overflow,
@@ -195,6 +196,7 @@ async function detectImageAltIssues(
       severity: "medium" as const,
       description:
         "An image element does not define alt text. Decorative images should use an empty alt attribute.",
+
       url,
       viewport,
       selector: selectorFromParts(
@@ -274,6 +276,7 @@ async function detectHtmlLanguage(
       severity: "low",
       description:
         "The root html element does not define a lang attribute, which can make language interpretation less reliable for assistive technology.",
+
       url,
       viewport,
       selector: "html",
