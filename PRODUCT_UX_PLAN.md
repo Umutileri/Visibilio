@@ -1,7 +1,6 @@
 # Visibilio Product & UX Delivery Plan
 
-UX work can move in parallel with scanner architecture.
-Public URL scanning remains gated by security controls.
+UX work can move in parallel with scanner architecture. Public URL scanning remains gated by security controls.
 
 ## Track A — Foundation / quality
 
@@ -97,15 +96,15 @@ Start with finding count change, new findings, resolved findings, and changed me
 ## Track D — Trust and accessibility
 
 ### D1 — Application UX baseline
-Keyboard navigation, visible focus, semantic headings, labels, clear errors,
-reduced motion, contrast, responsive behavior, and non-color status cues.
+Keyboard navigation, visible focus, semantic headings, labels, clear errors, reduced motion, contrast,
+responsive behavior, and non-color status cues.
 
 ### D2 — State completeness
 Every meaningful view gets Loading, Success, Empty, Error, Disabled, and Retry states.
 
 ### D3 — Trust surfaces
 Show scan time, viewport, rules run, and evidence availability.
-- Distinguish measured facts from suggestions.
+Distinguish measured facts from suggestions.
 
 ## Track E — Intelligence
 
