@@ -20,19 +20,6 @@ function issueId(
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
-function selectorForElement(element: Element): string {
-  if (element.id) {
-    return `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`;
-  }
-
-  const classes = Array.from(element.classList).slice(0, 2);
-  return classes.length
-    ? `${element.tagName.toLowerCase()}.${classes
-        .map((name) => CSS.escape(name))
-        .join(".")}`
-    : element.tagName.toLowerCase();
-}
-
 async function detectHorizontalOverflow(
   context: DetectionContext,
 ): Promise<UIssue[]> {
