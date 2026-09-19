@@ -1,6 +1,7 @@
 # Visibilio Product & UX Delivery Plan
 
-UX work can move in parallel with scanner architecture. Public URL scanning remains gated by security controls.
+UX work can move in parallel with scanner architecture.
+Public URL scanning remains gated by security controls.
 
 ## Track A — Foundation / quality
 
