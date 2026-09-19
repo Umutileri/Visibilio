@@ -72,7 +72,9 @@ export async function scanPage(
           error: {
             code: "PAGE_ERROR",
             message:
-              error instanceof Error ? error.message : "Unknown detection error",
+              error instanceof Error
+                ? error.message
+                : "Unknown detection error",
           },
         };
       }
