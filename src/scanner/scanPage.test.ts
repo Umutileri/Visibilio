@@ -117,7 +117,6 @@ describe("scanPage", () => {
     });
 
     assert.equal(result.ok, false);
-    assert.notEqual(result.ok, true);
     if (!result.ok) return;
     assert.fail("Expected page failure, but scanPage returned success");
   });
