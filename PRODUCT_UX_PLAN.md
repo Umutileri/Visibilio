@@ -1,11 +1,13 @@
 # Visibilio Product & UX Delivery Plan
 
+> Formatting follows the repository Prettier configuration; headings and task descriptions remain concise so the plan stays readable in code review.
+
 This plan keeps product UX work moving in parallel with the scanner architecture without creating dependencies that force premature public URL scanning.
 
 ## Track A — Foundation / quality
 
 ### A1 — Close M3 cleanly
-- Fix remaining formatter/test failures in PR #30.
+- Fix remaining formatter and scanner-test failures in PR #30.
 - Verify build, lint, format, and scanner tests.
 - Merge only after the complete CI workflow is green.
 
