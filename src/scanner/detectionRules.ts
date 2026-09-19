@@ -8,11 +8,13 @@ export interface DetectionContext {
   page: Page;
 }
 
-type RuleDefinition = (
-  context: DetectionContext,
-) => Promise<UIssue[]>;
-
-function issueId(rule: string, viewport: ViewportPreset, suffix: string): string {
+function issueId(
+  rule: string,
+  viewport: ViewportPreset,
+  suffix: string,
+): string {
+  return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
+}
   return `${rule}.${viewport.name.toLowerCase()}.${suffix}`;
 }
 
