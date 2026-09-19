@@ -84,13 +84,13 @@ async function detectElementOverflow(
         const rect = element.getBoundingClientRect();
         return {
           selector: element.id
-        ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
-        : element.classList.length
-          ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
-              .slice(0, 2)
-              .map((name) => CSS.escape(name))
-              .join(".")}`
-          : element.tagName.toLowerCase(),
+            ? `${element.tagName.toLowerCase()}#${CSS.escape(element.id)}`
+            : element.classList.length
+              ? `${element.tagName.toLowerCase()}.${Array.from(element.classList)
+                  .slice(0, 2)
+                  .map((name) => CSS.escape(name))
+                  .join(".")}`
+              : element.tagName.toLowerCase(),
           right: rect.right,
           left: rect.left,
           width: rect.width,
