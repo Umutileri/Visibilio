@@ -87,6 +87,10 @@ This keeps measured evidence separate from interpretation.
 
 The first version is intentionally focused.
 
+> Product direction: Visibilio is being built as a repeat-use evidence platform, not a one-time audit report. The long-term loop is Scan → Find → Show → Explain → Fix → Re-test → Track improvement.
+
+See [`PRODUCT_PROGRAM.md`](./PRODUCT_PROGRAM.md) for the implementation and business-readiness plan.
+
 | Capability | Goal |
 |---|---|
 | 🔍 Website scanning | Scan a test website across selected viewports |
