@@ -1,4 +1,3 @@
-
 import type { IssueSeverity, UIssue } from "./scanner/types";
 import type { ScanApiResponse } from "./api/types";
 import type { ScanResult } from "./scanner/types";
