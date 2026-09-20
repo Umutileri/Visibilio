@@ -13,7 +13,7 @@ const translations: Record<Language, Record<string, string>> = {
     product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free",
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
     heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
-    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
+    audience: "Built for developers, designers, and website owners.", audienceBody: "{t.audienceBody}",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
@@ -225,9 +225,9 @@ function AudienceBlock() {
     <section className="landing-audience-section">
       <div className="landing-container">
         <div className="landing-audience-intro">
-          <span className="landing-section-kicker">One product. Different reasons to use it.</span>
-          <h2>Build it.<br /><em>Own it. Improve it.</em></h2>
-          <p>Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.</p>
+          <span className="landing-section-kicker">{t.audienceSection}</span>
+          <h2 dangerouslySetInnerHTML={{ __html: t.audienceTitle }} />
+          <p>{t.audienceSectionBody}</p>
         </div>
         <div className="landing-audience-grid">
           <article>
@@ -268,8 +268,8 @@ function FAQSection() {
     <section className="landing-faq-section" id="faq">
       <div className="landing-container landing-faq-grid">
         <div className="landing-faq-title">
-          <span className="landing-section-kicker">Questions, answered.</span>
-          <h2>Frequently asked<br /><em>questions</em></h2>
+          <span className="landing-section-kicker">{t.faqKicker}</span>
+          <h2 dangerouslySetInnerHTML={{ __html: t.faqTitle }} />
         </div>
         <div className="landing-faq-list">
           {items.map(([question, answer], index) => (
@@ -330,7 +330,6 @@ export default function LandingPage() {
           </nav>
           <div className="landing-nav-actions">
           <div className="landing-language-switcher" aria-label="Language">
-            <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button><span>/</span><button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
             <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
             <span>/</span>
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
@@ -346,15 +345,15 @@ export default function LandingPage() {
         <section className="landing-hero">
           <div className="landing-container landing-hero-grid">
             <div className="landing-hero-copy">
-              <span className="landing-eyebrow">{copy.eyebrow}</span>
-              <h1 dangerouslySetInnerHTML={{ __html: copy.hero }} />
-              <p>{copy.heroBody}</p>
+              <span className="landing-eyebrow">{t.heroEyebrow}</span>
+              <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
+              <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
                 <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
-                <strong>{copy.audience}</strong>
+                <strong>{t.audience}</strong>
                 <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
               </div>
             </div>
@@ -368,9 +367,9 @@ export default function LandingPage() {
         <section className="landing-share-section landing-url-section">
           <div className="landing-container landing-share-grid landing-share-dark">
             <div className="landing-url-copy">
-              <span className="landing-section-kicker">{copy.startWebsite}</span>
-              <h2 dangerouslySetInnerHTML={{ __html: copy.giveUrl }} />
-              <p>{copy.urlBody}</p>
+              <span className="landing-section-kicker">{t.startWebsite}</span>
+              <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
+              <p>{t.urlBody}</p>
               <div className="landing-url-audience">
                 <span>Developers</span>
                 <span>Designers</span>
@@ -378,12 +377,12 @@ export default function LandingPage() {
               </div>
             </div>
             <form className="landing-url-form" onSubmit={(event) => { event.preventDefault(); openApp(); }}>
-              <label htmlFor="landing-url">{copy.urlLabel}</label>
+              <label htmlFor="landing-url">{t.urlLabel}</label>
               <div className="landing-url-field">
                 <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
-                <button type="submit">{copy.analyze} <span>↗</span></button>
+                <button type="submit">{t.analyze} <span>↗</span></button>
               </div>
-              <small>{copy.freeNote}</small>
+              <small>{t.urlNote}</small>
             </form>
           </div>
         </section>
@@ -391,7 +390,7 @@ export default function LandingPage() {
         <section className="landing-intro-section" id="product">
           <div className="landing-container landing-two-col">
             <div className="landing-section-side">
-              <span className="landing-eyebrow">Why Visibilio</span>
+              <span className="landing-eyebrow">{t.productEyebrow}</span>
               <span className="landing-display-label">01</span>
             </div>
             <div className="landing-prose landing-prose-large">
@@ -476,7 +475,7 @@ export default function LandingPage() {
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
               <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>Start for free <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
           </div>
         </section>
       </main>
