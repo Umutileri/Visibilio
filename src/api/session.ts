@@ -12,6 +12,28 @@ export function createScanSession(url: string): ScanSession {
   };
 }
 
+export function updateFindingStatus(
+  session: ScanSession,
+  findingId: string,
+  status: UIssue["status"],
+): ScanSession {
+  const findings = session.findings.map((finding) =>
+    finding.id === findingId ? { ...finding, status } : finding,
+  );
+
+  const results = session.results.map((result) => {
+    if (!result.ok) return result;
+    return {
+      ...result,
+      issues: result.issues.map((finding) =>
+        finding.id === findingId ? { ...finding, status } : finding,
+      ),
+    };
+  });
+
+  return { ...session, findings, results };
+}
+
 export function updateScanSession(
   session: ScanSession,
   patch: Partial<Pick<ScanSession, "status" | "startedAt" | "completedAt">> & {
