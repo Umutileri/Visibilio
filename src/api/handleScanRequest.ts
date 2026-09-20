@@ -100,6 +100,7 @@ export async function handleScanRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+
   await defaultScanSessionStore.create(session);
 
   try {
@@ -130,6 +131,7 @@ export async function handleScanRequest(
       status: "failed",
       completedAt: new Date().toISOString(),
     });
+
     await defaultScanSessionStore.update(failedSession);
 
     failure(
