@@ -23,7 +23,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
-    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve", faqItems: "What does Visibilio actually check?::Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding.|||Who is Visibilio for?::Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues.|||Do I need to install anything?::No. Start with a URL and Visibilio handles the scan workflow for you.|||Is the AI the source of the finding?::No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next.|||Can I re-test after fixing an issue?::Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements.|||Is there a free way to try it?::The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan.",
+    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve", finding: "Finding", contentExceeds: "Content exceeds viewport", measuredBrowser: "Measured in the browser.", mobile: "Mobile", before: "Before", after: "After", overflow: "overflow", withinViewport: "within viewport", fix: "Fix", runSameCheck: "Run the same check", sameRuleFoot: "Same rule · same viewport · measured again", faqItems: "What does Visibilio actually check?::Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding.|||Who is Visibilio for?::Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues.|||Do I need to install anything?::No. Start with a URL and Visibilio handles the scan workflow for you.|||Is the AI the source of the finding?::No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next.|||Can I re-test after fixing an issue?::Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements.|||Is there a free way to try it?::The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan.",
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
@@ -39,7 +39,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
     faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
-    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir", faqItems: "Visibilio tam olarak neyi kontrol eder?::Visibilio gerçek tarayıcı davranışını ölçer ve responsive taşma ile erişilebilirlik sorunları gibi arayüz problemlerini bulur. Her bulgu viewport, selector ve ölçümlerle birlikte tutulur.|||Visibilio kimler için?::Geliştiriciler, tasarımcılar, web sitesi sahipleri ve bir web sitesinden sorumlu herkes aynı kanıt odaklı akışla sorunları bulabilir, anlayabilir, düzeltebilir ve yeniden test edebilir.|||Kurulum yapmam gerekir mi?::Hayır. Bir URL ile başlayın; tarama akışını Visibilio yürütür.|||Bulguyu AI mı oluşturuyor?::Hayır. Bulguyu tarayıcı ölçümleri ve deterministik kurallar oluşturur. AI, kanıtı açıklamak ve sonraki adımları önermek için kullanılır.|||Düzelttikten sonra yeniden test edebilir miyim?::Evet. Aynı kural, selector ve viewport ile yeniden test ederek önceki ve sonraki ölçümleri karşılaştırabilirsiniz.|||Ücretsiz deneyebilir miyim?::Ürün, ücretli bir plana geçmeden önce temel akışı görmenizi sağlayacak hafif bir ücretsiz deneyimle başlayacak şekilde tasarlanıyor.",
+    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir", finding: "Bulgu", contentExceeds: "İçerik viewport'u aşıyor", measuredBrowser: "Tarayıcıda ölçüldü.", mobile: "Mobil", before: "Önce", after: "Sonra", overflow: "taşma", withinViewport: "viewport içinde", fix: "Düzelt", runSameCheck: "Aynı kontrolü çalıştır", sameRuleFoot: "Aynı kural · aynı viewport · yeniden ölçüldü", faqItems: "Visibilio tam olarak neyi kontrol eder?::Visibilio gerçek tarayıcı davranışını ölçer ve responsive taşma ile erişilebilirlik sorunları gibi arayüz problemlerini bulur. Her bulgu viewport, selector ve ölçümlerle birlikte tutulur.|||Visibilio kimler için?::Geliştiriciler, tasarımcılar, web sitesi sahipleri ve bir web sitesinden sorumlu herkes aynı kanıt odaklı akışla sorunları bulabilir, anlayabilir, düzeltebilir ve yeniden test edebilir.|||Kurulum yapmam gerekir mi?::Hayır. Bir URL ile başlayın; tarama akışını Visibilio yürütür.|||Bulguyu AI mı oluşturuyor?::Hayır. Bulguyu tarayıcı ölçümleri ve deterministik kurallar oluşturur. AI, kanıtı açıklamak ve sonraki adımları önermek için kullanılır.|||Düzelttikten sonra yeniden test edebilir miyim?::Evet. Aynı kural, selector ve viewport ile yeniden test ederek önceki ve sonraki ölçümleri karşılaştırabilirsiniz.|||Ücretsiz deneyebilir miyim?::Ürün, ücretli bir plana geçmeden önce temel akışı görmenizi sağlayacak hafif bir ücretsiz deneyimle başlayacak şekilde tasarlanıyor.",
   }
 };
 
@@ -79,7 +79,7 @@ function HeroEvidence() {
         <div className="landing-site-frame">
           <div className="landing-site-head">
             <b>your-site.com</b>
-            <span>Mobile · 390 × 844</span>
+            <span>{t.mobile} · 390 × 844</span>
           </div>
           <div className="landing-site-body">
             <i className="line line-a" />
@@ -89,15 +89,15 @@ function HeroEvidence() {
           </div>
         </div>
         <aside className="landing-evidence-card">
-          <small>FINDING</small>
-          <strong>Content exceeds viewport</strong>
+          <small>{t.finding}</small>
+          <strong>{t.contentExceeds}</strong>
           <b>34 px</b>
           <dl>
             <div><dt>viewport</dt><dd>390 px</dd></div>
             <div><dt>document</dt><dd>424 px</dd></div>
             <div><dt>selector</dt><dd>.pricing-grid</dd></div>
           </dl>
-          <p>Measured in the browser.</p>
+          <p>{t.measuredBrowser}</p>
         </aside>
       </div>
     </div>
@@ -156,19 +156,19 @@ function StepVisual({ id }: { id: string }) {
   return (
     <div className="landing-demo landing-demo-retest">
       <div className="retest-column">
-        <small>BEFORE</small>
+        <small>{t.before}</small>
         <strong>34 px</strong>
-        <span>overflow</span>
+        <span>{t.overflow}</span>
       </div>
       <div className="retest-center">
-        <span>FIX</span>
+        <span>{t.fix}</span>
         <b>→</b>
-        <small>RUN THE SAME CHECK</small>
+        <small>{t.runSameCheck}</small>
       </div>
       <div className="retest-column retest-after">
-        <small>AFTER</small>
+        <small>{t.after}</small>
         <strong>0 px</strong>
-        <span>within viewport</span>
+        <span>{t.withinViewport}</span>
       </div>
     </div>
   );
@@ -462,7 +462,7 @@ export default function LandingPage() {
               <div className="result-before"><small>BEFORE</small><b>34 px</b><span>overflow</span></div>
               <div className="result-divider"><span>FIX</span><i>→</i></div>
               <div className="result-after"><small>AFTER</small><b>0 px</b><span>within viewport</span></div>
-              <div className="result-foot">Same rule · same viewport · measured again</div>
+              <div className="result-foot">{t.sameRuleFoot}</div>
             </div>
           </div>
         </section>
