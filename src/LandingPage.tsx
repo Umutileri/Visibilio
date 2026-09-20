@@ -302,8 +302,9 @@ export default function LandingPage() {
                 <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
-              <div className="landing-hero-note">
-                Built for developers, designers, and website owners.
+              <div className="landing-hero-note landing-audience-callout">
+                <strong>For developers. For designers. For website owners.</strong>
+                <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
               </div>
             </div>
             <div>
@@ -314,7 +315,7 @@ export default function LandingPage() {
         </section>
 
         <section className="landing-share-section">
-          <div className="landing-container landing-share-grid">
+          <div className="landing-container landing-share-grid landing-share-dark">
             <div>
               <span className="landing-section-kicker">Start with your website</span>
               <h2>Give us the URL.<br /><em>We’ll show you where to look.</em></h2>
@@ -408,6 +409,8 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        <FAQSection />
 
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
