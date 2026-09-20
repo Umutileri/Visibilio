@@ -1,5 +1,7 @@
 # Visibilio Roadmap
 
+> Detailed product/business program: [`PRODUCT_PROGRAM.md`](./PRODUCT_PROGRAM.md)
+
 The roadmap is milestone-driven. Each milestone should produce a small, testable increment.
 
 ## M0 — Project Foundation
