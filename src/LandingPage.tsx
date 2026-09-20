@@ -10,10 +10,10 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free",
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
     heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
-    audience: "Built for developers, designers, and website owners.", audienceBody: "{t.audienceBody}",
+    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
@@ -26,7 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
     heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
     heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
     audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
@@ -43,32 +43,21 @@ const translations: Record<Language, Record<string, string>> = {
   }
 };
 
-const featureSteps = [
-  {
-    id: "detect",
-    index: "01",
-    title: "See the issue before you chase it.",
-    copy: "A controlled browser run finds measurable UI problems across the page—not a vague score.",
-  },
-  {
-    id: "evidence",
-    index: "02",
-    title: "Know exactly what happened.",
-    copy: "Each finding keeps its viewport, selector, and measured values attached to it.",
-  },
-  {
-    id: "explain",
-    index: "03",
-    title: "Turn a finding into a decision.",
-    copy: "AI helps translate evidence into clear next steps while the measured facts stay intact.",
-  },
-  {
-    id: "retest",
-    index: "04",
-    title: "Fix it. Then measure again.",
-    copy: "Re-run the same check and compare the before and after state.",
-  },
-];
+function localizeFeatureSteps(language: Language) {
+  return language === "TR"
+    ? [
+        { id: "detect", index: "01", title: "Sorunu peşine düşmeden önce görün.", copy: "Kontrollü tarayıcı çalıştırması, belirsiz bir puan yerine ölçülebilir arayüz sorunlarını bulur." },
+        { id: "evidence", index: "02", title: "Tam olarak ne olduğunu bilin.", copy: "Her bulgu viewport, selector ve ölçülen değerleriyle birlikte tutulur." },
+        { id: "explain", index: "03", title: "Bulguyu karara dönüştürün.", copy: "AI, ölçülen gerçekler sabit kalırken kanıtı anlaşılır sonraki adımlara çevirir." },
+        { id: "retest", index: "04", title: "Düzeltin. Sonra tekrar ölçün.", copy: "Aynı kontrolü yeniden çalıştırın ve önceki ile sonraki durumu karşılaştırın." },
+      ]
+    : [
+        { id: "detect", index: "01", title: "See the issue before you chase it.", copy: "A controlled browser run finds measurable UI problems across the page—not a vague score." },
+        { id: "evidence", index: "02", title: "Know exactly what happened.", copy: "Each finding keeps its viewport, selector, and measured values attached to it." },
+        { id: "explain", index: "03", title: "Turn a finding into a decision.", copy: "AI helps translate evidence into clear next steps while the measured facts stay intact." },
+        { id: "retest", index: "04", title: "Fix it. Then measure again.", copy: "Re-run the same check and compare the before and after state." },
+      ];
+}
 
 function Brand() {
   return (
@@ -186,7 +175,7 @@ function StepVisual({ id }: { id: string }) {
 }
 
 
-function ProductProof() {
+function ProductProof({ t }: { t: Record<string, string> }) {
   const proofItems = [
     ["01", "Find", "See measurable issues before they become another debugging session."],
     ["02", "Understand", "Get the browser context, affected element, and evidence in one place."],
@@ -220,7 +209,7 @@ function ProductProof() {
   );
 }
 
-function AudienceBlock() {
+function AudienceBlock({ t }: { t: Record<string, string> }) {
   return (
     <section className="landing-audience-section">
       <div className="landing-container">
@@ -254,7 +243,7 @@ function AudienceBlock() {
   );
 }
 
-function FAQSection() {
+function FAQSection({ t }: { t: Record<string, string> }) {
   const items = [
     ["What does Visibilio actually check?", "Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding."],
     ["Who is Visibilio for?", "Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues."],
@@ -286,14 +275,24 @@ function FAQSection() {
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<Language>(() => window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN");
+  const [language, setLanguage] = useState<Language>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryLanguage = params.get("lang")?.toUpperCase();
+    if (queryLanguage === "EN" || queryLanguage === "TR") return queryLanguage;
+    return window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN";
+  });
   const t = translations[language];
+  const featureSteps = localizeFeatureSteps(language);
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
     document.documentElement.lang = language.toLowerCase();
     window.localStorage.setItem("visibilio-language", language);
+    const params = new URLSearchParams(window.location.search);
+    params.set("lang", language.toLowerCase());
+    const query = params.toString();
+    window.history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
   }, [language]);
 
   useEffect(() => {
@@ -311,7 +310,10 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  const openApp = () => {
+  const openApp = (targetUrl?: string) => {
+    if (targetUrl?.trim()) {
+      window.sessionStorage.setItem("visibilio-pending-url", targetUrl.trim());
+    }
     window.location.hash = "#app/analyze";
     setMenuOpen(false);
   };
@@ -335,7 +337,7 @@ export default function LandingPage() {
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
           </div>
             <a className="landing-signin" href="#app/overview">{t.workspace}</a>
-            <button className="landing-cta" type="button" onClick={openApp}>{t.start}</button>
+            <button className="landing-cta" type="button" onClick={() => openApp()}>{t.start}</button>
             <button className="landing-menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
@@ -349,12 +351,12 @@ export default function LandingPage() {
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
-                <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
-                <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
+                <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
+                <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
                 <strong>{t.audience}</strong>
-                <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
+                <span>{t.audienceBody}</span>
               </div>
             </div>
             <div>
@@ -371,12 +373,17 @@ export default function LandingPage() {
               <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
               <p>{t.urlBody}</p>
               <div className="landing-url-audience">
-                <span>Developers</span>
-                <span>Designers</span>
-                <span>Website owners</span>
+                <span>{language === "TR" ? "Geliştiriciler" : "Developers"}</span>
+                <span>{language === "TR" ? "Tasarımcılar" : "Designers"}</span>
+                <span>{language === "TR" ? "Web sitesi sahipleri" : "Website owners"}</span>
               </div>
             </div>
-            <form className="landing-url-form" onSubmit={(event) => { event.preventDefault(); openApp(); }}>
+            <form className="landing-url-form" onSubmit={(event) => {
+              event.preventDefault();
+              const form = event.currentTarget;
+              const data = new FormData(form);
+              openApp(String(data.get("url") ?? ""));
+            }}>
               <label htmlFor="landing-url">{t.urlLabel}</label>
               <div className="landing-url-field">
                 <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
@@ -404,7 +411,7 @@ export default function LandingPage() {
         <section className="landing-feature-section" id="how-it-works">
           <div className="landing-container landing-feature-layout">
             <div className="landing-feature-sticky">
-              <span className="landing-section-kicker">How it works</span>
+              <span className="landing-section-kicker">{t.how}</span>
               <div className="landing-feature-title">
                 <span>{featureSteps[activeStep].index} / 04</span>
                 <h2>{featureSteps[activeStep].title}</h2>
@@ -431,8 +438,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <ProductProof />
-        <AudienceBlock />
+        <ProductProof t={t} />
+        <AudienceBlock t={t} />
 
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
@@ -440,7 +447,7 @@ export default function LandingPage() {
               <span className="landing-section-kicker">{language === "TR" ? "Önce kanıt" : "Evidence first"}</span>
               <span className="landing-display-label">03</span>
               <h2>{language === "TR" ? <>Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em></> : <>Know what was measured.<br /><em>Know what was suggested.</em></>}</h2>
-              <p>Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.</p>
+              <p>{language === "TR" ? "Visibilio tarayıcı kanıtını, deterministik bulguları ve AI bağlamını açıkça ayırır; böylece öneri ile ölçüm birbirine karışmaz." : "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact."}</p>
             </div>
             <div className="landing-evidence-contrast">
               <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
@@ -454,8 +461,8 @@ export default function LandingPage() {
             <div>
               <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
               <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
-              <p>A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.</p>
-              <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
+              <p>{language === "TR" ? "Yeniden test, önceki ve sonraki durumu karşılaştırır; böylece iyileşmeyi gerçekten inceleyebilirsiniz." : "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect."}</p>
+              <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
             <div className="landing-retest-visual">
               <div className="result-before"><small>BEFORE</small><b>34 px</b><span>overflow</span></div>
@@ -466,7 +473,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <FAQSection />
+        <FAQSection t={t} />
 
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
@@ -475,7 +482,7 @@ export default function LandingPage() {
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
               <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
           </div>
         </section>
       </main>
@@ -483,7 +490,7 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
           <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
-          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{copy.retest}</a><a href="#app/overview">Workspace</a></div>
+          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">Workspace</a></div>
           <small>Visibilio · 2026</small>
         </div>
       </footer>

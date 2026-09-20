@@ -96,6 +96,13 @@ function AppShell() {
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
 
   useEffect(() => {
+    const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
+    if (!pendingUrl) return;
+    setUrl(pendingUrl);
+    window.sessionStorage.removeItem("visibilio-pending-url");
+  }, []);
+
+  useEffect(() => {
     const onHash = () => setSection(sectionFromHash());
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);

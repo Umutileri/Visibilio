@@ -812,12 +812,17 @@ body { margin: 0; }
 .landing-url-audience { display:flex; flex-wrap:wrap; gap:18px; margin-top:24px; }
 .landing-url-audience span { color:#b7d5c1; font-size:.68rem; font-weight:700; }
 .landing-url-audience span + span { padding-left:18px; border-left:1px solid rgb(212 236 221 / 22%); }
-.landing-url-form { padding:24px; border:1px solid rgb(212 236 221 / 20%); background:rgb(255 255 255 / 5%); }
+.landing-url-form { padding:20px; border:1px solid rgb(212 236 221 / 18%); border-radius:14px; background:rgb(255 255 255 / 5%); box-shadow:0 18px 50px rgb(0 0 0 / 10%); }
 .landing-url-form label { display:block; margin-bottom:10px; color:#b7d5c1; font-size:.62rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
-.landing-url-field { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; padding:6px; background:#fff; }
-.landing-url-field input { min-width:0; height:46px; padding:0 12px; outline:none; color:#152d35; background:#fff; border:0; font-size:.78rem; }
-.landing-url-field button { min-height:46px; padding:0 16px; border:0; background:#d4ecdd; color:#152d35; font-weight:850; cursor:pointer; }
-.landing-url-form small { display:block; margin-top:12px; color:#9db7a7; font-size:.62rem; }
+.landing-url-field { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px; padding:4px; border:1px solid rgb(21 45 53 / 8%); border-radius:7px; background:#fff; box-shadow:0 10px 28px rgb(0 0 0 / 8%); }
+.landing-url-field:focus-within { border-color:rgb(99 129 115 / 55%); box-shadow:0 0 0 3px rgb(212 236 221 / 20%), 0 10px 28px rgb(0 0 0 / 8%); }
+.landing-url-field input { min-width:0; height:46px; padding:0 12px; outline:none; color:#152d35; background:transparent; border:0; border-radius:4px; font-size:.8rem; }
+.landing-url-field input::placeholder { color:rgb(21 45 53 / 36%); }
+.landing-url-field button { min-height:46px; padding:0 16px; border:0; border-radius:5px; background:#d4ecdd; color:#152d35; font-weight:850; cursor:pointer; transition:transform .18s ease, background .18s ease; }
+.landing-url-field button:hover { background:#e0f1e7; transform:translateY(-1px); }
+.landing-url-field button:active { transform:translateY(0); }
+.landing-url-form small { display:block; margin-top:11px; color:#9db7a7; font-size:.62rem; }
+@media (max-width:640px) { .landing-url-field input,.landing-url-field button { border-radius:5px; } }
 @media (max-width:900px) {
   .landing-url-section .landing-share-grid { grid-template-columns:1fr; gap:34px; }
   .landing-url-copy h2 { font-size:clamp(3rem,8vw,5rem); }
@@ -826,7 +831,7 @@ body { margin: 0; }
   .landing-url-audience { gap:10px; }
   .landing-url-audience span + span { padding-left:10px; }
   .landing-url-form { padding:18px; }
-  .landing-url-field { grid-template-columns:1fr; background:transparent; padding:0; }
+  .landing-url-field { grid-template-columns:1fr; padding:4px; background:#fff; }
   .landing-url-field input, .landing-url-field button { width:100%; }
 }
 .landing-language-switcher { display:flex; align-items:center; gap:5px; }
