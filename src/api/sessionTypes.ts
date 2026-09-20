@@ -2,8 +2,27 @@ import type { ScanResult, ViewportPreset, UIssue } from "../scanner/types";
 
 export type ScanStatus = "queued" | "scanning" | "completed" | "failed";
 
+export interface RetestComparison {
+  previousFindingId: string;
+  currentFindingId?: string;
+  rule: string;
+  selector?: string;
+  viewport: ViewportPreset;
+  status: "resolved" | "still-open" | "changed";
+  previousMeasurements?: Record<string, number>;
+  currentMeasurements?: Record<string, number>;
+}
+
+export interface RetestSession {
+  id: string;
+  sourceScanId: string;
+  createdAt: string;
+  comparisons: RetestComparison[];
+}
+
 export interface ScanSession {
   id: string;
+  projectId?: string;
   url: string;
   status: ScanStatus;
   createdAt: string;
