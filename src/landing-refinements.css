@@ -562,3 +562,87 @@
     padding-right: 16px;
   }
 }
+
+
+/* Final localized layout overrides — keep source copy natural and let CSS own the scale. */
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2,
+.landing-page .landing-two-col h2,
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-story h2,
+.landing-page .landing-final-grid h2 {
+  text-wrap: balance;
+  overflow-wrap: normal;
+}
+
+.landing-page .landing-hero-copy h1 {
+  max-width: 10.5ch;
+}
+
+.landing-page .landing-url-copy h2 {
+  max-width: 12ch;
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .landing-page .landing-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(330px, .82fr);
+    gap: 42px;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(3.5rem, 6.9vw, 5.5rem);
+    max-width: 11ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(3.2rem, 5.6vw, 5rem);
+    max-width: 11ch;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2 {
+    max-width: 100%;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(3rem, 9vw, 5rem);
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(3rem, 8.5vw, 4.8rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-page .landing-hero-copy h1 {
+    max-width: 11ch;
+    font-size: clamp(2.5rem, 11.5vw, 3.8rem);
+    line-height: .94;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    max-width: 12ch;
+    font-size: clamp(2.35rem, 10.5vw, 3.5rem);
+    line-height: .96;
+  }
+
+  .landing-page .landing-nav-actions .landing-signin,
+  .landing-page .landing-nav-actions .landing-cta {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .landing-hero-copy h1 {
+    max-width: 10.5ch;
+    font-size: 2.4rem;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    max-width: 11.5ch;
+    font-size: 2.2rem;
+  }
+}
