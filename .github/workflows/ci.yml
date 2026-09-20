@@ -38,3 +38,6 @@ jobs:
 
       - name: Run scanner tests
         run: npm run test:scanner
+
+      - name: Run API tests
+        run: npm run test:api
