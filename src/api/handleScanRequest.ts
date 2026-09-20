@@ -1,7 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
+import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
-import type { ScanApiFailure, ScanApiRequest, ScanApiSuccess } from "./types";
+import type {
+  ScanApiFailure,
+  ScanApiRequest,
+  ScanApiSuccess,
+} from "./types";
 
 const MAX_URL_LENGTH = 2048;
 
@@ -21,8 +26,10 @@ export function validateScanUrl(rawUrl: string): URL | null {
 
   try {
     const url = new URL(rawUrl);
+
     if (url.protocol !== "http:" && url.protocol !== "https:") return null;
     if (url.username || url.password) return null;
+
     return url;
   } catch {
     return null;
@@ -88,10 +95,23 @@ export async function handleScanRequest(
     return;
   }
 
+  const session = updateScanSession(createScanSession(url.toString()), {
+    status: "scanning",
+    startedAt: new Date().toISOString(),
+  });
+
   try {
-    const result = await scanViewports(url.toString());
+    const result = await scanViewports(session.url);
+    const completedSession = updateScanSession(session, {
+      status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
+      completedAt: new Date().toISOString(),
+      results: result.results,
+      findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
+    });
+
     const success: ScanApiSuccess = {
       ok: true,
+      session: completedSession,
       url: result.url,
       results: result.results.map((scan) => ({
         viewport: scan.viewport,
@@ -102,6 +122,11 @@ export async function handleScanRequest(
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
+    const failedSession = updateScanSession(session, {
+      status: "failed",
+      completedAt: new Date().toISOString(),
+    });
+
     failure(
       response,
       502,
