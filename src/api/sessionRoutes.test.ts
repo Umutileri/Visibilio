@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import type { ScanSession } from "./sessionTypes";
 import { createScanSession } from "./session";
 import {
   handleScanFindingStatusRequest,
@@ -35,7 +36,10 @@ describe("scan session routes", () => {
     const capture = createResponseCapture();
     const session = createScanSession("https://example.com");
 
-    await handleScanSessionListRequest(capture.response, Promise.resolve([session]));
+    await handleScanSessionListRequest(
+      capture.response,
+      Promise.resolve([session]),
+    );
 
     const result = capture.read();
 
@@ -81,7 +85,6 @@ describe("scan session routes", () => {
   });
 });
 
-
 describe("finding status route", () => {
   it("updates a finding status inside a session", async () => {
     const capture = createResponseCapture();
@@ -99,9 +102,9 @@ describe("finding status route", () => {
       status: "open" as const,
     };
 
-    const withFinding = { ...session, findings: [finding] };
+    const withFinding: ScanSession = { ...session, findings: [finding] };
 
-    let updatedSession = withFinding;
+    let updatedSession: ScanSession = withFinding;
     await handleScanFindingStatusRequest(
       capture.response,
       withFinding.id,
