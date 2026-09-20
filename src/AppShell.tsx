@@ -96,6 +96,7 @@ function AppShell() {
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
   const [statusMessage, setStatusMessage] = useState("");
+  const [evidenceViewport, setEvidenceViewport] = useState<"mobile" | "desktop">("mobile");
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -634,7 +635,16 @@ function AppShell() {
                   </div>
                   <div className="evidence-actions">
                     <a className="solid-button" href="#app/findings">Back to finding</a>
-                    <button className="outline-button" type="button">Re-test later</button>
+                    <button
+                      className="outline-button"
+                      type="button"
+                      onClick={() => {
+                        setUrl(selectedFinding.url);
+                        window.location.hash = "#app/analyze";
+                      }}
+                    >
+                      Re-test
+                    </button>
                   </div>
                 </aside>
               </div>
