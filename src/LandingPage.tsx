@@ -160,8 +160,14 @@ function ProductProof() {
     <section className="landing-proof-section">
       <div className="landing-container">
         <div className="landing-proof-heading">
-          <span className="landing-section-kicker">Why people use Visibilio</span>
-          <h2>From a vague feeling<br /><em>to a useful answer.</em></h2>
+          <div className="landing-proof-intro">
+            <span className="landing-section-kicker">Why Visibilio</span>
+            <span className="landing-display-label">02</span>
+          </div>
+          <div>
+            <h2>From a vague feeling<br /><em>to a useful answer.</em></h2>
+            <p className="landing-proof-lead">One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.</p>
+          </div>
         </div>
         <div className="landing-proof-list">
           {proofItems.map(([number, title, copy]) => (
