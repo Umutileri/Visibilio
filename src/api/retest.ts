@@ -30,9 +30,15 @@ export function compareFindingSets(
       };
     }
 
-    const sameMeasurement =
-      JSON.stringify(before.measurements ?? {}) ===
-      JSON.stringify(after.measurements ?? {});
+    const beforeMeasurements = before.measurements ?? {};
+    const afterMeasurements = after.measurements ?? {};
+    const measurementKeys = new Set([
+      ...Object.keys(beforeMeasurements),
+      ...Object.keys(afterMeasurements),
+    ]);
+    const sameMeasurement = [...measurementKeys].every(
+      (key) => beforeMeasurements[key] === afterMeasurements[key],
+    );
 
     return {
       previousFindingId: before.id,
