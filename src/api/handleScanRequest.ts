@@ -18,6 +18,7 @@ function failure(
 
 export function validateScanUrl(rawUrl: string): URL | null {
   if (!rawUrl || rawUrl.length > MAX_URL_LENGTH) return null;
+
   try {
     const url = new URL(rawUrl);
     if (url.protocol !== "http:" && url.protocol !== "https:") return null;
@@ -40,6 +41,7 @@ export async function handleScanRequest(
   let body = "";
   for await (const chunk of request) {
     body += chunk.toString();
+
     if (body.length > 32000) {
       failure(response, 413, "INVALID_REQUEST", "Request body is too large.");
       return;
@@ -47,6 +49,7 @@ export async function handleScanRequest(
   }
 
   let payload: ScanApiRequest;
+
   try {
     payload = JSON.parse(body) as ScanApiRequest;
   } catch {
@@ -60,6 +63,7 @@ export async function handleScanRequest(
   }
 
   const url = validateScanUrl(payload.url);
+
   if (!url) {
     failure(
       response,
@@ -72,6 +76,19 @@ export async function handleScanRequest(
 
   try {
     await assertSafeTarget(url);
+  } catch (error) {
+    failure(
+      response,
+      400,
+      "INVALID_URL",
+      error instanceof Error
+        ? error.message
+        : "The requested target is not allowed.",
+    );
+    return;
+  }
+
+  try {
     const result = await scanViewports(url.toString());
     const success: ScanApiSuccess = {
       ok: true,
@@ -81,6 +98,7 @@ export async function handleScanRequest(
         scan,
       })),
     };
+
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
