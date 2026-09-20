@@ -1015,3 +1015,102 @@ body { margin: 0; }
     max-width: 9.6ch;
   }
 }
+
+/* Localization-safe landing typography: keep the visual scale stable while allowing Turkish copy to wrap naturally. */
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2,
+.landing-page .landing-two-col h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-grid h2,
+.landing-page .landing-feature-title h2,
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-audience-intro h2,
+.landing-page .landing-faq-title h2 {
+  text-wrap: balance;
+  max-width: 18ch;
+}
+
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2 {
+  font-size: clamp(3.4rem, 7.1vw, 6.7rem);
+}
+
+.landing-page .landing-hero-copy h1 em,
+.landing-page .landing-url-copy h2 em {
+  color: #b7d5c1;
+}
+
+@media (max-width: 1100px) {
+  .landing-page .landing-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+    gap: 48px;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    max-width: 13ch;
+    font-size: clamp(3.5rem, 7.4vw, 6rem);
+  }
+
+  .landing-page .landing-url-section .landing-share-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(330px, .8fr);
+    gap: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2 {
+    max-width: 100%;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(3.2rem, 10vw, 5.4rem);
+  }
+
+  .landing-page .landing-hero-evidence {
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+
+  .landing-page .landing-url-section .landing-share-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(2.7rem, 12vw, 4.2rem);
+    line-height: .95;
+    letter-spacing: -.055em;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    max-width: 11ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    max-width: 12ch;
+  }
+
+  .landing-page .landing-hero-copy > p,
+  .landing-page .landing-url-copy p {
+    font-size: .95rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(2.35rem, 12vw, 3.2rem);
+    max-width: 10.5ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(2.1rem, 11vw, 3rem);
+  }
+}
