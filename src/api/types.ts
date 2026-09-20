@@ -1,22 +1,18 @@
+import type { ScanResult, ViewportPreset } from "../scanner/types";
 
 export interface ScanApiRequest {
   url: string;
 }
 
-import type { ScanResult, ViewportPreset } from "../scanner/types";
+export interface ScanApiResult {
+  viewport: ViewportPreset;
+  scan: ScanResult;
+}
 
 export interface ScanApiSuccess {
   ok: true;
   url: string;
-  results: Array<{
-    viewport: ViewportPreset;
-    ok: true;
-    scan: ScanResult;
-  } | {
-    viewport: ViewportPreset;
-    ok: false;
-    scan: ScanResult;
-  }>;
+  results: ScanApiResult[];
 }
 
 export interface ScanApiFailure {
