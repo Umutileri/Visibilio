@@ -85,12 +85,6 @@ export async function handleScanRequest(
   try {
     await assertSafeTarget(url);
   } catch (error) {
-    const failedSession = updateScanSession(session, {
-      status: "failed",
-      completedAt: new Date().toISOString(),
-    });
-    await defaultScanSessionStore.update(failedSession);
-
     failure(
       response,
       400,
@@ -132,6 +126,12 @@ export async function handleScanRequest(
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
+    const failedSession = updateScanSession(session, {
+      status: "failed",
+      completedAt: new Date().toISOString(),
+    });
+    await defaultScanSessionStore.update(failedSession);
+
     failure(
       response,
       502,
