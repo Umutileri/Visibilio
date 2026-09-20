@@ -71,7 +71,7 @@ describe("InMemoryScanSessionStore", () => {
 
     assert.deepEqual(
       sessions.map((session) => session.id),
-      [newer.id, older.id],
+      [newer.id + "_newer", older.id + "_older"],
     );
   });
 });
