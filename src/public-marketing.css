@@ -793,3 +793,15 @@ body { margin: 0; }
   .landing-share-grid { min-height:0; padding:54px 0; }
   .landing-hero-copy h1 { font-size:clamp(3.3rem,14vw,5.2rem); }
 }
+
+/* conversion cleanup */
+.landing-share-section { display:none; }
+.landing-final-section { display:none; }
+.landing-hero { min-height:calc(100vh - 78px); }
+.landing-hero-note { padding-top:6px; margin-top:16px; border-top:1px solid rgb(21 45 53 / 10%); }
+.landing-audience-callout strong { font-family:"DM Sans",sans-serif; letter-spacing:-.01em; }
+.landing-audience-callout span { display:block; }
+.landing-faq-section { margin-top:0; }
+@media (max-width:900px) {
+  .landing-hero { min-height:auto; }
+}
