@@ -57,10 +57,7 @@ body { margin: 0; }
 .landing-evidence-card p { margin-top:24px; color:#638173; font-size:.63rem; line-height:1.5; }
 .landing-proof-caption { display:flex; justify-content:space-between; gap:20px; padding-top:14px; color:rgb(21 45 53 / 40%); font-size:.57rem; }
 .landing-proof-caption strong { color:#152d35; font-size:.64rem; }
-.landing-marquee { overflow:hidden; border-bottom:1px solid rgb(21 45 53 / 7%); background:#152d35; color:#eef5f0; }
-.landing-marquee-track { display:flex; width:max-content; gap:26px; align-items:center; padding:14px 0; font:800 .62rem/1 "Geist Mono",monospace; letter-spacing:.12em; animation:landing-marquee 28s linear infinite; }
-.landing-marquee-track i { color:#8eb19d; }
-@keyframes landing-marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+to{transform:translateX(-50%)} }
 .landing-intro-section { padding:150px 0; border-bottom:1px solid rgb(21 45 53 / 8%); }
 .landing-two-col { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr); gap:80px; }
 .landing-two-col h2,.landing-section-heading h2,.landing-retest-grid h2 { margin:14px 0 0; font-size:clamp(3rem,6vw,6rem); line-height:.92; letter-spacing:-.065em; }
