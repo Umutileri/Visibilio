@@ -1,5 +1,7 @@
 
-import type { IssueSeverity, ScanApiResponse, ScanResult, UIssue } from "./scanner/types";
+import type { IssueSeverity, UIssue } from "./scanner/types";
+import type { ScanApiResponse } from "./api/types";
+import type { ScanResult } from "./scanner/types";
 import { useEffect, useMemo, useState } from "react";
 import "./index.css";
 
