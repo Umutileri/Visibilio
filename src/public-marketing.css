@@ -891,3 +891,127 @@ body { margin: 0; }
     min-width: 0;
   }
 }
+
+
+/* Final responsive hardening for localized typography and edge clipping. */
+.landing-page .landing-container {
+  box-sizing: border-box;
+}
+
+.landing-page .landing-hero-copy,
+.landing-page .landing-url-copy,
+.landing-page .landing-hero-evidence {
+  min-width: 0;
+}
+
+.landing-page h1,
+.landing-page h2,
+.landing-page h3,
+.landing-page p,
+.landing-page a,
+.landing-page button {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 901px) {
+  .landing-page .landing-container {
+    width: min(1180px, calc(100% - 64px));
+  }
+
+  .landing-page .landing-hero-grid {
+    grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr);
+    gap: clamp(48px, 6vw, 88px);
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    max-width: 9.8ch;
+  }
+
+  .landing-page .landing-url-section .landing-share-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .82fr);
+    gap: clamp(48px, 6vw, 86px);
+  }
+
+  .landing-page .landing-url-copy h2 {
+    max-width: 10.5ch;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-hero-grid,
+  .landing-page .landing-share-grid,
+  .landing-page .landing-two-col,
+  .landing-page .landing-proof-heading,
+  .landing-page .landing-feature-layout,
+  .landing-page .landing-audience-grid,
+  .landing-page .landing-evidence-contrast,
+  .landing-page .landing-retest-grid,
+  .landing-page .landing-faq-grid {
+    min-width: 0;
+  }
+
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-page .landing-container {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .landing-page .landing-hero-grid {
+    gap: 28px;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(2.7rem, 12.8vw, 4rem);
+    line-height: .94;
+    letter-spacing: -.045em;
+    max-width: 9.5ch;
+  }
+
+  .landing-page .landing-hero-copy > p {
+    max-width: 34rem;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(2.7rem, 11.5vw, 4rem);
+    line-height: .94;
+    max-width: 9.8ch;
+  }
+
+  .landing-page .landing-url-copy p {
+    max-width: 34rem;
+  }
+
+  .landing-page .landing-nav {
+    width: min(100% - 16px, 1240px);
+  }
+
+  .landing-page .landing-site-cards {
+    width: 100%;
+  }
+
+  .landing-page .landing-overflow-callout {
+    right: 8px;
+    max-width: calc(100% - 16px);
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .landing-container {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: 2.55rem;
+    max-width: 9.6ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: 2.25rem;
+    max-width: 9.6ch;
+  }
+}
