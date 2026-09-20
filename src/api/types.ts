@@ -9,8 +9,8 @@ export interface ScanApiSuccess {
   url: string;
   results: Array<{
     viewport: ViewportPreset;
-    issueCount: number;
-    issues: string[];
+    ok: boolean;
+    scan: string;
   }>;
 }
 
