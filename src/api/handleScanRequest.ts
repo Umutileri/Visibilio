@@ -64,6 +64,14 @@ export async function handleScanRequest(
     return;
   }
 
+  if (
+    typeof payload.projectId !== "string" ||
+    payload.projectId.trim().length === 0
+  ) {
+    failure(response, 400, "INVALID_REQUEST", "A projectId string is required.");
+    return;
+  }
+
   if (typeof payload.url !== "string") {
     failure(response, 400, "INVALID_REQUEST", "A URL string is required.");
     return;
@@ -95,10 +103,13 @@ export async function handleScanRequest(
     return;
   }
 
-  const session = updateScanSession(createScanSession(url.toString()), {
+  const session = updateScanSession(
+    createScanSession(payload.projectId, url.toString()),
+    {
     status: "scanning",
-    startedAt: new Date().toISOString(),
-  });
+      startedAt: new Date().toISOString(),
+    },
+  );
 
   try {
     const result = await scanViewports(session.url);
