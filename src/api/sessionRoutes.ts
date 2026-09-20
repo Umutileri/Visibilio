@@ -3,7 +3,8 @@ import type { ScanSession } from "./sessionTypes";
 import type {
   ScanApiFailure,
   ScanSessionGetResponse,
-  ScanSessionListResponse,\n  ScanFindingStatusResponse,
+  ScanSessionListResponse,
+  ScanFindingStatusResponse,
 } from "./types";
 
 function json(response: ServerResponse, statusCode: number, body: unknown): void {
@@ -46,4 +47,36 @@ export async function handleScanSessionGetRequest(
   const body: ScanSessionGetResponse = { ok: true, session };
   json(response, 200, body);
 }
-\nexport async function handleScanFindingStatusRequest(\n  response: ServerResponse,\n  sessionId: string,\n  findingId: string,\n  status: "open" | "resolved" | "ignored",\n  getSession: (id: string) => Promise<ScanSession | null>,\n  updateSession: (session: ScanSession) => Promise<ScanSession>,\n): Promise<void> {\n  const session = await getSession(sessionId);\n  if (!session) {\n    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Scan session not found." } } satisfies ScanApiFailure);\n    return;\n  }\n\n  const finding = session.findings.find((item) => item.id === findingId);\n  if (!finding) {\n    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Finding not found." } } satisfies ScanApiFailure);\n    return;\n  }\n\n  const nextFindings = session.findings.map((item) =>\n    item.id === findingId ? { ...item, status } : item,\n  );\n  const updated = await updateSession({ ...session, findings: nextFindings });\n  const body: ScanFindingStatusResponse = {\n    ok: true,\n    session: updated,\n    url: updated.url,\n    results: updated.results.map((scan) => ({ viewport: scan.viewport, scan })),\n  };\n  json(response, 200, body);\n}\n
+
+export async function handleScanFindingStatusRequest(
+  response: ServerResponse,
+  sessionId: string,
+  findingId: string,
+  status: "open" | "resolved" | "ignored",
+  getSession: (id: string) => Promise<ScanSession | null>,
+  updateSession: (session: ScanSession) => Promise<ScanSession>,
+): Promise<void> {
+  const session = await getSession(sessionId);
+  if (!session) {
+    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Scan session not found." } } satisfies ScanApiFailure);
+    return;
+  }
+
+  const finding = session.findings.find((item) => item.id === findingId);
+  if (!finding) {
+    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Finding not found." } } satisfies ScanApiFailure);
+    return;
+  }
+
+  const nextFindings = session.findings.map((item) =>
+    item.id === findingId ? { ...item, status } : item,
+  );
+  const updated = await updateSession({ ...session, findings: nextFindings });
+  const body: ScanFindingStatusResponse = {
+    ok: true,
+    session: updated,
+    url: updated.url,
+    results: updated.results.map((scan) => ({ viewport: scan.viewport, scan })),
+  };
+  json(response, 200, body);
+}
