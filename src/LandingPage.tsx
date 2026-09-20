@@ -10,10 +10,10 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free",
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
     heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
-    audience: "Built for developers, designers, and website owners.", audienceBody: "{t.audienceBody}",
+    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
@@ -26,7 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
     heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
     heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
     audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
@@ -361,12 +361,12 @@ export default function LandingPage() {
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
-                <button className="landing-primary" type="button" onClick={() => openApp()}>{language === "TR" ? "Web siteni analiz et" : "Analyze your website"} <span>↗</span></button>
-                <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
+                <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
+                <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
                 <strong>{t.audience}</strong>
-                <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
+                <span>{t.audienceBody}</span>
               </div>
             </div>
             <div>
@@ -421,7 +421,7 @@ export default function LandingPage() {
         <section className="landing-feature-section" id="how-it-works">
           <div className="landing-container landing-feature-layout">
             <div className="landing-feature-sticky">
-              <span className="landing-section-kicker">{language === "TR" ? "Nasıl çalışır" : "How it works"}</span>
+              <span className="landing-section-kicker">{t.how}</span>
               <div className="landing-feature-title">
                 <span>{featureSteps[activeStep].index} / 04</span>
                 <h2>{featureSteps[activeStep].title}</h2>
@@ -457,7 +457,7 @@ export default function LandingPage() {
               <span className="landing-section-kicker">{language === "TR" ? "Önce kanıt" : "Evidence first"}</span>
               <span className="landing-display-label">03</span>
               <h2>{language === "TR" ? <>Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em></> : <>Know what was measured.<br /><em>Know what was suggested.</em></>}</h2>
-              <p>Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.</p>
+              <p>{language === "TR" ? "Visibilio tarayıcı kanıtını, deterministik bulguları ve AI bağlamını açıkça ayırır; böylece öneri ile ölçüm birbirine karışmaz." : "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact."}</p>
             </div>
             <div className="landing-evidence-contrast">
               <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
@@ -472,7 +472,7 @@ export default function LandingPage() {
               <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
               <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
               <p>{language === "TR" ? "Yeniden test, önceki ve sonraki durumu karşılaştırır; böylece iyileşmeyi gerçekten inceleyebilirsiniz." : "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect."}</p>
-              <button className="landing-primary" type="button" onClick={() => openApp()}>{language === "TR" ? "Web siteni analiz et" : "Analyze your website"} <span>↗</span></button>
+              <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
             <div className="landing-retest-visual">
               <div className="result-before"><small>BEFORE</small><b>34 px</b><span>overflow</span></div>
