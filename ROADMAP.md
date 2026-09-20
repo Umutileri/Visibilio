@@ -1,6 +1,6 @@
 # Visibilio Roadmap
 
-> Detailed product/business program: [`PRODUCT_PROGRAM.md`](./PRODUCT_PROGRAM.md)
+> Detailed product/business program: [PRODUCT_PROGRAM.md](./PRODUCT_PROGRAM.md)
 
 The roadmap is milestone-driven. Each milestone should produce a small, testable increment.
 
@@ -64,7 +64,7 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Exit criteria:** A controlled page scan can produce multiple deterministic UI findings across configured viewports without relying on AI.
 
-## M4 — Visual Evidence
+## M4 — Visual Evidence + Audit Workspace
 
 **Goal:** Make findings easy to understand.
 
@@ -72,7 +72,10 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Store viewport metadata
 - [x] Show measured values
 - [x] Identify affected selectors where practical
-- [ ] Add issue evidence view
+- [x] Add issue evidence view
+- [x] Connect workspace to typed scan API
+- [ ] Serve screenshots through stable artifact URLs
+- [ ] Add focused evidence viewer
 
 **Exit criteria:** A user can see visual evidence and the measurements behind an issue.
 
