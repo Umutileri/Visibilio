@@ -137,3 +137,13 @@ Severity should be clear but not visually overwhelming.
 > **Clarity over decoration.**
 
 The UI should help users understand website problems, not create more visual noise.
+
+## Product shell UX
+
+The application shell uses a conventional persistent workspace layout. Do not reintroduce a floating navigation rail.
+
+Primary navigation: Overview, Analyze, Findings, Evidence, History, Settings.
+
+The screen hierarchy should prioritize project/website context, current scan state, findings summary, finding detail, evidence, and next action. Important state must never depend on hover alone. Preserve the URL during retry/error flows and keep the selected finding when moving between Findings and Evidence.
+
+Prefer an engineering-tool/editorial layout over a generic card-heavy AI dashboard. Use compact summaries, lists, tables, and metadata rows when they make findings easier to compare.
