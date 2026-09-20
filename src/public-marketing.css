@@ -1114,3 +1114,42 @@ body { margin: 0; }
     font-size: clamp(2.1rem, 11vw, 3rem);
   }
 }
+
+/* Final hierarchy fix for the URL section. The dark block should feel editorial, not left-pinned. */
+@media (min-width: 901px) {
+  .landing-page .landing-url-section .landing-share-dark {
+    grid-template-columns: minmax(0, 1fr) minmax(380px, .95fr);
+    column-gap: clamp(64px, 8vw, 120px);
+    padding-inline: clamp(40px, 7vw, 100px);
+  }
+
+  .landing-page .landing-url-copy {
+    justify-self: center;
+    width: min(100%, 640px);
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(3.8rem, 5.6vw, 6rem);
+    max-width: 12ch;
+  }
+
+  .landing-page .landing-url-form {
+    width: min(100%, 540px);
+    justify-self: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-page .landing-url-section .landing-share-dark {
+    padding-inline: 96px;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(4.3rem, 5.4vw, 6.2rem);
+  }
+}
+
+/* Keep the hero emphasis on the brand's calm deep-teal hierarchy. */
+.landing-page .landing-hero-copy h1 em {
+  color: #638173 !important;
+}
