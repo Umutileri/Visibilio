@@ -1,14 +1,28 @@
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
+
 import { chromium } from "playwright";
 import { runDetectionRules } from "./detectionRules";
 import { initialViewports } from "./viewports";
 import type { ScanResult, ViewportPreset } from "./types";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
+const DEFAULT_EVIDENCE_DIR = ".visibilio/evidence";
 const issueNow = () => new Date().toISOString();
+
+export interface ScanOptions {
+  evidenceDir?: string;
+}
+
+function screenshotFileName(viewport: ViewportPreset): string {
+  const safeName = viewport.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return `${safeName || "viewport"}.png`;
+}
 
 export async function scanPage(
   url: string,
   viewport: ViewportPreset = initialViewports[0],
+  options: ScanOptions = {},
 ): Promise<ScanResult> {
   const browser = await chromium.launch({ headless: true });
 
@@ -63,11 +77,30 @@ export async function scanPage(
         detectedAt,
       });
 
+      const evidenceDir = options.evidenceDir ?? DEFAULT_EVIDENCE_DIR;
+      await mkdir(evidenceDir, { recursive: true });
+
+      const screenshotPath = join(evidenceDir, screenshotFileName(viewport));
+      await page.screenshot({
+        path: screenshotPath,
+        fullPage: true,
+        type: "png",
+      });
+
       return {
         ok: true,
         url,
         viewport,
         dimensions,
+        screenshot: {
+          type: "screenshot",
+          format: "png",
+          path: screenshotPath,
+          viewport,
+          width: dimensions.viewportWidth,
+          height: dimensions.viewportHeight,
+          capturedAt: issueNow(),
+        },
         issues,
       };
     } catch (error) {
