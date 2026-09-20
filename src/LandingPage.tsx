@@ -43,6 +43,22 @@ const translations: Record<Language, Record<string, string>> = {
   }
 };
 
+function localizeFeatureSteps(language: Language) {
+  return language === "TR"
+    ? [
+        { id: "detect", index: "01", title: "Sorunu peşine düşmeden önce görün.", copy: "Kontrollü tarayıcı çalıştırması, belirsiz bir puan yerine ölçülebilir arayüz sorunlarını bulur." },
+        { id: "evidence", index: "02", title: "Tam olarak ne olduğunu bilin.", copy: "Her bulgu viewport, selector ve ölçülen değerleriyle birlikte tutulur." },
+        { id: "explain", index: "03", title: "Bulguyu karara dönüştürün.", copy: "AI, ölçülen gerçekler sabit kalırken kanıtı anlaşılır sonraki adımlara çevirir." },
+        { id: "retest", index: "04", title: "Düzeltin. Sonra tekrar ölçün.", copy: "Aynı kontrolü yeniden çalıştırın ve önceki ile sonraki durumu karşılaştırın." },
+      ]
+    : [
+        { id: "detect", index: "01", title: "See the issue before you chase it.", copy: "A controlled browser run finds measurable UI problems across the page—not a vague score." },
+        { id: "evidence", index: "02", title: "Know exactly what happened.", copy: "Each finding keeps its viewport, selector, and measured values attached to it." },
+        { id: "explain", index: "03", title: "Turn a finding into a decision.", copy: "AI helps translate evidence into clear next steps while the measured facts stay intact." },
+        { id: "retest", index: "04", title: "Fix it. Then measure again.", copy: "Re-run the same check and compare the before and after state." },
+      ];
+}
+
 const featureSteps = [
   {
     id: "detect",
@@ -293,6 +309,7 @@ export default function LandingPage() {
     return window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN";
   });
   const t = translations[language];
+  const featureSteps = localizeFeatureSteps(language);
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
