@@ -431,9 +431,9 @@ export default function LandingPage() {
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
             <div className="landing-section-heading">
-              <span className="landing-section-kicker">Evidence first</span>
+              <span className="landing-section-kicker">{language === "TR" ? "Önce kanıt" : "Evidence first"}</span>
               <span className="landing-display-label">03</span>
-              <h2>Know what was measured.<br /><em>Know what was suggested.</em></h2>
+              <h2>{language === "TR" ? <>Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em></> : <>Know what was measured.<br /><em>Know what was suggested.</em></>}</h2>
               <p>Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.</p>
             </div>
             <div className="landing-evidence-contrast">
@@ -446,8 +446,8 @@ export default function LandingPage() {
         <section className="landing-retest-section" id="retest">
           <div className="landing-container landing-retest-story">
             <div>
-              <span className="landing-section-kicker">The outcome</span>
-              <h2>Know what changed.<br /><em>Not just what looked better.</em></h2>
+              <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
+              <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
               <p>A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.</p>
               <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
             </div>
@@ -465,9 +465,9 @@ export default function LandingPage() {
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
             <div>
-              <span className="landing-section-kicker">Start free</span>
-              <h2>Give us a page.<br /><em>Get a clearer next step.</em></h2>
-              <p>Made for developers, designers, and anyone responsible for a website.</p>
+              <span className="landing-section-kicker">{language === "TR" ? "Ücretsiz başla" : "Start free"}</span>
+              <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
+              <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
             <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>Start for free <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
           </div>
