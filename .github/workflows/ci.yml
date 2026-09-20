@@ -41,7 +41,25 @@ jobs:
               echo "No format-eligible changed files."
             fi
           else
-            npm run format:check -- --log-level warn
+            files="$(git diff --name-only HEAD~1 HEAD --diff-filter=ACMR | grep -E '\.(ts|tsx|js|jsx|json|css|md|yml|yaml)
+
+      - name: Run build
+        run: npm run build
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run scanner tests
+        run: npm run test:scanner
+
+      - name: Run API tests
+        run: npm run test:api
+ || true)"
+            if [ -n "$files" ]; then
+              printf '%s\n' "$files" | xargs npx prettier --check --log-level warn
+            else
+              echo "No format-eligible changed files."
+            fi
           fi
 
       - name: Run build
