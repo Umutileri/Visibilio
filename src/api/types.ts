@@ -1,4 +1,5 @@
 import type { ScanResult, ViewportPreset } from "../scanner/types";
+import type { ScanSession } from "./sessionTypes";
 
 export interface ScanApiRequest {
   url: string;
@@ -11,6 +12,7 @@ export interface ScanApiResult {
 
 export interface ScanApiSuccess {
   ok: true;
+  session: ScanSession;
   url: string;
   results: ScanApiResult[];
 }
