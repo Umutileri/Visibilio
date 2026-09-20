@@ -6,6 +6,43 @@ const navLinks = [
   ["#evidence", "Evidence"],
 ] as const;
 
+type Language = "EN" | "TR";
+
+const translations: Record<Language, Record<string, string>> = {
+  EN: {
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free",
+    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
+    heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
+    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
+    startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
+    urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
+    productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
+    productBody: "A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.",
+    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.",
+    audienceSection: "One product. Different reasons to use it.", audienceTitle: "Build it.<br /><em>Own it. Improve it.</em>", audienceSectionBody: "Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.",
+    evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
+    retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
+    faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
+    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
+  },
+  TR: {
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla",
+    heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
+    heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
+    audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
+    startWebsite: "Web sitenizle başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı gösterelim.</em>",
+    urlBody: "Başlamak için bir sayfa yapıştırın, kontrolü çalıştırın ve harekete geçebileceğiniz bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
+    productEyebrow: "Neden Visibilio", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
+    productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
+    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.",
+    audienceSection: "Tek ürün. Farklı kullanım nedenleri.", audienceTitle: "Üretin.<br /><em>Sahiplenin. Geliştirin.</em>", audienceSectionBody: "Visibilio, web sitesinin arkasındaki herkes için aynı başlangıcı sunar: kanıtlarla desteklenen net bir bulgu.",
+    evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
+    retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
+    faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
+    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla"
+  }
+};
+
 const featureSteps = [
   {
     id: "detect",
@@ -161,7 +198,7 @@ function ProductProof() {
       <div className="landing-container">
         <div className="landing-proof-heading">
           <div className="landing-proof-intro">
-            <span className="landing-section-kicker">Why Visibilio</span>
+            <span className="landing-section-kicker">{t.productEyebrow}</span>
             <span className="landing-display-label">02</span>
           </div>
           <div>
@@ -249,9 +286,16 @@ function FAQSection() {
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>(() => window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN");
+  const t = translations[language];
   const [activeStep, setActiveStep] = useState(0);
   const [language, setLanguage] = useState<"EN" | "TR">("EN");
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    document.documentElement.lang = language.toLowerCase();
+    window.localStorage.setItem("visibilio-language", language);
+  }, [language]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -320,16 +364,17 @@ export default function LandingPage() {
             {navLinks.map(([href, label]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
             ))}
-            <a href="#retest" onClick={() => setMenuOpen(false)}>{copy.retest}</a>
+            <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
           <div className="landing-nav-actions">
           <div className="landing-language-switcher" aria-label="Language">
+            <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button><span>/</span><button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
             <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
             <span>/</span>
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
           </div>
-            <a className="landing-signin" href="#app/overview">{copy.workspace}</a>
-            <button className="landing-cta" type="button" onClick={openApp}>{copy.start}</button>
+            <a className="landing-signin" href="#app/overview">{t.workspace}</a>
+            <button className="landing-cta" type="button" onClick={openApp}>{t.start}</button>
             <button className="landing-menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
@@ -388,9 +433,9 @@ export default function LandingPage() {
               <span className="landing-display-label">01</span>
             </div>
             <div className="landing-prose landing-prose-large">
-              <h2>“Something feels off.”<br /><span>Now you can see why.</span></h2>
-              <p>A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.</p>
-              <p>That turns a vague problem into a finding with context: <strong>what broke, where it happened, what was measured, and what to investigate next.</strong></p>
+              <h2 dangerouslySetInnerHTML={{__html:t.productTitle}} />
+              <p>{t.productBody}</p>
+              <p>{t.productBody2}</p>
             </div>
           </div>
         </section>
