@@ -1,7 +1,3 @@
-@import "./styles.css";
-
-
-
 /* Public marketing surface */
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 body { margin: 0; }
