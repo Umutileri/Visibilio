@@ -1,5 +1,6 @@
 import type { ScanResult, ViewportPreset } from "../scanner/types";
 import type { ScanSession } from "./sessionTypes";
+import type { UIssue } from "../scanner/types";
 
 export interface ScanApiRequest {
   url: string;
