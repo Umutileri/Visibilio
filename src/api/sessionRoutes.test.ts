@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { createScanSession } from "./session";
-import { handleScanFindingStatusRequest, handleScanSessionGetRequest, handleScanSessionListRequest } from "./sessionRoutes";
+import {
+  handleScanFindingStatusRequest,
+  handleScanSessionGetRequest,
+  handleScanSessionListRequest,
+} from "./sessionRoutes";
 
 function createResponseCapture() {
   let statusCode = 0;
