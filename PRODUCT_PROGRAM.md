@@ -1,0 +1,257 @@
+# Visibilio Product Program
+
+## North Star
+
+Visibilio is an evidence-first website UI quality platform that helps teams **detect → explain → show → suggest → re-test → track improvement**.
+
+The product should create recurring value, not a one-off report:
+- Scan a website
+- Understand reproducible UI issues
+- See the evidence behind each issue
+- Make a change
+- Re-test the same issue
+- Track improvement over time
+
+## Product surfaces
+
+### Public marketing
+- Clear product promise
+- Concrete scanner/evidence examples
+- No fake scan results
+- CTA into Analyze
+
+### Product shell
+- Project / website context
+- Overview
+- Analyze
+- Findings
+- Evidence
+- History
+- Settings
+
+Do not reintroduce a floating navigation rail. Keep the shell conventional, calm, and information-dense.
+
+## Core domain model
+
+User
+  -> Workspace
+      -> Project / Website
+          -> ScanSession
+              -> ViewportResult
+                  -> Issue
+                      -> Evidence
+                      -> Explanation
+                      -> SuggestedFix
+              -> RetestSession
+
+The first implementation may remain single-user/in-memory, but new APIs should preserve this shape so persistence can be added without redesigning the product.
+
+## Milestone plan
+
+### P0 — Product foundation
+Status: largely complete.
+
+- [x] React/TypeScript/Vite foundation
+- [x] Design system and product principles
+- [x] Application shell
+- [x] CI foundation
+- [x] Node-side Playwright scanner
+
+### P1 — Deterministic audit engine
+Status: complete for current rule set.
+
+- [x] Horizontal overflow
+- [x] Rendered element overflow
+- [x] Missing image alt
+- [x] Missing form-control accessible name
+- [x] Missing html lang
+- [x] Stable issue schema
+- [x] Evidence measurements
+- [x] Selector evidence
+- [x] Regression tests
+
+### P2 — Scan execution boundary
+Status: in progress.
+
+- [x] Typed server API contract
+- [x] HTTP/HTTPS validation
+- [x] Credential rejection
+- [x] Initial DNS/IP SSRF filtering
+- [x] Request body limit
+- [x] Scan timeout
+- [ ] Redirect/navigation SSRF controls
+- [ ] DNS rebinding-safe enforcement
+- [ ] Browser isolation/sandbox strategy
+- [ ] Resource/cost limits
+- [ ] Job lifecycle / queue
+- [ ] Public deployment
+
+Public scanning stays disabled until the remaining security and resource controls are complete.
+
+### P3 — Real Analyze experience
+Status: in progress.
+
+- [x] URL entry
+- [x] Loading state
+- [x] Error state
+- [x] Real API handoff
+- [ ] Step-by-step scan progress based on server status
+- [ ] Retry without losing target
+- [ ] Scan cancellation
+- [ ] Clear result summary
+
+### P4 — Findings + Evidence
+Status: partially complete.
+
+- [x] Findings list
+- [x] Severity grouping
+- [x] Filters
+- [x] Finding detail
+- [x] Evidence data view
+- [ ] Screenshot artifact viewer with stable URL/id
+- [ ] Finding status actions
+- [ ] “Show evidence” focused interaction
+- [ ] Empty/loading/error polish
+- [ ] Mobile interaction polish
+
+### P5 — Scan Session + persistence boundary
+Goal: turn one scan response into a reusable product object.
+
+- [ ] Define ScanSession contract
+- [ ] Define stable scan id
+- [ ] Record started/completed timestamps
+- [ ] Record scan status
+- [ ] Store viewport results
+- [ ] Store findings
+- [ ] Store evidence artifact references
+- [ ] Separate current session from prior sessions
+- [ ] Add local persistence first, backend persistence later
+
+### P6 — AI Explanation
+Goal: explain findings without changing evidence.
+
+- [ ] AI input contract
+- [ ] Plain-language explanation
+- [ ] Technical explanation
+- [ ] Evidence/context passed explicitly
+- [ ] Uncertainty handling
+- [ ] Invalid response handling
+- [ ] Retry behavior
+- [ ] Distinguish deterministic finding vs AI explanation in UI
+
+### P7 — Suggested Fixes
+Goal: move from understanding to action.
+
+- [ ] Likely causes
+- [ ] Implementation direction
+- [ ] Optional code example
+- [ ] Explicit suggestion labeling
+- [ ] Uncertainty/caveats
+- [ ] Finding-specific fix guidance
+- [ ] Do not claim guaranteed outcomes
+
+### P8 — Re-test
+Goal: verify whether a change changed the measured result.
+
+- [ ] Re-run same rule
+- [ ] Preserve original evidence
+- [ ] Before/after measurement comparison
+- [ ] Resolved/unresolved determination
+- [ ] Safe finding matching
+- [ ] Changed-structure handling
+- [ ] Re-test history
+
+### P9 — Projects + History
+Goal: make Visibilio useful repeatedly.
+
+- [ ] Website/project entity
+- [ ] Project switcher
+- [ ] Scan history
+- [ ] Previous/current comparison
+- [ ] Findings resolved since previous scan
+- [ ] New findings since previous scan
+- [ ] Overview “health movement” summary
+- [ ] Persistent evidence/artifacts
+
+### P10 — Public SaaS infrastructure
+Goal: serve real users safely and economically.
+
+- [ ] Authentication
+- [ ] Workspace/project isolation
+- [ ] Queue/job worker
+- [ ] Browser sandboxing
+- [ ] Navigation and redirect controls
+- [ ] Resource/time/cost budgets
+- [ ] Screenshot/artifact storage
+- [ ] Rate limiting
+- [ ] Abuse protection
+- [ ] Observability
+- [ ] Production deployment
+- [ ] Privacy/data retention policy
+
+### P11 — Monetization readiness
+Goal: create a sustainable paid product after core value is proven.
+
+- [ ] Usage metering
+- [ ] Scan quotas
+- [ ] Free trial / limited free tier
+- [ ] Paid plans based on meaningful usage
+- [ ] Billing provider integration
+- [ ] Upgrade prompts tied to actual limits
+- [ ] Account/workspace settings
+- [ ] Billing history/invoices
+- [ ] Usage visibility
+
+Do not implement billing before users can reliably complete the core loop.
+
+### P12 — UX/product polish
+Goal: make the proven workflow feel excellent.
+
+- [ ] Navigation hierarchy refinement
+- [ ] Desktop/tablet/mobile behavior
+- [ ] Keyboard/focus coverage
+- [ ] Reduced-motion behavior
+- [ ] Skeleton/loading polish
+- [ ] Error recovery
+- [ ] Density/whitespace tuning
+- [ ] Screenshot/evidence interaction polish
+- [ ] Landing-page product proof
+- [ ] Consistent copy and terminology
+
+## Pricing/business validation path
+
+The first business objective is not “add payments”; it is proving repeated scanning value.
+
+Track product signals before monetization:
+- scans started
+- scans completed
+- findings opened
+- evidence opened
+- re-tests completed
+- issues resolved
+- repeat scans per website
+- time between first scan and next scan
+
+Potential future packaging:
+- Free: limited scans/month
+- Pro: more scans, history, AI explanations, exports
+- Team: shared projects, collaboration, higher limits
+
+Pricing should be validated against actual resource cost and observed usage, not guessed early.
+
+## Non-goals
+
+Do not initially build:
+- full WCAG certification
+- exhaustive visual design judgment
+- automatic code modification
+- large crawler infrastructure
+- enterprise administration
+- team features before the single-user loop is valuable
+
+## Current implementation rule
+
+Every feature must preserve:
+Browser measurement → deterministic rule → structured issue → evidence → AI explanation → suggestion → re-test.
+
+Measured evidence must remain independently inspectable.
