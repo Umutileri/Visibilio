@@ -261,7 +261,7 @@ export default function LandingPage() {
             <div className="landing-hero-copy">
               <span className="landing-eyebrow">Website UI quality, backed by evidence.</span>
               <h1>See what’s wrong.<br /><em>Fix what matters.</em></h1>
-              <p>Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.</p>
+              <p>Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them—whether you build the site, own it, or shape how it looks.</p>
               <div className="landing-hero-actions">
                 <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
