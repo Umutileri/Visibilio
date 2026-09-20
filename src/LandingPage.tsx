@@ -323,13 +323,15 @@ export default function LandingPage() {
         <div className="landing-nav">
           <Brand />
           <nav className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
-            {navLinks.map(([href, label]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+            {navLinks.map(([href, fallbackLabel]) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+                {href === "#product" ? t.product : href === "#how-it-works" ? t.how : t.evidence}
+              </a>
             ))}
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
           <div className="landing-nav-actions">
-          <div className="landing-language-switcher" aria-label="Language">
+          <div className="landing-language-switcher" aria-label={language === "TR" ? "Dil" : "Language"}>
             <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
             <span>/</span>
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
@@ -354,7 +356,7 @@ export default function LandingPage() {
               </div>
               <div className="landing-hero-note landing-audience-callout">
                 <strong>{t.audience}</strong>
-                <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
+                <span>{t.audienceBody}</span>
               </div>
             </div>
             <div>
