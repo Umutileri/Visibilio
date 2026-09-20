@@ -20,7 +20,7 @@ before(async () => {
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
   assert.ok(address && typeof address !== "string");
-  baseUrl = `http://127.0.0.1:${address.port}`;
+  baseUrl = "http://127.0.0.1:" + address.port;
 });
 
 after(async () => {
@@ -44,7 +44,13 @@ describe("validateScanUrl", () => {
 
 describe("assertSafeTarget", () => {
   it("rejects local and private IP targets", async () => {
-    for (const value of ["http://127.0.0.1", "http://10.0.0.1", "http://192.168.1.1", "http://169.254.169.254", "http://[::1]"]) {
+    for (const value of [
+      "http://127.0.0.1",
+      "http://10.0.0.1",
+      "http://192.168.1.1",
+      "http://169.254.169.254",
+      "http://[::1]",
+    ]) {
       await assert.rejects(assertSafeTarget(new URL(value)));
     }
   });
@@ -57,12 +63,12 @@ describe("assertSafeTarget", () => {
 
 describe("handleScanRequest", () => {
   it("rejects non-POST requests", async () => {
-    const response = await fetch(`${baseUrl}/api/scan`, { method: "GET" });
+    const response = await fetch(baseUrl + "/api/scan", { method: "GET" });
     assert.equal(response.status, 405);
   });
 
   it("rejects invalid JSON", async () => {
-    const response = await fetch(`${baseUrl}/api/scan`, {
+    const response = await fetch(baseUrl + "/api/scan", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: "{",
@@ -71,7 +77,7 @@ describe("handleScanRequest", () => {
   });
 
   it("rejects unsafe URLs before scanning", async () => {
-    const response = await fetch(`${baseUrl}/api/scan`, {
+    const response = await fetch(baseUrl + "/api/scan", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ url: "file:///tmp/page" }),
