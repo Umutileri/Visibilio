@@ -2297,3 +2297,9 @@ input:focus-visible {
   .history-header, .history-row { grid-template-columns:1.6fr 1fr 0.8fr; }
   .history-header span:last-child, .history-row span:last-child { display:none; }
 }
+
+.history-row-button { width: 100%; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.history-row-button:hover { background: #f8fbf9; }
+.history-empty { display: grid; gap: 6px; padding: 28px 16px; color: rgb(21 45 53 / 48%); font-size: 0.68rem; }
+.history-empty strong { color: #152d35; font-size: 0.76rem; }
+.history-empty a { color: #5c7b70; font-weight: 800; font-size: 0.66rem; }
