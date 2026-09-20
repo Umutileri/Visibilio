@@ -95,7 +95,7 @@ export async function scanPage(
         screenshot: {
           type: "screenshot",
           format: "png",
-          path: screenshotPath,
+          artifactId: screenshotFileName(viewport),
           viewport,
           width: dimensions.viewportWidth,
           height: dimensions.viewportHeight,
