@@ -59,32 +59,8 @@ function localizeFeatureSteps(language: Language) {
       ];
 }
 
-const featureSteps = [
-  {
-    id: "detect",
-    index: "01",
-    title: "See the issue before you chase it.",
-    copy: "A controlled browser run finds measurable UI problems across the page—not a vague score.",
-  },
-  {
-    id: "evidence",
-    index: "02",
-    title: "Know exactly what happened.",
-    copy: "Each finding keeps its viewport, selector, and measured values attached to it.",
-  },
-  {
-    id: "explain",
-    index: "03",
-    title: "Turn a finding into a decision.",
-    copy: "AI helps translate evidence into clear next steps while the measured facts stay intact.",
-  },
-  {
-    id: "retest",
-    index: "04",
-    title: "Fix it. Then measure again.",
-    copy: "Re-run the same check and compare the before and after state.",
-  },
-];
+const featureSteps = localizeFeatureSteps(language);
+
 
 function Brand() {
   return (
