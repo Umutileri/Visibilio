@@ -26,12 +26,12 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
-    heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br /><em>Önemli olanı düzeltin.</em>",
-    heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Siteyi analiz et", seeHow: "Nasıl çalışıyor?",
+    heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Sorunu görün.<br /><em>Önemli olanı düzeltin.</em>",
+    heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Ne olduğunu anlayın, düzeltin ve yeniden test edin.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
     startWebsite: "Web sitenizle başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı gösterelim.</em>",
-    urlBody: "Başlamak için bir sayfa yapıştırın, kontrolü çalıştırın ve harekete geçebileceğiniz bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
+    urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz net bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
     productEyebrow: "Neden Visibilio", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
     productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.",
