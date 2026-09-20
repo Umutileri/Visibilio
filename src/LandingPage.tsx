@@ -286,7 +286,12 @@ function FAQSection() {
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<Language>(() => window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN");
+  const [language, setLanguage] = useState<Language>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryLanguage = params.get("lang")?.toUpperCase();
+    if (queryLanguage === "EN" || queryLanguage === "TR") return queryLanguage;
+    return window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN";
+  });
   const t = translations[language];
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -294,6 +299,10 @@ export default function LandingPage() {
   useEffect(() => {
     document.documentElement.lang = language.toLowerCase();
     window.localStorage.setItem("visibilio-language", language);
+    const params = new URLSearchParams(window.location.search);
+    params.set("lang", language.toLowerCase());
+    const query = params.toString();
+    window.history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
   }, [language]);
 
   useEffect(() => {
@@ -311,7 +320,10 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  const openApp = () => {
+  const openApp = (targetUrl?: string) => {
+    if (targetUrl?.trim()) {
+      window.sessionStorage.setItem("visibilio-pending-url", targetUrl.trim());
+    }
     window.location.hash = "#app/analyze";
     setMenuOpen(false);
   };
@@ -349,7 +361,7 @@ export default function LandingPage() {
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
-                <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
+                <button className="landing-primary" type="button" onClick={() => openApp()}>{language === "TR" ? "Web siteni analiz et" : "Analyze your website"} <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
@@ -371,12 +383,17 @@ export default function LandingPage() {
               <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
               <p>{t.urlBody}</p>
               <div className="landing-url-audience">
-                <span>Developers</span>
-                <span>Designers</span>
-                <span>Website owners</span>
+                <span>{language === "TR" ? "Geliştiriciler" : "Developers"}</span>
+                <span>{language === "TR" ? "Tasarımcılar" : "Designers"}</span>
+                <span>{language === "TR" ? "Web sitesi sahipleri" : "Website owners"}</span>
               </div>
             </div>
-            <form className="landing-url-form" onSubmit={(event) => { event.preventDefault(); openApp(); }}>
+            <form className="landing-url-form" onSubmit={(event) => {
+              event.preventDefault();
+              const form = event.currentTarget;
+              const data = new FormData(form);
+              openApp(String(data.get("url") ?? ""));
+            }}>
               <label htmlFor="landing-url">{t.urlLabel}</label>
               <div className="landing-url-field">
                 <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
@@ -404,7 +421,7 @@ export default function LandingPage() {
         <section className="landing-feature-section" id="how-it-works">
           <div className="landing-container landing-feature-layout">
             <div className="landing-feature-sticky">
-              <span className="landing-section-kicker">How it works</span>
+              <span className="landing-section-kicker">{language === "TR" ? "Nasıl çalışır" : "How it works"}</span>
               <div className="landing-feature-title">
                 <span>{featureSteps[activeStep].index} / 04</span>
                 <h2>{featureSteps[activeStep].title}</h2>
@@ -454,8 +471,8 @@ export default function LandingPage() {
             <div>
               <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
               <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
-              <p>A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.</p>
-              <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
+              <p>{language === "TR" ? "Yeniden test, önceki ve sonraki durumu karşılaştırır; böylece iyileşmeyi gerçekten inceleyebilirsiniz." : "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect."}</p>
+              <button className="landing-primary" type="button" onClick={() => openApp()}>{language === "TR" ? "Web siteni analiz et" : "Analyze your website"} <span>↗</span></button>
             </div>
             <div className="landing-retest-visual">
               <div className="result-before"><small>BEFORE</small><b>34 px</b><span>overflow</span></div>
@@ -483,7 +500,7 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
           <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
-          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{copy.retest}</a><a href="#app/overview">Workspace</a></div>
+          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">Workspace</a></div>
           <small>Visibilio · 2026</small>
         </div>
       </footer>
