@@ -58,7 +58,7 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Detect documents without a language
 - [x] Add selector evidence where practical
 - [x] Add regression coverage for representative findings
-- [ ] Verify the full CI workflow on GitHub
+- [x] Verify the full CI workflow on GitHub
 
 **Exit criteria:** A controlled page scan can produce multiple deterministic UI findings across configured viewports without relying on AI.
 
@@ -66,10 +66,10 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Goal:** Make findings easy to understand.
 
-- [ ] Capture screenshots
-- [ ] Store viewport metadata
-- [ ] Show measured values
-- [ ] Identify affected selectors where practical
+- [x] Capture screenshots
+- [x] Store viewport metadata
+- [x] Show measured values
+- [x] Identify affected selectors where practical
 - [ ] Add issue evidence view
 
 **Exit criteria:** A user can see visual evidence and the measurements behind an issue.
@@ -78,15 +78,15 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Goal:** Turn scan results into a usable product interface.
 
-- [ ] Issue summary
-- [ ] Severity grouping
-- [ ] Issue list
-- [ ] Issue detail view
-- [ ] Filters
-- [ ] Loading state
-- [ ] Empty state
-- [ ] Error state
-- [ ] Responsive layout
+- [x] Issue summary
+- [x] Severity grouping
+- [x] Issue list
+- [x] Issue detail view
+- [x] Filters
+- [x] Loading state
+- [x] Empty state
+- [x] Error state
+- [x] Responsive layout
 
 **Exit criteria:** A user can move from a completed scan to a clear issue overview and detail.
 
