@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { createScanSession } from "./session";
-import { handleScanSessionGetRequest, handleScanSessionListRequest } from "./sessionRoutes";
+import { handleScanFindingStatusRequest, handleScanSessionGetRequest, handleScanSessionListRequest } from "./sessionRoutes";
 
 function createResponseCapture() {
   let statusCode = 0;
@@ -74,5 +74,62 @@ describe("scan session routes", () => {
         message: "Scan session not found.",
       },
     });
+  });
+});
+
+
+describe("finding status route", () => {
+  it("updates a finding status inside a session", async () => {
+    const capture = createResponseCapture();
+    const session = createScanSession("https://example.com");
+    const finding = {
+      id: "finding-1",
+      rule: "responsive.horizontal-overflow",
+      category: "responsive" as const,
+      title: "Horizontal overflow detected",
+      severity: "medium" as const,
+      description: "The page overflows.",
+      url: session.url,
+      viewport: { name: "Mobile", width: 390, height: 844 },
+      detectedAt: new Date().toISOString(),
+      status: "open" as const,
+    };
+
+    const withFinding = { ...session, findings: [finding] };
+
+    let updatedSession = withFinding;
+    await handleScanFindingStatusRequest(
+      capture.response,
+      withFinding.id,
+      finding.id,
+      "resolved",
+      async (id) => (id === withFinding.id ? withFinding : null),
+      async (next) => {
+        updatedSession = next;
+        return next;
+      },
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.equal(updatedSession.findings[0].status, "resolved");
+    assert.equal((result.body as { ok: boolean }).ok, true);
+  });
+
+  it("returns 404 for an unknown finding", async () => {
+    const capture = createResponseCapture();
+    const session = createScanSession("https://example.com");
+
+    await handleScanFindingStatusRequest(
+      capture.response,
+      session.id,
+      "missing",
+      "resolved",
+      async () => session,
+      async (next) => next,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 404);
   });
 });
