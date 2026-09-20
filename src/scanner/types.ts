@@ -26,7 +26,7 @@ export type IssueEvidence = {
 export interface ScreenshotEvidence {
   type: "screenshot";
   format: "png";
-  path: string;
+  artifactId: string;
   viewport: ViewportPreset;
   width: number;
   height: number;
