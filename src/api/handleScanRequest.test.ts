@@ -76,13 +76,32 @@ describe("handleScanRequest", () => {
     assert.equal(response.status, 400);
   });
 
-  it("rejects unsafe URLs before scanning", async () => {
+  it("rejects unsupported target protocols", async () => {
     const response = await fetch(baseUrl + "/api/scan", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ url: "file:///tmp/page" }),
     });
-    const body = (await response.json()) as { ok: false; error: { code: string } };
+    const body = (await response.json()) as {
+      ok: false;
+      error: { code: string };
+    };
+
+    assert.equal(response.status, 400);
+    assert.equal(body.error.code, "INVALID_URL");
+  });
+
+  it("rejects private literal IPs at the request boundary", async () => {
+    const response = await fetch(baseUrl + "/api/scan", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ url: "http://127.0.0.1" }),
+    });
+    const body = (await response.json()) as {
+      ok: false;
+      error: { code: string };
+    };
+
     assert.equal(response.status, 400);
     assert.equal(body.error.code, "INVALID_URL");
   });
