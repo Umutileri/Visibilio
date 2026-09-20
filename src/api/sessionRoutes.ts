@@ -1,5 +1,6 @@
 import type { ServerResponse } from "node:http";
 import type { ScanSession } from "./sessionTypes";
+import { updateFindingStatus } from "./session";
 import type {
   ScanApiFailure,
   ScanSessionGetResponse,
@@ -82,10 +83,7 @@ export async function handleScanFindingStatusRequest(
     return;
   }
 
-  const nextFindings = session.findings.map((item) =>
-    item.id === findingId ? { ...item, status } : item,
-  );
-  const updated = await updateSession({ ...session, findings: nextFindings });
+  const updated = await updateSession(updateFindingStatus(session, findingId, status));
   const body: ScanFindingStatusResponse = {
     ok: true,
     session: updated,
