@@ -4,7 +4,7 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse } from "./api/types";
+import type { ScanApiResponse, ScanSessionGetResponse, ScanSessionListResponse } from "./api/types";
 import { useEffect, useMemo, useState } from "react";
 
 type AppSection =
@@ -87,6 +87,8 @@ function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
+  const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
     null,
   );
@@ -98,6 +100,29 @@ function App() {
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
+
+  useEffect(() => {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint) return;
+
+    const loadHistory = async () => {
+      setHistoryLoading(true);
+      try {
+        const result = await fetch(endpoint.replace(/\/$/, "") + "/api/scans");
+        const data = (await result.json()) as ScanSessionListResponse;
+        setHistory(data);
+      } catch {
+        setHistory({
+          ok: false,
+          error: { code: "SCAN_ERROR", message: "Could not load scan history." },
+        });
+      } finally {
+        setHistoryLoading(false);
+      }
+    };
+
+    void loadHistory();
+  }, [response]);
 
   const scanResults = response?.ok ? response.results : [];
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
@@ -144,6 +169,14 @@ function App() {
       }
 
       setResponse(data);
+      setHistory((current) =>
+        current?.ok
+          ? {
+              ok: true,
+              sessions: [data.session, ...current.sessions.filter((item) => item.id !== data.session.id)],
+            }
+          : current,
+      );
       setSelectedFindingId(data.results[0]?.scan.ok ? data.results[0].scan.issues[0]?.id ?? null : null);
       window.location.hash = "#app/findings";
     } catch (scanError) {
@@ -583,12 +616,38 @@ function App() {
                   <span>Findings</span>
                   <span>Timestamp</span>
                 </div>
-                <div className="history-row">
-                  <strong>{response?.ok ? response.session.id : "No scan session yet"}</strong>
-                  <span>{response?.ok ? response.session.status : "—"}</span>
-                  <span>{response?.ok ? response.session.findings.length : "—"}</span>
-                  <span>{response?.ok ? new Date(response.session.createdAt).toLocaleString() : "Run your first scan"}</span>
-                </div>
+                {historyLoading && (
+                  <div className="history-row">
+                    <strong>Loading scan history…</strong>
+                    <span>loading</span>
+                    <span>—</span>
+                    <span>Fetching sessions</span>
+                  </div>
+                )}
+                {!historyLoading && history?.ok && history.sessions.length > 0 &&
+                  history.sessions.map((session) => (
+                    <button
+                      className="history-row history-row-button"
+                      type="button"
+                      key={session.id}
+                      onClick={() => {
+                        setSelectedFindingId(session.findings[0]?.id ?? null);
+                        window.location.hash = "#app/findings";
+                      }}
+                    >
+                      <strong>{session.id}</strong>
+                      <span>{session.status}</span>
+                      <span>{session.findings.length}</span>
+                      <span>{new Date(session.createdAt).toLocaleString()}</span>
+                    </button>
+                  ))}
+                {!historyLoading && (!history?.ok || history.sessions.length === 0) && (
+                  <div className="history-empty">
+                    <strong>No saved scans yet.</strong>
+                    <span>Run a scan and your session will appear here.</span>
+                    <a href="#app/analyze">Start a scan →</a>
+                  </div>
+                )}
               </div>
             </section>
           )}
