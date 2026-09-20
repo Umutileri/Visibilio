@@ -690,3 +690,11 @@ body { margin: 0; }
 }
 
 .landing-hero-note { margin-top:24px; color:rgb(21 45 53 / 43%); font:600 .64rem/1.5 "Geist Mono",monospace; letter-spacing:.01em; }
+
+.landing-proof-intro { padding-top:6px; }
+.landing-proof-intro .landing-display-label { margin-top:24px; }
+.landing-proof-heading > div:last-child { max-width:720px; }
+.landing-proof-lead { max-width:650px; margin:22px 0 0; color:rgb(21 45 53 / 55%); font-size:.92rem; line-height:1.7; }
+@media (max-width:900px) {
+  .landing-proof-intro .landing-display-label { display:none; }
+}
