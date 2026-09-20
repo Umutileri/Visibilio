@@ -482,7 +482,7 @@ export default function LandingPage() {
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
               <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
           </div>
         </section>
       </main>
