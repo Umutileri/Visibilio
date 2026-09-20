@@ -58,13 +58,27 @@ export async function handleScanFindingStatusRequest(
 ): Promise<void> {
   const session = await getSession(sessionId);
   if (!session) {
-    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Scan session not found." } } satisfies ScanApiFailure);
+    json(
+      response,
+      404,
+      {
+        ok: false,
+        error: { code: "NOT_FOUND", message: "Scan session not found." },
+      } satisfies ScanApiFailure,
+    );
     return;
   }
 
   const finding = session.findings.find((item) => item.id === findingId);
   if (!finding) {
-    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Finding not found." } } satisfies ScanApiFailure);
+    json(
+      response,
+      404,
+      {
+        ok: false,
+        error: { code: "NOT_FOUND", message: "Finding not found." },
+      } satisfies ScanApiFailure,
+    );
     return;
   }
 
