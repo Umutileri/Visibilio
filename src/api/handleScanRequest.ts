@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { assertSafeTarget } from "./urlSafety";
 import { scanViewports } from "../scanner/viewportScan";
 import type { ScanApiFailure, ScanApiRequest, ScanApiSuccess } from "./types";
 
@@ -57,6 +58,7 @@ export async function handleScanRequest(request: IncomingMessage, response: Serv
   }
 
   try {
+    await assertSafeTarget(url);
     const result = await scanViewports(url.toString());
     const success: ScanApiSuccess = {
       ok: true,
