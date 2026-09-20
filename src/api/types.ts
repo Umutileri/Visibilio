@@ -24,7 +24,8 @@ export interface ScanApiFailure {
       | "INVALID_REQUEST"
       | "INVALID_URL"
       | "SCAN_ERROR"
-      | "NOT_FOUND";
+      | "NOT_FOUND"
+      | "INVALID_STATUS";
     message: string;
   };
 }
@@ -38,7 +39,7 @@ export interface ScanSessionListSuccess {
 
 export type ScanSessionListResponse = ScanSessionListSuccess | ScanApiFailure;
 
-export interface ScanSessionGetSuccess {
+export interface ScanFindingStatusSuccess {\n  ok: true;\n  session: ScanSession;\n  url: string;\n  results: ScanApiResult[];\n}\n\nexport type ScanFindingStatusResponse = ScanFindingStatusSuccess | ScanApiFailure;\n\nexport interface ScanSessionGetSuccess {
   ok: true;
   session: ScanSession;
 }
