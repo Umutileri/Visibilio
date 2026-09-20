@@ -40,3 +40,4 @@ export class InMemoryScanSessionStore implements ScanSessionStore {
 }
 
 export const defaultScanSessionStore = new InMemoryScanSessionStore();
+
