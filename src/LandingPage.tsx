@@ -250,6 +250,7 @@ function FAQSection() {
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [language, setLanguage] = useState<"EN" | "TR">("EN");
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -272,6 +273,44 @@ export default function LandingPage() {
     setMenuOpen(false);
   };
 
+  const copy = language === "TR"
+    ? {
+        product: "Ürün",
+        how: "Nasıl çalışır",
+        evidence: "Kanıt",
+        retest: "Yeniden test",
+        workspace: "Çalışma alanını aç",
+        start: "Ücretsiz başla",
+        eyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.",
+        hero: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
+        heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
+        audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu olan herkes için.",
+        startWebsite: "Web sitenizle başlayın",
+        giveUrl: "URL'yi verin.<br />Nereye bakacağınızı gösterelim.",
+        urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz bir bulgu alın.",
+        urlLabel: "Web sitesi URL'si",
+        analyze: "Analiz et",
+        freeNote: "Ücretsiz başla · kurulum turu gerekmez.",
+      }
+    : {
+        product: "Product",
+        how: "How it works",
+        evidence: "Evidence",
+        retest: "Re-test",
+        workspace: "Open workspace",
+        start: "Start for free",
+        eyebrow: "Website UI quality, backed by evidence.",
+        hero: "See what’s wrong.<br />Fix what matters.",
+        heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
+        audience: "Built for developers, designers, and website owners.",
+        startWebsite: "Start with your website",
+        giveUrl: "Give us the URL.<br />We’ll show you where to look.",
+        urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.",
+        urlLabel: "Website URL",
+        analyze: "Analyze",
+        freeNote: "Start free · no setup tour required.",
+      };
+
   return (
     <div className="landing-page" id="top">
       <header className="landing-nav-wrap">
@@ -281,11 +320,16 @@ export default function LandingPage() {
             {navLinks.map(([href, label]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
             ))}
-            <a href="#retest" onClick={() => setMenuOpen(false)}>Re-test</a>
+            <a href="#retest" onClick={() => setMenuOpen(false)}>{copy.retest}</a>
           </nav>
           <div className="landing-nav-actions">
-            <a className="landing-signin" href="#app/overview">Open workspace</a>
-            <button className="landing-cta" type="button" onClick={openApp}>Start for free</button>
+          <div className="landing-language-switcher" aria-label="Language">
+            <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
+            <span>/</span>
+            <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
+          </div>
+            <a className="landing-signin" href="#app/overview">{copy.workspace}</a>
+            <button className="landing-cta" type="button" onClick={openApp}>{copy.start}</button>
             <button className="landing-menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
@@ -295,15 +339,15 @@ export default function LandingPage() {
         <section className="landing-hero">
           <div className="landing-container landing-hero-grid">
             <div className="landing-hero-copy">
-              <span className="landing-eyebrow">Website UI quality, backed by evidence.</span>
-              <h1>See what’s wrong.<br /><em>Fix what matters.</em></h1>
-              <p>Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them—whether you build the site, own it, or shape how it looks.</p>
+              <span className="landing-eyebrow">{copy.eyebrow}</span>
+              <h1 dangerouslySetInnerHTML={{ __html: copy.hero }} />
+              <p>{copy.heroBody}</p>
               <div className="landing-hero-actions">
                 <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
-                <strong>Built for developers, designers, and website owners.</strong>
+                <strong>{copy.audience}</strong>
                 <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
               </div>
             </div>
@@ -314,20 +358,26 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="landing-share-section">
+        <section className="landing-share-section landing-url-section">
           <div className="landing-container landing-share-grid landing-share-dark">
-            <div>
-              <span className="landing-section-kicker">Start with your website</span>
-              <h2>Give us the URL.<br /><em>We’ll show you where to look.</em></h2>
-            </div>
-            <div className="landing-share-action">
-              <p>Paste the page you care about. Start with the website itself—no setup tour, no long questionnaire.</p>
-              <div className="landing-url-demo">
-                <span>https://your-site.com/pricing</span>
-                <button type="button" onClick={openApp}>Analyze <span>↗</span></button>
+            <div className="landing-url-copy">
+              <span className="landing-section-kicker">{copy.startWebsite}</span>
+              <h2 dangerouslySetInnerHTML={{ __html: copy.giveUrl }} />
+              <p>{copy.urlBody}</p>
+              <div className="landing-url-audience">
+                <span>Developers</span>
+                <span>Designers</span>
+                <span>Website owners</span>
               </div>
-              <small>Start free · developers, designers, and website owners</small>
             </div>
+            <form className="landing-url-form" onSubmit={(event) => { event.preventDefault(); openApp(); }}>
+              <label htmlFor="landing-url">{copy.urlLabel}</label>
+              <div className="landing-url-field">
+                <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
+                <button type="submit">{copy.analyze} <span>↗</span></button>
+              </div>
+              <small>{copy.freeNote}</small>
+            </form>
           </div>
         </section>
 
@@ -381,9 +431,9 @@ export default function LandingPage() {
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
             <div className="landing-section-heading">
-              <span className="landing-section-kicker">Evidence first</span>
+              <span className="landing-section-kicker">{language === "TR" ? "Önce kanıt" : "Evidence first"}</span>
               <span className="landing-display-label">03</span>
-              <h2>Know what was measured.<br /><em>Know what was suggested.</em></h2>
+              <h2>{language === "TR" ? <>Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em></> : <>Know what was measured.<br /><em>Know what was suggested.</em></>}</h2>
               <p>Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.</p>
             </div>
             <div className="landing-evidence-contrast">
@@ -396,8 +446,8 @@ export default function LandingPage() {
         <section className="landing-retest-section" id="retest">
           <div className="landing-container landing-retest-story">
             <div>
-              <span className="landing-section-kicker">The outcome</span>
-              <h2>Know what changed.<br /><em>Not just what looked better.</em></h2>
+              <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
+              <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
               <p>A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.</p>
               <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
             </div>
@@ -415,9 +465,9 @@ export default function LandingPage() {
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
             <div>
-              <span className="landing-section-kicker">Start free</span>
-              <h2>Give us a page.<br /><em>Get a clearer next step.</em></h2>
-              <p>Made for developers, designers, and anyone responsible for a website.</p>
+              <span className="landing-section-kicker">{language === "TR" ? "Ücretsiz başla" : "Start free"}</span>
+              <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
+              <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
             <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={openApp}>Start for free <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
           </div>
@@ -427,7 +477,7 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
           <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
-          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">Re-test</a><a href="#app/overview">Workspace</a></div>
+          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{copy.retest}</a><a href="#app/overview">Workspace</a></div>
           <small>Visibilio · 2026</small>
         </div>
       </footer>
