@@ -303,7 +303,7 @@ export default function LandingPage() {
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
-                <strong>For developers. For designers. For website owners.</strong>
+                <strong>Built for developers, designers, and website owners.</strong>
                 <span>One workflow to find, understand, fix, and re-test the UI issues that matter.</span>
               </div>
             </div>
