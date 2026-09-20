@@ -84,6 +84,8 @@ function ShellLogo() {
 function App() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
   const [url, setUrl] = useState("");
+  const projectId = "project_demo";
+  const projectName = url ? new URL(url).hostname : "Example website";
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
@@ -134,7 +136,7 @@ function App() {
         {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ url }),
+          body: JSON.stringify({ projectId, url }),
         },
       );
 
@@ -250,8 +252,8 @@ function App() {
 
               <section className="context-strip">
                 <div>
-                  <span>Project</span>
-                  <strong>Example website</strong>
+                  <span>Website</span>
+                  <strong>{projectName}</strong>
                 </div>
                 <div>
                   <span>Last scan</span>
