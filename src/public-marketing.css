@@ -839,3 +839,55 @@ body { margin: 0; }
 .landing-language-switcher button.is-active { color:#152d35; }
 .landing-language-switcher span { color:rgb(21 45 53 / 20%); font-size:.6rem; }
 @media (max-width:900px) { .landing-language-switcher { display:none; } }
+
+
+/* Mobile overflow guard: keep decorative/large display content inside the viewport. */
+.landing-page,
+.landing-page main,
+.landing-page section {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.landing-container,
+.landing-hero-grid,
+.landing-share-grid,
+.landing-two-col,
+.landing-proof-heading,
+.landing-feature-layout,
+.landing-audience-grid,
+.landing-evidence-contrast,
+.landing-retest-grid {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .landing-hero-copy,
+  .landing-hero-copy h1,
+  .landing-hero-copy > p,
+  .landing-url-copy,
+  .landing-url-copy h2,
+  .landing-url-copy p {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .landing-hero-copy h1,
+  .landing-url-copy h2 {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .landing-hero-evidence,
+  .landing-url-form,
+  .landing-feature-art,
+  .landing-demo,
+  .landing-proof-list,
+  .landing-audience-grid,
+  .landing-evidence-feature,
+  .landing-retest-art,
+  .landing-faq-list {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
