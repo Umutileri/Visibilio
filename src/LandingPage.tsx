@@ -23,7 +23,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
-    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve",
+    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve", faqItems: "What does Visibilio actually check?::Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding.|||Who is Visibilio for?::Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues.|||Do I need to install anything?::No. Start with a URL and Visibilio handles the scan workflow for you.|||Is the AI the source of the finding?::No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next.|||Can I re-test after fixing an issue?::Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements.|||Is there a free way to try it?::The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan.",
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
@@ -39,7 +39,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
     faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
-    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir",
+    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir", faqItems: "Visibilio tam olarak neyi kontrol eder?::Visibilio gerçek tarayıcı davranışını ölçer ve responsive taşma ile erişilebilirlik sorunları gibi arayüz problemlerini bulur. Her bulgu viewport, selector ve ölçümlerle birlikte tutulur.|||Visibilio kimler için?::Geliştiriciler, tasarımcılar, web sitesi sahipleri ve bir web sitesinden sorumlu herkes aynı kanıt odaklı akışla sorunları bulabilir, anlayabilir, düzeltebilir ve yeniden test edebilir.|||Kurulum yapmam gerekir mi?::Hayır. Bir URL ile başlayın; tarama akışını Visibilio yürütür.|||Bulguyu AI mı oluşturuyor?::Hayır. Bulguyu tarayıcı ölçümleri ve deterministik kurallar oluşturur. AI, kanıtı açıklamak ve sonraki adımları önermek için kullanılır.|||Düzelttikten sonra yeniden test edebilir miyim?::Evet. Aynı kural, selector ve viewport ile yeniden test ederek önceki ve sonraki ölçümleri karşılaştırabilirsiniz.|||Ücretsiz deneyebilir miyim?::Ürün, ücretli bir plana geçmeden önce temel akışı görmenizi sağlayacak hafif bir ücretsiz deneyimle başlayacak şekilde tasarlanıyor.",
   }
 };
 
@@ -244,14 +244,8 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
 }
 
 function FAQSection({ t }: { t: Record<string, string> }) {
-  const items = [
-    ["What does Visibilio actually check?", "Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding."],
-    ["Who is Visibilio for?", "Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues."],
-    ["Do I need to install anything?", "No. Start with a URL and Visibilio handles the scan workflow for you."],
-    ["Is the AI the source of the finding?", "No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next."],
-    ["Can I re-test after fixing an issue?", "Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements."],
-    ["Is there a free way to try it?", "The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan."],
-  ];
+  const items = t.faqItems.split("|||").map((item) => item.split("::"));
+
 
   return (
     <section className="landing-faq-section" id="faq">
