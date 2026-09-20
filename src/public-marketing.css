@@ -172,7 +172,7 @@ body { margin: 0; }
   .landing-demo-retest > b { justify-self:center; transform:rotate(90deg); }
   .landing-cta-panel { padding:34px 24px; }
 }
-/* Landing v3 refinements */
+/* style */
 .landing-share-section {
   padding: 88px 0 110px;
   border-bottom: 1px solid rgb(21 45 53 / 8%);
@@ -549,7 +549,7 @@ body { margin: 0; }
   .landing-final-section { padding:84px 0 92px; }
 }
 
-/* Value-proof section */
+/* style */
 .landing-proof-section {
   padding: 138px 0;
   border-top: 1px solid rgb(21 45 53 / 8%);
@@ -609,7 +609,7 @@ body { margin: 0; }
   .landing-proof-section { padding:88px 0; }
 }
 
-/* Navigation refinement */
+/* style */
 .landing-nav-wrap { position: sticky; top: 0; z-index: 50; padding: 14px 0; background: transparent; border: 0; }
 .landing-nav { width: min(1240px, calc(100% - 36px)); min-height: 56px; margin: 0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:0 10px 0 16px; border:1px solid rgb(21 45 53 / 9%); border-radius:16px; background:rgb(251 253 251 / 86%); box-shadow:0 10px 32px rgb(21 45 53 / 6%); backdrop-filter:blur(18px); }
 .landing-brand { gap:9px; font-size:.94rem; }
