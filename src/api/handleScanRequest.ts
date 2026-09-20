@@ -1,11 +1,16 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { assertSafeTarget } from "./urlSafety";
 import { scanViewports } from "../scanner/viewportScan";
+import { assertSafeTarget } from "./urlSafety";
 import type { ScanApiFailure, ScanApiRequest, ScanApiSuccess } from "./types";
 
 const MAX_URL_LENGTH = 2048;
 
-function failure(response: ServerResponse, statusCode: number, code: ScanApiFailure['error']['code'], message: string): void {
+function failure(
+  response: ServerResponse,
+  statusCode: number,
+  code: ScanApiFailure["error"]["code"],
+  message: string,
+): void {
   const body: ScanApiFailure = { ok: false, error: { code, message } };
   response.writeHead(statusCode, { "content-type": "application/json" });
   response.end(JSON.stringify(body));
@@ -23,7 +28,10 @@ export function validateScanUrl(rawUrl: string): URL | null {
   }
 }
 
-export async function handleScanRequest(request: IncomingMessage, response: ServerResponse): Promise<void> {
+export async function handleScanRequest(
+  request: IncomingMessage,
+  response: ServerResponse,
+): Promise<void> {
   if (request.method !== "POST") {
     failure(response, 405, "INVALID_REQUEST", "Only POST requests are supported.");
     return;
@@ -53,7 +61,12 @@ export async function handleScanRequest(request: IncomingMessage, response: Serv
 
   const url = validateScanUrl(payload.url);
   if (!url) {
-    failure(response, 400, "INVALID_URL", "Use a valid HTTP or HTTPS URL without embedded credentials.");
+    failure(
+      response,
+      400,
+      "INVALID_URL",
+      "Use a valid HTTP or HTTPS URL without embedded credentials.",
+    );
     return;
   }
 
@@ -72,6 +85,11 @@ export async function handleScanRequest(request: IncomingMessage, response: Serv
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
-    failure(response, 502, 'SCAN_ERROR', error instanceof Error ? error.message : 'Scan failed.');
+    failure(
+      response,
+      502,
+      "SCAN_ERROR",
+      error instanceof Error ? error.message : "Scan failed.",
+    );
   }
 }
