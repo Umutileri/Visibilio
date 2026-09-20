@@ -2,7 +2,7 @@
 
 ## North Star
 
-Visibilio is an evidence-first website UI quality platform that helps teams **detect → explain → show → suggest → re-test → track improvement**.
+Visibilio is an evidence-first website UI quality platform that helps teams **scan → find → show → explain → fix → re-test → track improvement**.
 
 The product should create recurring value, not a one-off report:
 - Scan a website
@@ -19,6 +19,12 @@ The product should create recurring value, not a one-off report:
 - Concrete scanner/evidence examples
 - No fake scan results
 - CTA into Analyze
+- URL-first entry point directly after the hero
+- Communicate value before asking users to enter the workspace
+- Explicitly serve developers, designers, and website owners
+- “Start for free” as the primary acquisition action
+- Avoid generic AI/SaaS visual patterns
+- Treat the landing page itself as a demonstration of Visibilio's UI-quality standard
 
 ### Product shell
 - Project / website context
@@ -207,6 +213,8 @@ Do not implement billing before users can reliably complete the core loop.
 ### P12 — UX/product polish
 Goal: make the proven workflow feel excellent.
 
+Landing-page polish is part of the product, not a separate marketing exercise.
+
 - [ ] Navigation hierarchy refinement
 - [ ] Desktop/tablet/mobile behavior
 - [ ] Keyboard/focus coverage
@@ -252,6 +260,6 @@ Do not initially build:
 ## Current implementation rule
 
 Every feature must preserve:
-Browser measurement → deterministic rule → structured issue → evidence → AI explanation → suggestion → re-test.
+Browser scan → deterministic finding → evidence → explanation → fix guidance → re-test.
 
 Measured evidence must remain independently inspectable.

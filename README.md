@@ -22,7 +22,7 @@ Visibilio is a **website UI analysis and improvement platform** built to make we
 
 Instead of simply giving you a score, Visibilio is designed around one simple loop:
 
-**Detect → Explain → Show → Suggest → Re-test**
+**Scan → Find → Show → Explain → Fix → Re-test**
 
 It aims to answer:
 
@@ -66,15 +66,15 @@ The system should first determine what actually happened. AI can then help expla
 ```text
 Browser
    ↓
-Measurements
+Browser Measurements
    ↓
-Detection Rules
+Deterministic Finding
    ↓
-Structured Issue
+Evidence
    ↓
 AI Explanation
    ↓
-Suggested Fix
+Fix Guidance
    ↓
 Re-test
 ```
@@ -136,15 +136,7 @@ The interface should help users understand website problems rather than create m
 
 ## Roadmap
 
-`M0` Project foundation  
-`M1` Local website scanning  
-`M2` First UI issue detection  
-`M3` Visual evidence  
-`M4` Audit dashboard  
-`M5` AI explanations  
-`M6` Suggested fixes  
-`M7` Re-testing  
-`M8` Public website scanning
+See [`PRODUCT_PROGRAM.md`](./PRODUCT_PROGRAM.md) for the current milestone program.
 
 See [`ROADMAP.md`](./ROADMAP.md) for the detailed plan.
 

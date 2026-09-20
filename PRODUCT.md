@@ -4,7 +4,7 @@
 
 Visibilio is a website UI analysis and improvement platform that makes website problems easier to **detect, understand, see, fix, and verify**.
 
-**Core loop:** Detect → Explain → Show → Suggest → Re-test
+**Core loop:** Scan → Find → Show → Explain → Fix → Re-test
 
 ## Problem
 
@@ -49,11 +49,12 @@ A user should be able to understand how a finding was produced and, where practi
 
 ## Core flow
 
-1. **Detect** — run checks against the target page.
-2. **Explain** — describe the finding in appropriate language.
-3. **Show** — provide visual and technical evidence.
-4. **Suggest** — propose a next step or possible fix.
-5. **Re-test** — run the relevant check again and compare results.
+1. **Scan** — load the target page in controlled browser viewports.
+2. **Find** — identify measurable UI problems with deterministic rules.
+3. **Show** — expose the viewport, selector, measurements, and visual evidence behind a finding.
+4. **Explain** — turn the confirmed finding into clear human and technical context.
+5. **Fix** — provide a practical next step or possible implementation direction.
+6. **Re-test** — run the same relevant check again and compare the result.
 
 ## MVP scope
 

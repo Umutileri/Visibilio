@@ -147,3 +147,45 @@ Primary navigation: Overview, Analyze, Findings, Evidence, History, Settings.
 The screen hierarchy should prioritize project/website context, current scan state, findings summary, finding detail, evidence, and next action. Important state must never depend on hover alone. Preserve the URL during retry/error flows and keep the selected finding when moving between Findings and Evidence.
 
 Prefer an engineering-tool/editorial layout over a generic card-heavy AI dashboard. Use compact summaries, lists, tables, and metadata rows when they make findings easier to compare.
+
+
+## Public marketing experience
+
+The public landing page is part of the product experience. It must demonstrate the same UI quality that Visibilio promises to help users achieve.
+
+### Navigation
+- Keep the navigation persistent and unobtrusive.
+- Prefer a compact product-site navigation over a traditional enterprise navbar.
+- Primary action is “Start for free”.
+- Secondary action opens the product workspace.
+- Anchor navigation must have smooth, predictable scrolling.
+
+### Page rhythm
+The landing flow should read as:
+1. Promise
+2. Show the product in action
+3. Invite the user to share a URL
+4. Explain the problem and Visibilio's difference
+5. Demonstrate the workflow
+6. Explain audience value
+7. Establish the evidence-first principle
+8. Show the measurable outcome
+9. End with a clear “Start for free” action
+
+### Visual language
+Avoid:
+- looping keyword marquees
+- decorative process banners
+- generic AI dashboards
+- excessive pills, gradients, glows, or floating ornament
+- marketing claims that cannot be demonstrated by the product
+
+Prefer:
+- strong typographic hierarchy
+- asymmetrical editorial composition where useful
+- real product-shaped evidence
+- restrained motion
+- purposeful whitespace
+- clear alignment and grid discipline
+
+The landing page should itself be a small demonstration of evidence-backed interface quality.
