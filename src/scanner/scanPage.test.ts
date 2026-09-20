@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
+import { access, rm } from "node:fs/promises";
 import { after, before, describe, it } from "node:test";
 import { scanPage } from "./scanPage";
 import { initialViewports } from "./viewports";
 
 let server: Server;
 let baseUrl: string;
+const evidenceDir = ".test-evidence";
 
 before(async () => {
   server = createServer((_request, response) => {
@@ -44,17 +46,26 @@ after(async () => {
   await new Promise<void>((resolve, reject) =>
     server.close((error) => (error ? reject(error) : resolve())),
   );
+  await rm(evidenceDir, { recursive: true, force: true });
 });
 
 describe("scanPage", () => {
   it("detects mobile overflow and emits a structured issue", async () => {
-    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
+    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0], {
+      evidenceDir,
+    });
 
     assert.equal(result.ok, true);
     if (!result.ok) return;
 
     assert.equal(result.dimensions.viewportWidth, 390);
     assert.equal(result.dimensions.horizontalOverflow, 34);
+    assert.equal(result.screenshot.type, "screenshot");
+    assert.equal(result.screenshot.format, "png");
+    assert.deepEqual(result.screenshot.viewport, initialViewports[0]);
+    assert.equal(result.screenshot.width, 390);
+    assert.equal(result.screenshot.height, 844);
+    await access(result.screenshot.path);
 
     const overflowIssue = result.issues.find(
       (issue) => issue.rule === "responsive.horizontal-overflow",
@@ -72,7 +83,9 @@ describe("scanPage", () => {
   });
 
   it("reports deterministic accessibility findings", async () => {
-    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0]);
+    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0], {
+      evidenceDir,
+    });
 
     assert.equal(result.ok, true);
     if (!result.ok) return;
@@ -99,25 +112,30 @@ describe("scanPage", () => {
   });
 
   it("does not report overflow on the wider desktop viewport", async () => {
-    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[1]);
+    const result = await scanPage(`${baseUrl}/fixture`, initialViewports[1], {
+      evidenceDir,
+    });
 
     assert.equal(result.ok, true);
     if (!result.ok) return;
 
     assert.equal(result.dimensions.viewportWidth, 1440);
     assert.equal(result.dimensions.horizontalOverflow, 0);
+    assert.equal(result.screenshot.width, 1440);
+    assert.equal(result.screenshot.height, 900);
   });
 
   it("returns a page failure for an unreachable page", async () => {
-    const result = await scanPage("http://127.0.0.1:1/unreachable", {
-      name: "Test",
-      width: 390,
-      height: 844,
-    });
+    const result = await scanPage(
+      "http://127.0.0.1:1/unreachable",
+      { name: "Test", width: 390, height: 844 },
+      { evidenceDir },
+    );
 
     assert.equal(result.ok, false);
     if (!result.ok) {
       assert.ok(result.error);
+      assert.equal("screenshot" in result, false);
     }
   });
 });
