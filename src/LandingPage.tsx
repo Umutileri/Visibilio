@@ -11,7 +11,7 @@ type Language = "EN" | "TR";
 const translations: Record<Language, Record<string, string>> = {
   EN: {
     product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
-    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
+    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br /><em>Fix what matters.</em>",
     heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
@@ -27,7 +27,7 @@ const translations: Record<Language, Record<string, string>> = {
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
-    heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
+    heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br /><em>Önemli olanı düzeltin.</em>",
     heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
     startWebsite: "Web sitenizle başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı gösterelim.</em>",
