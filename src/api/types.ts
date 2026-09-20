@@ -39,7 +39,16 @@ export interface ScanSessionListSuccess {
 
 export type ScanSessionListResponse = ScanSessionListSuccess | ScanApiFailure;
 
-export interface ScanFindingStatusSuccess {\n  ok: true;\n  session: ScanSession;\n  url: string;\n  results: ScanApiResult[];\n}\n\nexport type ScanFindingStatusResponse = ScanFindingStatusSuccess | ScanApiFailure;\n\nexport interface ScanSessionGetSuccess {
+export interface ScanFindingStatusSuccess {
+  ok: true;
+  session: ScanSession;
+  url: string;
+  results: ScanApiResult[];
+}
+
+export type ScanFindingStatusResponse = ScanFindingStatusSuccess | ScanApiFailure;
+
+export interface ScanSessionGetSuccess {
   ok: true;
   session: ScanSession;
 }
