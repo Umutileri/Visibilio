@@ -70,7 +70,7 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Store viewport metadata
 - [x] Show measured values
 - [x] Identify affected selectors where practical
-- [ ] Add issue evidence view
+- [x] Add issue evidence view
 
 **Exit criteria:** A user can see visual evidence and the measurements behind an issue.
 
