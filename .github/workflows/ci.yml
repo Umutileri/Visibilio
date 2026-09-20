@@ -34,32 +34,15 @@ jobs:
         shell: bash
         run: |
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
-            files="$(git diff --name-only --diff-filter=ACMR "$GITHUB_BASE_REF...$GITHUB_SHA" | grep -E '\.(ts|tsx|js|jsx|json|css|md|yml|yaml)$' || true)"
-            if [ -n "$files" ]; then
-              printf '%s\n' "$files" | xargs npx prettier --check --log-level warn
-            else
-              echo "No format-eligible changed files."
-            fi
+            files="$(git diff --name-only --diff-filter=ACMR "$GITHUB_BASE_REF...$GITHUB_SHA" | grep -E '.(ts|tsx|js|jsx|json|css|md|yml|yaml)$' || true)"
           else
-            files="$(git diff --name-only HEAD~1 HEAD --diff-filter=ACMR | grep -E '\.(ts|tsx|js|jsx|json|css|md|yml|yaml)
-
-      - name: Run build
-        run: npm run build
-
-      - name: Run lint
-        run: npm run lint
-
-      - name: Run scanner tests
-        run: npm run test:scanner
-
-      - name: Run API tests
-        run: npm run test:api
- || true)"
-            if [ -n "$files" ]; then
-              printf '%s\n' "$files" | xargs npx prettier --check --log-level warn
-            else
-              echo "No format-eligible changed files."
-            fi
+            files="$(git diff --name-only HEAD~1 HEAD --diff-filter=ACMR | grep -E '.(ts|tsx|js|jsx|json|css|md|yml|yaml)$' || true)"
+          fi
+          if [ -n "$files" ]; then
+            printf '%s
+' "$files" | xargs npx prettier --check --log-level warn
+          else
+            echo "No format-eligible changed files."
           fi
 
       - name: Run build
