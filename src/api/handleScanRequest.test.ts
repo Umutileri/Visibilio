@@ -93,7 +93,10 @@ describe("handleScanRequest", () => {
     const response = await fetch(baseUrl + "/api/scan", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ url: "file:///tmp/page" }),
+      body: JSON.stringify({
+        projectId: "project_demo",
+        url: "file:///tmp/page",
+      }),
     });
     const body = (await response.json()) as {
       ok: false;
@@ -108,7 +111,10 @@ describe("handleScanRequest", () => {
     const response = await fetch(baseUrl + "/api/scan", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ url: "http://127.0.0.1" }),
+      body: JSON.stringify({
+        projectId: "project_demo",
+        url: "http://127.0.0.1",
+      }),
     });
     const body = (await response.json()) as {
       ok: false;
