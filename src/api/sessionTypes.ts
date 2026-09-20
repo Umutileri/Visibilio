@@ -5,6 +5,8 @@ export type ScanStatus = "queued" | "scanning" | "completed" | "failed";
 export interface ScanSession {
   id: string;
   url: string;
+  parentSessionId?: string;
+  retestOfFindingId?: string;
   status: ScanStatus;
   createdAt: string;
   startedAt?: string;
