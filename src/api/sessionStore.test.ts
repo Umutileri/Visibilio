@@ -58,10 +58,12 @@ describe("InMemoryScanSessionStore", () => {
 
     await store.create({
       ...older,
+      id: older.id + "_older",
       createdAt: "2026-09-20T09:00:00.000Z",
     });
     await store.create({
       ...newer,
+      id: newer.id + "_newer",
       createdAt: "2026-09-20T10:00:00.000Z",
     });
 
