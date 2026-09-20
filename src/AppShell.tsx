@@ -94,6 +94,7 @@ function AppShell() {
   );
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
   const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
@@ -157,7 +158,8 @@ function AppShell() {
       finding.title.toLowerCase().includes(needle) ||
       finding.rule.toLowerCase().includes(needle) ||
       finding.selector?.toLowerCase().includes(needle);
-    return matchesSeverity && matchesQuery;
+    const matchesStatus = statusFilter === "all" || finding.status === statusFilter;
+    return matchesSeverity && matchesQuery && matchesStatus;
   });
 
   async function updateFindingStatus(status: UIssue["status"]) {
@@ -517,6 +519,16 @@ function AppShell() {
                     className={"filter-chip" + (severity === value ? " is-active" : "")}
                     type="button"
                     onClick={() => setSeverity(value)}
+                  >
+                    {value}
+                  </button>
+                ))}
+                {(["all", "open", "resolved", "ignored"] as const).map((value) => (
+                  <button
+                    key={value}
+                    className={"filter-chip" + (statusFilter === value ? " is-active" : "")}
+                    type="button"
+                    onClick={() => setStatusFilter(value)}
                   >
                     {value}
                   </button>
