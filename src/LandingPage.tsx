@@ -23,7 +23,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
-    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve", finding: "Finding", contentExceeds: "Content exceeds viewport", measuredBrowser: "Measured in the browser.", mobile: "Mobile", before: "Before", after: "After", overflow: "overflow", withinViewport: "within viewport", fix: "Fix", runSameCheck: "Run the same check", sameRuleFoot: "Same rule · same viewport · measured again", faqItems: "What does Visibilio actually check?::Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding.|||Who is Visibilio for?::Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues.|||Do I need to install anything?::No. Start with a URL and Visibilio handles the scan workflow for you.|||Is the AI the source of the finding?::No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next.|||Can I re-test after fixing an issue?::Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements.|||Is there a free way to try it?::The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan.",
+    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve", finding: "Finding", contentExceeds: "Content exceeds viewport", measuredBrowser: "Measured in the browser.", mobile: "Mobile", before: "Before", after: "After", overflow: "overflow", withinViewport: "within viewport", fix: "Fix", runSameCheck: "Run the same check", sameRuleFoot: "Same rule · same viewport · measured again", measurement: "Measurement", viewportWidth: "viewportWidth", documentWidth: "documentWidth", horizontalOverflow: "horizontalOverflow", selector: "selector", viewport: "viewport", confirmedFact: "Confirmed fact", documentWider: "Document width is larger than the tested viewport.", evidenceSource: "Evidence source · browser measurement", aiContext: "AI context", aiCopy: "This can create horizontal scrolling on smaller screens. Check fixed-width children and grid sizing first.", overflowCallout: "34 px overflow", faqItems: "What does Visibilio actually check?::Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding.|||Who is Visibilio for?::Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues.|||Do I need to install anything?::No. Start with a URL and Visibilio handles the scan workflow for you.|||Is the AI the source of the finding?::No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next.|||Can I re-test after fixing an issue?::Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements.|||Is there a free way to try it?::The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan.",
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
@@ -39,7 +39,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
     faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
-    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir", finding: "Bulgu", contentExceeds: "İçerik viewport'u aşıyor", measuredBrowser: "Tarayıcıda ölçüldü.", mobile: "Mobil", before: "Önce", after: "Sonra", overflow: "taşma", withinViewport: "viewport içinde", fix: "Düzelt", runSameCheck: "Aynı kontrolü çalıştır", sameRuleFoot: "Aynı kural · aynı viewport · yeniden ölçüldü", faqItems: "Visibilio tam olarak neyi kontrol eder?::Visibilio gerçek tarayıcı davranışını ölçer ve responsive taşma ile erişilebilirlik sorunları gibi arayüz problemlerini bulur. Her bulgu viewport, selector ve ölçümlerle birlikte tutulur.|||Visibilio kimler için?::Geliştiriciler, tasarımcılar, web sitesi sahipleri ve bir web sitesinden sorumlu herkes aynı kanıt odaklı akışla sorunları bulabilir, anlayabilir, düzeltebilir ve yeniden test edebilir.|||Kurulum yapmam gerekir mi?::Hayır. Bir URL ile başlayın; tarama akışını Visibilio yürütür.|||Bulguyu AI mı oluşturuyor?::Hayır. Bulguyu tarayıcı ölçümleri ve deterministik kurallar oluşturur. AI, kanıtı açıklamak ve sonraki adımları önermek için kullanılır.|||Düzelttikten sonra yeniden test edebilir miyim?::Evet. Aynı kural, selector ve viewport ile yeniden test ederek önceki ve sonraki ölçümleri karşılaştırabilirsiniz.|||Ücretsiz deneyebilir miyim?::Ürün, ücretli bir plana geçmeden önce temel akışı görmenizi sağlayacak hafif bir ücretsiz deneyimle başlayacak şekilde tasarlanıyor.",
+    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir", finding: "Bulgu", contentExceeds: "İçerik viewport'u aşıyor", measuredBrowser: "Tarayıcıda ölçüldü.", mobile: "Mobil", before: "Önce", after: "Sonra", overflow: "taşma", withinViewport: "viewport içinde", fix: "Düzelt", runSameCheck: "Aynı kontrolü çalıştır", sameRuleFoot: "Aynı kural · aynı viewport · yeniden ölçüldü", measurement: "Ölçüm", viewportWidth: "viewportGenişliği", documentWidth: "dokümanGenişliği", horizontalOverflow: "yatayTaşma", selector: "selector", viewport: "viewport", confirmedFact: "Doğrulanmış gerçek", documentWider: "Doküman genişliği test edilen viewport'tan daha büyük.", evidenceSource: "Kanıt kaynağı · tarayıcı ölçümü", aiContext: "AI bağlamı", aiCopy: "Bu durum küçük ekranlarda yatay kaydırma oluşturabilir. Önce sabit genişlikli öğeleri ve grid boyutlandırmasını kontrol edin.", overflowCallout: "34 px taşma", faqItems: "Visibilio tam olarak neyi kontrol eder?::Visibilio gerçek tarayıcı davranışını ölçer ve responsive taşma ile erişilebilirlik sorunları gibi arayüz problemlerini bulur. Her bulgu viewport, selector ve ölçümlerle birlikte tutulur.|||Visibilio kimler için?::Geliştiriciler, tasarımcılar, web sitesi sahipleri ve bir web sitesinden sorumlu herkes aynı kanıt odaklı akışla sorunları bulabilir, anlayabilir, düzeltebilir ve yeniden test edebilir.|||Kurulum yapmam gerekir mi?::Hayır. Bir URL ile başlayın; tarama akışını Visibilio yürütür.|||Bulguyu AI mı oluşturuyor?::Hayır. Bulguyu tarayıcı ölçümleri ve deterministik kurallar oluşturur. AI, kanıtı açıklamak ve sonraki adımları önermek için kullanılır.|||Düzelttikten sonra yeniden test edebilir miyim?::Evet. Aynı kural, selector ve viewport ile yeniden test ederek önceki ve sonraki ölçümleri karşılaştırabilirsiniz.|||Ücretsiz deneyebilir miyim?::Ürün, ücretli bir plana geçmeden önce temel akışı görmenizi sağlayacak hafif bir ücretsiz deneyimle başlayacak şekilde tasarlanıyor.",
   }
 };
 
@@ -114,8 +114,8 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
           <div className="demo-overflow-box"><span>+34 px</span></div>
         </div>
         <div className="demo-note">
-          <small>FOUND</small>
-          <strong>Content extends beyond the viewport.</strong>
+          <small>{t.finding}</small>
+          <strong>{t.contentExceeds}</strong>
           <span>responsive.horizontal-overflow</span>
         </div>
       </div>
@@ -125,14 +125,14 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
   if (id === "evidence") {
     return (
       <div className="landing-demo landing-demo-evidence">
-        <div className="evidence-heading-row"><span>MEASUREMENT</span><b>mobile / 390 × 844</b></div>
+        <div className="evidence-heading-row"><span>{t.measurement}</span><b>{t.mobile.toLowerCase()} / 390 × 844</b></div>
         <div className="evidence-inspector">
-          <div><small>viewportWidth</small><strong>390</strong><em>px</em></div>
-          <div><small>documentWidth</small><strong>424</strong><em>px</em></div>
-          <div><small>horizontalOverflow</small><strong>34</strong><em>px</em></div>
-          <div><small>selector</small><strong>.pricing-grid</strong></div>
+          <div><small>{t.viewportWidth}</small><strong>390</strong><em>px</em></div>
+          <div><small>{t.documentWidth}</small><strong>424</strong><em>px</em></div>
+          <div><small>{t.horizontalOverflow}</small><strong>34</strong><em>px</em></div>
+          <div><small>{t.selector}</small><strong>.pricing-grid</strong></div>
         </div>
-        <div className="evidence-ruler"><span>viewport</span><i /><b>+34 px</b></div>
+        <div className="evidence-ruler"><span>{t.viewport}</span><i /><b>+34 px</b></div>
       </div>
     );
   }
@@ -141,13 +141,13 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
     return (
       <div className="landing-demo landing-demo-explain">
         <div className="explain-block">
-          <small>CONFIRMED FACT</small>
-          <strong>Document width is larger than the tested viewport.</strong>
-          <span>Evidence source · browser measurement</span>
+          <small>{t.confirmedFact}</small>
+          <strong>{t.documentWider}</strong>
+          <span>{t.evidenceSource}</span>
         </div>
         <div className="explain-block explain-ai">
-          <small>AI CONTEXT</small>
-          <p>This can create horizontal scrolling on smaller screens. Check fixed-width children and grid sizing first.</p>
+          <small>{t.aiContext}</small>
+          <p>{t.aiCopy}</p>
         </div>
       </div>
     );
