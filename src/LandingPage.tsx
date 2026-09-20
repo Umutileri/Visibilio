@@ -217,6 +217,36 @@ function AudienceBlock() {
   );
 }
 
+function FAQSection() {
+  const items = [
+    ["What does Visibilio actually check?", "Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding."],
+    ["Who is Visibilio for?", "Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues."],
+    ["Do I need to install anything?", "No. Start with a URL and Visibilio handles the scan workflow for you."],
+    ["Is the AI the source of the finding?", "No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next."],
+    ["Can I re-test after fixing an issue?", "Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements."],
+    ["Is there a free way to try it?", "The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan."],
+  ];
+
+  return (
+    <section className="landing-faq-section" id="faq">
+      <div className="landing-container landing-faq-grid">
+        <div className="landing-faq-title">
+          <span className="landing-section-kicker">Questions, answered.</span>
+          <h2>Frequently asked<br /><em>questions</em></h2>
+        </div>
+        <div className="landing-faq-list">
+          {items.map(([question, answer], index) => (
+            <details key={question} open={index === 0}>
+              <summary>{question}<span>+</span></summary>
+              <p>{answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
