@@ -2315,3 +2315,13 @@ input:focus-visible {
   color: rgb(21 45 53 / 42%);
   font-size: .68rem;
 }
+
+
+/* Finding status actions */
+.finding-status-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.finding-status-actions .outline-button { min-height:34px; font-size:.65rem; }
+.inline-status { margin:10px 0 0; color:#5c7b70; font-size:.68rem; }
+@media (max-width:640px) {
+  .finding-status-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .finding-status-actions .outline-button { width:100%; padding:0 8px; }
+}
