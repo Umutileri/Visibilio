@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
+import { defaultScanSessionStore } from "./sessionStore";
 import type {
   ScanApiFailure,
   ScanApiRequest,
@@ -99,6 +100,7 @@ export async function handleScanRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+  await defaultScanSessionStore.create(session);
 
   try {
     const result = await scanViewports(session.url);
@@ -108,6 +110,8 @@ export async function handleScanRequest(
       results: result.results,
       findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
     });
+
+    await defaultScanSessionStore.update(completedSession);
 
     const success: ScanApiSuccess = {
       ok: true,
@@ -122,6 +126,12 @@ export async function handleScanRequest(
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
+    const failedSession = updateScanSession(session, {
+      status: "failed",
+      completedAt: new Date().toISOString(),
+    });
+    await defaultScanSessionStore.update(failedSession);
+
     failure(
       response,
       502,
