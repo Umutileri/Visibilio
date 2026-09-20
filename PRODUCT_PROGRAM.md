@@ -2,7 +2,7 @@
 
 ## North Star
 
-Visibilio is an evidence-first website UI quality platform that helps teams **detect → explain → show → suggest → re-test → track improvement**.
+Visibilio is an evidence-first website UI quality platform that helps teams **scan → find → show → explain → fix → re-test → track improvement**.
 
 The product should create recurring value, not a one-off report:
 - Scan a website
@@ -260,6 +260,6 @@ Do not initially build:
 ## Current implementation rule
 
 Every feature must preserve:
-Browser measurement → deterministic rule → structured issue → evidence → AI explanation → suggestion → re-test.
+Browser scan → deterministic finding → evidence → explanation → fix guidance → re-test.
 
 Measured evidence must remain independently inspectable.
