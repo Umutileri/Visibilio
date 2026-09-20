@@ -95,8 +95,6 @@ function AppShell() {
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
-  const [statusMessage, setStatusMessage] = useState("");
-  const [evidenceViewport, setEvidenceViewport] = useState<"mobile" | "desktop">("mobile");
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -162,26 +160,6 @@ function AppShell() {
     const matchesStatus = statusFilter === "all" || finding.status === statusFilter;
     return matchesSeverity && matchesQuery && matchesStatus;
   });
-
-  async function updateFindingStatus(status: UIssue["status"]) {
-    const endpoint = import.meta.env.VITE_SCAN_API_URL;
-    if (!endpoint || !response?.ok || !selectedFinding) return;
-
-    setStatusMessage("");
-    try {
-      const result = await fetch(endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(response.session.id) + "/findings/" + encodeURIComponent(selectedFinding.id), {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
-      const data = (await result.json()) as ScanApiResponse;
-      if (!result.ok || !data.ok) throw new Error(data.ok ? "Could not update finding." : data.error.message);
-      setResponse(data);
-      setStatusMessage(status === "resolved" ? "Finding marked as resolved." : status === "ignored" ? "Finding marked as ignored." : "Finding reopened.");
-    } catch (statusError) {
-      setStatusMessage(statusError instanceof Error ? statusError.message : "Could not update finding.");
-    }
-  }
 
   async function runScan() {
     setError("");
