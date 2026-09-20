@@ -314,20 +314,26 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="landing-share-section">
+        <section className="landing-share-section landing-url-section">
           <div className="landing-container landing-share-grid landing-share-dark">
-            <div>
+            <div className="landing-url-copy">
               <span className="landing-section-kicker">Start with your website</span>
               <h2>Give us the URL.<br /><em>We’ll show you where to look.</em></h2>
-            </div>
-            <div className="landing-share-action">
-              <p>Paste the page you care about. Start with the website itself—no setup tour, no long questionnaire.</p>
-              <div className="landing-url-demo">
-                <span>https://your-site.com/pricing</span>
-                <button type="button" onClick={openApp}>Analyze <span>↗</span></button>
+              <p>One place to start. Paste a page, run the check, and get a finding you can act on.</p>
+              <div className="landing-url-audience">
+                <span>Developers</span>
+                <span>Designers</span>
+                <span>Website owners</span>
               </div>
-              <small>Start free · developers, designers, and website owners</small>
             </div>
+            <form className="landing-url-form" onSubmit={(event) => { event.preventDefault(); openApp(); }}>
+              <label htmlFor="landing-url">Website URL</label>
+              <div className="landing-url-field">
+                <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
+                <button type="submit">Analyze <span>↗</span></button>
+              </div>
+              <small>Start free · no setup tour required.</small>
+            </form>
           </div>
         </section>
 
