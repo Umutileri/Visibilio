@@ -148,6 +148,35 @@ function StepVisual({ id }: { id: string }) {
   );
 }
 
+
+function ProductProof() {
+  const proofItems = [
+    ["01", "Find", "See measurable issues before they become another debugging session."],
+    ["02", "Understand", "Get the browser context, affected element, and evidence in one place."],
+    ["03", "Improve", "Make the change, re-run the same check, and see what actually moved."],
+  ];
+
+  return (
+    <section className="landing-proof-section">
+      <div className="landing-container">
+        <div className="landing-proof-heading">
+          <span className="landing-section-kicker">Why people use Visibilio</span>
+          <h2>From a vague feeling<br /><em>to a useful answer.</em></h2>
+        </div>
+        <div className="landing-proof-list">
+          {proofItems.map(([number, title, copy]) => (
+            <article key={number}>
+              <span>{number}</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AudienceBlock() {
   return (
     <section className="landing-audience-section">
