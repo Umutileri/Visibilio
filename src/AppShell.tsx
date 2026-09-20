@@ -576,6 +576,23 @@ function AppShell() {
                     </div>
                   </div>
                   <div className="detail-section">
+                    <span className="detail-label">Status</span>
+                    <div className="finding-status-actions">
+                      {(["open", "resolved", "ignored"] as const).map((value) => (
+                        <button
+                          key={value}
+                          className="outline-button"
+                          type="button"
+                          onClick={() => void updateFindingStatus(value)}
+                          disabled={selectedFinding.status === value}
+                        >
+                          {value === "open" ? "Open" : value === "resolved" ? "Resolve" : "Ignore"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="detail-section">
                     <span className="detail-label">Measurements</span>
                     <div className="measurement-line">
                       {selectedFinding.evidence?.map((item) => (
