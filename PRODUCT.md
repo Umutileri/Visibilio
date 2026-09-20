@@ -156,3 +156,14 @@ The early prototype is useful when a user can:
 Do not optimize early development for breadth.
 
 The first objective is to make a small number of findings **reliable, explainable, and reproducible**.
+
+
+## Product growth direction
+
+The product is designed for repeated use, not a one-time audit. A successful workflow moves from scan to evidence to fix to re-test and then makes improvement visible over time.
+
+### Commercial path
+
+Start by proving repeat usage and the value of reliable findings. Add usage metering and billing only after the core loop is dependable. Future packaging can use scan volume, historical access, AI assistance, exports, and shared projects as differentiators.
+
+See `PRODUCT_PROGRAM.md` for the implementation sequence and business-readiness plan.
