@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
 import { handleScanRequest, validateScanUrl } from "./handleScanRequest";
+import { createScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
 
 let server: Server;
@@ -58,6 +59,18 @@ describe("assertSafeTarget", () => {
   it("rejects localhost hostnames", async () => {
     await assert.rejects(assertSafeTarget(new URL("http://localhost")));
     await assert.rejects(assertSafeTarget(new URL("http://api.localhost")));
+  });
+});
+
+describe("scan session integration contract", () => {
+  it("creates an initial queued session for a target", () => {
+    const session = createScanSession("https://example.com");
+
+    assert.equal(session.status, "queued");
+    assert.equal(session.url, "https://example.com");
+    assert.match(session.id, /^scan_/);
+    assert.deepEqual(session.results, []);
+    assert.deepEqual(session.findings, []);
   });
 });
 
