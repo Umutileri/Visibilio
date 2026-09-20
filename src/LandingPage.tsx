@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const navLinks = [
-  ["#product", "Product"],
-  ["#how-it-works", "How it works"],
-  ["#evidence", "Evidence"],
+  ["#product", "product"],
+  ["#how-it-works", "how"],
+  ["#evidence", "evidence"],
 ] as const;
 
 type Language = "EN" | "TR";
@@ -13,7 +13,7 @@ const translations: Record<Language, Record<string, string>> = {
     product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br />Fix what matters.",
     heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
-    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
+    audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.", brandHome: "Visibilio home", proofCaption: "A finding you can actually act on.", finalNote: "Start with a URL. No complicated setup.", observed: "Observed", interpreted: "Interpreted",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
@@ -29,7 +29,7 @@ const translations: Record<Language, Record<string, string>> = {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
     heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
     heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
-    audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
+    audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.", brandHome: "Visibilio ana sayfa", proofCaption: "Harekete geçebileceğiniz net bir bulgu.", finalNote: "URL ile başlayın. Karmaşık kurulum yok.", observed: "Gözlemlenen", interpreted: "Yorumlanan",
     startWebsite: "Web sitenizle başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı gösterelim.</em>",
     urlBody: "Başlamak için bir sayfa yapıştırın, kontrolü çalıştırın ve harekete geçebileceğiniz bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
     productEyebrow: "Neden Visibilio", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
@@ -59,9 +59,9 @@ function localizeFeatureSteps(language: Language) {
       ];
 }
 
-function Brand() {
+function Brand({ languageLabel = "Visibilio home" }: { languageLabel?: string }) {
   return (
-    <a className="landing-brand" href="#top" aria-label="Visibilio home">
+    <a className="landing-brand" href="#top" aria-label={languageLabel}>
       <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
       <span>Visibilio</span>
     </a>
@@ -323,10 +323,10 @@ export default function LandingPage() {
     <div className="landing-page" id="top">
       <header className="landing-nav-wrap">
         <div className="landing-nav">
-          <Brand />
+          <Brand languageLabel={t.brandHome} />
           <nav className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
-            {navLinks.map(([href, label]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+            {navLinks.map(([href, key]) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{t[key]}</a>
             ))}
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
@@ -361,7 +361,7 @@ export default function LandingPage() {
             </div>
             <div>
               <HeroEvidence />
-              <div className="landing-proof-caption"><span>01 / WHAT YOU GET</span><strong>A finding you can actually act on.</strong></div>
+              <div className="landing-proof-caption"><span>01 / {language === "TR" ? "NE ALIRSINIZ" : "WHAT YOU GET"}</span><strong>{t.proofCaption}</strong></div>
             </div>
           </div>
         </section>
@@ -450,8 +450,8 @@ export default function LandingPage() {
               <p>{language === "TR" ? "Visibilio tarayıcı kanıtını, deterministik bulguları ve AI bağlamını açıkça ayırır; böylece öneri ile ölçüm birbirine karışmaz." : "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact."}</p>
             </div>
             <div className="landing-evidence-contrast">
-              <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
-              <div><small>INTERPRETED</small><strong>Check fixed-width children and grid sizing first.</strong><span>AI-generated context · not a measurement</span></div>
+              <div><small>{t.observed}</small><strong>{language === "TR" ? "34 px yatay taşma" : "34 px horizontal overflow"}</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
+              <div><small>{t.interpreted}</small><strong>{language === "TR" ? "Önce sabit genişlikli öğeleri ve grid boyutlandırmasını kontrol edin." : "Check fixed-width children and grid sizing first."}</strong><span>{language === "TR" ? "AI tarafından oluşturulan bağlam · ölçüm değildir" : "AI-generated context · not a measurement"}</span></div>
             </div>
           </div>
         </section>
@@ -482,7 +482,7 @@ export default function LandingPage() {
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
               <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>{t.finalNote}</small></div>
           </div>
         </section>
       </main>
@@ -490,7 +490,7 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
           <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
-          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">Workspace</a></div>
+          <div className="landing-footer-links">{navLinks.map(([href,key])=><a key={href} href={href}>{t[key]}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">Workspace</a></div>
           <small>Visibilio · 2026</small>
         </div>
       </footer>
