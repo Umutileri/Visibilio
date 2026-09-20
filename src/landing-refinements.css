@@ -646,3 +646,89 @@
     font-size: 2.2rem;
   }
 }
+
+/* Restore the intended large-display hierarchy after localization hardening. */
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2 {
+  max-width: none;
+  overflow: visible;
+  text-wrap: wrap;
+  word-break: normal;
+}
+
+.landing-page .landing-hero-copy h1 em,
+.landing-page .landing-url-copy h2 em {
+  color: #638173;
+}
+
+@media (min-width: 901px) {
+  .landing-page .landing-hero-grid {
+    grid-template-columns: minmax(0, 1.04fr) minmax(430px, .96fr);
+    gap: 62px;
+  }
+
+  .landing-page .landing-hero-copy {
+    max-width: 650px;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(4.1rem, 6.15vw, 6.6rem);
+    line-height: .9;
+    letter-spacing: -.065em;
+  }
+
+  .landing-page .landing-url-section .landing-share-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(420px, .85fr);
+    gap: 72px;
+    align-items: center;
+  }
+
+  .landing-page .landing-url-copy {
+    max-width: 700px;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(4rem, 6vw, 6.2rem);
+    line-height: .9;
+    letter-spacing: -.065em;
+  }
+
+  .landing-page .landing-url-form {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(3rem, 9vw, 5.2rem);
+    line-height: .92;
+    letter-spacing: -.06em;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-page .landing-hero-copy h1 {
+    font-size: clamp(2.55rem, 12vw, 4rem);
+    line-height: .94;
+    max-width: 12ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    line-height: .95;
+    max-width: 13ch;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .landing-hero-copy h1 {
+    font-size: 2.45rem;
+    max-width: 11.5ch;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size: 2.2rem;
+    max-width: 12ch;
+  }
+}
