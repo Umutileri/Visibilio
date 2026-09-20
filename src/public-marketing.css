@@ -832,3 +832,8 @@ body { margin: 0; }
   .landing-url-field { grid-template-columns:1fr; background:transparent; padding:0; }
   .landing-url-field input, .landing-url-field button { width:100%; }
 }
+.landing-language-switcher { display:flex; align-items:center; gap:5px; }
+.landing-language-switcher button { padding:3px 0; border:0; background:transparent; color:rgb(21 45 53 / 42%); font:700 .61rem/1 "DM Sans",sans-serif; cursor:pointer; }
+.landing-language-switcher button.is-active { color:#152d35; }
+.landing-language-switcher span { color:rgb(21 45 53 / 20%); font-size:.6rem; }
+@media (max-width:900px) { .landing-language-switcher { display:none; } }
