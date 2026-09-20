@@ -99,7 +99,7 @@ function AppShell() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  const scanResults = response?.ok ? response.results : [];
+  const scanResults = useMemo(() => (response?.ok ? response.results : []), [response]);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
