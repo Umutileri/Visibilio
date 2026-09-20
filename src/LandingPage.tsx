@@ -186,7 +186,7 @@ function StepVisual({ id }: { id: string }) {
 }
 
 
-function ProductProof() {
+function ProductProof({ t }: { t: Record<string, string> }) {
   const proofItems = [
     ["01", "Find", "See measurable issues before they become another debugging session."],
     ["02", "Understand", "Get the browser context, affected element, and evidence in one place."],
@@ -220,7 +220,7 @@ function ProductProof() {
   );
 }
 
-function AudienceBlock() {
+function AudienceBlock({ t }: { t: Record<string, string> }) {
   return (
     <section className="landing-audience-section">
       <div className="landing-container">
@@ -254,7 +254,7 @@ function AudienceBlock() {
   );
 }
 
-function FAQSection() {
+function FAQSection({ t }: { t: Record<string, string> }) {
   const items = [
     ["What does Visibilio actually check?", "Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding."],
     ["Who is Visibilio for?", "Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues."],
@@ -448,8 +448,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <ProductProof />
-        <AudienceBlock />
+        <ProductProof t={t} />
+        <AudienceBlock t={t} />
 
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
@@ -483,7 +483,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <FAQSection />
+        <FAQSection t={t} />
 
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
