@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { createScanSession } from "./session";
-import { handleScanSessionGetRequest, handleScanSessionListRequest } from "./sessionRoutes";
+import {
+  handleScanSessionGetRequest,
+  handleScanSessionListRequest,
+} from "./sessionRoutes";
 
 function createResponseCapture() {
   let statusCode = 0;
@@ -31,7 +34,10 @@ describe("scan session routes", () => {
     const capture = createResponseCapture();
     const session = createScanSession("https://example.com");
 
-    await handleScanSessionListRequest(capture.response, Promise.resolve([session]));
+    await handleScanSessionListRequest(
+      capture.response,
+      Promise.resolve([session]),
+    );
 
     const result = capture.read();
 
