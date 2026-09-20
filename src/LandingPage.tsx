@@ -23,7 +23,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
-    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
+    finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", find: "Find", understand: "Understand", improve: "Improve",
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Web siteni analiz et", seeHow: "Nasıl çalıştığını gör",
@@ -39,7 +39,7 @@ const translations: Record<Language, Record<string, string>> = {
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
     faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
-    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla"
+    finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için.", finalAction: "Ücretsiz başla", find: "Bul", understand: "Anla", improve: "Geliştir",
   }
 };
 
@@ -177,9 +177,9 @@ function StepVisual({ id }: { id: string }) {
 
 function ProductProof({ t }: { t: Record<string, string> }) {
   const proofItems = [
-    ["01", "Find", "See measurable issues before they become another debugging session."],
-    ["02", "Understand", "Get the browser context, affected element, and evidence in one place."],
-    ["03", "Improve", "Make the change, re-run the same check, and see what actually moved."],
+    ["01", t.find, language === "TR" ? "Sorunları yeni bir hata ayıklama oturumuna dönüşmeden önce ölçülebilir şekilde görün." : "See measurable issues before they become another debugging session."],
+    ["02", t.understand, language === "TR" ? "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün." : "Get the browser context, affected element, and evidence in one place."],
+    ["03", t.improve, language === "TR" ? "Değişikliği yapın, aynı kontrolü yeniden çalıştırın ve neyin gerçekten değiştiğini görün." : "Make the change, re-run the same check, and see what actually moved."],
   ];
 
   return (
@@ -191,8 +191,8 @@ function ProductProof({ t }: { t: Record<string, string> }) {
             <span className="landing-display-label">02</span>
           </div>
           <div>
-            <h2>From a vague feeling<br /><em>to a useful answer.</em></h2>
-            <p className="landing-proof-lead">One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.</p>
+            <h2 dangerouslySetInnerHTML={{ __html: language === "TR" ? "Belirsiz bir histen<br /><em>işe yarayan bir yanıta.</em>" : "From a vague feeling<br /><em>to a useful answer.</em>" }} />
+            <p className="landing-proof-lead">{language === "TR" ? "Web sitesinden sorumlu herkes için tek ve net bir akış: sorunu bulun, kanıtı anlayın, ardından iyileştirin." : "One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it."}</p>
           </div>
         </div>
         <div className="landing-proof-list">
@@ -223,19 +223,19 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
             <span>DEVELOPERS</span>
             <h3>Find the bug faster.</h3>
             <p>Get viewport measurements, selectors, rule details, and evidence you can reproduce.</p>
-            <a href="#how-it-works">Explore the workflow →</a>
+            <a href="#how-it-works">{language === "TR" ? "Akışı keşfet →" : "Explore the workflow →"}</a>
           </article>
           <article>
             <span>WEBSITE OWNERS</span>
             <h3>Know what deserves attention.</h3>
             <p>See the issue in plain language before you need to understand the implementation.</p>
-            <a href="#evidence">See what we measure →</a>
+            <a href="#evidence">{language === "TR" ? "Neyi ölçtüğümüzü gör →" : "See what we measure →"}</a>
           </article>
           <article>
             <span>DESIGNERS</span>
             <h3>See the context behind the page.</h3>
             <p>Connect visual observations to the tested viewport and the evidence underneath them.</p>
-            <a href="#product">See how Visibilio thinks →</a>
+            <a href="#product">{language === "TR" ? "Visibilio'nun yaklaşımını gör →" : "See how Visibilio thinks →"}</a>
           </article>
         </div>
       </div>
