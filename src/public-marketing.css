@@ -1,4 +1,3 @@
-@font-face { font-family: "Degular"; src: local("Degular"); font-weight: 400 700; font-style: normal; font-display: swap; }
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
 
 /* Public marketing surface */
@@ -22,8 +21,6 @@ body { margin: 0; }
 .landing-primary span, .landing-secondary span { margin-left:10px; }
 .landing-secondary { color:#152d35; font-size:.72rem; font-weight:800; text-decoration:none; }
 .landing-menu-button, .landing-mobile-cta { display:none; }
-.landing-page { font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-.landing-page button, .landing-page input { font-family: inherit; }
 .landing-hero { position:relative; padding:78px 0 70px; border-bottom:1px solid rgb(21 45 53 / 8%); }
 .landing-hero-grid { gap:56px; }
 .landing-hero-copy h1 { font-size:clamp(4rem,7.2vw,6.7rem); }
