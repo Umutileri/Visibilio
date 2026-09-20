@@ -134,7 +134,7 @@ function AppShell() {
     return () => {
       cancelled = true;
     };
-  }, [response]);
+  }, []);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
