@@ -698,3 +698,16 @@ body { margin: 0; }
 @media (max-width:900px) {
   .landing-proof-intro .landing-display-label { display:none; }
 }
+
+/* final landing refinements */
+.landing-nav { box-shadow: 0 14px 38px rgb(21 45 53 / 5%); }
+.landing-hero { padding-top: 58px; padding-bottom: 58px; }
+.landing-hero-grid { gap: 48px; }
+.landing-hero-evidence { box-shadow: 0 20px 58px rgb(21 45 53 / 8%); }
+.landing-proof-section { background: #f5f8f6; }
+.landing-proof-heading { grid-template-columns: minmax(150px,.38fr) minmax(0,1fr); gap: 70px; }
+.landing-proof-heading h2 { max-width: 760px; }
+.landing-proof-list { background:#fff; }
+.landing-audience-section { background:#fbfdfb; }
+.landing-evidence-section { background:#eef4ef; }
+@media (max-width:900px) { .landing-proof-heading { grid-template-columns:1fr; gap:28px; } }
