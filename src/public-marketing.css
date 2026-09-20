@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
 
 /* Public marketing surface */
-.landing-page { font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.landing-page { font-family: "Degular", "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .landing-page button, .landing-page input { font-family: inherit; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
