@@ -78,7 +78,6 @@ export async function handleScanRequest(
       url: result.url,
       results: result.results.map((scan) => ({
         viewport: scan.viewport,
-        ok: scan.ok,
         scan,
       })),
     };
