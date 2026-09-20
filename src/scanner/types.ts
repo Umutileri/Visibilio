@@ -23,6 +23,16 @@ export type IssueEvidence = {
   unit: "px";
 };
 
+export interface ScreenshotEvidence {
+  type: "screenshot";
+  format: "png";
+  path: string;
+  viewport: ViewportPreset;
+  width: number;
+  height: number;
+  capturedAt: string;
+}
+
 export interface UIssue {
   id: string;
   rule: string;
@@ -44,6 +54,7 @@ export interface ScanSuccess {
   url: string;
   viewport: ViewportPreset;
   dimensions: PageDimensions;
+  screenshot: ScreenshotEvidence;
   issues: UIssue[];
 }
 
