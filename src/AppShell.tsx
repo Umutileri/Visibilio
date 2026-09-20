@@ -1,0 +1,617 @@
+import type {
+  IssueSeverity,
+  UIssue,
+  ScanResult,
+  ScanSuccess,
+} from "./scanner/types";
+import type { ScanApiResponse } from "./api/types";
+import { useEffect, useMemo, useState } from "react";
+
+type AppSection =
+  | "overview"
+  | "analyze"
+  | "findings"
+  | "evidence"
+  | "history"
+  | "settings";
+
+const sections: Array<{ id: AppSection; label: string; key: string }> = [
+  { id: "overview", label: "Overview", key: "01" },
+  { id: "analyze", label: "Analyze", key: "02" },
+  { id: "findings", label: "Findings", key: "03" },
+  { id: "evidence", label: "Evidence", key: "04" },
+  { id: "history", label: "History", key: "05" },
+  { id: "settings", label: "Settings", key: "06" },
+];
+
+const sampleFindings: UIssue[] = [
+  {
+    id: "sample-overflow",
+    rule: "responsive.horizontal-overflow",
+    category: "responsive",
+    title: "Content exceeds the mobile viewport",
+    severity: "medium",
+    description:
+      "The document is 34px wider than the tested 390px viewport, which can create horizontal scrolling.",
+    url: "https://example.com",
+    viewport: { name: "Mobile", width: 390, height: 844 },
+    selector: ".pricing-grid",
+    measurements: { viewportWidth: 390, documentWidth: 424, horizontalOverflow: 34 },
+    evidence: [
+      {
+        type: "measurement",
+        metric: "horizontalOverflow",
+        value: 34,
+        unit: "px",
+      },
+    ],
+    detectedAt: "2026-09-20T00:00:00.000Z",
+    status: "open",
+  },
+];
+
+function sectionFromHash(): AppSection {
+  const value = window.location.hash.replace("#app/", "") as AppSection;
+  return sections.some((section) => section.id === value) ? value : "overview";
+}
+
+function flattenResults(
+  results: Array<{ viewport: { name: string }; scan: ScanResult }>,
+): UIssue[] {
+  return results.flatMap(({ scan }) => (scan.ok ? scan.issues : []));
+}
+
+function severityCount(findings: UIssue[], severity: IssueSeverity): number {
+  return findings.filter((issue) => issue.severity === severity).length;
+}
+
+function statusLabel(scan: ScanSuccess | null): string {
+  if (!scan) return "No scan yet";
+  return scan.issues.length ? "Needs attention" : "No findings";
+}
+
+function ShellLogo() {
+  return (
+    <img
+      className="saas-shell-logo"
+      src="/Visibilio/visibilio-icon.svg"
+      alt=""
+      aria-hidden="true"
+    />
+  );
+}
+
+function AppShell() {
+  const [section, setSection] = useState<AppSection>(sectionFromHash());
+  const [url, setUrl] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
+  const [error, setError] = useState("");
+  const [response, setResponse] = useState<ScanApiResponse | null>(null);
+  const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
+    null,
+  );
+  const [query, setQuery] = useState("");
+  const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
+
+  useEffect(() => {
+    const onHash = () => setSection(sectionFromHash());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  const scanResults = useMemo(() => (response?.ok ? response.results : []), [response]);
+  const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
+  const selectedFinding =
+    findings.find((finding) => finding.id === selectedFindingId) ??
+    findings[0] ??
+    sampleFindings[0];
+
+  const filteredFindings = findings.filter((finding) => {
+    const matchesSeverity = severity === "all" || finding.severity === severity;
+    const needle = query.trim().toLowerCase();
+    const matchesQuery =
+      !needle ||
+      finding.title.toLowerCase().includes(needle) ||
+      finding.rule.toLowerCase().includes(needle) ||
+      finding.selector?.toLowerCase().includes(needle);
+    return matchesSeverity && matchesQuery;
+  });
+
+  async function runScan() {
+    setError("");
+    setIsScanning(true);
+
+    try {
+      const endpoint = import.meta.env.VITE_SCAN_API_URL;
+      if (!endpoint) {
+        throw new Error(
+          "VITE_SCAN_API_URL is not configured. Connect the app to the scan API to run a live audit.",
+        );
+      }
+
+      const responseFromApi = await fetch(
+        endpoint.replace(/\/$/, "") + "/api/scan",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ url }),
+        },
+      );
+
+      const data = (await responseFromApi.json()) as ScanApiResponse;
+      if (!responseFromApi.ok || !data.ok) {
+        throw new Error(data.ok ? "Scan failed." : data.error.message);
+      }
+
+      setResponse(data);
+      setSelectedFindingId(data.results[0]?.scan.ok ? data.results[0].scan.issues[0]?.id ?? null : null);
+      window.location.hash = "#app/findings";
+    } catch (scanError) {
+      setError(scanError instanceof Error ? scanError.message : "Scan failed.");
+    } finally {
+      setIsScanning(false);
+    }
+  }
+
+  const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
+  const hasResults = findings.length > 0;
+  const critical = severityCount(findings, "high");
+  const medium = severityCount(findings, "medium");
+  const low = severityCount(findings, "low");
+  const issuesVisible = hasResults ? filteredFindings : sampleFindings;
+
+  return (
+    <div className="saas-app">
+      <aside className="saas-sidebar">
+        <div className="saas-sidebar-head">
+          <a href="#app/overview" className="saas-brand">
+            <ShellLogo />
+            <span>Visibilio</span>
+          </a>
+          <button className="workspace-trigger" type="button">
+            <span className="workspace-avatar">M</span>
+            <span className="workspace-copy">
+              <strong>My workspace</strong>
+              <small>Personal workspace</small>
+            </span>
+            <span className="workspace-chevron" aria-hidden="true">
+              ⌄
+            </span>
+          </button>
+        </div>
+
+        <div className="saas-sidebar-section">
+          <span className="saas-sidebar-label">Workspace</span>
+          <nav aria-label="Primary">
+            {sections.map((item) => (
+              <a
+                key={item.id}
+                href={"#app/" + item.id}
+                className={"saas-nav-link" + (section === item.id ? " is-active" : "")}
+                aria-current={section === item.id ? "page" : undefined}
+              >
+                <span>{item.label}</span>
+                <small>{item.key}</small>
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        <div className="saas-sidebar-bottom">
+          <div className="quota-block">
+            <div>
+              <span>Usage</span>
+              <strong>3 / 20 scans</strong>
+            </div>
+            <div className="quota-track">
+              <span />
+            </div>
+            <small>Free workspace · 17 scans remaining</small>
+          </div>
+          <a className="sidebar-meta-link" href="#app/settings">
+            Upgrade workspace
+          </a>
+        </div>
+      </aside>
+
+      <div className="saas-main">
+        <header className="saas-topbar">
+          <div className="breadcrumbs">
+            <span>Workspace</span>
+            <span aria-hidden="true">/</span>
+            <strong>{sections.find((item) => item.id === section)?.label}</strong>
+          </div>
+          <div className="topbar-actions">
+            <span className="connection-status">
+              <i aria-hidden="true" />
+              Local scanner
+            </span>
+            <button className="avatar-button" type="button" aria-label="Open account menu">
+              U
+            </button>
+          </div>
+        </header>
+
+        <div className="saas-content">
+          {section === "overview" && (
+            <>
+              <section className="page-intro">
+                <div>
+                  <span className="eyebrow">Workspace overview</span>
+                  <h1>Website quality, in one place.</h1>
+                  <p>
+                    Keep every scan, finding, and piece of evidence connected to the site you are working on.
+                  </p>
+                </div>
+                <a className="solid-button" href="#app/analyze">
+                  New scan
+                </a>
+              </section>
+
+              <section className="context-strip">
+                <div>
+                  <span>Project</span>
+                  <strong>Example website</strong>
+                </div>
+                <div>
+                  <span>Last scan</span>
+                  <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
+                </div>
+                <div>
+                  <span>Status</span>
+                  <strong>{statusLabel(primaryScan)}</strong>
+                </div>
+                <div>
+                  <span>Viewports</span>
+                  <strong>390 × 844 · 1440 × 900</strong>
+                </div>
+              </section>
+
+              <section className="metric-grid">
+                <article>
+                  <span>Total findings</span>
+                  <strong>{hasResults ? findings.length : "—"}</strong>
+                  <small>{hasResults ? "Across scanned viewports" : "Run your first scan"}</small>
+                </article>
+                <article>
+                  <span>High severity</span>
+                  <strong>{hasResults ? critical : "—"}</strong>
+                  <small>Material breakage</small>
+                </article>
+                <article>
+                  <span>Medium severity</span>
+                  <strong>{hasResults ? medium : "—"}</strong>
+                  <small>Experience degradation</small>
+                </article>
+                <article>
+                  <span>Low severity</span>
+                  <strong>{hasResults ? low : "—"}</strong>
+                  <small>Polish opportunities</small>
+                </article>
+              </section>
+
+              <section className="workspace-grid">
+                <div className="surface surface-main">
+                  <div className="surface-heading">
+                    <div>
+                      <span className="surface-kicker">Current scan</span>
+                      <h2>{hasResults ? "Findings that need attention" : "Start with your first website"}</h2>
+                    </div>
+                    <a href="#app/analyze">Analyze</a>
+                  </div>
+                  {hasResults ? (
+                    <div className="compact-list">
+                      {findings.slice(0, 5).map((finding) => (
+                        <button
+                          key={finding.id}
+                          className="compact-list-row"
+                          type="button"
+                          onClick={() => {
+                            setSelectedFindingId(finding.id);
+                            window.location.hash = "#app/findings";
+                          }}
+                        >
+                          <span className={"severity-dot severity-" + finding.severity} />
+                          <span className="compact-copy">
+                            <strong>{finding.title}</strong>
+                            <small>{finding.selector ?? finding.rule}</small>
+                          </span>
+                          <span className="row-meta">{finding.viewport.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="empty-workspace">
+                      <span className="empty-mark">01</span>
+                      <strong>Analyze a live page</strong>
+                      <p>
+                        Run the scanner against a website and turn browser measurements into findings you can inspect.
+                      </p>
+                      <a className="text-link" href="#app/analyze">
+                        Start a scan →
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                <aside className="surface surface-side">
+                  <span className="surface-kicker">Workflow</span>
+                  <div className="workflow-steps">
+                    <div className="workflow-step is-current">
+                      <b>01</b>
+                      <span>
+                        <strong>Scan</strong>
+                        <small>Capture browser state</small>
+                      </span>
+                    </div>
+                    <div className="workflow-step">
+                      <b>02</b>
+                      <span>
+                        <strong>Inspect</strong>
+                        <small>Review evidence</small>
+                      </span>
+                    </div>
+                    <div className="workflow-step">
+                      <b>03</b>
+                      <span>
+                        <strong>Fix</strong>
+                        <small>Change the page</small>
+                      </span>
+                    </div>
+                    <div className="workflow-step">
+                      <b>04</b>
+                      <span>
+                        <strong>Re-test</strong>
+                        <small>Verify the result</small>
+                      </span>
+                    </div>
+                  </div>
+                </aside>
+              </section>
+            </>
+          )}
+
+          {section === "analyze" && (
+            <section className="page-intro narrow-page">
+              <span className="eyebrow">New scan</span>
+              <h1>Scan a website.</h1>
+              <p>
+                Visibilio measures the page in controlled browser viewports and returns evidence-backed UI findings.
+              </p>
+              <div className="scan-composer">
+                <label htmlFor="scan-url">Website URL</label>
+                <div className="scan-input-row">
+                  <input
+                    id="scan-url"
+                    type="url"
+                    value={url}
+                    onChange={(event) => setUrl(event.target.value)}
+                    placeholder="https://yourwebsite.com"
+                    spellCheck={false}
+                  />
+                  <button
+                    className="solid-button"
+                    type="button"
+                    onClick={runScan}
+                    disabled={!url || isScanning}
+                  >
+                    {isScanning ? "Scanning…" : "Run scan"}
+                  </button>
+                </div>
+                <div className="scan-meta">
+                  <span>HTTP / HTTPS only</span>
+                  <span>2 controlled viewports</span>
+                  <span>Evidence-first</span>
+                </div>
+                {error && <div className="inline-error">{error}</div>}
+              </div>
+
+              <div className="scan-stages">
+                {[
+                  ["01", "Page loaded"],
+                  ["02", "Desktop viewport"],
+                  ["03", "Mobile viewport"],
+                  ["04", "Accessibility checks"],
+                  ["05", "Layout checks"],
+                ].map(([key, label], index) => (
+                  <div className={isScanning && index === 0 ? "stage is-active" : "stage"} key={key}>
+                    <b>{key}</b>
+                    <span>{label}</span>
+                    <small>{isScanning ? "running" : "ready"}</small>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {section === "findings" && (
+            <section>
+              <div className="page-intro findings-intro">
+                <div>
+                  <span className="eyebrow">Findings</span>
+                  <h1>What needs attention.</h1>
+                  <p>
+                    Review deterministic findings by severity, category, and affected element.
+                  </p>
+                </div>
+                <div className="finding-count">
+                  <strong>{hasResults ? findings.length : sampleFindings.length}</strong>
+                  <span>open findings</span>
+                </div>
+              </div>
+
+              <div className="finder-toolbar">
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Filter findings…"
+                  aria-label="Filter findings"
+                />
+                {(["all", "high", "medium", "low"] as const).map((value) => (
+                  <button
+                    key={value}
+                    className={"filter-chip" + (severity === value ? " is-active" : "")}
+                    type="button"
+                    onClick={() => setSeverity(value)}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+
+              <div className="finding-layout">
+                <div className="finding-list">
+                  {issuesVisible.map((finding) => (
+                    <button
+                      key={finding.id}
+                      type="button"
+                      className={"finding-row" + (finding.id === selectedFinding.id ? " is-selected" : "")}
+                      onClick={() => setSelectedFindingId(finding.id)}
+                    >
+                      <span className={"severity-pill severity-pill-" + finding.severity}>{finding.severity}</span>
+                      <span className="finding-row-copy">
+                        <strong>{finding.title}</strong>
+                        <small>{finding.rule}</small>
+                      </span>
+                      <span className="finding-row-right">
+                        <span>{finding.viewport.width} × {finding.viewport.height}</span>
+                        <span>›</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                <aside className="finding-detail surface">
+                  <div className="detail-head">
+                    <div>
+                      <span className={"severity-pill severity-pill-" + selectedFinding.severity}>
+                        {selectedFinding.severity}
+                      </span>
+                      <h2>{selectedFinding.title}</h2>
+                      <p>{selectedFinding.description}</p>
+                    </div>
+                    <a className="outline-button" href="#app/evidence">
+                      Show evidence
+                    </a>
+                  </div>
+                  <div className="detail-section">
+                    <span className="detail-label">Context</span>
+                    <div className="detail-grid">
+                      <div><small>Viewport</small><strong>{selectedFinding.viewport.name}</strong></div>
+                      <div><small>Selector</small><strong>{selectedFinding.selector ?? "—"}</strong></div>
+                      <div><small>Rule</small><strong>{selectedFinding.rule}</strong></div>
+                      <div><small>Status</small><strong>{selectedFinding.status}</strong></div>
+                    </div>
+                  </div>
+                  <div className="detail-section">
+                    <span className="detail-label">Measurements</span>
+                    <div className="measurement-line">
+                      {selectedFinding.evidence?.map((item) => (
+                        <span key={item.metric}>
+                          <b>{item.value}{item.unit}</b>
+                          {item.metric}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          )}
+
+          {section === "evidence" && (
+            <section>
+              <div className="page-intro">
+                <div>
+                  <span className="eyebrow">Evidence</span>
+                  <h1>Inspect the measurement.</h1>
+                  <p>Facts stay separate from interpretation so a finding can be challenged and re-tested.</p>
+                </div>
+              </div>
+
+              <div className="evidence-workspace">
+                <div className="surface evidence-visual">
+                  <div className="evidence-canvas">
+                    <div className="viewport-frame">
+                      <div className="viewport-topbar"><span /> <span /> <span /></div>
+                      <div className="viewport-page">
+                        <div className="mock-line long" />
+                        <div className="mock-line medium" />
+                        <div className="mock-panel" />
+                        <div className="overflow-tag">+34px overflow</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <aside className="surface evidence-data">
+                  <span className="surface-kicker">Measurement</span>
+                  <h2>{selectedFinding.title}</h2>
+                  <div className="evidence-data-grid">
+                    <div><small>Viewport</small><strong>{selectedFinding.viewport.width} × {selectedFinding.viewport.height}</strong></div>
+                    <div><small>Selector</small><strong>{selectedFinding.selector ?? "—"}</strong></div>
+                    <div><small>Rule</small><strong>{selectedFinding.rule}</strong></div>
+                  </div>
+                  <div className="evidence-explanation">
+                    <span className="detail-label">Why detected</span>
+                    <p>{selectedFinding.description}</p>
+                  </div>
+                  <div className="evidence-actions">
+                    <a className="solid-button" href="#app/findings">Back to finding</a>
+                    <button className="outline-button" type="button">Re-test later</button>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          )}
+
+          {section === "history" && (
+            <section>
+              <div className="page-intro">
+                <div>
+                  <span className="eyebrow">History</span>
+                  <h1>See how the site changes.</h1>
+                  <p>Previous scans become the baseline for improvement, comparison, and re-test.</p>
+                </div>
+              </div>
+
+              <div className="history-table surface">
+                <div className="history-header">
+                  <span>Scan</span>
+                  <span>Status</span>
+                  <span>Findings</span>
+                  <span>Timestamp</span>
+                </div>
+                <div className="history-row">
+                  <strong>{response?.ok ? response.session.id : "No scan session yet"}</strong>
+                  <span>{response?.ok ? response.session.status : "—"}</span>
+                  <span>{response?.ok ? response.session.findings.length : "—"}</span>
+                  <span>{response?.ok ? new Date(response.session.createdAt).toLocaleString() : "Run your first scan"}</span>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {section === "settings" && (
+            <section className="settings-layout">
+              <div className="page-intro">
+                <span className="eyebrow">Settings</span>
+                <h1>Workspace settings.</h1>
+                <p>Account, scan defaults, and future project configuration live here.</p>
+              </div>
+
+              <div className="settings-list surface">
+                <div><span>Workspace</span><strong>My workspace</strong><small>Personal</small></div>
+                <div><span>Scan API</span><strong>{import.meta.env.VITE_SCAN_API_URL || "Not configured"}</strong><small>Environment configuration</small></div>
+                <div><span>Default viewports</span><strong>390 × 844 and 1440 × 900</strong><small>Controlled scanner presets</small></div>
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AppShell;
