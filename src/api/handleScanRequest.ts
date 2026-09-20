@@ -122,11 +122,6 @@ export async function handleScanRequest(
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
   } catch (error) {
-    const failedSession = updateScanSession(session, {
-      status: "failed",
-      completedAt: new Date().toISOString(),
-    });
-
     failure(
       response,
       502,
