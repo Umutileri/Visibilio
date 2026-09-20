@@ -2297,3 +2297,21 @@ input:focus-visible {
   .history-header, .history-row { grid-template-columns:1.6fr 1fr 0.8fr; }
   .history-header span:last-child, .history-row span:last-child { display:none; }
 }
+
+.history-row-button {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+}
+.history-row-button:hover {
+  background: #f8fbf9;
+}
+.history-empty {
+  padding: 28px 16px;
+  color: rgb(21 45 53 / 42%);
+  font-size: .68rem;
+}
