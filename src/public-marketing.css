@@ -1,4 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+
 /* Public marketing surface */
+.landing-page { font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.landing-page button, .landing-page input { font-family: inherit; }
+
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 body { margin: 0; }
 .landing-page { min-height: 100vh; overflow-x: clip; background: #fbfdfb; color: #152d35; }
@@ -16,6 +21,24 @@ body { margin: 0; }
 .landing-primary span, .landing-secondary span { margin-left:10px; }
 .landing-secondary { color:#152d35; font-size:.72rem; font-weight:800; text-decoration:none; }
 .landing-menu-button, .landing-mobile-cta { display:none; }
+.landing-page { font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.landing-page button, .landing-page input { font-family: inherit; }
+.landing-hero { position:relative; padding:78px 0 70px; border-bottom:1px solid rgb(21 45 53 / 8%); }
+.landing-hero-grid { gap:56px; }
+.landing-hero-copy h1 { font-size:clamp(4rem,7.2vw,6.7rem); }
+.landing-hero-copy > p { max-width:590px; margin-top:20px; }
+.landing-hero-note { margin-top:18px; color:rgb(21 45 53 / 47%); font-size:.72rem; line-height:1.5; }
+.landing-share-section { padding:72px 0 82px; }
+.landing-intro-section { padding:102px 0; }
+.landing-feature-section { padding:104px 0 120px; }
+.landing-proof-section { padding:104px 0; }
+.landing-proof-heading { gap:40px; }
+.landing-proof-heading h2 { font-size:clamp(3rem,5.2vw,5.4rem); }
+.landing-proof-list { margin-top:56px; }
+.landing-audience-section { padding:106px 0; }
+.landing-evidence-section { padding:108px 0; }
+.landing-retest-section { padding:108px 0; }
+.landing-final-section { padding:88px 0 98px; }
 .landing-hero { position:relative; padding:112px 0 92px; border-bottom:1px solid rgb(21 45 53 / 8%); }
 .landing-hero-grid { display:grid; grid-template-columns:minmax(0, .96fr) minmax(0,1.04fr); gap:72px; align-items:center; }
 .landing-hero-copy h1 { margin:17px 0 0; font-size:clamp(4rem,8vw,7.5rem); line-height:.88; letter-spacing:-.075em; }
@@ -667,3 +690,24 @@ body { margin: 0; }
 }
 
 .landing-hero-note { margin-top:24px; color:rgb(21 45 53 / 43%); font:600 .64rem/1.5 "Geist Mono",monospace; letter-spacing:.01em; }
+
+.landing-proof-intro { padding-top:6px; }
+.landing-proof-intro .landing-display-label { margin-top:24px; }
+.landing-proof-heading > div:last-child { max-width:720px; }
+.landing-proof-lead { max-width:650px; margin:22px 0 0; color:rgb(21 45 53 / 55%); font-size:.92rem; line-height:1.7; }
+@media (max-width:900px) {
+  .landing-proof-intro .landing-display-label { display:none; }
+}
+
+/* final landing refinements */
+.landing-nav { box-shadow: 0 14px 38px rgb(21 45 53 / 5%); }
+.landing-hero { padding-top: 58px; padding-bottom: 58px; }
+.landing-hero-grid { gap: 48px; }
+.landing-hero-evidence { box-shadow: 0 20px 58px rgb(21 45 53 / 8%); }
+.landing-proof-section { background: #f5f8f6; }
+.landing-proof-heading { grid-template-columns: minmax(150px,.38fr) minmax(0,1fr); gap: 70px; }
+.landing-proof-heading h2 { max-width: 760px; }
+.landing-proof-list { background:#fff; }
+.landing-audience-section { background:#fbfdfb; }
+.landing-evidence-section { background:#eef4ef; }
+@media (max-width:900px) { .landing-proof-heading { grid-template-columns:1fr; gap:28px; } }
