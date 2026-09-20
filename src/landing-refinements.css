@@ -732,3 +732,40 @@
     max-width: 12ch;
   }
 }
+
+/* Targeted visual correction: keep emphasized hero line in the original deep teal and center the URL section content block on wide screens. */
+.landing-page .landing-hero-copy h1 em {
+  color: #b7d5c1 !important;
+}
+
+.landing-page .landing-share-dark {
+  align-items: center;
+}
+
+@media (min-width: 901px) {
+  .landing-page .landing-url-section .landing-share-dark {
+    padding-left: clamp(28px, 5vw, 90px);
+    padding-right: clamp(28px, 5vw, 90px);
+  }
+
+  .landing-page .landing-url-copy {
+    max-width: 620px;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    max-width: 12ch;
+  }
+
+  .landing-page .landing-url-form {
+    max-width: 560px;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-url-copy,
+  .landing-page .landing-url-form {
+    width: 100%;
+    max-width: 760px;
+  }
+}
