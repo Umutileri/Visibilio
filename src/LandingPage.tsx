@@ -337,6 +337,7 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <ProductProof />
         <AudienceBlock />
 
         <section className="landing-evidence-section" id="evidence">
@@ -344,8 +345,8 @@ export default function LandingPage() {
             <div className="landing-section-heading">
               <span className="landing-section-kicker">Evidence first</span>
               <span className="landing-display-label">03</span>
-              <h2>AI can explain a fact.<br /><em>It should not become the fact.</em></h2>
-              <p>Visibilio keeps measured browser evidence and AI interpretation visibly separate, so you know what was observed and what was suggested.</p>
+              <h2>Know what was measured.<br /><em>Know what was suggested.</em></h2>
+              <p>Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.</p>
             </div>
             <div className="landing-evidence-contrast">
               <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
