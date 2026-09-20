@@ -214,7 +214,7 @@ function ProductProof({ t }: { t: Record<string, string> }) {
       <div className="landing-container">
         <div className="landing-proof-heading">
           <div className="landing-proof-intro">
-            <span className="landing-section-kicker">{translations.EN.productEyebrow}</span>
+            <span className="landing-section-kicker">{t.productEyebrow}</span>
             <span className="landing-display-label">02</span>
           </div>
           <div>
@@ -241,9 +241,9 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
     <section className="landing-audience-section">
       <div className="landing-container">
         <div className="landing-audience-intro">
-          <span className="landing-section-kicker">{translations.EN.audienceSection}</span>
-          <h2 dangerouslySetInnerHTML={{ __html: translations.EN.audienceTitle }} />
-          <p>{translations.EN.audienceSectionBody}</p>
+          <span className="landing-section-kicker">{t.audienceSection}</span>
+          <h2 dangerouslySetInnerHTML={{ __html: t.audienceTitle }} />
+          <p>{t.audienceSectionBody}</p>
         </div>
         <div className="landing-audience-grid">
           <article>
