@@ -1,4 +1,4 @@
-import { createServer, type ServerResponse } from "node:http";
+import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { handleScanRequest } from "./handleScanRequest";
 import {
   handleScanSessionGetRequest,
@@ -19,8 +19,57 @@ function writeNotFound(response: ServerResponse): void {
   );
 }
 
+async function handleFindingStatusRoute(
+  request: IncomingMessage,
+  response: ServerResponse,
+  sessionId: string,
+  findingId: string,
+): Promise<void> {
+  let body = "";
+  for await (const chunk of request) body += chunk.toString();
+
+  try {
+    const payload = JSON.parse(body) as { status?: string };
+    if (!payload.status || !["open", "resolved", "ignored"].includes(payload.status)) {
+      response.writeHead(400, { "content-type": "application/json" });
+      response.end(
+        JSON.stringify({
+          ok: false,
+          error: {
+            code: "INVALID_STATUS",
+            message: "Status must be open, resolved, or ignored.",
+          },
+        }),
+      );
+      return;
+    }
+
+    await handleScanFindingStatusRequest(
+      response,
+      sessionId,
+      findingId,
+      payload.status as "open" | "resolved" | "ignored",
+      (id) => defaultScanSessionStore.get(id),
+      (session) => defaultScanSessionStore.update(session),
+    );
+  } catch {
+    response.writeHead(400, { "content-type": "application/json" });
+    response.end(
+      JSON.stringify({
+        ok: false,
+        error: {
+          code: "INVALID_REQUEST",
+          message: "Request body must be valid JSON.",
+        },
+      }),
+    );
+  }
+}
+
 createServer((request, response) => {
-  const pathname = request.url ? new URL(request.url, "http://127.0.0.1").pathname : "";
+  const pathname = request.url
+    ? new URL(request.url, "http://127.0.0.1").pathname
+    : "";
 
   if (pathname === "/api/scan") {
     void handleScanRequest(request, response);
@@ -28,60 +77,20 @@ createServer((request, response) => {
   }
 
   if (pathname === "/api/scans" && request.method === "GET") {
-    void handleScanSessionListRequest(
-      response,
-      defaultScanSessionStore.list(),
-    );
+    void handleScanSessionListRequest(response, defaultScanSessionStore.list());
     return;
   }
 
   const sessionMatch = pathname.match(/^\/api\/scans\/([^/]+)$/);
-
   const findingMatch = pathname.match(/^\/api\/scans\/([^/]+)\/findings\/([^/]+)$/);
 
   if (findingMatch && request.method === "PATCH") {
-    let body = "";
-    for await (const chunk of request) body += chunk.toString();
-
-    try {
-      const payload = JSON.parse(body) as { status?: string };
-      if (
-        !payload.status ||
-        !["open", "resolved", "ignored"].includes(payload.status)
-      ) {
-        response.writeHead(400, { "content-type": "application/json" });
-        response.end(
-          JSON.stringify({
-            ok: false,
-            error: {
-              code: "INVALID_STATUS",
-              message: "Status must be open, resolved, or ignored.",
-            },
-          }),
-        );
-        return;
-      }
-
-      await handleScanFindingStatusRequest(
-        response,
-        decodeURIComponent(findingMatch[1]),
-        decodeURIComponent(findingMatch[2]),
-        payload.status as "open" | "resolved" | "ignored",
-        (id) => defaultScanSessionStore.get(id),
-        (session) => defaultScanSessionStore.update(session),
-      );
-    } catch {
-      response.writeHead(400, { "content-type": "application/json" });
-      response.end(
-        JSON.stringify({
-          ok: false,
-          error: {
-            code: "INVALID_REQUEST",
-            message: "Request body must be valid JSON.",
-          },
-        }),
-      );
-    }
+    void handleFindingStatusRoute(
+      request,
+      response,
+      decodeURIComponent(findingMatch[1]),
+      decodeURIComponent(findingMatch[2]),
+    );
     return;
   }
 
