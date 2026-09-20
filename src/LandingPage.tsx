@@ -289,7 +289,6 @@ export default function LandingPage() {
   const [language, setLanguage] = useState<Language>(() => window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN");
   const t = translations[language];
   const [activeStep, setActiveStep] = useState(0);
-  const [language, setLanguage] = useState<"EN" | "TR">("EN");
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -317,43 +316,6 @@ export default function LandingPage() {
     setMenuOpen(false);
   };
 
-  const copy = language === "TR"
-    ? {
-        product: "Ürün",
-        how: "Nasıl çalışır",
-        evidence: "Kanıt",
-        retest: "Yeniden test",
-        workspace: "Çalışma alanını aç",
-        start: "Ücretsiz başla",
-        eyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.",
-        hero: "Neyin yanlış olduğunu görün.<br />Önemli olanı düzeltin.",
-        heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
-        audience: "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu olan herkes için.",
-        startWebsite: "Web sitenizle başlayın",
-        giveUrl: "URL'yi verin.<br />Nereye bakacağınızı gösterelim.",
-        urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz bir bulgu alın.",
-        urlLabel: "Web sitesi URL'si",
-        analyze: "Analiz et",
-        freeNote: "Ücretsiz başla · kurulum turu gerekmez.",
-      }
-    : {
-        product: "Product",
-        how: "How it works",
-        evidence: "Evidence",
-        retest: "Re-test",
-        workspace: "Open workspace",
-        start: "Start for free",
-        eyebrow: "Website UI quality, backed by evidence.",
-        hero: "See what’s wrong.<br />Fix what matters.",
-        heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
-        audience: "Built for developers, designers, and website owners.",
-        startWebsite: "Start with your website",
-        giveUrl: "Give us the URL.<br />We’ll show you where to look.",
-        urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.",
-        urlLabel: "Website URL",
-        analyze: "Analyze",
-        freeNote: "Start free · no setup tour required.",
-      };
 
   return (
     <div className="landing-page" id="top">
