@@ -59,9 +59,6 @@ function localizeFeatureSteps(language: Language) {
       ];
 }
 
-const featureSteps = localizeFeatureSteps(language);
-
-
 function Brand() {
   return (
     <a className="landing-brand" href="#top" aria-label="Visibilio home">
