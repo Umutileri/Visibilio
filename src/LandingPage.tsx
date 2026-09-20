@@ -214,7 +214,7 @@ function ProductProof({ t }: { t: Record<string, string> }) {
       <div className="landing-container">
         <div className="landing-proof-heading">
           <div className="landing-proof-intro">
-            <span className="landing-section-kicker">{t.productEyebrow}</span>
+            <span className="landing-section-kicker">{translations.EN.productEyebrow}</span>
             <span className="landing-display-label">02</span>
           </div>
           <div>
@@ -241,9 +241,9 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
     <section className="landing-audience-section">
       <div className="landing-container">
         <div className="landing-audience-intro">
-          <span className="landing-section-kicker">{t.audienceSection}</span>
-          <h2 dangerouslySetInnerHTML={{ __html: t.audienceTitle }} />
-          <p>{t.audienceSectionBody}</p>
+          <span className="landing-section-kicker">{translations.EN.audienceSection}</span>
+          <h2 dangerouslySetInnerHTML={{ __html: translations.EN.audienceTitle }} />
+          <p>{translations.EN.audienceSectionBody}</p>
         </div>
         <div className="landing-audience-grid">
           <article>
@@ -364,7 +364,7 @@ export default function LandingPage() {
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
           </div>
             <a className="landing-signin" href="#app/overview">{t.workspace}</a>
-            <button className="landing-cta" type="button" onClick={openApp}>{t.start}</button>
+            <button className="landing-cta" type="button" onClick={() => openApp()}>{t.start}</button>
             <button className="landing-menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
