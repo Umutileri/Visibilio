@@ -61,20 +61,11 @@ export async function handleScanRequest(request: IncomingMessage, response: Serv
     const success: ScanApiSuccess = {
       ok: true,
       url: result.url,
-      results: result.results.map((scan) => {
-        if (!scan.ok) {
-          return {
-            viewport: scan.viewport,
-            issueCount: 0,
-            issues: [`${scan.error.code}: ${scan.error.message}`],
-          };
-        }
-        return {
-          viewport: scan.viewport,
-          issueCount: scan.issues.length,
-          issues: scan.issues.map((issue) => issue.id),
-        };
-      }),
+      results: result.results.map((scan) => ({
+        viewport: scan.viewport,
+        ok: scan.ok,
+        scan,
+      })),
     };
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify(success));
