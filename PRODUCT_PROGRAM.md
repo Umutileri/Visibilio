@@ -19,6 +19,12 @@ The product should create recurring value, not a one-off report:
 - Concrete scanner/evidence examples
 - No fake scan results
 - CTA into Analyze
+- URL-first entry point directly after the hero
+- Communicate value before asking users to enter the workspace
+- Explicitly serve developers, designers, and website owners
+- “Start for free” as the primary acquisition action
+- Avoid generic AI/SaaS visual patterns
+- Treat the landing page itself as a demonstration of Visibilio's UI-quality standard
 
 ### Product shell
 - Project / website context
@@ -206,6 +212,8 @@ Do not implement billing before users can reliably complete the core loop.
 
 ### P12 — UX/product polish
 Goal: make the proven workflow feel excellent.
+
+Landing-page polish is part of the product, not a separate marketing exercise.
 
 - [ ] Navigation hierarchy refinement
 - [ ] Desktop/tablet/mobile behavior
