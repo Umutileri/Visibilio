@@ -1,4 +1,4 @@
-import { createServer } from "node:http";
+import { createServer, type ServerResponse } from "node:http";
 import { handleScanRequest } from "./handleScanRequest";
 import {
   handleScanSessionGetRequest,
@@ -8,12 +8,7 @@ import { defaultScanSessionStore } from "./sessionStore";
 
 const port = Number(process.env.PORT ?? 8787);
 
-function writeNotFound(response: Parameters<typeof createServer>[0] extends (
-  request: infer _Request,
-  response: infer Response,
-) => unknown
-  ? Response
-  : never): void {
+function writeNotFound(response: ServerResponse): void {
   response.writeHead(404, { "content-type": "application/json" });
   response.end(
     JSON.stringify({
