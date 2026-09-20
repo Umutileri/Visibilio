@@ -68,7 +68,7 @@ function Brand({ languageLabel = "Visibilio home" }: { languageLabel?: string })
   );
 }
 
-function HeroEvidence() {
+function HeroEvidence({ t }: { t: Record<string, string> }) {
   return (
     <div className="landing-hero-evidence" aria-label="Example Visibilio finding">
       <div className="landing-window-head">
@@ -104,7 +104,7 @@ function HeroEvidence() {
   );
 }
 
-function StepVisual({ id }: { id: string }) {
+function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
   if (id === "detect") {
     return (
       <div className="landing-demo landing-demo-detect">
@@ -175,7 +175,7 @@ function StepVisual({ id }: { id: string }) {
 }
 
 
-function ProductProof({ t }: { t: Record<string, string> }) {
+function ProductProof({ t, language }: { t: Record<string, string>; language: Language }) {
   const proofItems = [
     ["01", t.find, language === "TR" ? "Sorunları yeni bir hata ayıklama oturumuna dönüşmeden önce ölçülebilir şekilde görün." : "See measurable issues before they become another debugging session."],
     ["02", t.understand, language === "TR" ? "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün." : "Get the browser context, affected element, and evidence in one place."],
@@ -209,7 +209,7 @@ function ProductProof({ t }: { t: Record<string, string> }) {
   );
 }
 
-function AudienceBlock({ t }: { t: Record<string, string> }) {
+function AudienceBlock({ t, language }: { t: Record<string, string>; language: Language }) {
   return (
     <section className="landing-audience-section">
       <div className="landing-container">
@@ -220,21 +220,21 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
         </div>
         <div className="landing-audience-grid">
           <article>
-            <span>DEVELOPERS</span>
-            <h3>Find the bug faster.</h3>
-            <p>Get viewport measurements, selectors, rule details, and evidence you can reproduce.</p>
+            <span>{language === "TR" ? "GELİŞTİRİCİLER" : "DEVELOPERS"}</span>
+            <h3>{language === "TR" ? "Hatanın kaynağını daha hızlı bulun." : "Find the bug faster."}</h3>
+            <p>{language === "TR" ? "Viewport ölçümlerini, selector'ları, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün." : "Get viewport measurements, selectors, rule details, and evidence you can reproduce."}</p>
             <a href="#how-it-works">{language === "TR" ? "Akışı keşfet →" : "Explore the workflow →"}</a>
           </article>
           <article>
-            <span>WEBSITE OWNERS</span>
-            <h3>Know what deserves attention.</h3>
-            <p>See the issue in plain language before you need to understand the implementation.</p>
+            <span>{language === "TR" ? "WEB SİTESİ SAHİPLERİ" : "WEBSITE OWNERS"}</span>
+            <h3>{language === "TR" ? "Neye odaklanmanız gerektiğini bilin." : "Know what deserves attention."}</h3>
+            <p>{language === "TR" ? "Uygulama ayrıntılarını anlamadan önce sorunu anlaşılır bir dille görün." : "See the issue in plain language before you need to understand the implementation."}</p>
             <a href="#evidence">{language === "TR" ? "Neyi ölçtüğümüzü gör →" : "See what we measure →"}</a>
           </article>
           <article>
-            <span>DESIGNERS</span>
-            <h3>See the context behind the page.</h3>
-            <p>Connect visual observations to the tested viewport and the evidence underneath them.</p>
+            <span>{language === "TR" ? "TASARIMCILAR" : "DESIGNERS"}</span>
+            <h3>{language === "TR" ? "Sayfanın arkasındaki bağlamı görün." : "See the context behind the page."}</h3>
+            <p>{language === "TR" ? "Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin." : "Connect visual observations to the tested viewport and the evidence underneath them."}</p>
             <a href="#product">{language === "TR" ? "Visibilio'nun yaklaşımını gör →" : "See how Visibilio thinks →"}</a>
           </article>
         </div>
@@ -354,7 +354,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <HeroEvidence />
+              <HeroEvidence t={t} />
               <div className="landing-proof-caption"><span>01 / {language === "TR" ? "NE ALIRSINIZ" : "WHAT YOU GET"}</span><strong>{t.proofCaption}</strong></div>
             </div>
           </div>
@@ -424,7 +424,7 @@ export default function LandingPage() {
                 <div key={step.id} className="landing-feature-step" data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="landing-feature-art">
                     <div className="landing-feature-chrome"><span>{step.index} / {step.title}</span><span>VISIBILIO</span></div>
-                    <StepVisual id={step.id} />
+                    <StepVisual id={step.id} t={t} />
                   </div>
                 </div>
               ))}
@@ -432,8 +432,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <ProductProof t={t} />
-        <AudienceBlock t={t} />
+        <ProductProof t={t} language={language} />
+        <AudienceBlock t={t} language={language} />
 
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
