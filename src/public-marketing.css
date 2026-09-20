@@ -171,11 +171,6 @@ to{transform:translateX(-50%)} }
   .landing-demo-retest > b { justify-self:center; transform:rotate(90deg); }
   .landing-cta-panel { padding:34px 24px; }
 }
-@media (prefers-reduced-motion:reduce) {
-  .landing-marquee-track { animation:none; }
-}
-
-
 /* Landing v3 refinements */
 .landing-share-section {
   padding: 88px 0 110px;
