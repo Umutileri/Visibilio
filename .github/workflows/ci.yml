@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   validate:
@@ -15,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,7 +31,18 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Check formatting
-        run: npm run format:check -- --log-level warn
+        shell: bash
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            files="$(git diff --name-only --diff-filter=ACMR "$GITHUB_BASE_REF...$GITHUB_SHA" | grep -E '\.(ts|tsx|js|jsx|json|css|md|yml|yaml)$' || true)"
+            if [ -n "$files" ]; then
+              printf '%s\n' "$files" | xargs npx prettier --check --log-level warn
+            else
+              echo "No format-eligible changed files."
+            fi
+          else
+            npm run format:check -- --log-level warn
+          fi
 
       - name: Run build
         run: npm run build
@@ -38,3 +52,6 @@ jobs:
 
       - name: Run scanner tests
         run: npm run test:scanner
+
+      - name: Run API tests
+        run: npm run test:api

@@ -7,18 +7,15 @@ test-results
 # Raw scanner fixture
 src/scanner/testPage.html
 
-# Existing source and documentation are intentionally kept in their current layout.
-# CI formatting is reserved for files changed by implementation work.
+# Stable legacy files are intentionally kept out of the formatting gate.
 AGENTS.md
 PRODUCT.md
 README.md
 eslint.config.js
-src/App.tsx
 src/styles.css
 tsconfig.json
 
-
-# Legacy scanner files will be reformatted in the next cleanup pass.
+# Legacy scanner files remain out of the formatting gate until an explicit cleanup pass.
 src/scanner/detectionRules.ts
 src/scanner/scanPage.test.ts
 src/scanner/scanPage.ts
