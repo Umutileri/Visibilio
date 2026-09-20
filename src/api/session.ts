@@ -1,9 +1,14 @@
+import { randomUUID } from "node:crypto";
 import type { ScanResult, UIssue } from "../scanner/types";
 import type { ScanSession, ScanStatus } from "./sessionTypes";
 
-export function createScanSession(url: string): ScanSession {
+export function createScanSession(
+  projectId: string,
+  url: string,
+): ScanSession {
   return {
-    id: "scan_" + Date.now().toString(36),
+    id: "scan_" + randomUUID(),
+    projectId,
     url,
     status: "queued",
     createdAt: new Date().toISOString(),
