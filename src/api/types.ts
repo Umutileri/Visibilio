@@ -1,7 +1,13 @@
 import type { ScanResult, ViewportPreset } from "../scanner/types";
-import type { ScanSession } from "./sessionTypes";
+import type {
+  ScanSession,
+  ScanSessionGetResponse,
+  ScanSessionListResponse,
+  WebsiteProject,
+} from "./sessionTypes";
 
 export interface ScanApiRequest {
+  projectId: string;
   url: string;
 }
 
@@ -31,16 +37,18 @@ export interface ScanApiFailure {
 
 export type ScanApiResponse = ScanApiSuccess | ScanApiFailure;
 
-export interface ScanSessionListSuccess {
+export interface ProjectListSuccess {
   ok: true;
-  sessions: ScanSession[];
+  projects: WebsiteProject[];
 }
 
-export type ScanSessionListResponse = ScanSessionListSuccess | ScanApiFailure;
+export type ProjectListResponse = ProjectListSuccess | ScanApiFailure;
 
-export interface ScanSessionGetSuccess {
+export interface ProjectGetSuccess {
   ok: true;
-  session: ScanSession;
+  project: WebsiteProject;
 }
 
-export type ScanSessionGetResponse = ScanSessionGetSuccess | ScanApiFailure;
+export type ProjectGetResponse = ProjectGetSuccess | ScanApiFailure;
+
+export type { ScanSessionGetResponse, ScanSessionListResponse };
