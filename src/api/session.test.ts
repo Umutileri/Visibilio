@@ -9,7 +9,7 @@ import {
 
 describe("scan session", () => {
   it("creates a queued session with a stable id shape", () => {
-    const session = createScanSession("https://example.com");
+    const session = createScanSession("project_demo", "https://example.com");
 
     assert.match(session.id, /^scan_/);
     assert.equal(session.status, "queued");
