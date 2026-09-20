@@ -182,28 +182,28 @@ function AudienceBlock() {
     <section className="landing-audience-section">
       <div className="landing-container">
         <div className="landing-audience-intro">
-          <span className="landing-eyebrow">Built for the people behind the website</span>
-          <h2>Whether you <em>build it</em> or <em>own it.</em></h2>
-          <p>Visibilio gives you a clearer picture of what is wrong, why it matters, and what to do next.</p>
+          <span className="landing-section-kicker">One product. Different reasons to use it.</span>
+          <h2>Build it.<br /><em>Own it. Improve it.</em></h2>
+          <p>Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.</p>
         </div>
         <div className="landing-audience-grid">
           <article>
-            <span>FOR DEVELOPERS</span>
-            <h3>Reproducible, technical context.</h3>
-            <p>Viewport measurements, selectors, rules, evidence, and re-testable findings.</p>
-            <a href="#how-it-works">See the workflow →</a>
+            <span>DEVELOPERS</span>
+            <h3>Find the bug faster.</h3>
+            <p>Get viewport measurements, selectors, rule details, and evidence you can reproduce.</p>
+            <a href="#how-it-works">Explore the workflow →</a>
           </article>
           <article>
-            <span>FOR WEBSITE OWNERS</span>
-            <h3>Clear answers without the jargon.</h3>
-            <p>Understand what visitors may experience and what deserves attention first.</p>
-            <a href="#evidence">See the evidence →</a>
+            <span>WEBSITE OWNERS</span>
+            <h3>Know what deserves attention.</h3>
+            <p>See the issue in plain language before you need to understand the implementation.</p>
+            <a href="#evidence">See what we measure →</a>
           </article>
           <article>
-            <span>FOR DESIGNERS</span>
-            <h3>Visual context you can inspect.</h3>
-            <p>Keep visual observations connected to the page state and the tested viewport.</p>
-            <a href="#product">See the product →</a>
+            <span>DESIGNERS</span>
+            <h3>See the context behind the page.</h3>
+            <p>Connect visual observations to the tested viewport and the evidence underneath them.</p>
+            <a href="#product">See how Visibilio thinks →</a>
           </article>
         </div>
       </div>
