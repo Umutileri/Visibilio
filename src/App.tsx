@@ -4,7 +4,7 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanSessionGetResponse, ScanSessionListResponse } from "./api/types";
+import type { ScanApiResponse, ScanSessionListResponse } from "./api/types";
 import { useEffect, useMemo, useState } from "react";
 
 type AppSection =
