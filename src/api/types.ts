@@ -1,6 +1,5 @@
-import type { ScanResult, ViewportPreset } from "../scanner/types";
+import type { ScanResult, UIssue, ViewportPreset } from "../scanner/types";
 import type { ScanSession } from "./sessionTypes";
-import type { UIssue } from "../scanner/types";
 
 export interface ScanApiRequest {
   url: string;
@@ -55,7 +54,6 @@ export interface ScanSessionGetSuccess {
 }
 
 export type ScanSessionGetResponse = ScanSessionGetSuccess | ScanApiFailure;
-
 
 export interface ScanRetestRequest {
   findingId: string;
