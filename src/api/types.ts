@@ -46,7 +46,9 @@ export interface ScanFindingStatusSuccess {
   results: ScanApiResult[];
 }
 
-export type ScanFindingStatusResponse = ScanFindingStatusSuccess | ScanApiFailure;
+export type ScanFindingStatusResponse =
+  | ScanFindingStatusSuccess
+  | ScanApiFailure;
 
 export interface ScanSessionGetSuccess {
   ok: true;
