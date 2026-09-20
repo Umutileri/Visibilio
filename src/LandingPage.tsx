@@ -266,10 +266,8 @@ export default function LandingPage() {
                 <button className="landing-primary" type="button" onClick={openApp}>Analyze your website <span>↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">See how it works <span>↓</span></a>
               </div>
-              <div className="landing-proof-row">
-                <span><i /> For developers</span>
-                <span><i /> For website owners</span>
-                <span><i /> Start free</span>
+              <div className="landing-hero-note">
+                Built for developers, designers, and website owners.
               </div>
             </div>
             <div>
