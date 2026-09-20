@@ -23,7 +23,7 @@ function apiBaseUrl(): string {
   return (import.meta.env.VITE_SCAN_API_URL ?? "").replace(/\/$/, "");
 }
 
-function flattenResults(results: Array<{ viewport: { name: string }; ok: boolean; scan: ScanResult }>): FlatFinding[] {
+function flattenResults(results: Array<{ viewport: { name: string }; scan: ScanResult }>): FlatFinding[] {
   return results.flatMap((entry) => (entry.scan.ok ? entry.scan.issues.map((issue) => ({ ...issue, viewportLabel: entry.viewport.name })) : []));
 }
 
