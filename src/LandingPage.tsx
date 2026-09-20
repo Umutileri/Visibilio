@@ -282,13 +282,16 @@ export default function LandingPage() {
         <section className="landing-share-section">
           <div className="landing-container landing-share-grid">
             <div>
-              <span className="landing-eyebrow">Start with your website</span>
-              <h2>Share a URL.<br /><em>See what your site is hiding.</em></h2>
+              <span className="landing-section-kicker">Start with your website</span>
+              <h2>Give us the URL.<br /><em>We’ll show you where to look.</em></h2>
             </div>
             <div className="landing-share-action">
-              <p>Bring us the page you care about. Visibilio checks it in a controlled browser and gives you findings, evidence, and a path to the fix.</p>
-              <button className="landing-primary" type="button" onClick={openApp}>Start a free analysis <span>↗</span></button>
-              <small>No dashboard setup first. Start with the site.</small>
+              <p>Paste the page you care about. Start with the website itself—no setup tour, no long questionnaire.</p>
+              <div className="landing-url-demo">
+                <span>https://your-site.com/pricing</span>
+                <button type="button" onClick={openApp}>Analyze <span>↗</span></button>
+              </div>
+              <small>Start free · developers, designers, and website owners</small>
             </div>
           </div>
         </section>
