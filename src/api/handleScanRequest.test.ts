@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
 import { handleScanRequest, validateScanUrl } from "./handleScanRequest";
+import { assertSafeTarget } from "./urlSafety";
 
 let server: Server;
 let baseUrl: string;
@@ -38,6 +39,19 @@ describe("validateScanUrl", () => {
     assert.equal(validateScanUrl("file:///tmp/page"), null);
     assert.equal(validateScanUrl("ftp://example.com"), null);
     assert.equal(validateScanUrl("https://user:pass@example.com"), null);
+  });
+});
+
+describe("assertSafeTarget", () => {
+  it("rejects local and private IP targets", async () => {
+    for (const value of ["http://127.0.0.1", "http://10.0.0.1", "http://192.168.1.1", "http://169.254.169.254", "http://[::1]"]) {
+      await assert.rejects(assertSafeTarget(new URL(value)));
+    }
+  });
+
+  it("rejects localhost hostnames", async () => {
+    await assert.rejects(assertSafeTarget(new URL("http://localhost")));
+    await assert.rejects(assertSafeTarget(new URL("http://api.localhost")));
   });
 });
 
