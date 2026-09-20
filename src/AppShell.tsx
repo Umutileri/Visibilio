@@ -149,6 +149,23 @@ function AppShell() {
     findings[0] ??
     sampleFindings[0];
 
+  async function updateFindingStatus(status: UIssue["status"]) {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint || !response?.ok) return;
+    try {
+      const result = await fetch(endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(response.session.id) + "/findings/" + encodeURIComponent(selectedFinding.id), {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const data = (await result.json()) as ScanApiResponse;
+      if (!result.ok || !data.ok) throw new Error(data.ok ? "Could not update finding." : data.error.message);
+      setResponse(data);
+    } catch (statusError) {
+      setError(statusError instanceof Error ? statusError.message : "Could not update finding.");
+    }
+  }
+
   const filteredFindings = findings.filter((finding) => {
     const matchesSeverity = severity === "all" || finding.severity === severity;
     const needle = query.trim().toLowerCase();
