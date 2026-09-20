@@ -1,8 +1,7 @@
-
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 
-const privateIPv4Ranges: Array<[number, number]> = [
+const blockedIpv4Ranges: Array<[number, number]> = [
   [ip4("10.0.0.0"), ip4("10.255.255.255")],
   [ip4("100.64.0.0"), ip4("100.127.255.255")],
   [ip4("127.0.0.0"), ip4("127.255.255.255")],
@@ -21,20 +20,29 @@ function ip4(value: string): number {
 function isBlockedIpv4(value: string): boolean {
   if (isIP(value) !== 4) return false;
   const numeric = ip4(value);
-  return privateIPv4Ranges.some(([start, end]) => numeric >= start && numeric <= end);
+  return blockedIpv4Ranges.some(
+    ([start, end]) => numeric >= start && numeric <= end,
+  );
 }
 
 function isBlockedIp(value: string): boolean {
   if (value === "::1" || value === "::" || isBlockedIpv4(value)) return true;
-  if (isIP(value) === 6) {
-    const normalized = value.toLowerCase();
-    return normalized.startsWith("fc") || normalized.startsWith("fd") || normalized.startsWith("fe8") || normalized.startsWith("fe9") || normalized.startsWith("fea") || normalized.startsWith("feb");
-  }
-  return false;
+  if (isIP(value) !== 6) return false;
+
+  const normalized = value.toLowerCase();
+  return (
+    normalized.startsWith("fc") ||
+    normalized.startsWith("fd") ||
+    normalized.startsWith("fe8") ||
+    normalized.startsWith("fe9") ||
+    normalized.startsWith("fea") ||
+    normalized.startsWith("feb")
+  );
 }
 
 export async function assertSafeTarget(url: URL): Promise<void> {
   const hostname = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+
   if (!hostname || hostname === "localhost" || hostname.endsWith(".localhost")) {
     throw new Error("Local targets are not allowed.");
   }
@@ -45,6 +53,8 @@ export async function assertSafeTarget(url: URL): Promise<void> {
 
   const records = await lookup(hostname, { all: true, verbatim: true });
   if (!records.length || records.some((record) => isBlockedIp(record.address))) {
-    throw new Error("Target resolves to a private, local, or reserved network address.");
+    throw new Error(
+      "Target resolves to a private, local, or reserved network address.",
+    );
   }
 }
