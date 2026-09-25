@@ -166,34 +166,73 @@ function AppShell() {
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
-    if (!endpoint || !response?.ok) return;
+    const currentResponse = response;
+    if (!endpoint || !currentResponse?.ok) return;
 
     setRetestBusy(true);
     setRetestComparison(null);
     setError("");
+
     try {
-      const result = await fetch(
-        endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(response.session.id) + "/retest",
+      const startResponse = await fetch(
+        endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(currentResponse.session.id) + "/retest",
         {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ findingId: selectedFinding.id }),
         },
       );
-      const data = (await result.json()) as ScanRetestResponse;
-      if (!result.ok || !data.ok) {
-        throw new Error(data.ok ? "Could not start re-test." : data.error.message);
+      const startData = (await startResponse.json()) as ScanRetestResponse;
+      if (!startResponse.ok || !startData.ok) {
+        throw new Error(startData.ok ? "Could not start re-test." : startData.error.message);
       }
-      setRetestSessionId(data.session.id);
-      setRetestComparison(data);
-      setUrl(data.session.url);
-      setSelectedFindingId(data.comparison.after?.id ?? selectedFinding.id);
+
+      setRetestSessionId(startData.session.id);
+      setUrl(startData.session.url);
+
+      const poll = async (): Promise<void> => {
+        const pollResponse = await fetch(
+          endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(startData.session.id),
+        );
+        const pollData = (await pollResponse.json()) as ScanSessionGetResponse;
+        if (!pollResponse.ok || !pollData.ok) {
+          throw new Error(pollData.ok ? "Could not read re-test progress." : pollData.error.message);
+        }
+
+        if (pollData.session.status === "scanning" || pollData.session.status === "queued") {
+          window.setTimeout(() => void poll().catch((error) => setError(error instanceof Error ? error.message : "Could not read re-test progress.")), 700);
+          return;
+        }
+
+        setRetestComparison({
+          ok: true,
+          session: pollData.session,
+          comparison: {
+            findingId: selectedFinding.id,
+            before: selectedFinding,
+            after: pollData.session.findings[0],
+            outcome: pollData.session.findings.some(
+              (finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector,
+            ) ? "still-present" : "resolved",
+          },
+        });
+        setResponse({
+          ok: true,
+          session: pollData.session,
+          url: pollData.session.url,
+          results: pollData.session.results.map((scan) => ({ viewport: scan.viewport, scan })),
+        });
+        setRetestSessionId(null);
+      };
+
+      await poll();
     } catch (error) {
       setError(error instanceof Error ? error.message : "Could not run re-test.");
     } finally {
       setRetestBusy(false);
     }
   }
+
   async function updateFindingStatus(status: UIssue["status"]) {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
     if (!endpoint || !response?.ok) return;
