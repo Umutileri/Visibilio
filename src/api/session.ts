@@ -40,6 +40,7 @@ export function updateScanSession(
   patch: Partial<Pick<ScanSession, "status" | "startedAt" | "completedAt">> & {
     results?: ScanResult[];
     findings?: UIssue[];
+    artifacts?: ScanSession["artifacts"];
   },
 ): ScanSession {
   return { ...session, ...patch };
