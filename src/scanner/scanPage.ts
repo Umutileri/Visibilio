@@ -37,6 +37,15 @@ export async function scanPage(
 
     page.setDefaultTimeout(DEFAULT_TIMEOUT_MS);
 
+    await page.route("**/*", async (route) => {
+      try {
+        await assertSafeTarget(new URL(route.request().url()));
+        await route.continue();
+      } catch {
+        await route.abort("blockedbyclient");
+      }
+    });
+
     try {
       await page.goto(url, {
         waitUntil: "domcontentloaded",
