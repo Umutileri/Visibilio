@@ -176,3 +176,26 @@ export async function handleScanRequest(
   response.writeHead(200, { "content-type": "application/json" });
   response.end(JSON.stringify(success));
 }
+
+export async function createRetestSessionRequest(
+  parentSessionId: string,
+  findingId: string,
+): Promise<ScanSession | null> {
+  const parent = await defaultScanSessionStore.get(parentSessionId);
+  if (!parent) return null;
+  const finding = parent.findings.find((item) => item.id === findingId);
+  if (!finding) return null;
+
+  const session = updateScanSession(createScanSession(finding.url), {
+    status: "scanning",
+    startedAt: new Date().toISOString(),
+  });
+  const linked: ScanSession = {
+    ...session,
+    parentSessionId,
+    retestOfFindingId: findingId,
+  };
+  await defaultScanSessionStore.create(linked);
+  void runScanSession(linked.id, linked.url);
+  return linked;
+}
