@@ -37,6 +37,7 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
     const result = await scanViewports(url, async () => (await defaultScanSessionStore.get(sessionId))?.status === "cancelled");
     const latestSession = await defaultScanSessionStore.get(sessionId);
     if (!latestSession || latestSession.status === "cancelled") return;
+    if (latestSession.status !== "scanning") return;
 
     const completedSession = updateScanSession(latestSession, {
       status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
