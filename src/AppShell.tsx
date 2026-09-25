@@ -824,6 +824,7 @@ function AppShell() {
                     <span className="detail-label">Why detected</span>
                     <p>{selectedFinding.description}</p>
                   </div>
+                  {retestComparison?.ok && <div className={"retest-comparison outcome-" + retestComparison.comparison.outcome}><span className="detail-label">Re-test result</span><strong>{retestComparison.comparison.outcome}</strong><small>Session: {retestComparison.session.id}</small></div>}
                   <div className="evidence-actions">
                     <a className="solid-button" href="#app/findings">Back to finding</a>
                     <button
