@@ -83,6 +83,7 @@ function ShellLogo() {
 
 function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
+  const [focusedEvidenceId, setFocusedEvidenceId] = useState<string | null>(() => new URLSearchParams(window.location.search).get("finding"));
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
@@ -642,7 +643,11 @@ function AppShell() {
                       <h2>{selectedFinding.title}</h2>
                       <p>{selectedFinding.description}</p>
                     </div>
-                    <a className="outline-button" href="#app/evidence">
+                    <a
+                      className="outline-button"
+                      href={"#app/evidence?finding=" + encodeURIComponent(selectedFinding.id)}
+                      onClick={() => setFocusedEvidenceId(selectedFinding.id)}
+                    >
                       Show evidence
                     </a>
                   </div>
@@ -690,6 +695,7 @@ function AppShell() {
 
           {section === "evidence" && (
             <section>
+              {focusedEvidenceId && focusedEvidenceId !== selectedFinding.id && setSelectedFindingId(focusedEvidenceId)}
               <div className="page-intro">
                 <div>
                   <span className="eyebrow">Evidence</span>
