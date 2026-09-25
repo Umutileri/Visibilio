@@ -4,7 +4,8 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
+import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
+import type { ScanArtifact } from "./api/sessionTypes";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
@@ -172,6 +173,13 @@ function AppShell() {
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
     sampleFindings[0];
+
+  const selectedArtifact: ScanArtifact | null = response?.ok
+    ? response.session.artifacts.find(
+        (artifact) =>
+          artifact.id.includes(selectedFinding.viewport.width + "x" + selectedFinding.viewport.height),
+      ) ?? null
+    : null;
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
