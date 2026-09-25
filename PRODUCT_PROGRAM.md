@@ -101,9 +101,9 @@ Status: in progress.
 - [x] Loading state
 - [x] Error state
 - [x] Real API handoff
-- [ ] Step-by-step scan progress based on server status
+- [x] Step-by-step scan progress based on server status
 - [ ] Retry without losing target
-- [ ] Scan cancellation
+- [x] Scan cancellation
 - [ ] Clear result summary
 
 ### P4 — Findings + Evidence
@@ -114,9 +114,10 @@ Status: partially complete.
 - [x] Filters
 - [x] Finding detail
 - [x] Evidence data view
-- [ ] Screenshot artifact viewer with stable URL/id
-- [ ] Finding status actions
-- [ ] “Show evidence” focused interaction
+- [x] Screenshot artifact identity with stable session-scoped id
+- [x] Finding status actions
+- [x] “Show evidence” focused interaction
+- [ ] Screenshot binary serving / focused image viewer
 - [ ] Empty/loading/error polish
 - [ ] Mobile interaction polish
 
