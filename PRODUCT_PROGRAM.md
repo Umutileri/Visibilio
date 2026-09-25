@@ -160,11 +160,11 @@ Goal: move from understanding to action.
 ### P8 — Re-test
 Goal: verify whether a change changed the measured result.
 
-- [ ] Re-run same rule
-- [ ] Preserve original evidence
-- [ ] Before/after measurement comparison
-- [ ] Resolved/unresolved determination
-- [ ] Safe finding matching
+- [x] Re-run same rule
+- [x] Preserve original evidence reference
+- [x] Before/after measurement comparison
+- [x] Resolved/unresolved determination
+- [x] Safe finding matching
 - [ ] Changed-structure handling
 - [ ] Re-test history
 
