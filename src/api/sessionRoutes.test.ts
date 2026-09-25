@@ -185,7 +185,29 @@ describe("scan artifact route", () => {
   });
 });
 
-describe("finding retest route", () => {\n  it("returns a linked retest session", async () => {\n    const capture = createResponseCapture();\n    const session = createScanSession("https://example.com");\n    const finding = { id: "finding-1", rule: "responsive.horizontal-overflow", category: "responsive" as const, title: "Horizontal overflow detected", severity: "medium" as const, description: "The page overflows.", url: session.url, viewport: { name: "Mobile", width: 390, height: 844 }, selector: ".pricing-grid", detectedAt: "2026-09-20T10:00:00.000Z", status: "open" as const };\n    const withFinding: ScanSession = { ...session, findings: [finding] };\n    const retest = { ...createScanSession(session.url), parentSessionId: session.id, retestOfFindingId: finding.id, status: "completed" as const };\n    await handleScanRetestRequest(capture.response, session.id, finding.id, async () => withFinding, async () => ({ ...retest, results: [] }));\n    const result = capture.read();\n    assert.equal(result.statusCode, 200);\n    assert.equal((result.body as { ok: boolean }).ok, true);\n    assert.equal((result.body as { session: ScanSession }).session.parentSessionId, session.id);\n  });\n\n  it("returns 404 for an unknown finding", async () => {\n    const capture = createResponseCapture();\n    const session = createScanSession("https://example.com");\n    await handleScanRetestRequest(capture.response, session.id, "missing", async () => session, async () => null);\n    assert.equal(capture.read().statusCode, 404);\n  });\n});\n\ndescribe("finding status route", () => {
+describe("finding retest route", () => {
+  it("returns a linked retest session", async () => {
+    const capture = createResponseCapture();
+    const session = createScanSession("https://example.com");
+    const finding = { id: "finding-1", rule: "responsive.horizontal-overflow", category: "responsive" as const, title: "Horizontal overflow detected", severity: "medium" as const, description: "The page overflows.", url: session.url, viewport: { name: "Mobile", width: 390, height: 844 }, selector: ".pricing-grid", detectedAt: "2026-09-20T10:00:00.000Z", status: "open" as const };
+    const withFinding: ScanSession = { ...session, findings: [finding] };
+    const retest = { ...createScanSession(session.url), parentSessionId: session.id, retestOfFindingId: finding.id, status: "completed" as const };
+    await handleScanRetestRequest(capture.response, session.id, finding.id, async () => withFinding, async () => ({ ...retest, results: [] }));
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.equal((result.body as { ok: boolean }).ok, true);
+    assert.equal((result.body as { session: ScanSession }).session.parentSessionId, session.id);
+  });
+
+  it("returns 404 for an unknown finding", async () => {
+    const capture = createResponseCapture();
+    const session = createScanSession("https://example.com");
+    await handleScanRetestRequest(capture.response, session.id, "missing", async () => session, async () => null);
+    assert.equal(capture.read().statusCode, 404);
+  });
+});
+
+describe("finding status route", () => {
   it("updates a finding status inside a session", async () => {
     const capture = createResponseCapture();
     const session = createScanSession("https://example.com");
