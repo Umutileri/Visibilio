@@ -149,6 +149,13 @@ function AppShell() {
     };
   }, []);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
+
+  useEffect(() => {
+    if (!focusedEvidenceId) return;
+    if (findings.some((finding) => finding.id === focusedEvidenceId)) {
+      setSelectedFindingId(focusedEvidenceId);
+    }
+  }, [focusedEvidenceId, findings]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
@@ -695,7 +702,6 @@ function AppShell() {
 
           {section === "evidence" && (
             <section>
-              {focusedEvidenceId && focusedEvidenceId !== selectedFinding.id && setSelectedFindingId(focusedEvidenceId)}
               <div className="page-intro">
                 <div>
                   <span className="eyebrow">Evidence</span>
