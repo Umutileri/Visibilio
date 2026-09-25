@@ -88,7 +88,14 @@ createServer((request, response) => {
 
   if (pathname === "/api/scans" && request.method === "POST") {
     let body = "";
-    for await (const chunk of request) body += chunk.toString();
+    for await (const chunk of request) {
+      body += chunk.toString();
+      if (body.length > 32000) {
+        response.writeHead(413, { "content-type": "application/json" });
+        response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Request body is too large." } }));
+        return;
+      }
+    }
 
     try {
       const payload = JSON.parse(body) as { url?: unknown };
