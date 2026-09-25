@@ -2784,3 +2784,28 @@ input:focus-visible {
     padding-inline: 11px;
   }
 }
+
+.workspace-result-strip {
+  margin-top: 14px;
+}
+
+.workspace-result-strip > div {
+  min-height: 64px;
+}
+
+@media (max-width: 760px) {
+  .workspace-result-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 390px) {
+  .workspace-result-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .workspace-result-strip > div {
+    min-height: 58px;
+    padding: 10px;
+  }
+}
