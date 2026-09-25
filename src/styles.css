@@ -2414,3 +2414,35 @@ input:focus-visible {
   .workspace-flow-step { padding:13px 0; }
 }
 
+/* Website-first overview context */
+.workspace-context-line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 11px 0;
+  border-top: 1px solid rgb(21 45 53 / 7%);
+  border-bottom: 1px solid rgb(21 45 53 / 7%);
+  color: rgb(21 45 53 / 42%);
+  font-size: .61rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-weight: 800;
+}
+.workspace-context-line strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #152d35;
+  font: 650 .67rem/1.35 "Geist Mono", monospace;
+  text-transform: none;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-context-line > span:last-child { justify-self: end; color: #5c7b70; }
+@media (max-width: 760px) {
+  .workspace-context-line { grid-template-columns: 1fr auto; gap: 6px 10px; }
+  .workspace-context-line strong { grid-column: 1 / -1; grid-row: 2; }
+  .workspace-context-line > span:last-child { grid-column: 2; grid-row: 1; }
+}
