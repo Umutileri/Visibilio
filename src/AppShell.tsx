@@ -4,8 +4,8 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanSessionListResponse } from "./api/types";
-import { useEffect, useMemo, useState } from "react";
+import type { ScanApiResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
   | "overview"
@@ -85,6 +85,9 @@ function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
+  const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
+  const scanAbortRef = useRef<AbortController | null>(null);
+  const scanTimerRef = useRef<number | null>(null);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
   const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
