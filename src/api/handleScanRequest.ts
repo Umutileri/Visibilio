@@ -11,6 +11,29 @@ import type {
 
 const MAX_URL_LENGTH = 2048;
 
+export async function runScanSession(sessionId: string, url: string): Promise<void> {
+  const session = await defaultScanSessionStore.get(sessionId);
+  if (!session) return;
+
+  try {
+    const result = await scanViewports(url);
+    const completedSession = updateScanSession(session, {
+      status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
+      completedAt: new Date().toISOString(),
+      results: result.results,
+      findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
+    });
+    await defaultScanSessionStore.update(completedSession);
+  } catch {
+    await defaultScanSessionStore.update(
+      updateScanSession(session, {
+        status: "failed",
+        completedAt: new Date().toISOString(),
+      }),
+    );
+  }
+}
+
 function failure(
   response: ServerResponse,
   statusCode: number,
