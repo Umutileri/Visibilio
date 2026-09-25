@@ -2325,3 +2325,16 @@ input:focus-visible {
   .finding-status-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
   .finding-status-actions .outline-button { width:100%; padding:0 8px; }
 }
+
+
+.artifact-frame { width:100%; border:1px solid rgb(21 45 53 / 9%); background:#f7faf8; border-radius:10px; overflow:hidden; }
+.artifact-toolbar { display:flex; justify-content:space-between; gap:12px; padding:10px 12px; border-bottom:1px solid rgb(21 45 53 / 8%); color:rgb(21 45 53 / 48%); font:700 .58rem/1 "Geist Mono",monospace; }
+.artifact-placeholder, .artifact-empty { display:grid; gap:7px; place-items:center; min-height:360px; padding:30px; text-align:center; }
+.artifact-placeholder { background:#eef4ef; }
+.artifact-placeholder strong, .artifact-empty strong { font-size:.9rem; }
+.artifact-placeholder span, .artifact-empty span { max-width:34ch; color:rgb(21 45 53 / 48%); font-size:.68rem; line-height:1.5; }
+.artifact-empty { min-height:240px; background:#fbfdfb; }
+@media (max-width:640px) {
+  .artifact-placeholder, .artifact-empty { min-height:220px; padding:20px; }
+  .artifact-toolbar { font-size:.52rem; }
+}

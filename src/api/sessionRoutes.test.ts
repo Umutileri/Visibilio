@@ -7,6 +7,7 @@ import {
   handleScanSessionGetRequest,
   handleScanSessionListRequest,
   handleScanSessionCancelRequest,
+  handleScanArtifactGetRequest,
 } from "./sessionRoutes";
 
 function createResponseCapture() {
@@ -135,6 +136,51 @@ describe("session cancellation route", () => {
 
     const result = capture.read();
     assert.equal(result.statusCode, 409);
+  });
+});
+
+describe("scan artifact route", () => {
+  it("returns artifact metadata by stable id", async () => {
+    const capture = createResponseCapture();
+    const session = {
+      ...createScanSession("https://example.com"),
+      artifacts: [{
+        id: "scan_test_mobile",
+        kind: "screenshot" as const,
+        contentType: "image/png" as const,
+        viewport: { name: "Mobile", width: 390, height: 844 },
+        capturedAt: new Date().toISOString(),
+      }],
+    };
+
+    await handleScanArtifactGetRequest(
+      capture.response,
+      session.id,
+      "scan_test_mobile",
+      async (id) => (id === session.id ? session : null),
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.deepEqual(result.body, {
+      ok: true,
+      artifact: session.artifacts[0],
+    });
+  });
+
+  it("returns 404 for an unknown artifact", async () => {
+    const capture = createResponseCapture();
+    const session = { ...createScanSession("https://example.com"), artifacts: [] };
+
+    await handleScanArtifactGetRequest(
+      capture.response,
+      session.id,
+      "missing-artifact",
+      async () => session,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 404);
   });
 });
 

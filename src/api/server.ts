@@ -6,6 +6,7 @@ import {
   handleScanFindingStatusRequest,
   handleScanSessionStartRequest,
   handleScanSessionCancelRequest,
+  handleScanArtifactGetRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
 
@@ -132,6 +133,7 @@ createServer((request, response) => {
 
   const sessionMatch = pathname.match(/^\/api\/scans\/([^/]+)$/);
   const findingMatch = pathname.match(/^\/api\/scans\/([^/]+)\/findings\/([^/]+)$/);
+  const artifactMatch = pathname.match(/^\/api\/scans\/([^/]+)\/artifacts\/([^/]+)$/);
 
   if (findingMatch && request.method === "PATCH") {
     void handleFindingStatusRoute(
@@ -139,6 +141,16 @@ createServer((request, response) => {
       response,
       decodeURIComponent(findingMatch[1]),
       decodeURIComponent(findingMatch[2]),
+    );
+    return;
+  }
+
+  if (artifactMatch && request.method === "GET") {
+    void handleScanArtifactGetRequest(
+      response,
+      decodeURIComponent(artifactMatch[1]),
+      decodeURIComponent(artifactMatch[2]),
+      (id) => defaultScanSessionStore.get(id),
     );
     return;
   }

@@ -2,6 +2,14 @@ import type { ScanResult, ViewportPreset, UIssue } from "../scanner/types";
 
 export type ScanStatus = "queued" | "scanning" | "completed" | "failed" | "cancelled";
 
+export interface ScanArtifact {
+  id: string;
+  kind: "screenshot";
+  contentType: "image/png";
+  viewport: ViewportPreset;
+  capturedAt: string;
+}
+
 export interface ScanSession {
   id: string;
   url: string;
@@ -13,6 +21,7 @@ export interface ScanSession {
   completedAt?: string;
   results: ScanResult[];
   findings: UIssue[];
+  artifacts: ScanArtifact[];
 }
 
 export interface ScanSessionStart {

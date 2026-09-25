@@ -9,6 +9,7 @@ export function createScanSession(url: string): ScanSession {
     createdAt: new Date().toISOString(),
     results: [],
     findings: [],
+    artifacts: [],
   };
 }
 
