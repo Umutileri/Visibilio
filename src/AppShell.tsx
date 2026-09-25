@@ -55,6 +55,15 @@ function sectionFromHash(): AppSection {
   return sections.some((section) => section.id === value) ? value : "overview";
 }
 
+function displayHostname(value: string): string {
+  if (!value) return "Choose a website";
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return value;
+  }
+}
+
 function flattenResults(
   results: Array<{ viewport: { name: string }; scan: ScanResult }>,
 ): UIssue[] {
@@ -411,7 +420,7 @@ function AppShell() {
           <div className="site-context-card">
             <span className="site-context-mark">WEB</span>
             <div>
-              <strong>{url ? (() => { try { return new URL(url).hostname; } catch { return url; } })() : "No website yet"}</strong>
+              <strong>{url ? displayHostname(url) : "No website yet"}</strong>
               <small>{url ? "Ready to scan" : "Paste a page to begin"}</small>
             </div>
           </div>
@@ -443,7 +452,7 @@ function AppShell() {
         <header className="saas-topbar">
           <div className="topbar-context">
             <span className="topbar-kicker">Visibilio workspace</span>
-            <strong>{url ? (() => { try { return new URL(url).hostname; } catch { return url; } })() : "Choose a website"}</strong>
+            <strong>{displayHostname(url)}</strong>
           </div>
           <div className="topbar-actions">
             <a className="topbar-back" href="#top">Back to site</a>
@@ -842,7 +851,7 @@ function AppShell() {
                       type="button"
                       onClick={() => {
                         setUrl(selectedFinding.url);
-                        window.location.hash = "#app/analyze";
+                        window.location.hash = "#app/overview";
                       }}
                     >
                       Re-test
