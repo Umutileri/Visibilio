@@ -18,7 +18,7 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
     productBody: "A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.",
-    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a vague feeling<br /><em>to a useful answer.</em>", proofLead: "One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.",
+    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a vague feeling<br /><em>to a useful answer.</em>", proofLead: "One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.", audienceDevelopers:"Developers", audienceDevelopersTitle:"Find the bug faster.", audienceDevelopersCopy:"Get viewport measurements, selectors, rule details, and evidence you can reproduce.", audienceOwners:"Website owners", audienceOwnersTitle:"Know what deserves attention.", audienceOwnersCopy:"See the issue in plain language before you need to understand the implementation.", audienceDesigners:"Designers", audienceDesignersTitle:"See the context behind the page.", audienceDesignersCopy:"Connect visual observations to the tested viewport and the evidence underneath them.", audienceExplore:"Explore the workflow", evidenceLink:"See what we measure", productLink:"See how Visibilio thinks", whatYouGet:"01 / WHAT YOU GET", proofCaption:"A finding you can actually act on.", retestBefore:"BEFORE", retestAfter:"AFTER", retestOverflow:"overflow", retestWithin:"within viewport", retestFix:"FIX", retestRun:"RUN THE SAME CHECK", retestFoot:"Same rule · same viewport · measured again", finalSetup:"Start with a URL. No complicated setup.",
     audienceSection: "One product. Different reasons to use it.", audienceTitle: "Build it.<br /><em>Own it. Improve it.</em>", audienceSectionBody: "Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.",
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
@@ -34,7 +34,7 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz net bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
     productEyebrow: "Neden Visibilio", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
-    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir histen<br /><em>işe yarar bir yanıta.</em>", proofLead: "Web sitesinden sorumlu herkes için tek bir akış: sorunu bulun, kanıtı anlayın ve geliştirin.", proofFind: "Bul", proofFindCopy: "Bir sonraki hata ayıklama turuna dönüşmeden ölçülebilen sorunları görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün.", proofImprove: "Geliştir", proofImproveCopy: "Değişikliği yapın, aynı kontrolü yeniden çalıştırın ve gerçekten neyin değiştiğini görün.",
+    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir histen<br /><em>işe yarar bir yanıta.</em>", proofLead: "Web sitesinden sorumlu herkes için tek bir akış: sorunu bulun, kanıtı anlayın ve geliştirin.", proofFind: "Bul", proofFindCopy: "Bir sonraki hata ayıklama turuna dönüşmeden ölçülebilen sorunları görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün.", proofImprove: "Geliştir", proofImproveCopy: "Değişikliği yapın, aynı kontrolü yeniden çalıştırın ve gerçekten neyin değiştiğini görün.", audienceDevelopers:"Geliştiriciler", audienceDevelopersTitle:"Hatanın kaynağını daha hızlı bulun.", audienceDevelopersCopy:"Viewport ölçümlerini, selector bilgilerini, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün.", audienceOwners:"Web sitesi sahipleri", audienceOwnersTitle:"Neyin öncelikli olduğunu bilin.", audienceOwnersCopy:"Uygulama ayrıntılarına girmeden önce sorunu anlaşılır biçimde görün.", audienceDesigners:"Tasarımcılar", audienceDesignersTitle:"Sayfanın arkasındaki bağlamı görün.", audienceDesignersCopy:"Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin.", audienceExplore:"Akışı keşfedin", evidenceLink:"Neleri ölçtüğümüzü görün", productLink:"Visibilio yaklaşımını görün", whatYouGet:"01 / NE ALIRSINIZ", proofCaption:"Üzerinde gerçekten harekete geçebileceğiniz bir bulgu.", retestBefore:"ÖNCE", retestAfter:"SONRA", retestOverflow:"taşma", retestWithin:"viewport içinde", retestFix:"DÜZELT", retestRun:"AYNI KONTROLÜ TEKRAR ÇALIŞTIR", retestFoot:"Aynı kural · aynı viewport · yeniden ölçüldü", finalSetup:"Bir URL ile başlayın. Karmaşık kurulum yok."
     audienceSection: "Tek ürün. Farklı kullanım nedenleri.", audienceTitle: "Üretin.<br /><em>Sahiplenin. Geliştirin.</em>", audienceSectionBody: "Visibilio, web sitesinin arkasındaki herkes için aynı başlangıcı sunar: kanıtlarla desteklenen net bir bulgu.",
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
@@ -156,19 +156,19 @@ function StepVisual({ id }: { id: string }) {
   return (
     <div className="landing-demo landing-demo-retest">
       <div className="retest-column">
-        <small>BEFORE</small>
+        <small>{t.retestBefore}</small>
         <strong>34 px</strong>
-        <span>overflow</span>
+        <span>{t.retestOverflow}</span>
       </div>
       <div className="retest-center">
-        <span>FIX</span>
+        <span>{t.retestFix}</span>
         <b>→</b>
-        <small>RUN THE SAME CHECK</small>
+        <small>{t.retestRun}</small>
       </div>
       <div className="retest-column retest-after">
-        <small>AFTER</small>
+        <small>{t.retestAfter}</small>
         <strong>0 px</strong>
-        <span>within viewport</span>
+        <span>{t.retestWithin}</span>
       </div>
     </div>
   );
@@ -220,22 +220,22 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
         </div>
         <div className="landing-audience-grid">
           <article>
-            <span>DEVELOPERS</span>
-            <h3>Find the bug faster.</h3>
-            <p>Get viewport measurements, selectors, rule details, and evidence you can reproduce.</p>
-            <a href="#how-it-works">Explore the workflow →</a>
+            <span>{t.audienceDevelopers.toUpperCase()}</span>
+            <h3>{t.audienceDevelopersTitle}</h3>
+            <p>{t.audienceDevelopersCopy}</p>
+            <a href="#how-it-works">{t.audienceExplore} →</a>
           </article>
           <article>
-            <span>WEBSITE OWNERS</span>
-            <h3>Know what deserves attention.</h3>
-            <p>See the issue in plain language before you need to understand the implementation.</p>
-            <a href="#evidence">See what we measure →</a>
+            <span>{t.audienceOwners.toUpperCase()}</span>
+            <h3>{t.audienceOwnersTitle}</h3>
+            <p>{t.audienceOwnersCopy}</p>
+            <a href="#evidence">{t.evidenceLink} →</a>
           </article>
           <article>
-            <span>DESIGNERS</span>
-            <h3>See the context behind the page.</h3>
-            <p>Connect visual observations to the tested viewport and the evidence underneath them.</p>
-            <a href="#product">See how Visibilio thinks →</a>
+            <span>{t.audienceDesigners.toUpperCase()}</span>
+            <h3>{t.audienceDesignersTitle}</h3>
+            <p>{t.audienceDesignersCopy}</p>
+            <a href="#product">{t.productLink} →</a>
           </article>
         </div>
       </div>
@@ -356,18 +356,18 @@ export default function LandingPage() {
               </div>
               <div className="landing-hero-note landing-audience-callout">
                 <strong className="landing-audience-title">
-                  <span>developers</span>
+                  <span>{t.audienceDevelopers.toLowerCase()}</span>
                   <i>·</i>
-                  <span>designers</span>
+                  <span>{t.audienceDesigners.toLowerCase()}</span>
                   <i>·</i>
-                  <span>website owners</span>
+                  <span>{t.audienceOwners.toLowerCase()}</span>
                 </strong>
                 <span className="landing-audience-body">{t.audienceBody}</span>
               </div>
             </div>
             <div>
               <HeroEvidence t={t} />
-              <div className="landing-proof-caption"><span>01 / WHAT YOU GET</span><strong>A finding you can actually act on.</strong></div>
+              <div className="landing-proof-caption"><span>{t.whatYouGet}</span><strong>{t.proofCaption}</strong></div>
             </div>
           </div>
         </section>
@@ -474,7 +474,7 @@ export default function LandingPage() {
               <div className="result-before"><small>BEFORE</small><b>34 px</b><span>overflow</span></div>
               <div className="result-divider"><span>FIX</span><i>→</i></div>
               <div className="result-after"><small>AFTER</small><b>0 px</b><span>within viewport</span></div>
-              <div className="result-foot">Same rule · same viewport · measured again</div>
+              <div className="result-foot">{t.retestFoot}</div>
             </div>
           </div>
         </section>
@@ -488,7 +488,7 @@ export default function LandingPage() {
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
               <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>Start with a URL. No complicated setup.</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>{t.finalSetup}</small></div>
           </div>
         </section>
       </main>
