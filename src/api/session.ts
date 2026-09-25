@@ -51,3 +51,22 @@ export function sessionStatusFromResults(results: ScanResult[]): ScanStatus {
   if (results.some((result) => !result.ok)) return "failed";
   return "scanning";
 }
+
+export function findRetestMatch(
+  original: UIssue,
+  results: ScanResult[],
+): UIssue | undefined {
+  for (const result of results) {
+    if (!result.ok) continue;
+    const exact = result.issues.find(
+      (finding) =>
+        finding.rule === original.rule &&
+        finding.viewport.width === original.viewport.width &&
+        finding.viewport.height === original.viewport.height &&
+        finding.selector === original.selector,
+    );
+    if (exact) return exact;
+  }
+
+  return undefined;
+}
