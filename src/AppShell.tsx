@@ -184,38 +184,98 @@ function AppShell() {
   async function runScan() {
     setError("");
     setIsScanning(true);
+    setResponse(null);
+
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint) {
+      setError("VITE_SCAN_API_URL is not configured. Connect the app to the scan API to run a live audit.");
+      setIsScanning(false);
+      return;
+    }
+
+    scanAbortRef.current?.abort();
+    const controller = new AbortController();
+    scanAbortRef.current = controller;
 
     try {
-      const endpoint = import.meta.env.VITE_SCAN_API_URL;
-      if (!endpoint) {
-        throw new Error(
-          "VITE_SCAN_API_URL is not configured. Connect the app to the scan API to run a live audit.",
-        );
-      }
-
-      const responseFromApi = await fetch(
-        endpoint.replace(/\/$/, "") + "/api/scan",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ url }),
-        },
-      );
-
-      const data = (await responseFromApi.json()) as ScanApiResponse;
+      const responseFromApi = await fetch(endpoint.replace(/\/$/, "") + "/api/scans", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url }),
+        signal: controller.signal,
+      });
+      const data = (await responseFromApi.json()) as ScanSessionStartResponse;
       if (!responseFromApi.ok || !data.ok) {
-        throw new Error(data.ok ? "Scan failed." : data.error.message);
+        throw new Error(data.ok ? "Could not start scan." : data.error.message);
       }
 
-      setResponse(data);
-      setSelectedFindingId(data.results[0]?.scan.ok ? data.results[0].scan.issues[0]?.id ?? null : null);
-      window.location.hash = "#app/findings";
+      setActiveScanSessionId(data.session.id);
+
+      const poll = async (): Promise<void> => {
+        try {
+          const pollResponse = await fetch(endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(data.session.id), { signal: controller.signal });
+          const pollData = (await pollResponse.json()) as ScanSessionGetResponse;
+          if (!pollResponse.ok || !pollData.ok) {
+            throw new Error(pollData.ok ? "Could not read scan progress." : pollData.error.message);
+          }
+
+          const session = pollData.session;
+          if (session.status === "completed") {
+            setResponse({
+              ok: true,
+              session,
+              url: session.url,
+              results: session.results.map((scan) => ({ viewport: scan.viewport, scan })),
+            });
+            setSelectedFindingId(session.findings[0]?.id ?? null);
+            setIsScanning(false);
+            setActiveScanSessionId(null);
+            scanAbortRef.current = null;
+            scanTimerRef.current = null;
+            window.location.hash = "#app/findings";
+            return;
+          }
+
+          if (session.status === "failed") {
+            throw new Error("Scan failed. The target may be unavailable or blocked by the scan safety boundary.");
+          }
+
+          scanTimerRef.current = window.setTimeout(() => void poll(), 700);
+        } catch (pollError) {
+          if (pollError instanceof Error && pollError.name === "AbortError") return;
+          setError(pollError instanceof Error ? pollError.message : "Could not read scan progress.");
+          setIsScanning(false);
+          setActiveScanSessionId(null);
+          scanAbortRef.current = null;
+        }
+      };
+
+      void poll();
     } catch (scanError) {
-      setError(scanError instanceof Error ? scanError.message : "Scan failed.");
-    } finally {
+      if (!(scanError instanceof Error && scanError.name === "AbortError")) {
+        setError(scanError instanceof Error ? scanError.message : "Could not start scan.");
+      }
       setIsScanning(false);
+      setActiveScanSessionId(null);
     }
   }
+
+  function cancelScan() {
+    scanAbortRef.current?.abort();
+    scanAbortRef.current = null;
+    if (scanTimerRef.current !== null) {
+      window.clearTimeout(scanTimerRef.current);
+      scanTimerRef.current = null;
+    }
+    setIsScanning(false);
+    setActiveScanSessionId(null);
+    setError("");
+  }
+
+  useEffect(() => () => {
+    scanAbortRef.current?.abort();
+    if (scanTimerRef.current !== null) window.clearTimeout(scanTimerRef.current);
+  }, []);
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
   const hasResults = findings.length > 0;
