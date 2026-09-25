@@ -2556,3 +2556,231 @@ input:focus-visible {
   .workspace-welcome-actions { align-items: stretch; }
   .workspace-welcome-actions .solid-button { width: 100%; }
 }
+
+/* UX foundation: mobile-first workspace shell */
+.workspace-welcome-copy h1,
+.page-intro h1 {
+  text-wrap: balance;
+}
+
+.workspace-welcome-copy p,
+.page-intro p {
+  text-wrap: pretty;
+}
+
+.saas-sidebar,
+.saas-main,
+.saas-content {
+  min-width: 0;
+}
+
+.saas-sidebar-section nav {
+  min-width: 0;
+}
+
+.saas-nav-link {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .saas-sidebar-head {
+    padding-inline: 14px;
+  }
+
+  .saas-sidebar-section {
+    padding-inline: 14px;
+  }
+
+  .saas-sidebar-section nav {
+    margin-inline: -14px;
+    padding-inline: 14px 4px;
+    scrollbar-width: none;
+  }
+
+  .saas-sidebar-section nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .saas-nav-link {
+    min-width: 0;
+    width: auto;
+    flex: 0 0 auto;
+    padding-inline: 12px;
+  }
+
+  .workspace-welcome {
+    margin-inline: 0;
+    gap: 20px;
+    border-bottom: 0;
+    padding-bottom: 18px;
+  }
+
+  .workspace-welcome-copy h1 {
+    font-size: clamp(2.65rem, 14vw, 4rem);
+    line-height: 0.92;
+    letter-spacing: -0.07em;
+  }
+
+  .workspace-welcome-copy p {
+    max-width: 38rem;
+  }
+
+  .workspace-welcome-actions {
+    gap: 10px;
+  }
+
+  .workspace-welcome-actions .solid-button {
+    min-height: 46px;
+  }
+
+  .workspace-flow-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .workspace-flow-step {
+    grid-template-columns: 24px minmax(0, 1fr);
+    padding: 13px 0;
+  }
+
+  .context-strip,
+  .metric-grid {
+    margin-top: 14px;
+  }
+
+  .workspace-grid,
+  .finding-layout,
+  .evidence-workspace {
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .surface-main,
+  .surface-side,
+  .finding-detail,
+  .evidence-data,
+  .evidence-visual {
+    padding: 15px;
+  }
+
+  .scan-composer {
+    margin-top: 18px;
+    padding: 15px;
+  }
+
+  .scan-input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .scan-input-row .solid-button,
+  .scan-input-row .outline-button {
+    width: 100%;
+  }
+
+  .finder-toolbar {
+    padding: 10px 0;
+  }
+
+  .finder-toolbar input {
+    flex-basis: 100%;
+  }
+
+  .finding-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .finding-row-right {
+    display: none;
+  }
+
+  .detail-head {
+    display: grid;
+    gap: 12px;
+  }
+
+  .detail-head .outline-button {
+    width: 100%;
+  }
+
+  .detail-grid,
+  .evidence-data-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .evidence-canvas {
+    min-height: 300px;
+    padding: 14px;
+  }
+
+  .viewport-page {
+    min-height: 300px;
+    padding: 28px;
+  }
+
+  .history-table {
+    overflow-x: auto;
+  }
+
+  .history-header,
+  .history-row {
+    min-width: 620px;
+  }
+
+  .settings-list > div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .settings-list small {
+    grid-column: 1;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .saas-topbar {
+    padding-inline: 12px;
+  }
+
+  .saas-content {
+    width: calc(100% - 22px);
+    padding-top: 20px;
+  }
+
+  .workspace-switcher {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    padding: 9px;
+  }
+
+  .site-context-card {
+    grid-template-columns: 32px minmax(0, 1fr);
+    padding: 9px;
+  }
+
+  .site-context-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .topbar-context strong {
+    max-width: 48vw;
+  }
+
+  .workspace-url-chip {
+    padding: 8px 9px;
+  }
+
+  .workspace-flow-card {
+    padding: 13px;
+  }
+
+  .workspace-welcome-copy h1 {
+    font-size: clamp(2.45rem, 13.5vw, 3.2rem);
+  }
+
+  .context-strip > div,
+  .metric-grid article {
+    padding-inline: 11px;
+  }
+}
