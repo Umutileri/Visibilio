@@ -324,7 +324,7 @@ export default function LandingPage() {
       <header className="landing-nav-wrap">
         <div className="landing-nav">
           <Brand />
-          <nav className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
+          <nav id="landing-navigation" className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
             {navLinks.map(([href, key]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{t[key]}</a>
             ))}
@@ -338,7 +338,7 @@ export default function LandingPage() {
           </div>
             <a className="landing-signin" href="#app/overview">{t.workspace}</a>
             <button className="landing-cta" type="button" onClick={() => openApp()}>{t.start}</button>
-            <button className="landing-menu-button" type="button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
+            <button className="landing-menu-button" type="button" aria-controls="landing-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
       </header>
@@ -496,7 +496,7 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
           <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
-          <div className="landing-footer-links">{navLinks.map(([href,label])=><a key={href} href={href}>{label}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">Workspace</a></div>
+          <div className="landing-footer-links">{navLinks.map(([href,key])=><a key={href} href={href}>{t[key]}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">{t.workspace}</a></div>
           <small>Visibilio · 2026</small>
         </div>
       </footer>
