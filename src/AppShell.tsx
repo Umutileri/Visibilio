@@ -653,6 +653,8 @@ function AppShell() {
 
           {section === "findings" && (
             <section>
+              {hasResults && response?.ok && <div className="scan-result-summary surface"><strong>{findings.length} findings</strong><span>{response.session.url}</span></div>}
+
               <div className="page-intro findings-intro">
                 <div>
                   <span className="eyebrow">Findings</span>
