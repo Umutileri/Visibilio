@@ -77,7 +77,7 @@ async function handleFindingStatusRoute(
   }
 }
 
-createServer((request, response) => {
+createServer(async (request, response) => {
   const pathname = request.url
     ? new URL(request.url, "http://127.0.0.1").pathname
     : "";
