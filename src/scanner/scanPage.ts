@@ -5,6 +5,7 @@ import { chromium } from "playwright";
 import { runDetectionRules } from "./detectionRules";
 import { initialViewports } from "./viewports";
 import type { ScanResult, ViewportPreset } from "./types";
+import { assertSafeTarget } from "../api/urlSafety";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 const DEFAULT_EVIDENCE_DIR = ".visibilio/evidence";
