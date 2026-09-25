@@ -92,3 +92,10 @@ export async function handleScanFindingStatusRequest(
   };
   json(response, 200, body);
 }
+
+export async function handleScanSessionStartRequest(
+  response: ServerResponse,
+  session: ScanSession,
+): Promise<void> {
+  json(response, 202, { ok: true, session });
+}
