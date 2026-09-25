@@ -11,6 +11,24 @@ import type {
 
 const MAX_URL_LENGTH = 2048;
 
+export async function createScanSessionRequest(
+  rawUrl: string,
+): Promise<ScanSession | null> {
+  const url = validateScanUrl(rawUrl);
+  if (!url) return null;
+
+  await assertSafeTarget(url);
+
+  const session = updateScanSession(createScanSession(url.toString()), {
+    status: "scanning",
+    startedAt: new Date().toISOString(),
+  });
+  await defaultScanSessionStore.create(session);
+
+  void runScanSession(session.id, session.url);
+  return session;
+}
+
 export async function runScanSession(sessionId: string, url: string): Promise<void> {
   const session = await defaultScanSessionStore.get(sessionId);
   if (!session) return;
