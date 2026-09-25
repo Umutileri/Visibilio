@@ -6,7 +6,6 @@ export interface ScanArtifact {
   id: string;
   kind: "screenshot";
   contentType: "image/png";
-  path: string;
   viewport: ViewportPreset;
   capturedAt: string;
 }
