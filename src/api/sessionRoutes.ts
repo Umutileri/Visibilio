@@ -177,6 +177,5 @@ export async function handleScanRetestRequest(
     json(response, 409, { ok: false, error: { code: "INVALID_REQUEST", message: "Could not start the re-test." } } satisfies ScanApiFailure);
     return;
   }
-  const comparison = buildRetestComparison(finding, retest.results);
-  json(response, 200, { ok: true, session: retest, comparison: { findingId, ...comparison } });
+  json(response, 202, { ok: true, session: retest, comparison: { findingId, before: finding, outcome: "not-found" } });
 }
