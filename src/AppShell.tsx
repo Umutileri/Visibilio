@@ -204,16 +204,15 @@ function AppShell() {
           return;
         }
 
+        const comparison = pollData.session.findings.find((finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector);
         setRetestComparison({
           ok: true,
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
             before: selectedFinding,
-            after: pollData.session.findings.find((finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector),
-            outcome: pollData.session.findings.some(
-              (finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector,
-            ) ? "still-present" : "resolved",
+            after: comparison,
+            outcome: comparison ? "still-present" : "resolved",
           },
         });
         setResponse({
