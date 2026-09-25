@@ -68,9 +68,9 @@ function Brand() {
   );
 }
 
-function HeroEvidence() {
+function HeroEvidence({ t }: { t: Record<string, string> }) {
   return (
-    <div className="landing-hero-evidence" aria-label="Example Visibilio finding">
+    <div className="landing-hero-evidence" aria-label={`${t.finding}: ${t.contentExceeds}`}>
       <div className="landing-window-head">
         <span /><span /><span />
         <code>visibilio / findings / responsive</code>
@@ -79,7 +79,7 @@ function HeroEvidence() {
         <div className="landing-site-frame">
           <div className="landing-site-head">
             <b>your-site.com</b>
-            <span>Mobile · 390 × 844</span>
+            <span>{t.mobile} · 390 × 844</span>
           </div>
           <div className="landing-site-body">
             <i className="line line-a" />
@@ -89,15 +89,15 @@ function HeroEvidence() {
           </div>
         </div>
         <aside className="landing-evidence-card">
-          <small>FINDING</small>
-          <strong>Content exceeds viewport</strong>
+          <small>{t.finding}</small>
+          <strong>{t.contentExceeds}</strong>
           <b>34 px</b>
           <dl>
             <div><dt>viewport</dt><dd>390 px</dd></div>
             <div><dt>document</dt><dd>424 px</dd></div>
             <div><dt>selector</dt><dd>.pricing-grid</dd></div>
           </dl>
-          <p>Measured in the browser.</p>
+          <p>{t.measuredBrowser}</p>
         </aside>
       </div>
     </div>
@@ -325,8 +325,8 @@ export default function LandingPage() {
         <div className="landing-nav">
           <Brand />
           <nav className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
-            {navLinks.map(([href, label]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+            {navLinks.map(([href, key]) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{t[key]}</a>
             ))}
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
@@ -360,7 +360,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <HeroEvidence />
+              <HeroEvidence t={t} />
               <div className="landing-proof-caption"><span>01 / WHAT YOU GET</span><strong>A finding you can actually act on.</strong></div>
             </div>
           </div>
