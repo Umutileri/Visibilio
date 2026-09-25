@@ -314,7 +314,7 @@ export default function LandingPage() {
     if (targetUrl?.trim()) {
       window.sessionStorage.setItem("visibilio-pending-url", targetUrl.trim());
     }
-    window.location.hash = "#app/analyze";
+    window.location.hash = "#app/overview";
     setMenuOpen(false);
   };
 
