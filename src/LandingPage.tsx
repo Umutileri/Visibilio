@@ -355,8 +355,14 @@ export default function LandingPage() {
                 <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
-                <strong>{t.audience}</strong>
-                <span>{t.audienceBody}</span>
+                <strong className="landing-audience-title">
+                  <span>developers</span>
+                  <i>·</i>
+                  <span>designers</span>
+                  <i>·</i>
+                  <span>website owners</span>
+                </strong>
+                <span className="landing-audience-body">{t.audienceBody}</span>
               </div>
             </div>
             <div>

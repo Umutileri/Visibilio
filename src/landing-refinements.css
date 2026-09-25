@@ -562,3 +562,85 @@
     padding-right: 16px;
   }
 }
+
+/* Audience/workflow promise: make the two highest-value messages scan instantly. */
+.landing-audience-callout {
+  display: block;
+  padding-top: 18px;
+  margin-top: 22px;
+  border-top: 1px solid rgb(21 45 53 / 12%);
+}
+.landing-audience-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 7px;
+  color: #152d35;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(.78rem, 1.05vw, .9rem);
+  font-weight: 800;
+  letter-spacing: -.018em;
+  line-height: 1.35;
+  text-transform: none;
+}
+.landing-audience-title span {
+  position: relative;
+}
+.landing-audience-title span::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  margin-top: 2px;
+  border-radius: 99px;
+  background: #b7d5c1;
+}
+.landing-audience-title i {
+  color: rgb(21 45 53 / 30%);
+  font-style: normal;
+}
+.landing-audience-body {
+  display: block;
+  max-width: 560px;
+  margin-top: 8px;
+  color: rgb(21 45 53 / 62%);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+.landing-audience-body::before {
+  content: "ONE WORKFLOW / ";
+  color: rgb(21 45 53 / 36%);
+  font: 800 .58rem/1 "Geist Mono", monospace;
+  letter-spacing: .04em;
+}
+@media (max-width: 640px) {
+  .landing-audience-callout {
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+  .landing-audience-title {
+    gap: 5px;
+    font-size: .74rem;
+  }
+  .landing-audience-body {
+    margin-top: 7px;
+    font-size: .74rem;
+  }
+  .landing-audience-body::before {
+    font-size: .54rem;
+  }
+}
+
+/* Keep the workflow itself visually prominent wherever it appears. */
+.landing-feature-title h2 {
+  max-width: 10.5ch;
+}
+.landing-feature-title h2::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 3px;
+  margin-top: 16px;
+  border-radius: 99px;
+  background: #b7d5c1;
+}
