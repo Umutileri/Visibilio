@@ -5,6 +5,7 @@ import {
   handleScanSessionListRequest,
   handleScanFindingStatusRequest,
   handleScanSessionStartRequest,
+  handleScanSessionCancelRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
 
