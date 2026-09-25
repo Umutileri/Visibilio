@@ -547,20 +547,11 @@ function AppShell() {
                     spellCheck={false}
                   />
                   {isScanning ? (
-                    <button
-                      className="outline-button"
-                      type="button"
-                      onClick={cancelScan}
-                    >
+                    <button className="outline-button" type="button" onClick={cancelScan}>
                       Cancel scan
                     </button>
                   ) : (
-                    <button
-                      className="solid-button"
-                      type="button"
-                      onClick={runScan}
-                      disabled={!url}
-                    >
+                    <button className="solid-button" type="button" onClick={runScan} disabled={!url}>
                       Run scan
                     </button>
                   )}
@@ -573,7 +564,25 @@ function AppShell() {
                 {error && <div className="inline-error">{error}</div>}
               </div>
 
-              <div className="scan-stages" aria-live="polite">\n                {[\n                  ["01", "Page loaded", "loading"],\n                  ["02", "Desktop viewport", "desktop"],\n                  ["03", "Mobile viewport", "mobile"],\n                  ["04", "Accessibility checks", "checks"],\n                  ["05", "Layout checks", "checks"],\n                ].map(([key, label, stage]) => {\n                  const active = stage === scanStage;\n                  const done = scanStage === "done" || (scanStage === "mobile" && stage === "desktop") || (scanStage === "checks" && (stage === "desktop" || stage === "mobile"));\n                  return (\n                    <div className={active ? "stage is-active" : "stage"} key={key}>\n                      <b>{key}</b><span>{label}</span><small>{done ? "done" : active ? "running" : isScanning ? "queued" : "ready"}</small>\n                    </div>\n                  );\n                })}\n              </div>
+              <div className="scan-stages" aria-live="polite">
+                {[
+                  ["01", "Page loaded", "loading"],
+                  ["02", "Desktop viewport", "desktop"],
+                  ["03", "Mobile viewport", "mobile"],
+                  ["04", "Accessibility checks", "checks"],
+                  ["05", "Layout checks", "checks"],
+                ].map(([key, label, stage]) => {
+                  const active = stage === scanStage;
+                  const done =
+                    scanStage === "done" ||
+                    (scanStage === "mobile" && stage === "desktop") ||
+                    (scanStage === "checks" && (stage === "desktop" || stage === "mobile"));
+                  return (
+                    <div className={active ? "stage is-active" : "stage"} key={key}>
+                      <b>{key}</b>
+                      <span>{label}</span>
+                      <small>{done ? "done" : active ? "running" : isScanning ? "queued" : "ready"}</small>
+                    </div>
                   );
                 })}
               </div>
