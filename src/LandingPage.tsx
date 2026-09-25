@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const navLinks = [
-  ["#product", "Product"],
-  ["#how-it-works", "How it works"],
-  ["#evidence", "Evidence"],
+  ["#product", "product"],
+  ["#how-it-works", "how"],
+  ["#evidence", "evidence"],
 ] as const;
 
 type Language = "EN" | "TR";
