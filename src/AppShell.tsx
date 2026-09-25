@@ -535,7 +535,7 @@ function AppShell() {
                           key={finding.id}
                           className="compact-list-row"
                           type="button"
-                          onClick={() => {
+                          onClick={() => void runRetest()}
                             setSelectedFindingId(finding.id);
                             window.location.hash = "#app/findings";
                           }}
