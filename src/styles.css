@@ -2340,219 +2340,77 @@ input:focus-visible {
 }
 
 
-/* 2026 workspace entry refresh */
+/* 2026 workspace entry contract */
 .saas-app {
   background: #f4f8f5;
   grid-template-columns: 232px minmax(0, 1fr);
 }
-
-.saas-sidebar {
-  background: #f7faf8;
-  border-right-color: rgb(21 45 53 / 8%);
-}
-
+.saas-sidebar { background: #f7faf8; border-right-color: rgb(21 45 53 / 8%); }
 .workspace-switcher {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
-  margin-top: 16px;
-  padding: 10px;
-  border: 1px solid rgb(21 45 53 / 8%);
-  border-radius: 12px;
-  background: #fff;
+  width: 100%; display: grid; grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px; align-items: center; margin-top: 16px; padding: 10px;
+  border: 1px solid rgb(21 45 53 / 8%); border-radius: 12px; background: #fff;
 }
-
 .site-context-card {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-  padding: 11px;
-  margin: 0 0 14px;
-  border: 1px solid rgb(21 45 53 / 8%);
-  border-radius: 12px;
-  background: #fff;
+  display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: center;
+  padding: 11px; margin: 0 0 14px; border: 1px solid rgb(21 45 53 / 8%);
+  border-radius: 12px; background: #fff;
 }
-
-.site-context-mark {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border-radius: 9px;
-  background: #d4ecdd;
-  color: #152d35;
-  font: 800 0.55rem/1 "Geist Mono", monospace;
-  letter-spacing: 0.04em;
-}
-
-.site-context-card strong,
-.site-context-card small {
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.site-context-card strong { font-size: 0.72rem; }
-.site-context-card small { margin-top: 3px; color: rgb(21 45 53 / 40%); font-size: 0.6rem; }
-
-.topbar-context {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.topbar-kicker {
-  color: rgb(21 45 53 / 38%);
-  font: 700 0.57rem/1 "Geist Mono", monospace;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-
-.topbar-context strong {
-  max-width: 42vw;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.78rem;
-  letter-spacing: -0.02em;
-}
-
-.topbar-back {
-  color: rgb(21 45 53 / 48%);
-  font-size: 0.64rem;
-  font-weight: 750;
-}
-.topbar-back:hover { color: #152d35; }
-
+.site-context-mark { display:grid; width:36px; height:36px; place-items:center; border-radius:9px; background:#d4ecdd; color:#152d35; font:800 .55rem/1 "Geist Mono",monospace; letter-spacing:.04em; }
+.site-context-card strong,.site-context-card small { display:block; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.site-context-card strong { font-size:.72rem; }
+.site-context-card small { margin-top:3px; color:rgb(21 45 53 / 40%); font-size:.6rem; }
+.topbar-context { display:grid; gap:3px; min-width:0; }
+.topbar-kicker { color:rgb(21 45 53 / 38%); font:700 .57rem/1 "Geist Mono",monospace; letter-spacing:.07em; text-transform:uppercase; }
+.topbar-context strong { max-width:42vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.78rem; letter-spacing:-.02em; }
+.topbar-back { color:rgb(21 45 53 / 48%); font-size:.64rem; font-weight:750; }
+.topbar-back:hover { color:#152d35; }
 .workspace-welcome {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
-  gap: 36px;
-  align-items: stretch;
-  padding: 14px 0 28px;
-  border-bottom: 1px solid rgb(21 45 53 / 9%);
+  display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr); gap:36px;
+  align-items:stretch; padding:14px 0 28px; border-bottom:1px solid rgb(21 45 53 / 9%);
+}
+.workspace-welcome-copy { max-width:760px; }
+.workspace-welcome-copy h1 { max-width:11ch; margin:9px 0 0; font-size:clamp(3rem,5.1vw,5.6rem); line-height:.9; letter-spacing:-.065em; }
+.workspace-welcome-copy p { max-width:640px; margin:18px 0 0; color:rgb(21 45 53 / 58%); font-size:.94rem; line-height:1.65; }
+.workspace-url-chip { display:flex; align-items:center; gap:10px; min-width:0; margin-top:20px; padding:9px 11px; border:1px solid rgb(21 45 53 / 8%); border-radius:10px; background:#fff; }
+.workspace-url-chip span { flex:0 0 auto; color:#638173; font:800 .56rem/1 "Geist Mono",monospace; letter-spacing:.07em; }
+.workspace-url-chip strong { min-width:0; overflow:hidden; color:#152d35; font:650 .67rem/1.4 "Geist Mono",monospace; text-overflow:ellipsis; white-space:nowrap; }
+.workspace-welcome-actions { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:22px; }
+.workspace-flow-card { align-self:stretch; padding:20px; border:1px solid rgb(21 45 53 / 8%); border-radius:14px; background:#eaf3ed; }
+.workspace-flow-step { display:grid; grid-template-columns:26px minmax(0,1fr); gap:10px; padding:15px 0; border-bottom:1px solid rgb(21 45 53 / 8%); }
+.workspace-flow-step:last-child { border-bottom:0; }
+.workspace-flow-step b { color:rgb(21 45 53 / 32%); font:700 .57rem/1.2 "Geist Mono",monospace; }
+.workspace-flow-step strong { display:block; font-size:.77rem; }
+.workspace-flow-step small { display:block; margin-top:4px; color:rgb(21 45 53 / 46%); font-size:.62rem; line-height:1.5; }
+.workspace-flow-step.is-active strong { color:#152d35; }
+@media (max-width:1050px) {
+  .saas-app { grid-template-columns:210px minmax(0,1fr); }
+  .workspace-welcome { grid-template-columns:1fr; gap:24px; }
+  .workspace-flow-card { max-width:760px; }
+}
+@media (max-width:760px) {
+  .saas-app { display:block; }
+  .saas-sidebar { position:static; height:auto; border-right:0; border-bottom:1px solid rgb(21 45 53 / 9%); }
+  .saas-sidebar-head { padding-bottom:10px; }
+  .workspace-switcher { margin-top:10px; }
+  .site-context-card { margin-bottom:9px; }
+  .saas-sidebar-section { padding-top:2px; overflow-x:auto; }
+  .saas-sidebar-section nav { display:flex; gap:5px; min-width:max-content; padding-bottom:2px; }
+  .saas-nav-link { min-width:92px; }
+  .saas-sidebar-bottom { display:none; }
+  .saas-topbar { padding:0 14px; }
+  .topbar-back, .connection-status { display:none; }
+  .topbar-context strong { max-width:62vw; }
+  .saas-content { width:min(100% - 28px,1100px); padding-top:24px; }
+  .workspace-welcome { padding:2px 0 22px; gap:20px; }
+  .workspace-welcome-copy h1 { max-width:11.5ch; font-size:clamp(2.7rem,12.4vw,4.2rem); line-height:.92; }
+  .workspace-welcome-copy p { max-width:38rem; font-size:.88rem; line-height:1.58; }
+  .workspace-url-chip { margin-top:16px; padding:10px; }
+  .workspace-url-chip strong { font-size:.62rem; }
+  .workspace-welcome-actions { display:grid; grid-template-columns:1fr; gap:10px; margin-top:18px; }
+  .workspace-welcome-actions .solid-button { width:100%; }
+  .workspace-welcome-actions .text-link { justify-self:center; }
+  .workspace-flow-card { max-width:none; padding:16px; }
+  .workspace-flow-step { padding:13px 0; }
 }
 
-.workspace-welcome-copy {
-  max-width: 760px;
-}
-
-.workspace-welcome-copy h1 {
-  max-width: 11ch;
-  margin: 9px 0 0;
-  font-size: clamp(3rem, 5.1vw, 5.6rem);
-  line-height: 0.9;
-  letter-spacing: -0.065em;
-}
-
-.workspace-welcome-copy p {
-  max-width: 640px;
-  margin: 18px 0 0;
-  color: rgb(21 45 53 / 58%);
-  font-size: 0.94rem;
-  line-height: 1.65;
-}
-
-.workspace-url-chip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  margin-top: 20px;
-  padding: 9px 11px;
-  border: 1px solid rgb(21 45 53 / 8%);
-  border-radius: 10px;
-  background: #fff;
-}
-
-.workspace-url-chip span {
-  flex: 0 0 auto;
-  color: #638173;
-  font: 800 0.56rem/1 "Geist Mono", monospace;
-  letter-spacing: 0.07em;
-}
-
-.workspace-url-chip strong {
-  min-width: 0;
-  overflow: hidden;
-  color: #152d35;
-  font: 650 0.67rem/1.4 "Geist Mono", monospace;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.workspace-welcome-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  margin-top: 22px;
-}
-
-.workspace-flow-card {
-  align-self: stretch;
-  padding: 20px;
-  border: 1px solid rgb(21 45 53 / 8%);
-  border-radius: 14px;
-  background: #eaf3ed;
-}
-
-.workspace-flow-step {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  gap: 10px;
-  padding: 15px 0;
-  border-bottom: 1px solid rgb(21 45 53 / 8%);
-}
-
-.workspace-flow-step:last-child { border-bottom: 0; }
-
-.workspace-flow-step b {
-  color: rgb(21 45 53 / 32%);
-  font: 700 0.57rem/1.2 "Geist Mono", monospace;
-}
-
-.workspace-flow-step strong {
-  display: block;
-  font-size: 0.77rem;
-}
-
-.workspace-flow-step small {
-  display: block;
-  margin-top: 4px;
-  color: rgb(21 45 53 / 46%);
-  font-size: 0.62rem;
-  line-height: 1.5;
-}
-
-.workspace-flow-step.is-active strong { color: #152d35; }
-
-.workspace-overview-metrics { margin-top: 20px; }
-
-@media (max-width: 1050px) {
-  .saas-app { grid-template-columns: 210px minmax(0, 1fr); }
-  .workspace-welcome { grid-template-columns: 1fr; gap: 24px; }
-  .workspace-flow-card { max-width: 760px; }
-}
-
-@media (max-width: 760px) {
-  .workspace-switcher { margin-top: 12px; }
-  .site-context-card { margin-bottom: 10px; }
-  .saas-topbar { padding: 0 14px; }
-  .topbar-back { display: none; }
-  .topbar-context strong { max-width: 54vw; }
-  .workspace-welcome { padding-top: 4px; }
-  .workspace-welcome-copy h1 {
-    max-width: 12ch;
-    font-size: clamp(2.8rem, 12vw, 4.4rem);
-  }
-  .workspace-welcome-copy p { font-size: 0.88rem; }
-  .workspace-url-chip { max-width: 100%; }
-  .workspace-welcome-actions { align-items: stretch; }
-  .workspace-welcome-actions .solid-button { width: 100%; }
-}
