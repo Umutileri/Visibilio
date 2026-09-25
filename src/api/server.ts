@@ -1,9 +1,10 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { handleScanRequest } from "./handleScanRequest";
+import { createScanSessionRequest, handleScanRequest } from "./handleScanRequest";
 import {
   handleScanSessionGetRequest,
   handleScanSessionListRequest,
   handleScanFindingStatusRequest,
+  handleScanSessionStartRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
 
@@ -75,6 +76,46 @@ createServer((request, response) => {
     void handleScanRequest(request, response);
     return;
   }
+
+  if (pathname === "/api/scans" && request.method === "POST") {
+    let body = "";
+    for await (const chunk of request) body += chunk.toString();
+
+    try {
+      const payload = JSON.parse(body) as { url?: unknown };
+      if (typeof payload.url !== "string") {
+        response.writeHead(400, { "content-type": "application/json" });
+        response.end(JSON.stringify({
+          ok: false,
+          error: { code: "INVALID_REQUEST", message: "A URL string is required." },
+        }));
+        return;
+      }
+
+      const session = await createScanSessionRequest(payload.url);
+      if (!session) {
+        response.writeHead(400, { "content-type": "application/json" });
+        response.end(JSON.stringify({
+          ok: false,
+          error: { code: "INVALID_URL", message: "Use a valid HTTP or HTTPS URL without embedded credentials." },
+        }));
+        return;
+      }
+
+      await handleScanSessionStartRequest(response, session);
+    } catch (error) {
+      response.writeHead(400, { "content-type": "application/json" });
+      response.end(JSON.stringify({
+        ok: false,
+        error: {
+          code: "INVALID_URL",
+          message: error instanceof Error ? error.message : "The requested target is not allowed.",
+        },
+      }));
+    }
+    return;
+  }
+
 
   if (pathname === "/api/scans" && request.method === "GET") {
     void handleScanSessionListRequest(response, defaultScanSessionStore.list());
