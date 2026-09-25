@@ -145,6 +145,16 @@ createServer((request, response) => {
     return;
   }
 
+  if (sessionMatch && request.method === "DELETE") {
+    void handleScanSessionCancelRequest(
+      response,
+      decodeURIComponent(sessionMatch[1]),
+      (id) => defaultScanSessionStore.get(id),
+      (session) => defaultScanSessionStore.update(session),
+    );
+    return;
+  }
+
   writeNotFound(response);
 }).listen(port, "127.0.0.1", () => {
   console.log("Visibilio scan API listening on 127.0.0.1:" + port);
