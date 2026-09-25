@@ -83,6 +83,7 @@ function ShellLogo() {
 
 function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
+  const [focusedEvidenceId, setFocusedEvidenceId] = useState<string | null>(() => new URLSearchParams(window.location.search).get("finding"));
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
@@ -148,6 +149,13 @@ function AppShell() {
     };
   }, []);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
+
+  useEffect(() => {
+    if (!focusedEvidenceId) return;
+    if (findings.some((finding) => finding.id === focusedEvidenceId)) {
+      setSelectedFindingId(focusedEvidenceId);
+    }
+  }, [focusedEvidenceId, findings]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
@@ -642,7 +650,11 @@ function AppShell() {
                       <h2>{selectedFinding.title}</h2>
                       <p>{selectedFinding.description}</p>
                     </div>
-                    <a className="outline-button" href="#app/evidence">
+                    <a
+                      className="outline-button"
+                      href={"#app/evidence?finding=" + encodeURIComponent(selectedFinding.id)}
+                      onClick={() => setFocusedEvidenceId(selectedFinding.id)}
+                    >
                       Show evidence
                     </a>
                   </div>
