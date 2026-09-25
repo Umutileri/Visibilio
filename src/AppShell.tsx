@@ -513,14 +513,24 @@ function AppShell() {
                     placeholder="https://yourwebsite.com"
                     spellCheck={false}
                   />
-                  <button
-                    className="solid-button"
-                    type="button"
-                    onClick={runScan}
-                    disabled={!url || isScanning}
-                  >
-                    {isScanning ? "Scanning…" : "Run scan"}
-                  </button>
+                  {isScanning ? (
+                    <button
+                      className="outline-button"
+                      type="button"
+                      onClick={cancelScan}
+                    >
+                      Cancel scan
+                    </button>
+                  ) : (
+                    <button
+                      className="solid-button"
+                      type="button"
+                      onClick={runScan}
+                      disabled={!url}
+                    >
+                      Run scan
+                    </button>
+                  )}
                 </div>
                 <div className="scan-meta">
                   <span>HTTP / HTTPS only</span>
@@ -530,20 +540,32 @@ function AppShell() {
                 {error && <div className="inline-error">{error}</div>}
               </div>
 
-              <div className="scan-stages">
+              <div className="scan-stages" aria-live="polite">
                 {[
                   ["01", "Page loaded"],
                   ["02", "Desktop viewport"],
                   ["03", "Mobile viewport"],
                   ["04", "Accessibility checks"],
                   ["05", "Layout checks"],
-                ].map(([key, label], index) => (
-                  <div className={isScanning && index === 0 ? "stage is-active" : "stage"} key={key}>
-                    <b>{key}</b>
-                    <span>{label}</span>
-                    <small>{isScanning ? "running" : "ready"}</small>
-                  </div>
-                ))}
+                ].map(([key, label], index) => {
+                  const runningIndex = activeScanSessionId ? Math.min(index, 4) : -1;
+                  const stageClass = runningIndex === index ? "stage is-active" : "stage";
+                  return (
+                    <div className={stageClass} key={key}>
+                      <b>{key}</b>
+                      <span>{label}</span>
+                      <small>
+                        {isScanning
+                          ? runningIndex === index
+                            ? "running"
+                            : runningIndex > index
+                              ? "done"
+                              : "queued"
+                          : "ready"}
+                      </small>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           )}
