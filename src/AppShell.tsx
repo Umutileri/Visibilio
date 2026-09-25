@@ -244,6 +244,15 @@ function AppShell() {
             return;
           }
 
+          if (session.status === "cancelled") {
+            setIsScanning(false);
+            setActiveScanSessionId(null);
+            setScanStage("idle");
+            setError("Scan cancelled.");
+            scanAbortRef.current = null;
+            return;
+          }
+
           if (session.status === "failed") {
             throw new Error("Scan failed. The target may be unavailable or blocked by the scan safety boundary.");
           }
