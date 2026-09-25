@@ -83,6 +83,7 @@ function ShellLogo() {
 
 function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
+  const hasWebsite = Boolean(url.trim());
   const [focusedEvidenceId, setFocusedEvidenceId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
@@ -465,7 +466,7 @@ function AppShell() {
                   </p>
                   {url && <div className="workspace-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
                   <div className="workspace-welcome-actions">
-                    <a className="solid-button" href="#app/analyze">{url ? "Scan this page" : "Add a website"}</a>
+                    <a className="solid-button" href="#app/analyze">{hasWebsite ? "Scan this page" : "Add a website"}</a>
                     {url && <a className="text-link" href="#app/history">View history →</a>}
                   </div>
                 </div>
