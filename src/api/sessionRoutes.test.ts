@@ -6,6 +6,7 @@ import {
   handleScanFindingStatusRequest,
   handleScanSessionGetRequest,
   handleScanSessionListRequest,
+  handleScanSessionCancelRequest,
 } from "./sessionRoutes";
 
 function createResponseCapture() {
