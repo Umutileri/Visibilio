@@ -34,7 +34,7 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
   if (!session) return;
 
   try {
-    const result = await scanViewports(url);
+    const result = await scanViewports(url, async () => (await defaultScanSessionStore.get(sessionId))?.status === "cancelled");
     const latestSession = await defaultScanSessionStore.get(sessionId);
     if (!latestSession || latestSession.status === "cancelled") return;
 
