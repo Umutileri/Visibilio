@@ -477,126 +477,13 @@ function AppShell() {
                   <div className="workspace-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
                 </div>
               </section>
-              <section className="context-strip">
-                <div>
-                  <span>Project</span>
-                  <strong>Example website</strong>
-                </div>
-                <div>
-                  <span>Last scan</span>
-                  <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
-                </div>
-                <div>
-                  <span>Status</span>
-                  <strong>{statusLabel(primaryScan)}</strong>
-                </div>
-                <div>
-                  <span>Viewports</span>
-                  <strong>390 × 844 · 1440 × 900</strong>
-                </div>
+              <section className="workspace-context-line">
+                <span>{url ? "Active page" : "No page selected"}</span>
+                <strong>{url || "Add a public URL to create your first scan."}</strong>
+                <span>{primaryScan ? statusLabel(primaryScan) : "Ready to scan"}</span>
               </section>
 
-              <section className="metric-grid">
-                <article>
-                  <span>Total findings</span>
-                  <strong>{hasResults ? findings.length : "—"}</strong>
-                  <small>{hasResults ? "Across scanned viewports" : "Run your first scan"}</small>
-                </article>
-                <article>
-                  <span>High severity</span>
-                  <strong>{hasResults ? critical : "—"}</strong>
-                  <small>Material breakage</small>
-                </article>
-                <article>
-                  <span>Medium severity</span>
-                  <strong>{hasResults ? medium : "—"}</strong>
-                  <small>Experience degradation</small>
-                </article>
-                <article>
-                  <span>Low severity</span>
-                  <strong>{hasResults ? low : "—"}</strong>
-                  <small>Polish opportunities</small>
-                </article>
-              </section>
-
-              <section className="workspace-grid">
-                <div className="surface surface-main">
-                  <div className="surface-heading">
-                    <div>
-                      <span className="surface-kicker">Current scan</span>
-                      <h2>{hasResults ? "Findings that need attention" : "Start with your first website"}</h2>
-                    </div>
-                    <a href="#app/analyze">Analyze</a>
-                  </div>
-                  {hasResults ? (
-                    <div className="compact-list">
-                      {findings.slice(0, 5).map((finding) => (
-                        <button
-                          key={finding.id}
-                          className="compact-list-row"
-                          type="button"
-                          onClick={() => {
-                            setSelectedFindingId(finding.id);
-                            window.location.hash = "#app/findings";
-                          }}
-                        >
-                          <span className={"severity-dot severity-" + finding.severity} />
-                          <span className="compact-copy">
-                            <strong>{finding.title}</strong>
-                            <small>{finding.selector ?? finding.rule}</small>
-                          </span>
-                          <span className="row-meta">{finding.viewport.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="empty-workspace">
-                      <span className="empty-mark">01</span>
-                      <strong>Analyze a live page</strong>
-                      <p>
-                        Run the scanner against a website and turn browser measurements into findings you can inspect.
-                      </p>
-                      <a className="text-link" href="#app/analyze">
-                        Start a scan →
-                      </a>
-                    </div>
-                  )}
-                </div>
-
-                <aside className="surface surface-side">
-                  <span className="surface-kicker">Workflow</span>
-                  <div className="workflow-steps">
-                    <div className="workflow-step is-current">
-                      <b>01</b>
-                      <span>
-                        <strong>Scan</strong>
-                        <small>Capture browser state</small>
-                      </span>
-                    </div>
-                    <div className="workflow-step">
-                      <b>02</b>
-                      <span>
-                        <strong>Inspect</strong>
-                        <small>Review evidence</small>
-                      </span>
-                    </div>
-                    <div className="workflow-step">
-                      <b>03</b>
-                      <span>
-                        <strong>Fix</strong>
-                        <small>Change the page</small>
-                      </span>
-                    </div>
-                    <div className="workflow-step">
-                      <b>04</b>
-                      <span>
-                        <strong>Re-test</strong>
-                        <small>Verify the result</small>
-                      </span>
-                    </div>
-                  </div>
-                </aside>
-              </section>
+   </section>
             </>
           )}
 
