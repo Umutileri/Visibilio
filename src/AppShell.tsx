@@ -485,47 +485,26 @@ function AppShell() {
                   <div className="workspace-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
                 </div>
               </section>
-              <section className="context-strip">
-                <div>
-                  <span>Project</span>
-                  <strong>Example website</strong>
-                </div>
-                <div>
-                  <span>Last scan</span>
-                  <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
-                </div>
-                <div>
-                  <span>Status</span>
-                  <strong>{statusLabel(primaryScan)}</strong>
-                </div>
-                <div>
-                  <span>Viewports</span>
-                  <strong>390 × 844 · 1440 × 900</strong>
-                </div>
-              </section>
-
-              <section className="metric-grid">
-                <article>
-                  <span>Total findings</span>
-                  <strong>{hasResults ? findings.length : "—"}</strong>
-                  <small>{hasResults ? "Across scanned viewports" : "Run your first scan"}</small>
-                </article>
-                <article>
-                  <span>High severity</span>
-                  <strong>{hasResults ? critical : "—"}</strong>
-                  <small>Material breakage</small>
-                </article>
-                <article>
-                  <span>Medium severity</span>
-                  <strong>{hasResults ? medium : "—"}</strong>
-                  <small>Experience degradation</small>
-                </article>
-                <article>
-                  <span>Low severity</span>
-                  <strong>{hasResults ? low : "—"}</strong>
-                  <small>Polish opportunities</small>
-                </article>
-              </section>
+              {hasResults && (
+                <section className="context-strip workspace-result-strip">
+                  <div>
+                    <span>Last scan</span>
+                    <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
+                  </div>
+                  <div>
+                    <span>Status</span>
+                    <strong>{statusLabel(primaryScan)}</strong>
+                  </div>
+                  <div>
+                    <span>Viewports</span>
+                    <strong>390 × 844 · 1440 × 900</strong>
+                  </div>
+                  <div>
+                    <span>Findings</span>
+                    <strong>{findings.length}</strong>
+                  </div>
+                </section>
+              )}
 
               <section className="workspace-grid">
                 <div className="surface surface-main">
