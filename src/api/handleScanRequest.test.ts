@@ -62,6 +62,20 @@ describe("assertSafeTarget", () => {
   });
 });
 
+describe("dns rebinding safety", () => {
+  it("rejects a hostname that resolves to a private address", async () => {
+    await assert.rejects(assertSafeTarget(new URL("https://example.com"), async () => [
+      { address: "127.0.0.1" },
+    ]));
+  });
+
+  it("accepts a hostname that resolves only to public addresses", async () => {
+    await assert.doesNotReject(assertSafeTarget(new URL("https://example.com"), async () => [
+      { address: "93.184.216.34" },
+    ]));
+  });
+});
+
 describe("scan session integration contract", () => {
   it("creates an initial queued session for a target", () => {
     const session = createScanSession("https://example.com");
