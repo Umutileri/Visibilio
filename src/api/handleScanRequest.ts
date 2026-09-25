@@ -125,41 +125,29 @@ export async function handleScanRequest(
   });
   await defaultScanSessionStore.create(session);
 
-  try {
-    const result = await scanViewports(session.url);
-    const completedSession = updateScanSession(session, {
-      status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
-      completedAt: new Date().toISOString(),
-      results: result.results,
-      findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
-    });
+  await runScanSession(session.id, session.url);
+  const completedSession = await defaultScanSessionStore.get(session.id);
 
-    await defaultScanSessionStore.update(completedSession);
-
-    const success: ScanApiSuccess = {
-      ok: true,
-      session: completedSession,
-      url: result.url,
-      results: result.results.map((scan) => ({
-        viewport: scan.viewport,
-        scan,
-      })),
-    };
-
-    response.writeHead(200, { "content-type": "application/json" });
-    response.end(JSON.stringify(success));
-  } catch (error) {
-    const failedSession = updateScanSession(session, {
-      status: "failed",
-      completedAt: new Date().toISOString(),
-    });
-    await defaultScanSessionStore.update(failedSession);
-
-    failure(
-      response,
-      502,
-      "SCAN_ERROR",
-      error instanceof Error ? error.message : "Scan failed.",
-    );
+  if (!completedSession) {
+    failure(response, 500, "SCAN_ERROR", "Scan session was not found after execution.");
+    return;
   }
+
+  if (completedSession.status === "failed") {
+    failure(response, 502, "SCAN_ERROR", "Scan failed.");
+    return;
+  }
+
+  const success: ScanApiSuccess = {
+    ok: true,
+    session: completedSession,
+    url: completedSession.url,
+    results: completedSession.results.map((scan) => ({
+      viewport: scan.viewport,
+      scan,
+    })),
+  };
+
+  response.writeHead(200, { "content-type": "application/json" });
+  response.end(JSON.stringify(success));
 }
