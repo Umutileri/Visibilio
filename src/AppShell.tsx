@@ -210,7 +210,7 @@ function AppShell() {
           comparison: {
             findingId: selectedFinding.id,
             before: selectedFinding,
-            after: pollData.session.findings[0],
+            after: pollData.session.findings.find((finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector),
             outcome: pollData.session.findings.some(
               (finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector,
             ) ? "still-present" : "resolved",
