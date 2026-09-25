@@ -85,6 +85,58 @@ describe("scan session routes", () => {
   });
 });
 
+describe("session cancellation route", () => {
+  it("cancels a queued or scanning session", async () => {
+    const capture = createResponseCapture();
+    const session = { ...createScanSession("https://example.com"), status: "scanning" as const };
+
+    let updated: ScanSession | null = null;
+    await handleScanSessionCancelRequest(
+      capture.response,
+      session.id,
+      async (id) => (id === session.id ? session : null),
+      async (next) => {
+        updated = next;
+        return next;
+      },
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.equal(updated?.status, "cancelled");
+    assert.equal((result.body as { ok: boolean }).ok, true);
+  });
+
+  it("returns 404 for an unknown session", async () => {
+    const capture = createResponseCapture();
+
+    await handleScanSessionCancelRequest(
+      capture.response,
+      "scan_missing",
+      async () => null,
+      async (next) => next,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 404);
+  });
+
+  it("rejects cancellation after a terminal state", async () => {
+    const capture = createResponseCapture();
+    const session = { ...createScanSession("https://example.com"), status: "completed" as const };
+
+    await handleScanSessionCancelRequest(
+      capture.response,
+      session.id,
+      async () => session,
+      async (next) => next,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 409);
+  });
+});
+
 describe("finding status route", () => {
   it("updates a finding status inside a session", async () => {
     const capture = createResponseCapture();
