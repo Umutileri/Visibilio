@@ -148,7 +148,6 @@ describe("scan artifact route", () => {
         id: "scan_test_mobile",
         kind: "screenshot" as const,
         contentType: "image/png" as const,
-        path: ".visibilio/evidence/mobile.png",
         viewport: { name: "Mobile", width: 390, height: 844 },
         capturedAt: new Date().toISOString(),
       }],
