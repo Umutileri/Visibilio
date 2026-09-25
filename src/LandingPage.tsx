@@ -104,7 +104,7 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
   );
 }
 
-function StepVisual({ id }: { id: string }) {
+function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
   if (id === "detect") {
     return (
       <div className="landing-demo landing-demo-detect">
@@ -436,7 +436,7 @@ export default function LandingPage() {
                 <div key={step.id} className="landing-feature-step" data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="landing-feature-art">
                     <div className="landing-feature-chrome"><span>{step.index} / {step.title}</span><span>VISIBILIO</span></div>
-                    <StepVisual id={step.id} />
+                    <StepVisual id={step.id} t={t} />
                   </div>
                 </div>
               ))}
