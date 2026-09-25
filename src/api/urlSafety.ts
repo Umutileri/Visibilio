@@ -1,6 +1,8 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 
+type ResolveHost = (hostname: string) => Promise<Array<{ address: string }>>;
+
 const blockedIpv4Ranges: Array<[number, number]> = [
   [ip4("10.0.0.0"), ip4("10.255.255.255")],
   [ip4("100.64.0.0"), ip4("100.127.255.255")],
@@ -40,7 +42,7 @@ function isBlockedIp(value: string): boolean {
   );
 }
 
-export async function assertSafeTarget(url: URL): Promise<void> {
+export async function assertSafeTarget(url: URL, resolveHost: ResolveHost = (hostname) => lookup(hostname, { all: true, verbatim: true })): Promise<void> {
   const hostname = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();
 
   if (!hostname || hostname === "localhost" || hostname.endsWith(".localhost")) {
@@ -51,7 +53,7 @@ export async function assertSafeTarget(url: URL): Promise<void> {
     throw new Error("Private, local, or reserved IP targets are not allowed.");
   }
 
-  const records = await lookup(hostname, { all: true, verbatim: true });
+  const records = await resolveHost(hostname);
   if (!records.length || records.some((record) => isBlockedIp(record.address))) {
     throw new Error(
       "Target resolves to a private, local, or reserved network address.",
