@@ -285,7 +285,16 @@ function AppShell() {
     }
   }
 
-  function cancelScan() {
+  async function cancelScan() {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    const sessionId = activeScanSessionId;
+    if (endpoint && sessionId) {
+      try {
+        await fetch(endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(sessionId), { method: "DELETE" });
+      } catch {
+        setError("The scan was stopped locally, but the server could not be notified.");
+      }
+    }
     scanAbortRef.current?.abort();
     scanAbortRef.current = null;
     if (scanTimerRef.current !== null) {
@@ -295,9 +304,7 @@ function AppShell() {
     setIsScanning(false);
     setActiveScanSessionId(null);
     setScanStage("idle");
-    setError("");
   }
-
   useEffect(() => () => {
     scanAbortRef.current?.abort();
     if (scanTimerRef.current !== null) window.clearTimeout(scanTimerRef.current);
