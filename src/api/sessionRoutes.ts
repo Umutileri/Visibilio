@@ -99,3 +99,32 @@ export async function handleScanSessionStartRequest(
 ): Promise<void> {
   json(response, 202, { ok: true, session });
 }
+
+export async function handleScanSessionCancelRequest(
+  response: ServerResponse,
+  sessionId: string,
+  getSession: (id: string) => Promise<ScanSession | null>,
+  updateSession: (session: ScanSession) => Promise<ScanSession>,
+): Promise<void> {
+  const session = await getSession(sessionId);
+  if (!session) {
+    json(response, 404, {
+      ok: false,
+      error: { code: "NOT_FOUND", message: "Scan session not found." },
+    } satisfies ScanApiFailure);
+    return;
+  }
+
+  if (session.status === "completed" || session.status === "failed") {
+    json(response, 409, {
+      ok: false,
+      error: { code: "INVALID_REQUEST", message: "Completed scans cannot be cancelled." },
+    } satisfies ScanApiFailure);
+    return;
+  }
+
+  const cancelled = await updateSession(updateFindingStatus
+    ? ({ ...session, status: "cancelled", completedAt: new Date().toISOString() } as ScanSession)
+    : session);
+  json(response, 200, { ok: true, session: cancelled });
+}
