@@ -125,6 +125,23 @@ describe("scanPage", () => {
     assert.equal(result.screenshot.height, 900);
   });
 
+  it("blocks navigation to a private redirect target", async () => {
+    const redirectServer = createServer((_request, response) => {
+      response.writeHead(302, { location: "http://127.0.0.1:1/private" });
+      response.end();
+    });
+
+    await new Promise<void>((resolve) => redirectServer.listen(0, "127.0.0.1", resolve));
+    const address = redirectServer.address();
+    assert.ok(address && typeof address !== "string");
+
+    try {
+      const result = await scanPage(`http://127.0.0.1:${address.port}/redirect`, initialViewports[0], { evidenceDir });
+      assert.equal(result.ok, false);
+    } finally {
+      await new Promise<void>((resolve, reject) => redirectServer.close((error) => (error ? reject(error) : resolve())));
+    }
+  });
   it("returns a page failure for an unreachable page", async () => {
     const result = await scanPage(
       "http://127.0.0.1:1/unreachable",
