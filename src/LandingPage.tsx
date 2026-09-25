@@ -325,8 +325,8 @@ export default function LandingPage() {
         <div className="landing-nav">
           <Brand />
           <nav className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
-            {navLinks.map(([href, label]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+            {navLinks.map(([href, key]) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{t[key]}</a>
             ))}
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
