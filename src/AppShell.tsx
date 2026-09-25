@@ -396,22 +396,27 @@ function AppShell() {
             <ShellLogo />
             <span>Visibilio</span>
           </a>
-          <button className="workspace-trigger" type="button">
+          <div className="workspace-switcher">
             <span className="workspace-avatar">M</span>
-            <span className="workspace-copy">
+            <div className="workspace-copy">
               <strong>My workspace</strong>
-              <small>Personal workspace</small>
-            </span>
-            <span className="workspace-chevron" aria-hidden="true">
-              ⌄
-            </span>
-          </button>
+              <small>Personal</small>
+            </div>
+            <span className="workspace-chevron" aria-hidden="true">⌄</span>
+          </div>
         </div>
 
         <div className="saas-sidebar-section">
-          <span className="saas-sidebar-label">Workspace</span>
+          <span className="saas-sidebar-label">Your website</span>
+          <div className="site-context-card">
+            <span className="site-context-mark">WEB</span>
+            <div>
+              <strong>{url ? (() => { try { return new URL(url).hostname; } catch { return url; } })() : "No website yet"}</strong>
+              <small>{url ? "Ready to scan" : "Paste a page to begin"}</small>
+            </div>
+          </div>
           <nav aria-label="Primary">
-            {sections.map((item) => (
+            {sections.filter((item) => item.id !== "overview").map((item) => (
               <a
                 key={item.id}
                 href={"#app/" + item.id}
@@ -427,55 +432,50 @@ function AppShell() {
 
         <div className="saas-sidebar-bottom">
           <div className="quota-block">
-            <div>
-              <span>Usage</span>
-              <strong>3 / 20 scans</strong>
-            </div>
-            <div className="quota-track">
-              <span />
-            </div>
-            <small>Free workspace · 17 scans remaining</small>
+            <div><span>Usage</span><strong>3 / 20 scans</strong></div>
+            <div className="quota-track"><span /></div>
+            <small>17 scans remaining</small>
           </div>
-          <a className="sidebar-meta-link" href="#app/settings">
-            Upgrade workspace
-          </a>
+          <a className="sidebar-meta-link" href="#app/settings">Settings</a>
         </div>
       </aside>
-
       <div className="saas-main">
         <header className="saas-topbar">
-          <div className="breadcrumbs">
-            <span>Workspace</span>
-            <span aria-hidden="true">/</span>
-            <strong>{sections.find((item) => item.id === section)?.label}</strong>
+          <div className="topbar-context">
+            <span className="topbar-kicker">Visibilio workspace</span>
+            <strong>{url ? (() => { try { return new URL(url).hostname; } catch { return url; } })() : "Choose a website"}</strong>
           </div>
           <div className="topbar-actions">
-            <span className="connection-status">
-              <i aria-hidden="true" />
-              Local scanner
-            </span>
-            <button className="avatar-button" type="button" aria-label="Open account menu">
-              U
-            </button>
+            <a className="topbar-back" href="#top">Back to site</a>
+            <span className="connection-status"><i aria-hidden="true" /> Scanner ready</span>
+            <button className="avatar-button" type="button" aria-label="Open account menu">U</button>
           </div>
         </header>
-
         <div className="saas-content">
           {section === "overview" && (
             <>
-              <section className="page-intro">
-                <div>
-                  <span className="eyebrow">Workspace overview</span>
-                  <h1>Website quality, in one place.</h1>
+              <section className="workspace-welcome">
+                <div className="workspace-welcome-copy">
+                  <span className="eyebrow">Workspace</span>
+                  <h1>{url ? "Let’s check your website." : "Start with a website."}</h1>
                   <p>
-                    Keep every scan, finding, and piece of evidence connected to the site you are working on.
+                    {url
+                      ? "Your page is ready. Start with a browser scan, then inspect the evidence behind what Visibilio finds."
+                      : "Paste a public page to create your first scan. Findings, evidence, and re-tests stay connected to the website you are working on."}
                   </p>
+                  {url && <div className="workspace-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
+                  <div className="workspace-welcome-actions">
+                    <a className="solid-button" href="#app/analyze">{url ? "Scan this page" : "Add a website"}</a>
+                    {url && <a className="text-link" href="#app/history">View history →</a>}
+                  </div>
                 </div>
-                <a className="solid-button" href="#app/analyze">
-                  New scan
-                </a>
+                <div className="workspace-flow-card">
+                  <span className="surface-kicker">What happens next</span>
+                  <div className="workspace-flow-step is-active"><b>01</b><strong>Scan</strong><small>Measure the page in controlled browsers.</small></div>
+                  <div className="workspace-flow-step"><b>02</b><strong>Inspect</strong><small>Open the evidence behind each finding.</small></div>
+                  <div className="workspace-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
+                </div>
               </section>
-
               <section className="context-strip">
                 <div>
                   <span>Project</span>
