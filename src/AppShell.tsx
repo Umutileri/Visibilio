@@ -164,6 +164,36 @@ function AppShell() {
     findings[0] ??
     sampleFindings[0];
 
+  async function runRetest() {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint || !response?.ok) return;
+
+    setRetestBusy(true);
+    setRetestComparison(null);
+    setError("");
+    try {
+      const result = await fetch(
+        endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(response.session.id) + "/retest",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ findingId: selectedFinding.id }),
+        },
+      );
+      const data = (await result.json()) as ScanRetestResponse;
+      if (!result.ok || !data.ok) {
+        throw new Error(data.ok ? "Could not start re-test." : data.error.message);
+      }
+      setRetestSessionId(data.session.id);
+      setRetestComparison(data);
+      setUrl(data.session.url);
+      setSelectedFindingId(data.comparison.after?.id ?? selectedFinding.id);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Could not run re-test.");
+    } finally {
+      setRetestBusy(false);
+    }
+  }
   async function updateFindingStatus(status: UIssue["status"]) {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
     if (!endpoint || !response?.ok) return;
