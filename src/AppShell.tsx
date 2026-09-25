@@ -100,6 +100,9 @@ function AppShell() {
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
+  const [retestSessionId, setRetestSessionId] = useState<string | null>(null);
+  const [retestBusy, setRetestBusy] = useState(false);
+  const [retestComparison, setRetestComparison] = useState<ScanRetestResponse | null>(null);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -160,6 +163,75 @@ function AppShell() {
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
     sampleFindings[0];
+
+  async function runRetest() {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    const currentResponse = response;
+    if (!endpoint || !currentResponse?.ok) return;
+
+    setRetestBusy(true);
+    setRetestComparison(null);
+    setError("");
+
+    try {
+      const startResponse = await fetch(
+        endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(currentResponse.session.id) + "/retest",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ findingId: selectedFinding.id }),
+        },
+      );
+      const startData = (await startResponse.json()) as ScanRetestResponse;
+      if (!startResponse.ok || !startData.ok) {
+        throw new Error(startData.ok ? "Could not start re-test." : startData.error.message);
+      }
+
+      setRetestSessionId(startData.session.id);
+      setUrl(startData.session.url);
+
+      const poll = async (): Promise<void> => {
+        const pollResponse = await fetch(
+          endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(startData.session.id),
+        );
+        const pollData = (await pollResponse.json()) as ScanSessionGetResponse;
+        if (!pollResponse.ok || !pollData.ok) {
+          throw new Error(pollData.ok ? "Could not read re-test progress." : pollData.error.message);
+        }
+
+        if (pollData.session.status === "scanning" || pollData.session.status === "queued") {
+          window.setTimeout(() => void poll().catch((error) => setError(error instanceof Error ? error.message : "Could not read re-test progress.")), 700);
+          return;
+        }
+
+        setRetestComparison({
+          ok: true,
+          session: pollData.session,
+          comparison: {
+            findingId: selectedFinding.id,
+            before: selectedFinding,
+            after: pollData.session.findings[0],
+            outcome: pollData.session.findings.some(
+              (finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector,
+            ) ? "still-present" : "resolved",
+          },
+        });
+        setResponse({
+          ok: true,
+          session: pollData.session,
+          url: pollData.session.url,
+          results: pollData.session.results.map((scan) => ({ viewport: scan.viewport, scan })),
+        });
+        setRetestSessionId(null);
+      };
+
+      await poll();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Could not run re-test.");
+    } finally {
+      setRetestBusy(false);
+    }
+  }
 
   async function updateFindingStatus(status: UIssue["status"]) {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
@@ -752,6 +824,7 @@ function AppShell() {
                     <span className="detail-label">Why detected</span>
                     <p>{selectedFinding.description}</p>
                   </div>
+                  {retestComparison?.ok && <div className={"retest-comparison outcome-" + retestComparison.comparison.outcome}><span className="detail-label">Re-test result</span><strong>{retestComparison.comparison.outcome}</strong><small>Session: {retestComparison.session.id}</small></div>}
                   <div className="evidence-actions">
                     <a className="solid-button" href="#app/findings">Back to finding</a>
                     <button

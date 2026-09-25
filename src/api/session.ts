@@ -51,3 +51,38 @@ export function sessionStatusFromResults(results: ScanResult[]): ScanStatus {
   if (results.some((result) => !result.ok)) return "failed";
   return "scanning";
 }
+
+export function findRetestMatch(
+  original: UIssue,
+  results: ScanResult[],
+): UIssue | undefined {
+  for (const result of results) {
+    if (!result.ok) continue;
+    const exact = result.issues.find(
+      (finding) =>
+        finding.rule === original.rule &&
+        finding.viewport.width === original.viewport.width &&
+        finding.viewport.height === original.viewport.height &&
+        finding.selector === original.selector,
+    );
+    if (exact) return exact;
+  }
+
+  return undefined;
+}
+
+export function buildRetestComparison(
+  original: UIssue,
+  results: ScanResult[],
+): { before: UIssue; after?: UIssue; outcome: "resolved" | "still-present" | "not-found" } {
+  const after = findRetestMatch(original, results);
+  if (!after) {
+    const sameViewport = results.some(
+      (result) => result.ok &&
+        result.viewport.width === original.viewport.width &&
+        result.viewport.height === original.viewport.height,
+    );
+    return { before: original, outcome: sameViewport ? "resolved" : "not-found" };
+  }
+  return { before: original, after, outcome: "still-present" };
+}

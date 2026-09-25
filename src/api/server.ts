@@ -1,5 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { createScanSessionRequest, handleScanRequest } from "./handleScanRequest";
+import { createRetestSessionRequest, createScanSessionRequest, handleScanRequest } from "./handleScanRequest";
 import {
   handleScanSessionGetRequest,
   handleScanSessionListRequest,
@@ -7,6 +7,7 @@ import {
   handleScanSessionStartRequest,
   handleScanSessionCancelRequest,
   handleScanArtifactGetRequest,
+  handleScanRetestRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
 
@@ -134,6 +135,7 @@ createServer((request, response) => {
   const sessionMatch = pathname.match(/^\/api\/scans\/([^/]+)$/);
   const findingMatch = pathname.match(/^\/api\/scans\/([^/]+)\/findings\/([^/]+)$/);
   const artifactMatch = pathname.match(/^\/api\/scans\/([^/]+)\/artifacts\/([^/]+)$/);
+  const retestMatch = pathname.match(/^\/api\/scans\/([^/]+)\/retest$/);
 
   if (findingMatch && request.method === "PATCH") {
     void handleFindingStatusRoute(
@@ -142,6 +144,30 @@ createServer((request, response) => {
       decodeURIComponent(findingMatch[1]),
       decodeURIComponent(findingMatch[2]),
     );
+    return;
+  }
+
+  if (retestMatch && request.method === "POST") {
+    let body = "";
+    for await (const chunk of request) body += chunk.toString();
+    try {
+      const payload = JSON.parse(body) as { findingId?: unknown };
+      if (typeof payload.findingId !== "string" || !payload.findingId) {
+        response.writeHead(400, { "content-type": "application/json" });
+        response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "A findingId string is required." } }));
+        return;
+      }
+      await handleScanRetestRequest(
+        response,
+        decodeURIComponent(retestMatch[1]),
+        payload.findingId,
+        (id) => defaultScanSessionStore.get(id),
+        (sessionId, findingId) => createRetestSessionRequest(sessionId, findingId),
+      );
+    } catch {
+      response.writeHead(400, { "content-type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Request body must be valid JSON." } }));
+    }
     return;
   }
 

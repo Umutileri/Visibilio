@@ -1,6 +1,6 @@
 import type { ServerResponse } from "node:http";
 import type { ScanSession } from "./sessionTypes";
-import { updateFindingStatus } from "./session";
+import { buildRetestComparison, updateFindingStatus } from "./session";
 import type {
   ScanApiFailure,
   ScanSessionGetResponse,
@@ -153,4 +153,29 @@ export async function handleScanArtifactGetRequest(
   }
 
   json(response, 200, { ok: true, artifact });
+}
+
+export async function handleScanRetestRequest(
+  response: ServerResponse,
+  sessionId: string,
+  findingId: string,
+  getSession: (id: string) => Promise<ScanSession | null>,
+  startRetest: (sessionId: string, findingId: string) => Promise<ScanSession | null>,
+): Promise<void> {
+  const session = await getSession(sessionId);
+  if (!session) {
+    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Scan session not found." } } satisfies ScanApiFailure);
+    return;
+  }
+  const finding = session.findings.find((item) => item.id === findingId);
+  if (!finding) {
+    json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Finding not found." } } satisfies ScanApiFailure);
+    return;
+  }
+  const retest = await startRetest(sessionId, findingId);
+  if (!retest) {
+    json(response, 409, { ok: false, error: { code: "INVALID_REQUEST", message: "Could not start the re-test." } } satisfies ScanApiFailure);
+    return;
+  }
+  json(response, 202, { ok: true, session: retest, comparison: { findingId, before: finding, outcome: "not-found" } });
 }
