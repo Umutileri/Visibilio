@@ -106,7 +106,7 @@ describe("session cancellation route", () => {
 
     const result = capture.read();
     assert.equal(result.statusCode, 200);
-    assert.equal(updated?.status, "cancelled");
+    assert.equal((updated as ScanSession | null)?.status, "cancelled");
     assert.equal((result.body as { ok: boolean }).ok, true);
   });
 
