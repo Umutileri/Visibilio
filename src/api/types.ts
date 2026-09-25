@@ -73,3 +73,10 @@ export interface ScanRetestSuccess {
 }
 
 export type ScanRetestResponse = ScanRetestSuccess | ScanApiFailure;
+
+export interface ScanSessionStartSuccess {
+  ok: true;
+  session: ScanSession;
+}
+
+export type ScanSessionStartResponse = ScanSessionStartSuccess | ScanApiFailure;
