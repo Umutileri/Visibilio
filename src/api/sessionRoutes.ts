@@ -118,13 +118,19 @@ export async function handleScanSessionCancelRequest(
   if (session.status === "completed" || session.status === "failed") {
     json(response, 409, {
       ok: false,
-      error: { code: "INVALID_REQUEST", message: "Completed scans cannot be cancelled." },
+      error: {
+        code: "INVALID_REQUEST",
+        message: "Completed scans cannot be cancelled.",
+      },
     } satisfies ScanApiFailure);
     return;
   }
 
-  const cancelled = await updateSession(updateFindingStatus
-    ? ({ ...session, status: "cancelled", completedAt: new Date().toISOString() } as ScanSession)
-    : session);
-  json(response, 200, { ok: true, session: cancelled });
+  const cancelled: ScanSession = {
+    ...session,
+    status: "cancelled",
+    completedAt: new Date().toISOString(),
+  };
+  const updated = await updateSession(cancelled);
+  json(response, 200, { ok: true, session: updated });
 }
