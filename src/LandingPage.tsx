@@ -20,7 +20,7 @@ const translations: Record<Language, Record<string, string>> = {
     productBody: "A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.",
     productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a vague feeling<br /><em>to a useful answer.</em>", proofLead: "One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.", audienceDevelopers:"Developers", audienceDevelopersTitle:"Find the bug faster.", audienceDevelopersCopy:"Get viewport measurements, selectors, rule details, and evidence you can reproduce.", audienceOwners:"Website owners", audienceOwnersTitle:"Know what deserves attention.", audienceOwnersCopy:"See the issue in plain language before you need to understand the implementation.", audienceDesigners:"Designers", audienceDesignersTitle:"See the context behind the page.", audienceDesignersCopy:"Connect visual observations to the tested viewport and the evidence underneath them.", audienceExplore:"Explore the workflow", evidenceLink:"See what we measure", productLink:"See how Visibilio thinks", whatYouGet:"01 / WHAT YOU GET", proofCaption:"A finding you can actually act on.", retestBefore:"BEFORE", retestAfter:"AFTER", retestOverflow:"overflow", retestWithin:"within viewport", retestFix:"FIX", retestRun:"RUN THE SAME CHECK", retestFoot:"Same rule · same viewport · measured again", finalSetup:"Start with a URL. No complicated setup.",
     audienceSection: "One product. Different reasons to use it.", audienceTitle: "Build it.<br /><em>Own it. Improve it.</em>", audienceSectionBody: "Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.",
-    evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
+    evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>", evidenceBody: "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.", resultBody: "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.", resultEyebrow: "The outcome", resultTitle: "Know what changed.<br /><em>Not just what looked better.</em>", finalEyebrow: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBodyCopy: "Made for developers, designers, and anyone responsible for a website.",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>",
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free"
@@ -36,7 +36,7 @@ const translations: Record<Language, Record<string, string>> = {
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
     productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir histen<br /><em>işe yarar bir yanıta.</em>", proofLead: "Web sitesinden sorumlu herkes için tek bir akış: sorunu bulun, kanıtı anlayın ve geliştirin.", proofFind: "Bul", proofFindCopy: "Bir sonraki hata ayıklama turuna dönüşmeden ölçülebilen sorunları görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün.", proofImprove: "Geliştir", proofImproveCopy: "Değişikliği yapın, aynı kontrolü yeniden çalıştırın ve gerçekten neyin değiştiğini görün.", audienceDevelopers:"Geliştiriciler", audienceDevelopersTitle:"Hatanın kaynağını daha hızlı bulun.", audienceDevelopersCopy:"Viewport ölçümlerini, selector bilgilerini, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün.", audienceOwners:"Web sitesi sahipleri", audienceOwnersTitle:"Neyin öncelikli olduğunu bilin.", audienceOwnersCopy:"Uygulama ayrıntılarına girmeden önce sorunu anlaşılır biçimde görün.", audienceDesigners:"Tasarımcılar", audienceDesignersTitle:"Sayfanın arkasındaki bağlamı görün.", audienceDesignersCopy:"Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin.", audienceExplore:"Akışı keşfedin", evidenceLink:"Neleri ölçtüğümüzü görün", productLink:"Visibilio yaklaşımını görün", whatYouGet:"01 / NE ALIRSINIZ", proofCaption:"Üzerinde gerçekten harekete geçebileceğiniz bir bulgu.", retestBefore:"ÖNCE", retestAfter:"SONRA", retestOverflow:"taşma", retestWithin:"viewport içinde", retestFix:"DÜZELT", retestRun:"AYNI KONTROLÜ TEKRAR ÇALIŞTIR", retestFoot:"Aynı kural · aynı viewport · yeniden ölçüldü", finalSetup:"Bir URL ile başlayın. Karmaşık kurulum yok."
     audienceSection: "Tek ürün. Farklı kullanım nedenleri.", audienceTitle: "Üretin.<br /><em>Sahiplenin. Geliştirin.</em>", audienceSectionBody: "Visibilio, web sitesinin arkasındaki herkes için aynı başlangıcı sunar: kanıtlarla desteklenen net bir bulgu.",
-    evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
+    evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>", evidenceBody: "Visibilio tarayıcı kanıtını, deterministik bulguları ve AI bağlamını açıkça ayırır; böylece öneri ile ölçüm birbirine karışmaz.", resultBody: "Yeniden test, önceki ve sonraki durumu karşılaştırır; böylece iyileşmeyi gerçekten inceleyebilirsiniz.", resultEyebrow: "Sonuç", resultTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>", finalEyebrow: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBodyCopy: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
     faqKicker: "Sorular, yanıtlar.", faqTitle: "Sık sorulan<br /><em>sorular</em>",
     finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", finalAction: "Ücretsiz başla"
@@ -379,9 +379,9 @@ export default function LandingPage() {
               <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
               <p>{t.urlBody}</p>
               <div className="landing-url-audience">
-                <span>{language === "TR" ? "Geliştiriciler" : "Developers"}</span>
-                <span>{language === "TR" ? "Tasarımcılar" : "Designers"}</span>
-                <span>{language === "TR" ? "Web sitesi sahipleri" : "Website owners"}</span>
+                <span>{t.audienceDevelopers}</span>
+                <span>{t.audienceDesigners}</span>
+                <span>{t.audienceOwners}</span>
               </div>
             </div>
             <form className="landing-url-form" onSubmit={(event) => {
@@ -450,10 +450,10 @@ export default function LandingPage() {
         <section className="landing-evidence-section" id="evidence">
           <div className="landing-container landing-evidence-feature">
             <div className="landing-section-heading">
-              <span className="landing-section-kicker">{language === "TR" ? "Önce kanıt" : "Evidence first"}</span>
+              <span className="landing-section-kicker">{t.evidenceEyebrow}</span>
               <span className="landing-display-label">03</span>
-              <h2>{language === "TR" ? <>Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em></> : <>Know what was measured.<br /><em>Know what was suggested.</em></>}</h2>
-              <p>{language === "TR" ? "Visibilio tarayıcı kanıtını, deterministik bulguları ve AI bağlamını açıkça ayırır; böylece öneri ile ölçüm birbirine karışmaz." : "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact."}</p>
+              <h2 dangerouslySetInnerHTML={{ __html: t.evidenceTitle }} />
+              <p>{t.evidenceBody}</p>
             </div>
             <div className="landing-evidence-contrast">
               <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
@@ -465,9 +465,9 @@ export default function LandingPage() {
         <section className="landing-retest-section" id="retest">
           <div className="landing-container landing-retest-story">
             <div>
-              <span className="landing-section-kicker">{language === "TR" ? "Sonuç" : "The outcome"}</span>
-              <h2>{language === "TR" ? <>Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em></> : <>Know what changed.<br /><em>Not just what looked better.</em></>}</h2>
-              <p>{language === "TR" ? "Yeniden test, önceki ve sonraki durumu karşılaştırır; böylece iyileşmeyi gerçekten inceleyebilirsiniz." : "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect."}</p>
+              <span className="landing-section-kicker">{t.resultEyebrow}</span>
+              <h2 dangerouslySetInnerHTML={{ __html: t.resultTitle }} />
+              <p>{t.resultBody}</p>
               <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
             <div className="landing-retest-visual">
@@ -484,9 +484,9 @@ export default function LandingPage() {
         <section className="landing-final-section">
           <div className="landing-container landing-final-grid">
             <div>
-              <span className="landing-section-kicker">{language === "TR" ? "Ücretsiz başla" : "Start free"}</span>
+              <span className="landing-section-kicker">{t.finalEyebrow}</span>
               <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
-              <p>{language === "TR" ? "Geliştiriciler, tasarımcılar ve web sitesinden sorumlu herkes için." : "Made for developers, designers, and anyone responsible for a website."}</p>
+              <p>{t.finalBodyCopy}</p>
             </div>
             <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>{t.finalSetup}</small></div>
           </div>
