@@ -700,16 +700,24 @@ function AppShell() {
 
               <div className="evidence-workspace">
                 <div className="surface evidence-visual">
-                  <div className="evidence-canvas">
-                    <div className="viewport-frame">
-                      <div className="viewport-topbar"><span /> <span /> <span /></div>
-                      <div className="viewport-page">
-                        <div className="mock-line long" />
-                        <div className="mock-line medium" />
-                        <div className="mock-panel" />
-                        <div className="overflow-tag">+34px overflow</div>
+                  <div className="evidence-canvas evidence-canvas-live">
+                    {selectedArtifact ? (
+                      <div className="artifact-frame">
+                        <div className="artifact-toolbar">
+                          <span>{selectedArtifact.id}</span>
+                          <span>{selectedArtifact.viewport.width} × {selectedArtifact.viewport.height}</span>
+                        </div>
+                        <div className="artifact-placeholder">
+                          <strong>Screenshot artifact captured.</strong>
+                          <span>Artifact {selectedArtifact.id} · image/png</span>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="artifact-empty">
+                        <strong>No screenshot artifact available.</strong>
+                        <span>This finding does not currently have a captured screenshot.</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
