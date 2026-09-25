@@ -100,6 +100,9 @@ function AppShell() {
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
+  const [retestSessionId, setRetestSessionId] = useState<string | null>(null);
+  const [retestBusy, setRetestBusy] = useState(false);
+  const [retestComparison, setRetestComparison] = useState<ScanRetestResponse | null>(null);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
