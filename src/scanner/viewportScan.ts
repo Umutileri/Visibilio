@@ -7,10 +7,14 @@ export interface ViewportScanResult {
   results: ScanResult[];
 }
 
-export async function scanViewports(url: string): Promise<ViewportScanResult> {
+export async function scanViewports(
+  url: string,
+  shouldCancel?: () => Promise<boolean>,
+): Promise<ViewportScanResult> {
   const results: ScanResult[] = [];
 
   for (const viewport of initialViewports) {
+    if (shouldCancel && (await shouldCancel())) break;
     results.push(await scanPage(url, viewport));
   }
 

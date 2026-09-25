@@ -11,6 +11,51 @@ import type {
 
 const MAX_URL_LENGTH = 2048;
 
+export async function createScanSessionRequest(
+  rawUrl: string,
+): Promise<ScanSession | null> {
+  const url = validateScanUrl(rawUrl);
+  if (!url) return null;
+
+  await assertSafeTarget(url);
+
+  const session = updateScanSession(createScanSession(url.toString()), {
+    status: "scanning",
+    startedAt: new Date().toISOString(),
+  });
+  await defaultScanSessionStore.create(session);
+
+  void runScanSession(session.id, session.url);
+  return session;
+}
+
+export async function runScanSession(sessionId: string, url: string): Promise<void> {
+  const session = await defaultScanSessionStore.get(sessionId);
+  if (!session) return;
+
+  try {
+    const result = await scanViewports(url, async () => (await defaultScanSessionStore.get(sessionId))?.status === "cancelled");
+    const latestSession = await defaultScanSessionStore.get(sessionId);
+    if (!latestSession || latestSession.status === "cancelled") return;
+    if (latestSession.status !== "scanning") return;
+
+    const completedSession = updateScanSession(latestSession, {
+      status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
+      completedAt: new Date().toISOString(),
+      results: result.results,
+      findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
+    });
+    await defaultScanSessionStore.update(completedSession);
+  } catch {
+    await defaultScanSessionStore.update(
+      updateScanSession(session, {
+        status: "failed",
+        completedAt: new Date().toISOString(),
+      }),
+    );
+  }
+}
+
 function failure(
   response: ServerResponse,
   statusCode: number,
@@ -102,41 +147,29 @@ export async function handleScanRequest(
   });
   await defaultScanSessionStore.create(session);
 
-  try {
-    const result = await scanViewports(session.url);
-    const completedSession = updateScanSession(session, {
-      status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
-      completedAt: new Date().toISOString(),
-      results: result.results,
-      findings: result.results.flatMap((scan) => (scan.ok ? scan.issues : [])),
-    });
+  await runScanSession(session.id, session.url);
+  const completedSession = await defaultScanSessionStore.get(session.id);
 
-    await defaultScanSessionStore.update(completedSession);
-
-    const success: ScanApiSuccess = {
-      ok: true,
-      session: completedSession,
-      url: result.url,
-      results: result.results.map((scan) => ({
-        viewport: scan.viewport,
-        scan,
-      })),
-    };
-
-    response.writeHead(200, { "content-type": "application/json" });
-    response.end(JSON.stringify(success));
-  } catch (error) {
-    const failedSession = updateScanSession(session, {
-      status: "failed",
-      completedAt: new Date().toISOString(),
-    });
-    await defaultScanSessionStore.update(failedSession);
-
-    failure(
-      response,
-      502,
-      "SCAN_ERROR",
-      error instanceof Error ? error.message : "Scan failed.",
-    );
+  if (!completedSession) {
+    failure(response, 500, "SCAN_ERROR", "Scan session was not found after execution.");
+    return;
   }
+
+  if (completedSession.status === "failed") {
+    failure(response, 502, "SCAN_ERROR", "Scan failed.");
+    return;
+  }
+
+  const success: ScanApiSuccess = {
+    ok: true,
+    session: completedSession,
+    url: completedSession.url,
+    results: completedSession.results.map((scan) => ({
+      viewport: scan.viewport,
+      scan,
+    })),
+  };
+
+  response.writeHead(200, { "content-type": "application/json" });
+  response.end(JSON.stringify(success));
 }

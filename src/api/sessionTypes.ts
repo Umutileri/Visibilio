@@ -1,6 +1,6 @@
 import type { ScanResult, ViewportPreset, UIssue } from "../scanner/types";
 
-export type ScanStatus = "queued" | "scanning" | "completed" | "failed";
+export type ScanStatus = "queued" | "scanning" | "completed" | "failed" | "cancelled";
 
 export interface ScanSession {
   id: string;

@@ -4,8 +4,8 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanSessionListResponse } from "./api/types";
-import { useEffect, useMemo, useState } from "react";
+import type { ScanApiResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
   | "overview"
@@ -85,6 +85,10 @@ function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
+  const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
+  const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "checks" | "done">("idle");
+  const scanAbortRef = useRef<AbortController | null>(null);
+  const scanTimerRef = useRef<number | null>(null);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
   const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
@@ -181,38 +185,115 @@ function AppShell() {
   async function runScan() {
     setError("");
     setIsScanning(true);
+    setResponse(null);
+    setScanStage("loading");
+
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint) {
+      setError("VITE_SCAN_API_URL is not configured. Connect the app to the scan API to run a live audit.");
+      setIsScanning(false);
+      return;
+    }
+
+    scanAbortRef.current?.abort();
+    const controller = new AbortController();
+    scanAbortRef.current = controller;
 
     try {
-      const endpoint = import.meta.env.VITE_SCAN_API_URL;
-      if (!endpoint) {
-        throw new Error(
-          "VITE_SCAN_API_URL is not configured. Connect the app to the scan API to run a live audit.",
-        );
-      }
-
-      const responseFromApi = await fetch(
-        endpoint.replace(/\/$/, "") + "/api/scan",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ url }),
-        },
-      );
-
-      const data = (await responseFromApi.json()) as ScanApiResponse;
+      const responseFromApi = await fetch(endpoint.replace(/\/$/, "") + "/api/scans", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url }),
+        signal: controller.signal,
+      });
+      const data = (await responseFromApi.json()) as ScanSessionStartResponse;
       if (!responseFromApi.ok || !data.ok) {
-        throw new Error(data.ok ? "Scan failed." : data.error.message);
+        throw new Error(data.ok ? "Could not start scan." : data.error.message);
       }
 
-      setResponse(data);
-      setSelectedFindingId(data.results[0]?.scan.ok ? data.results[0].scan.issues[0]?.id ?? null : null);
-      window.location.hash = "#app/findings";
+      setActiveScanSessionId(data.session.id);
+      setScanStage("loading");
+
+      const poll = async (): Promise<void> => {
+        try {
+          const pollResponse = await fetch(endpoint.replace(/\/$/, "") + "/api/scans/" + encodeURIComponent(data.session.id), { signal: controller.signal });
+          const pollData = (await pollResponse.json()) as ScanSessionGetResponse;
+          if (!pollResponse.ok || !pollData.ok) {
+            throw new Error(pollData.ok ? "Could not read scan progress." : pollData.error.message);
+          }
+
+          const session = pollData.session;
+          const progressIndex = session.results.length;
+          if (session.status === "scanning") {
+            setScanStage(progressIndex === 0 ? "desktop" : "mobile");
+          }
+          if (session.status === "completed") {
+            setScanStage("done");
+            setResponse({
+              ok: true,
+              session,
+              url: session.url,
+              results: session.results.map((scan) => ({ viewport: scan.viewport, scan })),
+            });
+            setSelectedFindingId(session.findings[0]?.id ?? null);
+            setIsScanning(false);
+            setActiveScanSessionId(null);
+            scanAbortRef.current = null;
+            scanTimerRef.current = null;
+            window.location.hash = "#app/findings";
+            return;
+          }
+
+          if (session.status === "cancelled") {
+            setIsScanning(false);
+            setActiveScanSessionId(null);
+            setScanStage("idle");
+            setError("Scan cancelled.");
+            scanAbortRef.current = null;
+            return;
+          }
+
+          if (session.status === "failed") {
+            throw new Error("Scan failed. The target may be unavailable or blocked by the scan safety boundary.");
+          }
+
+          scanTimerRef.current = window.setTimeout(() => void poll(), 700);
+        } catch (pollError) {
+          if (pollError instanceof Error && pollError.name === "AbortError") return;
+          setError(pollError instanceof Error ? pollError.message : "Could not read scan progress.");
+          setIsScanning(false);
+          setActiveScanSessionId(null);
+          scanAbortRef.current = null;
+        }
+      };
+
+      void poll();
     } catch (scanError) {
-      setError(scanError instanceof Error ? scanError.message : "Scan failed.");
-    } finally {
+      if (!(scanError instanceof Error && scanError.name === "AbortError")) {
+        setError(scanError instanceof Error ? scanError.message : "Could not start scan.");
+      }
       setIsScanning(false);
+      setActiveScanSessionId(null);
     }
   }
+
+  function cancelScan() {
+    scanAbortRef.current?.abort();
+    scanAbortRef.current = null;
+    if (scanTimerRef.current !== null) {
+      window.clearTimeout(scanTimerRef.current);
+      scanTimerRef.current = null;
+    }
+    setIsScanning(false);
+    setActiveScanSessionId(null);
+    setScanStage("idle");
+    setError("");
+  }
+
+  useEffect(() => () => {
+    scanAbortRef.current?.abort();
+    if (scanTimerRef.current !== null) window.clearTimeout(scanTimerRef.current);
+  }, []);
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
   const hasResults = findings.length > 0;
@@ -450,14 +531,24 @@ function AppShell() {
                     placeholder="https://yourwebsite.com"
                     spellCheck={false}
                   />
-                  <button
-                    className="solid-button"
-                    type="button"
-                    onClick={runScan}
-                    disabled={!url || isScanning}
-                  >
-                    {isScanning ? "Scanning…" : "Run scan"}
-                  </button>
+                  {isScanning ? (
+                    <button
+                      className="outline-button"
+                      type="button"
+                      onClick={cancelScan}
+                    >
+                      Cancel scan
+                    </button>
+                  ) : (
+                    <button
+                      className="solid-button"
+                      type="button"
+                      onClick={runScan}
+                      disabled={!url}
+                    >
+                      Run scan
+                    </button>
+                  )}
                 </div>
                 <div className="scan-meta">
                   <span>HTTP / HTTPS only</span>
@@ -467,20 +558,9 @@ function AppShell() {
                 {error && <div className="inline-error">{error}</div>}
               </div>
 
-              <div className="scan-stages">
-                {[
-                  ["01", "Page loaded"],
-                  ["02", "Desktop viewport"],
-                  ["03", "Mobile viewport"],
-                  ["04", "Accessibility checks"],
-                  ["05", "Layout checks"],
-                ].map(([key, label], index) => (
-                  <div className={isScanning && index === 0 ? "stage is-active" : "stage"} key={key}>
-                    <b>{key}</b>
-                    <span>{label}</span>
-                    <small>{isScanning ? "running" : "ready"}</small>
-                  </div>
-                ))}
+              <div className="scan-stages" aria-live="polite">\n                {[\n                  ["01", "Page loaded", "loading"],\n                  ["02", "Desktop viewport", "desktop"],\n                  ["03", "Mobile viewport", "mobile"],\n                  ["04", "Accessibility checks", "checks"],\n                  ["05", "Layout checks", "checks"],\n                ].map(([key, label, stage]) => {\n                  const active = stage === scanStage;\n                  const done = scanStage === "done" || (scanStage === "mobile" && stage === "desktop") || (scanStage === "checks" && (stage === "desktop" || stage === "mobile"));\n                  return (\n                    <div className={active ? "stage is-active" : "stage"} key={key}>\n                      <b>{key}</b><span>{label}</span><small>{done ? "done" : active ? "running" : isScanning ? "queued" : "ready"}</small>\n                    </div>\n                  );\n                })}\n              </div>
+                  );
+                })}
               </div>
             </section>
           )}
