@@ -661,9 +661,6 @@ function AppShell() {
                   );
                 })}
               </div>
-                  );
-                })}
-              </div>
             </section>
           )}
 
