@@ -245,12 +245,12 @@ function AudienceBlock({ t }: { t: Record<string, string> }) {
 
 function FAQSection({ t }: { t: Record<string, string> }) {
   const items = [
-    ["What does Visibilio actually check?", "Visibilio measures real browser behavior and surfaces UI issues such as responsive overflow and accessibility problems, with the viewport, selector, and measurements attached to each finding."],
-    ["Who is Visibilio for?", "Developers, designers, website owners, and anyone responsible for a website can use the same evidence-first workflow to find, understand, fix, and re-test UI issues."],
-    ["Do I need to install anything?", "No. Start with a URL and Visibilio handles the scan workflow for you."],
-    ["Is the AI the source of the finding?", "No. Browser measurements and deterministic rules establish the finding. AI is used to explain the evidence and suggest what to investigate next."],
-    ["Can I re-test after fixing an issue?", "Yes. Re-test the same rule, selector, and viewport to compare the before and after measurements."],
-    ["Is there a free way to try it?", "The product is designed to start with a lightweight free experience so you can see the workflow before committing to a paid plan."],
+    [t.faqCheck, t.faqCheckAnswer],
+    [t.faqWho, t.faqWhoAnswer],
+    [t.faqInstall, t.faqInstallAnswer],
+    [t.faqAi, t.faqAiAnswer],
+    [t.faqRetest, t.faqRetestAnswer],
+    [t.faqFree, t.faqFreeAnswer],
   ];
 
   return (
