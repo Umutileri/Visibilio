@@ -863,3 +863,15 @@
 .landing-page .landing-hero-copy h1 em {
   color: #638173 !important;
 }
+
+@media (max-width: 900px) {
+  .landing-page .landing-nav-wrap { position: relative; }
+  .landing-page .landing-nav-links.is-open {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: auto;
+    width: min(320px, calc(100vw - 24px));
+    margin: 0;
+  }
+}
