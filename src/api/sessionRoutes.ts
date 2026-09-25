@@ -134,3 +134,23 @@ export async function handleScanSessionCancelRequest(
   const updated = await updateSession(cancelled);
   json(response, 200, { ok: true, session: updated });
 }
+
+export async function handleScanArtifactGetRequest(
+  response: ServerResponse,
+  sessionId: string,
+  artifactId: string,
+  getSession: (id: string) => Promise<ScanSession | null>,
+): Promise<void> {
+  const session = await getSession(sessionId);
+  const artifact = session?.artifacts.find((item) => item.id === artifactId);
+
+  if (!artifact) {
+    json(response, 404, {
+      ok: false,
+      error: { code: "NOT_FOUND", message: "Artifact not found." },
+    } satisfies ScanApiFailure);
+    return;
+  }
+
+  json(response, 200, { ok: true, artifact });
+}
