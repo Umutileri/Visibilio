@@ -482,8 +482,6 @@ function AppShell() {
                 <strong>{url || "Add a public URL to create your first scan."}</strong>
                 <span>{primaryScan ? statusLabel(primaryScan) : "Ready to scan"}</span>
               </section>
-
-   </section>
             </>
           )}
 
