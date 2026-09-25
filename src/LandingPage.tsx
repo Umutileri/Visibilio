@@ -12,7 +12,7 @@ const translations: Record<Language, Record<string, string>> = {
   EN: {
     product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open workspace", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br /><em>Fix what matters.</em>",
-    heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.",
+    heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
@@ -28,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Yeniden test", workspace: "Çalışma alanı", start: "Ücretsiz başla", heroAnalyze: "Siteyi analiz et", seeHow: "Nasıl çalışıyor?",
     heroEyebrow: "Kanıtla desteklenen web sitesi arayüz kalitesi.", heroTitle: "Sorunu görün.<br /><em>Önemli olanı düzeltin.</em>",
-    heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.",
+    heroBody: "Kolayca gözden kaçan arayüz sorunlarını bulun. Anlayın, düzeltin ve yeniden test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü."
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve yeniden test etmek için tek akış.",
     startWebsite: "Web sitenizle başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı gösterelim.</em>",
     urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz net bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
