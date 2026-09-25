@@ -693,3 +693,251 @@
   .landing-page .landing-demo-retest strong { font-size:2.25rem; }
   .landing-page .landing-footer-links { grid-template-columns:1fr; }
 }
+
+
+/* Mobile QA contract: layout must remain fluid; decorative overflow is internal to its demo only. */
+.landing-page,
+.landing-page main,
+.landing-page section { max-width:100%; min-width:0; }
+
+.landing-page .landing-container,
+.landing-page .landing-hero-grid,
+.landing-page .landing-share-grid,
+.landing-page .landing-two-col,
+.landing-page .landing-feature-layout,
+.landing-page .landing-proof-heading,
+.landing-page .landing-audience-grid,
+.landing-page .landing-evidence-feature,
+.landing-page .landing-retest-grid,
+.landing-page .landing-faq-grid { min-width:0; }
+
+.landing-page img,
+.landing-page svg,
+.landing-page canvas,
+.landing-page video { max-width:100%; }
+
+@media (max-width:900px) {
+  .landing-page .landing-nav {
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+
+  .landing-page .landing-nav-actions {
+    min-width:0;
+  }
+
+  .landing-page .landing-hero-grid,
+  .landing-page .landing-share-grid,
+  .landing-page .landing-two-col,
+  .landing-page .landing-feature-layout,
+  .landing-page .landing-proof-heading,
+  .landing-page .landing-evidence-feature,
+  .landing-page .landing-retest-grid,
+  .landing-page .landing-faq-grid,
+  .landing-page .landing-final-grid {
+    width:100%;
+  }
+
+  .landing-page .landing-feature-scroll,
+  .landing-page .landing-feature-sticky {
+    width:100%;
+    min-width:0;
+  }
+}
+
+@media (max-width:640px) {
+  .landing-page { overflow-x:clip; }
+
+  .landing-page .landing-container {
+    width:calc(100% - 32px);
+    margin-inline:auto;
+  }
+
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2,
+  .landing-page .landing-prose-large h2,
+  .landing-page .landing-proof-heading h2,
+  .landing-page .landing-feature-title h2,
+  .landing-page .landing-section-heading h2,
+  .landing-page .landing-audience-intro h2,
+  .landing-page .landing-retest-story h2,
+  .landing-page .landing-faq-title h2 {
+    width:100%;
+    max-width:14ch;
+    text-wrap:balance;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+
+  .landing-page .landing-hero-actions {
+    align-items:stretch;
+    width:100%;
+  }
+
+  .landing-page .landing-primary,
+  .landing-page .landing-secondary {
+    width:100%;
+    min-width:0;
+  }
+
+  .landing-page .landing-hero-evidence,
+  .landing-page .landing-feature-art,
+  .landing-page .landing-demo,
+  .landing-page .landing-demo-detect,
+  .landing-page .landing-demo-evidence,
+  .landing-page .landing-demo-explain,
+  .landing-page .landing-demo-retest,
+  .landing-page .landing-url-form,
+  .landing-page .landing-proof-list,
+  .landing-page .landing-audience-grid,
+  .landing-page .landing-evidence-contrast,
+  .landing-page .landing-retest-visual {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+
+  .landing-page .landing-window-grid,
+  .landing-page .landing-demo-detect,
+  .landing-page .landing-demo-explain,
+  .landing-page .landing-demo-retest {
+    grid-template-columns:1fr;
+  }
+
+  .landing-page .landing-site-cards {
+    width:100%;
+    min-width:0;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .landing-page .landing-site-cards i {
+    min-width:0;
+  }
+
+  .landing-page .landing-overflow-callout {
+    right:8px;
+    max-width:calc(100% - 16px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .landing-page .demo-page {
+    position:relative;
+    inset:auto;
+    width:auto;
+    max-width:none;
+    min-width:0;
+    margin:16px;
+    padding:16px;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+
+  .landing-page .demo-overflow-box {
+    position:relative;
+    inset:auto;
+    right:auto;
+    top:auto;
+    width:100%;
+    height:92px;
+    margin-top:18px;
+    box-sizing:border-box;
+  }
+
+  .landing-page .landing-demo-evidence {
+    padding:14px;
+    overflow:hidden;
+  }
+
+  .landing-page .evidence-inspector {
+    width:100%;
+    min-width:0;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .landing-page .evidence-inspector > div {
+    min-width:0;
+    overflow:hidden;
+  }
+
+  .landing-page .evidence-inspector strong {
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .landing-page .evidence-ruler {
+    width:100%;
+    overflow:hidden;
+  }
+
+  .landing-page .landing-demo-explain > div,
+  .landing-page .landing-demo-retest > div,
+  .landing-page .landing-evidence-contrast > div,
+  .landing-page .result-before,
+  .landing-page .result-after {
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+
+  .landing-page .landing-demo-retest > b {
+    justify-self:center;
+    transform:rotate(90deg);
+  }
+
+  .landing-page .landing-footer-links {
+    width:100%;
+    min-width:0;
+  }
+}
+
+@media (max-width:390px) {
+  .landing-page .landing-container {
+    width:calc(100% - 24px);
+  }
+
+  .landing-page .landing-nav {
+    width:calc(100% - 12px);
+    margin-inline:auto;
+    padding-left:9px;
+  }
+
+  .landing-page .landing-hero-copy h1 {
+    font-size:2.35rem;
+    max-width:11ch;
+  }
+
+  .landing-page .landing-hero-copy > p,
+  .landing-page .landing-url-copy p,
+  .landing-page .landing-prose p,
+  .landing-page .landing-proof-lead,
+  .landing-page .landing-audience-intro p,
+  .landing-page .landing-evidence-feature p,
+  .landing-page .landing-retest-story p {
+    max-width:100%;
+    font-size:.88rem;
+  }
+
+  .landing-page .landing-url-copy h2 {
+    font-size:2.12rem;
+    max-width:11.5ch;
+  }
+
+  .landing-page .landing-feature-title h2 {
+    font-size:2.05rem;
+    max-width:11.5ch;
+  }
+
+  .landing-page .landing-proof-heading h2,
+  .landing-page .landing-section-heading h2,
+  .landing-page .landing-audience-intro h2,
+  .landing-page .landing-retest-story h2,
+  .landing-page .landing-faq-title h2 {
+    font-size:2.12rem;
+  }
+
+  .landing-page .landing-footer-links {
+    grid-template-columns:1fr;
+  }
+}
