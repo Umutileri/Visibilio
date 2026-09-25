@@ -8,6 +8,7 @@ import type {
   ScanApiRequest,
   ScanApiSuccess,
 } from "./types";
+import type { ScanSession } from "./sessionTypes";
 
 const MAX_URL_LENGTH = 2048;
 
