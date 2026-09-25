@@ -18,7 +18,7 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · no setup tour required.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
     productBody: "A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.",
-    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.",
+    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a vague feeling<br /><em>to a useful answer.</em>", proofLead: "One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.",
     audienceSection: "One product. Different reasons to use it.", audienceTitle: "Build it.<br /><em>Own it. Improve it.</em>", audienceSectionBody: "Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.",
     evidenceEyebrow: "Evidence first", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>",
     retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
@@ -34,7 +34,7 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "Bir sayfa yapıştırın, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz net bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başla · kurulum turu gerekmez.",
     productEyebrow: "Neden Visibilio", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
-    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.",
+    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir histen<br /><em>işe yarar bir yanıta.</em>", proofLead: "Web sitesinden sorumlu herkes için tek bir akış: sorunu bulun, kanıtı anlayın ve geliştirin.", proofFind: "Bul", proofFindCopy: "Bir sonraki hata ayıklama turuna dönüşmeden ölçülebilen sorunları görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve kanıtı tek yerde görün.", proofImprove: "Geliştir", proofImproveCopy: "Değişikliği yapın, aynı kontrolü yeniden çalıştırın ve gerçekten neyin değiştiğini görün.",
     audienceSection: "Tek ürün. Farklı kullanım nedenleri.", audienceTitle: "Üretin.<br /><em>Sahiplenin. Geliştirin.</em>", audienceSectionBody: "Visibilio, web sitesinin arkasındaki herkes için aynı başlangıcı sunar: kanıtlarla desteklenen net bir bulgu.",
     evidenceEyebrow: "Önce kanıt", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini bilin.</em>",
     retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
@@ -177,9 +177,9 @@ function StepVisual({ id }: { id: string }) {
 
 function ProductProof({ t }: { t: Record<string, string> }) {
   const proofItems = [
-    ["01", "Find", "See measurable issues before they become another debugging session."],
-    ["02", "Understand", "Get the browser context, affected element, and evidence in one place."],
-    ["03", "Improve", "Make the change, re-run the same check, and see what actually moved."],
+    ["01", t.proofFind, t.proofFindCopy],
+    ["02", t.proofUnderstand, t.proofUnderstandCopy],
+    ["03", t.proofImprove, t.proofImproveCopy],
   ];
 
   return (
@@ -191,8 +191,8 @@ function ProductProof({ t }: { t: Record<string, string> }) {
             <span className="landing-display-label">02</span>
           </div>
           <div>
-            <h2>From a vague feeling<br /><em>to a useful answer.</em></h2>
-            <p className="landing-proof-lead">One clear workflow for anyone responsible for a website: find the issue, understand the evidence, then improve it.</p>
+            <h2 dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
+            <p className="landing-proof-lead">{t.proofLead}</p>
           </div>
         </div>
         <div className="landing-proof-list">
