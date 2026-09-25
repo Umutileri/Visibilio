@@ -39,7 +39,7 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
     if (!latestSession || latestSession.status === "cancelled") return;
     if (latestSession.status !== "scanning") return;
 
-    const artifacts = result.results.flatMap((scan) => scan.ok ? [{ id: sessionId + "_" + scan.viewport.width + "x" + scan.viewport.height, kind: "screenshot" as const, contentType: "image/png" as const viewport: scan.viewport, capturedAt: scan.screenshot.capturedAt }] : []);
+    const artifacts = result.results.flatMap((scan) => scan.ok ? [{ id: sessionId + "_" + scan.viewport.width + "x" + scan.viewport.height, kind: "screenshot" as const, contentType: "image/png" as const, viewport: scan.viewport, capturedAt: scan.screenshot.capturedAt }] : []);
 
     const completedSession = updateScanSession(latestSession, {
       status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
