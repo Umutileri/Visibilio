@@ -128,7 +128,9 @@ createServer(async (request, response) => {
 
 
   if (pathname === "/api/scans" && request.method === "GET") {
-    void handleScanSessionListRequest(response, defaultScanSessionStore.list());
+    const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
+    const siteKey = requestUrl.searchParams.get("site") || undefined;
+    void handleScanSessionListRequest(response, defaultScanSessionStore.list(siteKey));
     return;
   }
 
