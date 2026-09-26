@@ -768,6 +768,7 @@
 
 .landing-feature-nav button {
   position: relative;
+  align-items: center;
   display: grid;
   grid-template-columns: 30px minmax(0, 1fr);
   gap: 10px;
@@ -799,6 +800,7 @@
 }
 
 .landing-feature-nav button strong {
+  align-self: center;
   min-width: 0;
   color: rgb(21 45 53 / 46%);
   font-size: .74rem;
@@ -932,28 +934,70 @@
 }
 
 .demo-note {
-  align-self: center;
+  align-self: stretch;
+  display: flex;
   min-width: 0;
-  margin: 0 34px;
-  padding: 18px;
-  border-left: 2px solid #a44c3e;
+  flex-direction: column;
+  justify-content: center;
+  margin: 28px 28px 28px 10px;
+  padding: 22px;
+  border: 1px solid rgb(21 45 53 / 9%);
+  border-left: 3px solid #a44c3e;
+  border-radius: 10px;
   background: #fff;
 }
 
-.demo-note small,
-.demo-note span {
-  display: block;
-  color: rgb(21 45 53 / 39%);
-  font-size: .57rem;
+.demo-note-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.demo-note-top small {
+  color: #8c463d;
+  font-size: .56rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.demo-note-top span {
+  min-width: 0;
+  overflow: hidden;
+  color: rgb(21 45 53 / 36%);
+  font-size: .54rem;
   font-weight: 700;
-  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .demo-note strong {
   display: block;
-  margin: 9px 0;
-  font-size: 1.04rem;
-  line-height: 1.22;
+  max-width: 20ch;
+  margin: 16px 0;
+  font-size: 1.16rem;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+
+.demo-note-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(21 45 53 / 8%);
+}
+
+.demo-note-metric b {
+  font-size: 1.8rem;
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.demo-note-metric span {
+  color: rgb(21 45 53 / 40%);
+  font-size: .58rem;
 }
 
 .landing-demo-evidence {
@@ -1255,7 +1299,7 @@
 
 .landing-evidence-contrast > div {
   min-width: 0;
-  padding: 24px 0;
+  padding: 22px 0 24px;
   border-bottom: 1px solid rgb(21 45 53 / 8%);
 }
 
@@ -1268,6 +1312,7 @@
 
 .landing-evidence-contrast strong {
   display: block;
+  max-width: 28ch;
   max-width: 450px;
   margin-top: 10px;
   font-size: 1.12rem;
@@ -1690,6 +1735,10 @@
   .landing-feature-step {
     min-height: auto;
     padding: 20px 0 28px;
+  }
+
+  .landing-feature-art {
+    margin-top: 4px;
   }
 
   .landing-feature-nav {
