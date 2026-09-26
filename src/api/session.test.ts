@@ -46,7 +46,9 @@ describe("scan session", () => {
 describe("website identity", () => {
   it("normalizes website identity from the scan URL", async () => {
     const { getWebsiteKey, getWebsiteName } = await import("./session");
-    assert.equal(getWebsiteKey("https://WWW.Example.com/pricing"), "example.com");
+    assert.equal(getWebsiteKey("https://WWW.Example.com/pricing"), "example.com:443");
+    assert.equal(getWebsiteKey("http://example.com"), "example.com:80");
+    assert.equal(getWebsiteKey("http://example.com:8080"), "example.com:8080");
     assert.equal(getWebsiteName("https://example.com/pricing"), "example.com");
   });
 });
