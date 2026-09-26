@@ -179,7 +179,12 @@ function AppShell() {
     const loadHistory = async () => {
       setHistoryLoading(true);
       try {
-        const result = await fetch(endpoint.replace(/\/$/, "") + "/api/scans");
+        const site = websiteKey(url);
+        const historyUrl =
+          endpoint.replace(/\/$/, "") +
+          "/api/scans" +
+          (site ? "?site=" + encodeURIComponent(site) : "");
+        const result = await fetch(historyUrl);
         const data = (await result.json()) as ScanSessionListResponse;
         if (!cancelled) setHistory(data);
       } catch {
