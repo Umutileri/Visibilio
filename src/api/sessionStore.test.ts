@@ -74,9 +74,6 @@ describe("InMemoryScanSessionStore", () => {
       [newer.id + "_newer", older.id + "_older"],
     );
   });
-});
-
-
   it("filters history by canonical website key", async () => {
     const store = new InMemoryScanSessionStore();
     const example = createScanSession("https://www.example.com/pricing");
@@ -89,3 +86,4 @@ describe("InMemoryScanSessionStore", () => {
 
     assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com"]);
   });
+});
