@@ -10,9 +10,9 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", heroAnalyze: "Analyze your website", seeHow: "See how it works",
-    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "See what’s wrong.<br /><em>Fix what matters.</em>",
-    heroBody: "Find the UI problems that are easy to miss. Understand them. Fix them. Re-test them.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
+    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Fix what users notice.</em>",
+    heroBody: "Scan a real page, see measurable UI problems, understand the evidence, and verify the fix.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · the page stays attached to your audit.",
