@@ -293,8 +293,6 @@ function AppShell() {
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            before: selectedFinding,
-            after: comparison,
             outcome: comparison ? "still-present" : "resolved",
           },
         });
