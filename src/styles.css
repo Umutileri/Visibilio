@@ -903,18 +903,6 @@ input:focus-visible {
   border-bottom: 1px solid rgb(21 45 53 / 8%);
 }
 
-.workspace-mark {
-  display: inline-grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border: 1px solid rgb(21 45 53 / 10%);
-  border-radius: 8px;
-  background: #f2f7f4;
-  font-family: "Geist Mono", "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  font-weight: 800;
-}
 
 .site-switcher-shell strong,
 .site-switcher-shell span {
@@ -2061,20 +2049,6 @@ input:focus-visible {
   background: #d4ecdd;
 }
 
-.workspace-trigger {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
-  margin-top: 18px;
-  padding: 10px;
-  border: 1px solid rgb(21 45 53 / 9%);
-  border-radius: 11px;
-  background: #fff;
-  color: #152d35;
-  text-align: left;
-}
 
 .site-avatar-shell,
 .avatar-button {
@@ -2532,7 +2506,6 @@ input:focus-visible {
 
 .site-flow-step.is-active strong { color: #152d35; }
 
-.workspace-overview-metrics { margin-top: 20px; }
 
 @media (max-width: 1050px) {
   .saas-app { grid-template-columns: 210px minmax(0, 1fr); }
