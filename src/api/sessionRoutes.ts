@@ -149,8 +149,15 @@ export async function handleScanArtifactGetRequest(
   getSession: (id: string) => Promise<ScanSession | null>,
 ): Promise<void> {
   const session = await getSession(sessionId);
-  const artifact = session?.artifacts.find((item) => item.id === artifactId);
+  if (!session) {
+    json(response, 404, {
+      ok: false,
+      error: { code: "NOT_FOUND", message: "Scan session not found." },
+    } satisfies ScanApiFailure);
+    return;
+  }
 
+  const artifact = session.artifacts.find((item) => item.id === artifactId);
   if (!artifact) {
     json(response, 404, {
       ok: false,
