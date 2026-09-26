@@ -2124,14 +2124,14 @@
   .landing-audience-grid article,
   .landing-proof-list article {
     min-height: 0;
-    padding: 24px 0 28px;
+    padding: 24px;
     border-right: 0;
     border-bottom: 1px solid rgb(21 45 53 / 9%);
   }
 
   .landing-audience-grid article + article,
   .landing-proof-list article + article {
-    padding-left: 0;
+    padding-left: 24px;
   }
 
   .landing-audience-grid article:last-child,
