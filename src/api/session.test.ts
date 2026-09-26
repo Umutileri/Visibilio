@@ -55,6 +55,50 @@ describe("website identity", () => {
 });
 
 describe("retest comparison", () => {
+  it("marks an incomplete re-test as inconclusive", () => {
+    const original = {
+      id: "finding-2",
+      rule: "responsive.horizontal-overflow",
+      category: "responsive" as const,
+      title: "Horizontal overflow",
+      severity: "medium" as const,
+      description: "Overflow",
+      url: "https://example.com",
+      viewport: { name: "Mobile", width: 390, height: 844 },
+      selector: ".pricing-grid",
+      detectedAt: "2026-09-26T10:00:00.000Z",
+      status: "open" as const,
+    };
+    const success = {
+      ok: true as const,
+      url: original.url,
+      viewport: original.viewport,
+      dimensions: {
+        viewportWidth: 390,
+        viewportHeight: 844,
+        documentWidth: 390,
+        documentHeight: 844,
+        horizontalOverflow: 0,
+      },
+      screenshot: {
+        type: "screenshot" as const,
+        format: "png" as const,
+        path: ".visibilio/evidence/mobile.png",
+        viewport: original.viewport,
+        width: 390,
+        height: 844,
+        capturedAt: original.detectedAt,
+      },
+      issues: [],
+    };
+    const failure = { ok: false as const } as ScanResult;
+
+    assert.equal(
+      buildRetestComparison(original, [success, failure]).outcome,
+      "inconclusive",
+    );
+  });
+
   it("marks a fully scanned missing finding as resolved", () => {
     const original = {
       id: "finding-1",
