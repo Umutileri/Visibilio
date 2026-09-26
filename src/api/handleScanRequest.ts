@@ -50,6 +50,9 @@ export function createScanHandlers(storage: VisibilioStorage) {
     try {
       const result = await scanViewports(
         url,
+        {
+          evidenceDir: ".visibilio/evidence/" + sessionId,
+        },
         async () => (await scanStore.get(sessionId))?.status === "cancelled",
       );
       const latestSession = await scanStore.get(sessionId);
