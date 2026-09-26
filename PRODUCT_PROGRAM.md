@@ -276,3 +276,19 @@ Every feature must preserve:
 Browser scan → deterministic finding → evidence → explanation → fix guidance → re-test.
 
 Measured evidence must remain independently inspectable.
+
+## Landing acceptance checklist
+
+Before calling the public landing “done”, validate the complete page as one experience:
+
+- Hero: category, user outcome, product proof, and primary action are understandable without scrolling.
+- URL entry: the visitor knows what happens after submitting a page.
+- Product section: the problem framing does not repeat the hero.
+- How it works: Find / Explain / Re-test visuals have explicit layout contracts and never fall back to unstyled inline content.
+- Proof cards: all three cards use the same inner grid and baseline alignment.
+- Evidence: measured facts and AI interpretation are visually distinct.
+- Re-test: before/after values read as a result, not decorative numbers.
+- Mobile: no horizontal overflow, no hover dependency, and no isolated headings.
+- Localization: EN and TR preserve meaning, hierarchy, and product terminology rather than translating word-for-word.
+- Deployment: CI passes and the deployed page is checked at representative viewport widths.
+
