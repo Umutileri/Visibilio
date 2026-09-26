@@ -2,7 +2,9 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
-import { defaultScanSessionStore } from "./sessionStore";
+import { defaultStorage } from "./storage";
+const defaultScanSessionStore = defaultStorage.scans;
+const defaultWebsiteStore = defaultStorage.websites;
 import type {
   ScanApiFailure,
   ScanApiRequest,
@@ -24,6 +26,14 @@ export async function createScanSessionRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+
+  await defaultWebsiteStore.upsert({
+    key: session.siteKey,
+    name: session.siteName,
+    url: session.url,
+    lastScanAt: session.createdAt,
+  });
+
   await defaultScanSessionStore.create(session);
 
   void runScanSession(session.id, session.url);
@@ -51,8 +61,11 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
     });
     await defaultScanSessionStore.update(completedSession);
   } catch {
+    const latestSession = await defaultScanSessionStore.get(sessionId);
+    if (!latestSession || latestSession.status === "cancelled") return;
+
     await defaultScanSessionStore.update(
-      updateScanSession(session, {
+      updateScanSession(latestSession, {
         status: "failed",
         completedAt: new Date().toISOString(),
       }),
@@ -149,6 +162,14 @@ export async function handleScanRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+
+  await defaultWebsiteStore.upsert({
+    key: session.siteKey,
+    name: session.siteName,
+    url: session.url,
+    lastScanAt: session.createdAt,
+  });
+
   await defaultScanSessionStore.create(session);
 
   await runScanSession(session.id, session.url);
@@ -196,6 +217,14 @@ export async function createRetestSessionRequest(
     parentSessionId,
     retestOfFindingId: findingId,
   };
+
+  await defaultWebsiteStore.upsert({
+    key: linked.siteKey,
+    name: linked.siteName,
+    url: linked.url,
+    lastScanAt: linked.createdAt,
+  });
+
   await defaultScanSessionStore.create(linked);
   void runScanSession(linked.id, linked.url);
   return linked;

@@ -1,11 +1,12 @@
 import type { ServerResponse } from "node:http";
 import type { ScanSession } from "./sessionTypes";
-import { buildRetestComparison, updateFindingStatus } from "./session";
+import { updateFindingStatus } from "./session";
 import type {
   ScanApiFailure,
   ScanSessionGetResponse,
   ScanSessionListResponse,
   ScanFindingStatusResponse,
+  WebsiteListResponse,
 } from "./types";
 
 function json(response: ServerResponse, statusCode: number, body: unknown): void {
@@ -115,12 +116,16 @@ export async function handleScanSessionCancelRequest(
     return;
   }
 
-  if (session.status === "completed" || session.status === "failed") {
+  if (
+    session.status === "completed" ||
+    session.status === "failed" ||
+    session.status === "cancelled"
+  ) {
     json(response, 409, {
       ok: false,
       error: {
         code: "INVALID_REQUEST",
-        message: "Completed scans cannot be cancelled.",
+        message: "Terminal scans cannot be cancelled.",
       },
     } satisfies ScanApiFailure);
     return;
@@ -177,5 +182,29 @@ export async function handleScanRetestRequest(
     json(response, 409, { ok: false, error: { code: "INVALID_REQUEST", message: "Could not start the re-test." } } satisfies ScanApiFailure);
     return;
   }
-  json(response, 202, { ok: true, session: retest, comparison: { findingId, before: finding, outcome: "not-found" } });
+  json(response, 202, { ok: true, session: retest });
+}
+
+
+export async function handleWebsiteListRequest(
+  response: ServerResponse,
+  websites: Promise<import("./sessionTypes").WebsiteRef[]>,
+): Promise<void> {
+  try {
+    const body: WebsiteListResponse = {
+      ok: true,
+      websites: await websites,
+    };
+
+    json(response, 200, body);
+  } catch {
+    const body: ScanApiFailure = {
+      ok: false,
+      error: {
+        code: "SCAN_ERROR",
+        message: "Could not load websites.",
+      },
+    };
+    json(response, 500, body);
+  }
 }

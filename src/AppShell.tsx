@@ -4,25 +4,35 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
-import type { ScanArtifact } from "./api/sessionTypes";
+import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
+import type { WebsiteRef } from "./api/sessionTypes";
+import { compareScanSessions } from "./api/scanComparison";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
   | "overview"
   | "analyze"
   | "findings"
-  | "evidence"
   | "history"
   | "settings";
+
+type RetestUiComparison = {
+  session: {
+    id: string;
+    siteName: string;
+  };
+  comparison: {
+    findingId: string;
+    outcome: "resolved" | "still-present";
+  };
+};
 
 const sections: Array<{ id: AppSection; label: string; key: string }> = [
   { id: "overview", label: "Overview", key: "01" },
   { id: "analyze", label: "Analyze", key: "02" },
   { id: "findings", label: "Findings", key: "03" },
-  { id: "evidence", label: "Evidence", key: "04" },
-  { id: "history", label: "History", key: "05" },
-  { id: "settings", label: "Settings", key: "06" },
+  { id: "history", label: "History", key: "04" },
+  { id: "settings", label: "Settings", key: "05" },
 ];
 
 const sampleFindings: UIssue[] = [
@@ -52,8 +62,11 @@ const sampleFindings: UIssue[] = [
 ];
 
 function sectionFromHash(): AppSection {
-  const value = window.location.hash.replace("#app/", "") as AppSection;
-  return sections.some((section) => section.id === value) ? value : "overview";
+  const value = window.location.hash.replace("#app/", "").split("?")[0];
+  if (value === "evidence") return "findings";
+  return sections.some((section) => section.id === value)
+    ? (value as AppSection)
+    : "overview";
 }
 
 function displayHostname(value: string): string {
@@ -65,19 +78,22 @@ function displayHostname(value: string): string {
   }
 }
 
+function websiteKey(value: string): string {
+  if (!value) return "";
+  try {
+    const parsed = new URL(value);
+    const hostname = parsed.hostname.toLowerCase().replace(/^www\\./, "");
+    const port = parsed.port || (parsed.protocol === "https:" ? "443" : "80");
+    return hostname + ":" + port;
+  } catch {
+    return "";
+  }
+}
+
 function flattenResults(
   results: Array<{ viewport: { name: string }; scan: ScanResult }>,
 ): UIssue[] {
   return results.flatMap(({ scan }) => (scan.ok ? scan.issues : []));
-}
-
-function severityCount(findings: UIssue[], severity: IssueSeverity): number {
-  return findings.filter((issue) => issue.severity === severity).length;
-}
-
-function statusLabel(scan: ScanSuccess | null): string {
-  if (!scan) return "No scan yet";
-  return scan.issues.length ? "Needs attention" : "No findings";
 }
 
 function ShellLogo() {
@@ -93,16 +109,21 @@ function ShellLogo() {
 
 function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
-  const [focusedEvidenceId, setFocusedEvidenceId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
+  const [focusedFindingId, setFocusedFindingId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
   const [url, setUrl] = useState("");
+  const [siteMenuOpen, setSiteMenuOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
-  const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "checks" | "done">("idle");
+  const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "done">("idle");
   const scanAbortRef = useRef<AbortController | null>(null);
   const scanTimerRef = useRef<number | null>(null);
+  const retestTimerRef = useRef<number | null>(null);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
   const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
+  const [websites, setWebsites] = useState<WebsiteRef[]>([]);
+  const [websitesLoading, setWebsitesLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
     null,
@@ -110,9 +131,8 @@ function AppShell() {
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
-  const [retestSessionId, setRetestSessionId] = useState<string | null>(null);
   const [retestBusy, setRetestBusy] = useState(false);
-  const [retestComparison, setRetestComparison] = useState<ScanRetestResponse | null>(null);
+  const [retestComparison, setRetestComparison] = useState<RetestUiComparison | null>(null);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -122,7 +142,12 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
-    const onHash = () => setSection(sectionFromHash());
+    const onHash = () => {
+      setSection(sectionFromHash());
+      const hash = window.location.hash;
+      const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : "";
+      setFocusedFindingId(new URLSearchParams(query).get("finding"));
+    };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -135,10 +160,40 @@ function AppShell() {
 
     let cancelled = false;
 
+    const loadWebsites = async () => {
+      setWebsitesLoading(true);
+      try {
+        const result = await fetch(endpoint.replace(/\/$/, "") + "/api/websites");
+        const data = (await result.json()) as WebsiteListResponse;
+        if (!cancelled && data.ok) setWebsites(data.websites);
+      } catch {
+        if (!cancelled) setWebsites([]);
+      } finally {
+        if (!cancelled) setWebsitesLoading(false);
+      }
+    };
+
+    void loadWebsites();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint) return;
+
+    let cancelled = false;
+
     const loadHistory = async () => {
       setHistoryLoading(true);
       try {
-        const result = await fetch(endpoint.replace(/\/$/, "") + "/api/scans");
+        const site = websiteKey(url);
+        const historyUrl =
+          endpoint.replace(/\/$/, "") +
+          "/api/scans" +
+          (site ? "?site=" + encodeURIComponent(site) : "");
+        const result = await fetch(historyUrl);
         const data = (await result.json()) as ScanSessionListResponse;
         if (!cancelled) setHistory(data);
       } catch {
@@ -160,26 +215,30 @@ function AppShell() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [url]);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
 
+  const latestHistorySession = history?.ok ? history.sessions[0] : undefined;
+  const previousHistorySession =
+    history?.ok && history.sessions.length > 1 ? history.sessions[1] : undefined;
+  const historyComparison = useMemo(
+    () =>
+      latestHistorySession
+        ? compareScanSessions(latestHistorySession, previousHistorySession)
+        : null,
+    [latestHistorySession, previousHistorySession],
+  );
+
   useEffect(() => {
-    if (!focusedEvidenceId) return;
-    if (findings.some((finding) => finding.id === focusedEvidenceId)) {
-      setSelectedFindingId(focusedEvidenceId);
+    if (!focusedFindingId) return;
+    if (findings.some((finding) => finding.id === focusedFindingId)) {
+      setSelectedFindingId(focusedFindingId);
     }
-  }, [focusedEvidenceId, findings]);
+  }, [focusedFindingId, findings]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
     sampleFindings[0];
-
-  const selectedArtifact: ScanArtifact | null = response?.ok
-    ? response.session.artifacts.find(
-        (artifact) =>
-          artifact.id.includes(selectedFinding.viewport.width + "x" + selectedFinding.viewport.height),
-      ) ?? null
-    : null;
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
@@ -204,7 +263,6 @@ function AppShell() {
         throw new Error(startData.ok ? "Could not start re-test." : startData.error.message);
       }
 
-      setRetestSessionId(startData.session.id);
       setUrl(startData.session.url);
 
       const poll = async (): Promise<void> => {
@@ -217,18 +275,39 @@ function AppShell() {
         }
 
         if (pollData.session.status === "scanning" || pollData.session.status === "queued") {
-          window.setTimeout(() => void poll().catch((error) => setError(error instanceof Error ? error.message : "Could not read re-test progress.")), 700);
+          retestTimerRef.current = window.setTimeout(
+            () =>
+              void poll().catch((error) =>
+                setError(
+                  error instanceof Error
+                    ? error.message
+                    : "Could not read re-test progress.",
+                ),
+              ),
+            700,
+          );
           return;
         }
 
-        const comparison = pollData.session.findings.find((finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector);
+        if (pollData.session.status === "failed" || pollData.session.status === "cancelled") {
+          throw new Error(
+            pollData.session.status === "cancelled"
+              ? "Re-test was cancelled."
+              : "Re-test failed.",
+          );
+        }
+
+        const comparison = pollData.session.findings.find(
+          (finding) =>
+            finding.rule === selectedFinding.rule &&
+            finding.viewport.width === selectedFinding.viewport.width &&
+            finding.viewport.height === selectedFinding.viewport.height &&
+            finding.selector === selectedFinding.selector,
+        );
         setRetestComparison({
-          ok: true,
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            before: selectedFinding,
-            after: comparison,
             outcome: comparison ? "still-present" : "resolved",
           },
         });
@@ -238,7 +317,6 @@ function AppShell() {
           url: pollData.session.url,
           results: pollData.session.results.map((scan) => ({ viewport: scan.viewport, scan })),
         });
-        setRetestSessionId(null);
       };
 
       await poll();
@@ -336,7 +414,7 @@ function AppShell() {
             setActiveScanSessionId(null);
             scanAbortRef.current = null;
             scanTimerRef.current = null;
-            window.location.hash = "#app/findings";
+            window.location.hash = "#app/findings" + (session.findings[0] ? "?finding=" + encodeURIComponent(session.findings[0].id) : "");
             return;
           }
 
@@ -389,6 +467,10 @@ function AppShell() {
       window.clearTimeout(scanTimerRef.current);
       scanTimerRef.current = null;
     }
+    if (retestTimerRef.current !== null) {
+      window.clearTimeout(retestTimerRef.current);
+      retestTimerRef.current = null;
+    }
     setIsScanning(false);
     setActiveScanSessionId(null);
     setScanStage("idle");
@@ -396,14 +478,14 @@ function AppShell() {
   useEffect(() => () => {
     scanAbortRef.current?.abort();
     if (scanTimerRef.current !== null) window.clearTimeout(scanTimerRef.current);
+    if (retestTimerRef.current !== null) window.clearTimeout(retestTimerRef.current);
   }, []);
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
   const hasResults = findings.length > 0;
-  const critical = severityCount(findings, "high");
-  const medium = severityCount(findings, "medium");
-  const low = severityCount(findings, "low");
   const issuesVisible = hasResults ? filteredFindings : sampleFindings;
+  const currentSite = displayHostname(url);
+  const issueLabel = findings.length === 1 ? "finding" : "findings";
 
   return (
     <div className="saas-app">
@@ -413,32 +495,74 @@ function AppShell() {
             <ShellLogo />
             <span>Visibilio</span>
           </a>
-          <div className="workspace-switcher">
-            <span className="workspace-avatar">M</span>
-            <div className="workspace-copy">
-              <strong>My workspace</strong>
-              <small>Personal</small>
-            </div>
-            <span className="workspace-chevron" aria-hidden="true">⌄</span>
+          <div className={"site-switcher-shell site-switcher" + (siteMenuOpen ? " is-open" : "")}>
+            <button
+              className="site-switcher-button"
+              type="button"
+              aria-expanded={siteMenuOpen}
+              aria-haspopup="true"
+              onClick={() => setSiteMenuOpen((value) => !value)}
+            >
+              <span className="site-avatar-shell site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
+              <span className="site-copy">
+                <strong>{url ? displayHostname(url) : "Your website"}</strong>
+                <small>{url ? "Active site" : "Add a site to begin"}</small>
+              </span>
+              <span className="site-chevron" aria-hidden="true">⌄</span>
+            </button>
+            {siteMenuOpen && (
+              <div className="site-switcher-menu">
+                <span className="site-switcher-label">Websites</span>
+                {websitesLoading && <span className="site-switcher-empty">Loading sites…</span>}
+                {!websitesLoading && websites.map((site) => (
+                  <button
+                    key={site.key}
+                    type="button"
+                    className={websiteKey(url) === site.key ? "is-current" : undefined}
+                    onClick={() => {
+                      setUrl(site.url);
+                      setResponse(null);
+                      setSelectedFindingId(null);
+                      setRetestComparison(null);
+                      setSiteMenuOpen(false);
+                      window.location.hash = "#app/overview";
+                    }}
+                  >
+                    <strong>{site.name}</strong>
+                    <small>{websiteKey(url) === site.key ? "Current website" : site.url}</small>
+                  </button>
+                ))}
+                {!websitesLoading && websites.length === 0 && <span className="site-switcher-empty">No scanned websites yet.</span>}
+                <a href="#app/analyze" onClick={() => setSiteMenuOpen(false)}>+ Add another website</a>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="saas-sidebar-section">
-          <span className="saas-sidebar-label">Your website</span>
-          <div className="site-context-card">
-            <span className="site-context-mark">WEB</span>
-            <div>
-              <strong>{url ? displayHostname(url) : "No website yet"}</strong>
-              <small>{url ? "Ready to scan" : "Paste a page to begin"}</small>
-            </div>
-          </div>
-          <nav aria-label="Primary">
-            {sections.filter((item) => item.id !== "overview").map((item) => (
+          <span className="saas-sidebar-label">Website</span>
+          <button
+            className="mobile-nav-toggle"
+            type="button"
+            aria-expanded={mobileNavOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMobileNavOpen((value) => !value)}
+          >
+            <span aria-hidden="true">{mobileNavOpen ? "×" : "☰"}</span>
+            <span>{mobileNavOpen ? "Close menu" : "Menu"}</span>
+          </button>
+          <nav
+            id="primary-navigation"
+            aria-label="Primary"
+            className={mobileNavOpen ? "is-mobile-open" : ""}
+          >
+            {sections.map((item) => (
               <a
                 key={item.id}
                 href={"#app/" + item.id}
                 className={"saas-nav-link" + (section === item.id ? " is-active" : "")}
                 aria-current={section === item.id ? "page" : undefined}
+                onClick={() => setMobileNavOpen(false)}
               >
                 <span>{item.label}</span>
                 <small>{item.key}</small>
@@ -448,18 +572,14 @@ function AppShell() {
         </div>
 
         <div className="saas-sidebar-bottom">
-          <div className="quota-block">
-            <div><span>Usage</span><strong>3 / 20 scans</strong></div>
-            <div className="quota-track"><span /></div>
-            <small>17 scans remaining</small>
-          </div>
+          <a className="sidebar-meta-link" href="#app/analyze">+ New scan</a>
           <a className="sidebar-meta-link" href="#app/settings">Settings</a>
         </div>
       </aside>
       <div className="saas-main">
         <header className="saas-topbar">
           <div className="topbar-context">
-            <span className="topbar-kicker">Visibilio workspace</span>
+            <span className="topbar-kicker">Website</span>
             <strong>{displayHostname(url)}</strong>
           </div>
           <div className="topbar-actions">
@@ -471,57 +591,91 @@ function AppShell() {
         <div className="saas-content">
           {section === "overview" && (
             <>
-              <section className="workspace-welcome">
-                <div className="workspace-welcome-copy">
-                  <span className="eyebrow">Workspace</span>
-                  <h1>{url ? "Let’s check your website." : "Start with a website."}</h1>
+              <section className="site-welcome">
+                <div className="site-welcome-copy">
+                  <span className="eyebrow">Website overview</span>
+                  <h1>{url ? "Let’s check this site." : "Start with a website."}</h1>
                   <p>
                     {url
-                      ? "Your page is ready. Start with a browser scan, then inspect the evidence behind what Visibilio finds."
-                      : "Paste a public page to create your first scan. Findings, evidence, and re-tests stay connected to the website you are working on."}
+                      ? "Your site is ready. Run a scan, inspect what was found, make the change, and re-test the same check."
+                      : "Paste a public page to create your first audit. Findings and re-tests stay attached to the site you are working on."}
                   </p>
-                  {url && <div className="workspace-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
-                  <div className="workspace-welcome-actions">
+                  {url && <div className="site-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
+                  <div className="site-welcome-actions">
                     <a className="solid-button" href="#app/analyze">{url ? "Scan this page" : "Add a website"}</a>
-                    {url && <a className="text-link" href="#app/history">View history →</a>}
+                    {url && <a className="text-link" href="#app/history">See past scans →</a>}
                   </div>
                 </div>
-                <div className="workspace-flow-card">
+                <div className="site-flow-card">
                   <span className="surface-kicker">What happens next</span>
-                  <div className="workspace-flow-step is-active"><b>01</b><strong>Scan</strong><small>Measure the page in controlled browsers.</small></div>
-                  <div className="workspace-flow-step"><b>02</b><strong>Inspect</strong><small>Open the evidence behind each finding.</small></div>
-                  <div className="workspace-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
+                  <div className="site-flow-step is-active"><b>01</b><strong>Scan</strong><small>Measure the page in controlled browsers.</small></div>
+                  <div className="site-flow-step"><b>02</b><strong>Inspect</strong><small>Open the evidence behind each finding.</small></div>
+                  <div className="site-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
                 </div>
               </section>
               {hasResults && (
-                <section className="context-strip workspace-result-strip">
-                  <div>
-                    <span>Last scan</span>
-                    <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
-                  </div>
-                  <div>
-                    <span>Status</span>
-                    <strong>{statusLabel(primaryScan)}</strong>
-                  </div>
-                  <div>
-                    <span>Viewports</span>
-                    <strong>390 × 844 · 1440 × 900</strong>
-                  </div>
-                  <div>
-                    <span>Findings</span>
-                    <strong>{findings.length}</strong>
-                  </div>
-                </section>
+                <>
+                  <section className="context-strip site-result-strip">
+                    <div>
+                      <span>Latest scan</span>
+                      <strong>{primaryScan ? "Completed" : "No result"}</strong>
+                    </div>
+                    <div>
+                      <span>Issues found</span>
+                      <strong>{findings.length}</strong>
+                    </div>
+                    <div>
+                      <span>Open</span>
+                      <strong>{findings.filter((finding) => finding.status === "open").length}</strong>
+                    </div>
+                    <div>
+                      <span>Resolved</span>
+                      <strong>{findings.filter((finding) => finding.status === "resolved").length}</strong>
+                    </div>
+                  </section>
+                  <section className="audit-summary surface">
+                    <div className="audit-summary-main">
+                      <span className="surface-kicker">Audit summary</span>
+                      <h2>
+                        {findings.length === 0
+                          ? "No issues were detected."
+                          : findings.length === 1
+                            ? "One issue needs your attention."
+                            : `${findings.length} issues need your attention.`}
+                      </h2>
+                      <p>
+                        {findings.length === 0
+                          ? "The tested page passed the current deterministic checks. Re-test after meaningful UI changes."
+                          : "Start with the highest-severity finding, inspect its evidence, make the change, then run the same check again."}
+                      </p>
+                      <div className="audit-summary-actions">
+                        <a className="solid-button" href="#app/findings">
+                          Review findings →
+                        </a>
+                        <a className="text-link" href="#app/history">
+                          Compare past scans
+                        </a>
+                      </div>
+                    </div>
+                    <div className="audit-severity-grid" aria-label="Finding severity breakdown">
+                      {(["high", "medium", "low"] as const).map((level) => (
+                        <div key={level}>
+                          <span>{level}</span>
+                          <strong>{findings.filter((finding) => finding.severity === level).length}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
               )}
-
-              <section className="workspace-grid">
+              <section className="site-grid">
                 <div className="surface surface-main">
                   <div className="surface-heading">
                     <div>
-                      <span className="surface-kicker">Current scan</span>
-                      <h2>{hasResults ? "Findings that need attention" : "Start with your first website"}</h2>
+                      <span className="surface-kicker">{hasResults ? "Latest scan" : "Get started"}</span>
+                      <h2>{hasResults ? "Findings that need attention" : "Run your first audit"}</h2>
                     </div>
-                    <a href="#app/analyze">Analyze</a>
+                    <a href="#app/analyze">New scan</a>
                   </div>
                   {hasResults ? (
                     <div className="compact-list">
@@ -532,7 +686,7 @@ function AppShell() {
                           type="button"
                           onClick={() => {
                             setSelectedFindingId(finding.id);
-                            window.location.hash = "#app/findings";
+                            window.location.hash = "#app/findings?finding=" + encodeURIComponent(finding.id);
                           }}
                         >
                           <span className={"severity-dot severity-" + finding.severity} />
@@ -545,7 +699,7 @@ function AppShell() {
                       ))}
                     </div>
                   ) : (
-                    <div className="empty-workspace">
+                    <div className="empty-site">
                       <span className="empty-mark">01</span>
                       <strong>Analyze a live page</strong>
                       <p>
@@ -559,34 +713,34 @@ function AppShell() {
                 </div>
 
                 <aside className="surface surface-side">
-                  <span className="surface-kicker">Workflow</span>
+                  <span className="surface-kicker">Next steps</span>
                   <div className="workflow-steps">
                     <div className="workflow-step is-current">
                       <b>01</b>
                       <span>
                         <strong>Scan</strong>
-                        <small>Capture browser state</small>
+                        <small>Measure the site</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>02</b>
                       <span>
                         <strong>Inspect</strong>
-                        <small>Review evidence</small>
+                        <small>Open a finding</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>03</b>
                       <span>
                         <strong>Fix</strong>
-                        <small>Change the page</small>
+                        <small>Apply the next step</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>04</b>
                       <span>
                         <strong>Re-test</strong>
-                        <small>Verify the result</small>
+                        <small>Measure again</small>
                       </span>
                     </div>
                   </div>
@@ -597,10 +751,10 @@ function AppShell() {
 
           {section === "analyze" && (
             <section className="page-intro narrow-page">
-              <span className="eyebrow">New scan</span>
+              <span className="eyebrow">New audit</span>
               <h1>Scan a website.</h1>
               <p>
-                Visibilio measures the page in controlled browser viewports and returns evidence-backed UI findings.
+                Run a browser-backed audit across controlled viewports. Visibilio turns measurements into findings you can inspect and re-test.
               </p>
               <div className="scan-composer">
                 <label htmlFor="scan-url">Website URL</label>
@@ -647,13 +801,25 @@ function AppShell() {
                   ["03", "Mobile viewport"],
                   ["04", "Accessibility checks"],
                   ["05", "Layout checks"],
-                ].map(([key, label]) => (
-                  <div className="stage" key={key}>
-                    <b>{key}</b>
-                    <span>{label}</span>
-                    <small>{isScanning ? "queued" : "ready"}</small>
-                  </div>
-                ))}
+                ].map(([key, label]) => {
+                  const stageKey = Number(key);
+                  const currentStage =
+                    scanStage === "loading" ? 1 :
+                    scanStage === "desktop" ? 2 :
+                    scanStage === "mobile" ? 3 :
+                    scanStage === "done" ? 5 : 0;
+                  const isComplete = !isScanning && scanStage === "done"
+                    ? true
+                    : stageKey < currentStage;
+                  const isCurrent = stageKey === currentStage;
+                  return (
+                    <div className={"stage" + (isCurrent ? " is-current" : "") + (isComplete ? " is-complete" : "")} key={key}>
+                      <b>{key}</b>
+                      <span>{label}</span>
+                      <small>{isComplete ? "complete" : isCurrent ? "running" : "ready"}</small>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           )}
@@ -662,15 +828,15 @@ function AppShell() {
             <section>
               <div className="page-intro findings-intro">
                 <div>
-                  <span className="eyebrow">Findings</span>
-                  <h1>What needs attention.</h1>
+                  <span className="eyebrow">{currentSite}</span>
+                  <h1>Findings.</h1>
                   <p>
-                    Review deterministic findings by severity, category, and affected element.
+                    Review measured issues on this site. Open one to see the evidence, context, and next action.
                   </p>
                 </div>
                 <div className="finding-count">
                   <strong>{hasResults ? findings.length : sampleFindings.length}</strong>
-                  <span>open findings</span>
+                  <span>{hasResults ? issueLabel : "sample findings"}</span>
                 </div>
               </div>
 
@@ -737,10 +903,10 @@ function AppShell() {
                     </div>
                     <a
                       className="outline-button"
-                      href={"#app/evidence?finding=" + encodeURIComponent(selectedFinding.id)}
-                      onClick={() => setFocusedEvidenceId(selectedFinding.id)}
+                      href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
+                      onClick={() => setFocusedFindingId(selectedFinding.id)}
                     >
-                      Show evidence
+                      Evidence
                     </a>
                   </div>
                   <div className="detail-section">
@@ -752,6 +918,29 @@ function AppShell() {
                       <div><small>Status</small><strong>{selectedFinding.status}</strong></div>
                     </div>
                   </div>
+                  <div className="detail-section">
+                    <span className="detail-label">Next action</span>
+                    <div className="finding-status-actions">
+                      <a
+                        className="solid-button"
+                        href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
+                      >
+                        Review evidence
+                      </a>
+                      <button
+                        className="outline-button"
+                        type="button"
+                        disabled={retestBusy}
+                        onClick={() => {
+                          setUrl(selectedFinding.url);
+                          void runRetest();
+                        }}
+                      >
+                        {retestBusy ? "Re-testing…" : "Re-test"}
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="detail-section">
                     <span className="detail-label">Status</span>
                     <div className="finding-status-actions">
@@ -769,6 +958,16 @@ function AppShell() {
                     </div>
                   </div>
 
+                  {retestComparison?.comparison.findingId === selectedFinding.id && (
+                    <div className="detail-section retest-inline-result">
+                      <span className="detail-label">Latest re-test</span>
+                      <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
+                      <small>
+                        Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
+                      </small>
+                    </div>
+                  )}
+
                   <div className="detail-section">
                     <span className="detail-label">Measurements</span>
                     <div className="measurement-line">
@@ -785,79 +984,52 @@ function AppShell() {
             </section>
           )}
 
-          {section === "evidence" && (
-            <section>
-              <div className="page-intro">
-                <div>
-                  <span className="eyebrow">Evidence</span>
-                  <h1>Inspect the measurement.</h1>
-                  <p>Facts stay separate from interpretation so a finding can be challenged and re-tested.</p>
-                </div>
-              </div>
-
-              <div className="evidence-workspace">
-                <div className="surface evidence-visual">
-                  <div className="evidence-canvas evidence-canvas-live">
-                    {selectedArtifact ? (
-                      <div className="artifact-frame">
-                        <div className="artifact-toolbar">
-                          <span>{selectedArtifact.id}</span>
-                          <span>{selectedArtifact.viewport.width} × {selectedArtifact.viewport.height}</span>
-                        </div>
-                        <div className="artifact-placeholder">
-                          <strong>Screenshot artifact captured.</strong>
-                          <span>Artifact {selectedArtifact.id} · image/png</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="artifact-empty">
-                        <strong>No screenshot artifact available.</strong>
-                        <span>This finding does not currently have a captured screenshot.</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <aside className="surface evidence-data">
-                  <span className="surface-kicker">Measurement</span>
-                  <h2>{selectedFinding.title}</h2>
-                  <div className="evidence-data-grid">
-                    <div><small>Viewport</small><strong>{selectedFinding.viewport.width} × {selectedFinding.viewport.height}</strong></div>
-                    <div><small>Selector</small><strong>{selectedFinding.selector ?? "—"}</strong></div>
-                    <div><small>Rule</small><strong>{selectedFinding.rule}</strong></div>
-                  </div>
-                  <div className="evidence-explanation">
-                    <span className="detail-label">Why detected</span>
-                    <p>{selectedFinding.description}</p>
-                  </div>
-                  {retestComparison?.ok && <div className={"retest-comparison outcome-" + retestComparison.comparison.outcome}><span className="detail-label">Re-test result</span><strong>{retestComparison.comparison.outcome}</strong><small>Session: {retestComparison.session.id}</small></div>}
-                  <div className="evidence-actions">
-                    <a className="solid-button" href="#app/findings">Back to finding</a>
-                    <button
-                      className="outline-button"
-                      type="button"
-                      onClick={() => {
-                        setUrl(selectedFinding.url);
-                        window.location.hash = "#app/overview";
-                      }}
-                    >
-                      Re-test
-                    </button>
-                  </div>
-                </aside>
-              </div>
-            </section>
-          )}
-
           {section === "history" && (
             <section>
               <div className="page-intro">
                 <div>
-                  <span className="eyebrow">History</span>
-                  <h1>See how the site changes.</h1>
-                  <p>Previous scans become the baseline for improvement, comparison, and re-test.</p>
+                  <span className="eyebrow">{currentSite}</span>
+                  <h1>Scan history.</h1>
+                  <p>Use previous scans as the baseline for what changed, what remains, and what to re-test.</p>
+                </div>
+                <a className="solid-button" href="#app/analyze">New scan</a>
+              </div>
+
+              <div className="history-summary surface">
+                <div><span>Scans</span><strong>{history?.ok ? history.sessions.length : 0}</strong><small>stored sessions</small></div>
+                <div><span>Latest findings</span><strong>{history?.ok && history.sessions[0] ? history.sessions[0].findings.length : 0}</strong><small>on most recent scan</small></div>
+                <div>
+                  <span>Change</span>
+                  <strong>
+                    {historyComparison
+                      ? historyComparison.newFindings.length + historyComparison.resolvedFindings.length
+                      : "—"}
+                  </strong>
+                  <small>
+                    {historyComparison?.previousSessionId ? "new + resolved since last scan" : "baseline scan"}
+                  </small>
                 </div>
               </div>
+
+              {historyComparison && historyComparison.previousSessionId && (
+                <div className="history-change-grid">
+                  <div className="surface">
+                    <span className="surface-kicker">New</span>
+                    <strong>{historyComparison.newFindings.length}</strong>
+                    <small>finding(s) not present in the previous scan.</small>
+                  </div>
+                  <div className="surface">
+                    <span className="surface-kicker">Resolved</span>
+                    <strong>{historyComparison.resolvedFindings.length}</strong>
+                    <small>finding(s) no longer present in the latest scan.</small>
+                  </div>
+                  <div className="surface">
+                    <span className="surface-kicker">Unchanged</span>
+                    <strong>{historyComparison.unchangedFindings.length}</strong>
+                    <small>finding(s) still present from the previous scan.</small>
+                  </div>
+                </div>
+              )}
 
               <div className="history-table surface">
                 <div className="history-header">
@@ -891,7 +1063,7 @@ function AppShell() {
                           })),
                         });
                         setSelectedFindingId(session.findings[0]?.id ?? null);
-                        window.location.hash = "#app/findings";
+                        window.location.hash = "#app/findings" + (session.findings[0] ? "?finding=" + encodeURIComponent(session.findings[0].id) : "");
                       }}
                     >
                       <strong>{session.id}</strong>
@@ -916,12 +1088,12 @@ function AppShell() {
             <section className="settings-layout">
               <div className="page-intro">
                 <span className="eyebrow">Settings</span>
-                <h1>Workspace settings.</h1>
-                <p>Account, scan defaults, and future project configuration live here.</p>
+                <h1>Site settings.</h1>
+                <p>Scan defaults and account configuration for the website you are working on.</p>
               </div>
 
               <div className="settings-list surface">
-                <div><span>Workspace</span><strong>My workspace</strong><small>Personal</small></div>
+                <div><span>Website</span><strong>{url ? displayHostname(url) : "No website selected"}</strong><small>Current audit target</small></div>
                 <div><span>Scan API</span><strong>{import.meta.env.VITE_SCAN_API_URL || "Not configured"}</strong><small>Environment configuration</small></div>
                 <div><span>Default viewports</span><strong>390 × 844 and 1440 × 900</strong><small>Controlled scanner presets</small></div>
               </div>

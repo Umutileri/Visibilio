@@ -3,7 +3,7 @@ import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
 import { handleScanRequest, validateScanUrl } from "./handleScanRequest";
 import { createScanSession } from "./session";
-import { assertSafeTarget } from "./urlSafety";
+import { assertSafeNavigationTarget, assertSafeTarget } from "./urlSafety";
 
 let server: Server;
 let baseUrl: string;
@@ -59,6 +59,30 @@ describe("assertSafeTarget", () => {
   it("rejects localhost hostnames", async () => {
     await assert.rejects(assertSafeTarget(new URL("http://localhost")));
     await assert.rejects(assertSafeTarget(new URL("http://api.localhost")));
+  });
+});
+
+describe("assertSafeNavigationTarget", () => {
+  it("rejects non-http navigation destinations", async () => {
+    await assert.rejects(
+      assertSafeNavigationTarget("javascript:alert(1)"),
+    );
+    await assert.rejects(
+      assertSafeNavigationTarget("file:///tmp/page"),
+    );
+  });
+
+  it("rejects local navigation destinations", async () => {
+    await assert.rejects(
+      assertSafeNavigationTarget("http://127.0.0.1:8787"),
+    );
+    await assert.rejects(
+      assertSafeNavigationTarget("http://localhost:8787"),
+    );
+  });
+
+  it("rejects malformed navigation destinations", async () => {
+    await assert.rejects(assertSafeNavigationTarget("not-a-url"));
   });
 });
 

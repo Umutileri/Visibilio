@@ -13,6 +13,8 @@ export interface ScanArtifact {
 export interface ScanSession {
   id: string;
   url: string;
+  siteKey: string;
+  siteName: string;
   parentSessionId?: string;
   retestOfFindingId?: string;
   status: ScanStatus;
@@ -26,6 +28,14 @@ export interface ScanSession {
 
 export interface ScanSessionStart {
   url: string;
+}
+
+export interface WebsiteRef {
+  key: string;
+  name: string;
+  url: string;
+  createdAt?: string;
+  lastScanAt?: string;
 }
 
 export interface ScanSessionResponse {

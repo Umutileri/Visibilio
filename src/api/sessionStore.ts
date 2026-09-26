@@ -1,43 +1,33 @@
 import type { ScanSession } from "./sessionTypes";
+import { createInMemoryStorage, defaultStorage } from "./storage";
 
 export interface ScanSessionStore {
   create(session: ScanSession): Promise<ScanSession>;
   get(id: string): Promise<ScanSession | null>;
   update(session: ScanSession): Promise<ScanSession>;
-  list(): Promise<ScanSession[]>;
+  list(siteKey?: string): Promise<ScanSession[]>;
 }
+
+export const defaultScanSessionStore: ScanSessionStore = defaultStorage.scans;
 
 export class InMemoryScanSessionStore implements ScanSessionStore {
-  private readonly sessions = new Map<string, ScanSession>();
+  private readonly store = createInMemoryStorage().scans;
 
-  async create(session: ScanSession): Promise<ScanSession> {
-    if (this.sessions.has(session.id)) {
-      throw new Error("A scan session with this id already exists.");
-    }
-
-    this.sessions.set(session.id, session);
-    return session;
+  create(session: ScanSession): Promise<ScanSession> {
+    return this.store.create(session);
   }
 
-  async get(id: string): Promise<ScanSession | null> {
-    return this.sessions.get(id) ?? null;
+  get(id: string): Promise<ScanSession | null> {
+    return this.store.get(id);
   }
 
-  async update(session: ScanSession): Promise<ScanSession> {
-    if (!this.sessions.has(session.id)) {
-      throw new Error("Cannot update an unknown scan session.");
-    }
-
-    this.sessions.set(session.id, session);
-    return session;
+  update(session: ScanSession): Promise<ScanSession> {
+    return this.store.update(session);
   }
 
-  async list(): Promise<ScanSession[]> {
-    return [...this.sessions.values()].sort((left, right) =>
-      right.createdAt.localeCompare(left.createdAt),
-    );
+  list(siteKey?: string): Promise<ScanSession[]> {
+    return this.store.list(siteKey);
   }
 }
 
-export const defaultScanSessionStore = new InMemoryScanSessionStore();
-
+export { defaultStorage };

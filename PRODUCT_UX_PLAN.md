@@ -20,9 +20,12 @@ Primary areas:
 - Overview
 - Analyze
 - Findings
-- Evidence
 - History
 - Settings
+
+Evidence is a finding-level detail surface, reached from a finding rather than promoted to a top-level destination.
+
+The product should be organized around the **website being audited**. "Workspace" may exist internally as an account/tenancy boundary, but it should not be the primary navigation or headline concept in the MVP.
 
 Keep navigation stable and predictable. Do not use a floating navigation rail. Keep the main content visually dominant on desktop and mobile.
 
@@ -67,11 +70,15 @@ Use progressive disclosure for selectors and implementation detail.
 ## C — SaaS structure
 
 ### C1 — History
-Show scan time, site/project, finding count, status, and entry to scan details.
+Show scan time, website, finding count, status, and entry to the selected scan's findings.
 
-### C2 — Projects
+The history surface should answer "what changed on this site?" rather than behave like an infrastructure log. Keep the scan id available as technical metadata, not as the primary label.
+
+### C2 — Websites
 Use the model:
-**User → Website/Project → Scans → Findings → Evidence**
+**User → Account/Workspace (internal) → Website → Scans → Findings → Evidence**
+
+A user should be able to have multiple websites later without introducing project-management semantics that do not yet exist. A "project" abstraction can be introduced when the product has a real need for grouping multiple sites, environments, or collaborators.
 
 ### C3 — Comparison
 Start with:
