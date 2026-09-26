@@ -2466,3 +2466,21 @@
   .landing-proof-list article { padding: 24px 20px; }
   .landing-retest-story h2 { max-width: 12ch; }
 }
+
+/* Outcome animation contract */
+@keyframes visibilio-outcome-before {
+  0%, 38% { opacity: 1; transform: translateY(0); }
+  48%, 100% { opacity: .5; transform: translateY(2px); }
+}
+@keyframes visibilio-outcome-after {
+  0%, 38% { opacity: .5; transform: translateY(2px); }
+  48%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes visibilio-outcome-overflow {
+  0%, 38% { opacity: 1; transform: translateX(0); }
+  48%, 100% { opacity: 0; transform: translateX(12px); }
+}
+@keyframes visibilio-outcome-resolved {
+  0%, 38% { opacity: 0; transform: translateY(5px) scale(.96); }
+  48%, 100% { opacity: 1; transform: translateY(0) scale(1); }
+}
