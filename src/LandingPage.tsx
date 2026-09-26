@@ -186,7 +186,7 @@ function ProductProof({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section className="landing-proof-section">
+    <section className="landing-proof-section" aria-labelledby="proof-title">
       <div className="landing-container">
         <div className="landing-proof-heading">
           <div className="landing-proof-intro">
@@ -194,10 +194,22 @@ function ProductProof({ t }: { t: Record<string, string> }) {
             <span className="landing-display-label">02</span>
           </div>
           <div>
-            <h2 dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
+            <div className="landing-proof-kicker">FROM SIGNAL TO ACTION</div>
+            <h2 id="proof-title" dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
             <p className="landing-proof-lead">{t.proofLead}</p>
           </div>
         </div>
+
+        <div className="landing-workflow-strip" aria-label="Find measure explain fix and re-test">
+          <span className="is-active"><b>01</b> Find</span>
+          <i aria-hidden="true">→</i>
+          <span><b>02</b> Measure</span>
+          <i aria-hidden="true">→</i>
+          <span><b>03</b> Explain</span>
+          <i aria-hidden="true">→</i>
+          <span><b>04</b> Re-test</span>
+        </div>
+
         <div className="landing-proof-list">
           {proofItems.map(([number, title, copy]) => (
             <article key={number}>
