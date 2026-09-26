@@ -89,8 +89,8 @@ describe("InMemoryScanSessionStore", () => {
 
   it("keeps different effective ports as separate websites", async () => {
     const store = new InMemoryScanSessionStore();
-    const httpsSite = createScanSession("https://example.com");
-    const stagingSite = createScanSession("http://example.com:8080");
+    const httpsSite = { ...createScanSession("https://example.com"), id: "scan_https" };
+    const stagingSite = { ...createScanSession("http://example.com:8080"), id: "scan_staging" };
 
     await store.create(httpsSite);
     await store.create(stagingSite);
