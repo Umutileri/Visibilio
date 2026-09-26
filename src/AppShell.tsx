@@ -16,13 +16,10 @@ type AppSection =
   | "settings";
 
 type RetestUiComparison = {
-  session: {
-    id: string;
-    siteName: string;
-  };
+  session: { id: string; siteName: string };
   comparison: {
     findingId: string;
-    outcome: "resolved" | "still-present";
+    outcome: "resolved" | "still-present" | "inconclusive";
   };
 };
 
@@ -282,7 +279,7 @@ function AppShell() {
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            outcome: comparison ? "still-present" : "resolved",
+            outcome: comparison ? "still-present" : "inconclusive",
           },
         });
         setResponse({
@@ -460,6 +457,8 @@ function AppShell() {
   const issuesVisible = filteredFindings;
   const currentSite = displayHostname(url);
   const issueLabel = findings.length === 1 ? "finding" : "findings";
+  const canRetry = Boolean(url.trim()) && !isScanning;
+
   const selectedArtifact = response?.ok && selectedFinding
     ? response.session.artifacts.find(
         (artifact) =>
@@ -783,7 +782,20 @@ function AppShell() {
                   <span>2 controlled viewports</span>
                   <span>Evidence-first</span>
                 </div>
-                {error && <div className="inline-error">{error}</div>}
+                {error && (
+                  <div className="inline-error">
+                    <span>{error}</span>
+                    {canRetry && (
+                      <button
+                        className="text-link"
+                        type="button"
+                        onClick={() => void runScan()}
+                      >
+                        Retry
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="scan-stages" aria-live="polite">
@@ -957,9 +969,9 @@ function AppShell() {
                     {retestComparison?.comparison.findingId === selectedFinding.id && (
                       <div className="detail-section retest-inline-result">
                         <span className="detail-label">Latest re-test</span>
-                        <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
+                        <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : retestComparison.comparison.outcome === "still-present" ? "Still present in the re-test" : "Could not confirm resolution"}</strong>
                         <small>
-                          Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
+                          {retestComparison.comparison.outcome === "inconclusive" ? "The tested viewport completed, but the original finding could not be matched after the page structure changed." : "Same rule · " + retestComparison.session.siteName + " · " + retestComparison.session.id}
                         </small>
                       </div>
                     )}
