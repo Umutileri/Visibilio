@@ -210,7 +210,7 @@ describe("finding retest route", () => {
     const retest = { ...createScanSession(session.url), parentSessionId: session.id, retestOfFindingId: finding.id, status: "completed" as const };
     await handleScanRetestRequest(capture.response, session.id, finding.id, async () => withFinding, async () => ({ ...retest, results: [] }));
     const result = capture.read();
-    assert.equal(result.statusCode, 200);
+    assert.equal(result.statusCode, 202);
     assert.equal((result.body as { ok: boolean }).ok, true);
     assert.equal((result.body as { session: ScanSession }).session.parentSessionId, session.id);
   });
