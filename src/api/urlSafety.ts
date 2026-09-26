@@ -58,3 +58,22 @@ export async function assertSafeTarget(url: URL): Promise<void> {
     );
   }
 }
+
+
+export async function assertSafeNavigationTarget(
+  rawUrl: string,
+): Promise<void> {
+  let url: URL;
+
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    throw new Error("Navigation ended on an invalid URL.");
+  }
+
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new Error("Navigation ended on an unsupported protocol.");
+  }
+
+  await assertSafeTarget(url);
+}

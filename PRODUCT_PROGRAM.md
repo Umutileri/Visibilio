@@ -27,21 +27,23 @@ The product should create recurring value, not a one-off report:
 - Treat the landing page itself as a demonstration of Visibilio's UI-quality standard
 
 ### Product shell
-- Project / website context
+- Website context as the primary product object
 - Overview
-- Analyze
-- Findings
-- Evidence
-- History
+- Analyze / new audit
+- Findings with inline evidence + next actions
+- Scan history
 - Settings
+- Evidence is a finding-level destination, not a top-level navigation item
+
+The MVP shell should not expose "Workspace" as a primary user-facing concept. A workspace can remain an internal tenancy/account boundary for future authentication, billing, collaboration, and project isolation, but the product UI should lead with the website being audited.
 
 Do not reintroduce a floating navigation rail. Keep the shell conventional, calm, and information-dense.
 
 ## Core domain model
 
 User
-  -> Workspace
-      -> Project / Website
+  -> Account / Workspace (internal tenancy boundary)
+      -> Website
           -> ScanSession
               -> ViewportResult
                   -> Issue
@@ -78,6 +80,8 @@ Status: complete for current rule set.
 
 ### P2 — Scan execution boundary
 Status: in progress.
+
+Current boundary: localhost-bound API + deterministic scanner. Public scanning remains disabled until redirect/navigation SSRF enforcement, DNS rebinding resistance, browser isolation, and resource/cost controls are complete.
 
 - [x] Typed server API contract
 - [x] HTTP/HTTPS validation
@@ -124,15 +128,17 @@ Status: partially complete.
 ### P5 — Scan Session + persistence boundary
 Goal: turn one scan response into a reusable product object.
 
-- [ ] Define ScanSession contract
-- [ ] Define stable scan id
-- [ ] Record started/completed timestamps
-- [ ] Record scan status
-- [ ] Store viewport results
-- [ ] Store findings
-- [ ] Store evidence artifact references
-- [ ] Separate current session from prior sessions
-- [ ] Add local persistence first, backend persistence later
+- [x] Define ScanSession contract
+- [x] Define stable scan id
+- [x] Record started/completed timestamps
+- [x] Record scan status
+- [x] Store viewport results
+- [x] Store findings
+- [x] Store evidence artifact references
+- [x] Separate current session from prior sessions
+- [x] Add local in-memory Website/Scan stores as the domain boundary
+- [x] Add durable PostgreSQL persistence adapter + explicit migration path
+- [ ] Add persistence-backed production deployment validation
 
 ### P6 — AI Explanation
 Goal: explain findings without changing evidence.
@@ -168,15 +174,18 @@ Goal: verify whether a change changed the measured result.
 - [ ] Changed-structure handling
 - [ ] Re-test history
 
-### P9 — Projects + History
-Goal: make Visibilio useful repeatedly.
+### P9 — Websites + History
+Goal: make Visibilio useful repeatedly without exposing workspace/project semantics.
 
-- [ ] Website/project entity
-- [ ] Project switcher
-- [ ] Scan history
-- [ ] Previous/current comparison
-- [ ] Findings resolved since previous scan
-- [ ] New findings since previous scan
+- [x] Website entity contract
+- [x] In-memory Website store
+- [x] Website switcher
+- [x] Site-scoped scan history
+- [x] Scan history
+- [x] Previous/current comparison model
+- [x] Findings resolved since previous scan
+- [x] New findings since previous scan
+- [x] History movement summary
 - [ ] Overview “health movement” summary
 - [ ] Persistent evidence/artifacts
 

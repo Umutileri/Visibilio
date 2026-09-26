@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { chromium } from "playwright";
 import { runDetectionRules } from "./detectionRules";
+import { assertSafeNavigationTarget } from "../api/urlSafety";
 import { initialViewports } from "./viewports";
 import type { ScanResult, ViewportPreset } from "./types";
 
@@ -12,6 +13,11 @@ const issueNow = () => new Date().toISOString();
 
 export interface ScanOptions {
   evidenceDir?: string;
+  /**
+   * Internal/test hook for navigation policy. Production callers should use
+   * the default SSRF-safe policy.
+   */
+  navigationGuard?: (url: string) => Promise<void>;
 }
 
 function screenshotFileName(viewport: ViewportPreset): string {
@@ -35,12 +41,30 @@ export async function scanPage(
     });
 
     page.setDefaultTimeout(DEFAULT_TIMEOUT_MS);
+    const navigationGuard =
+      options.navigationGuard ?? assertSafeNavigationTarget;
+
+    await page.route("**/*", async (route) => {
+      const request = route.request();
+      if (request.isNavigationRequest()) {
+        try {
+          await navigationGuard(request.url());
+        } catch {
+          await route.abort("blockedbyclient");
+          return;
+        }
+      }
+      await route.continue();
+    });
 
     try {
       await page.goto(url, {
         waitUntil: "domcontentloaded",
         timeout: DEFAULT_TIMEOUT_MS,
       });
+
+      const finalUrl = page.url();
+      await navigationGuard(finalUrl);
 
       const dimensions = await page.evaluate(() => {
         const documentElement = document.documentElement;

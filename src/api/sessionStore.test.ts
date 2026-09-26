@@ -74,4 +74,31 @@ describe("InMemoryScanSessionStore", () => {
       [newer.id + "_newer", older.id + "_older"],
     );
   });
+  it("filters history by canonical website key", async () => {
+    const store = new InMemoryScanSessionStore();
+    const example = { ...createScanSession("https://www.example.com/pricing"), id: "scan_example" };
+    const other = { ...createScanSession("https://other.example"), id: "scan_other" };
+
+    await store.create(example);
+    await store.create(other);
+
+    const sessions = await store.list("example.com:443");
+
+    assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com:443"]);
+  });
+
+  it("keeps different effective ports as separate websites", async () => {
+    const store = new InMemoryScanSessionStore();
+    const httpsSite = { ...createScanSession("https://example.com"), id: "scan_https" };
+    const stagingSite = { ...createScanSession("http://example.com:8080"), id: "scan_staging" };
+
+    await store.create(httpsSite);
+    await store.create(stagingSite);
+
+    assert.equal(httpsSite.siteKey, "example.com:443");
+    assert.equal(stagingSite.siteKey, "example.com:8080");
+    assert.equal((await store.list("example.com:443")).length, 1);
+    assert.equal((await store.list("example.com:8080")).length, 1);
+  });
+
 });

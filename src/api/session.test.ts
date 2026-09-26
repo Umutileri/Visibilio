@@ -14,6 +14,8 @@ describe("scan session", () => {
     assert.match(session.id, /^scan_/);
     assert.equal(session.status, "queued");
     assert.equal(session.url, "https://example.com");
+    assert.equal(session.siteKey, "example.com:443");
+    assert.equal(session.siteName, "example.com");
     assert.deepEqual(session.results, []);
     assert.deepEqual(session.findings, []);
   });
@@ -37,5 +39,16 @@ describe("scan session", () => {
     assert.equal(updated.url, session.url);
     assert.equal(updated.status, "scanning");
     assert.equal(updated.startedAt, "2026-09-20T12:00:00.000Z");
+  });
+});
+
+describe("website identity", () => {
+  it("normalizes website identity from the scan URL", async () => {
+    const { getWebsiteKey, getWebsiteName } = await import("./session");
+    assert.equal(getWebsiteKey("https://WWW.Example.com/pricing"), "example.com:443");
+    assert.equal(getWebsiteKey("http://example.com"), "example.com:80");
+    assert.equal(getWebsiteKey("http://example.com:8080"), "example.com:8080");
+    assert.equal(getWebsiteName("https://example.com/pricing"), "example.com");
+    assert.equal(getWebsiteName("https://WWW.Example.com/pricing"), "example.com");
   });
 });

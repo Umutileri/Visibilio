@@ -1,4 +1,4 @@
-import type { ScanResult, UIssue, ViewportPreset } from "../scanner/types";
+import type { ScanResult, ViewportPreset } from "../scanner/types";
 import type { ScanSession } from "./sessionTypes";
 
 export interface ScanApiRequest {
@@ -64,12 +64,6 @@ export interface ScanRetestRequest {
 export interface ScanRetestSuccess {
   ok: true;
   session: ScanSession;
-  comparison: {
-    findingId: string;
-    before: UIssue;
-    after?: UIssue;
-    outcome: "resolved" | "still-present" | "not-found";
-  };
 }
 
 export type ScanRetestResponse = ScanRetestSuccess | ScanApiFailure;
@@ -80,3 +74,11 @@ export interface ScanSessionStartSuccess {
 }
 
 export type ScanSessionStartResponse = ScanSessionStartSuccess | ScanApiFailure;
+
+
+export interface WebsiteListSuccess {
+  ok: true;
+  websites: import("./sessionTypes").WebsiteRef[];
+}
+
+export type WebsiteListResponse = WebsiteListSuccess | ScanApiFailure;

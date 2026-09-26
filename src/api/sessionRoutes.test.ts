@@ -9,6 +9,7 @@ import {
   handleScanSessionCancelRequest,
   handleScanArtifactGetRequest,
   handleScanRetestRequest,
+  handleWebsiteListRequest,
 } from "./sessionRoutes";
 
 function createResponseCapture() {
@@ -124,6 +125,21 @@ describe("session cancellation route", () => {
     assert.equal(result.statusCode, 404);
   });
 
+  it("rejects cancellation after a cancelled state", async () => {
+    const capture = createResponseCapture();
+    const session = { ...createScanSession("https://example.com"), status: "cancelled" as const };
+
+    await handleScanSessionCancelRequest(
+      capture.response,
+      session.id,
+      async () => session,
+      async (next) => next,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 409);
+  });
+
   it("rejects cancellation after a terminal state", async () => {
     const capture = createResponseCapture();
     const session = { ...createScanSession("https://example.com"), status: "completed" as const };
@@ -194,7 +210,7 @@ describe("finding retest route", () => {
     const retest = { ...createScanSession(session.url), parentSessionId: session.id, retestOfFindingId: finding.id, status: "completed" as const };
     await handleScanRetestRequest(capture.response, session.id, finding.id, async () => withFinding, async () => ({ ...retest, results: [] }));
     const result = capture.read();
-    assert.equal(result.statusCode, 200);
+    assert.equal(result.statusCode, 202);
     assert.equal((result.body as { ok: boolean }).ok, true);
     assert.equal((result.body as { session: ScanSession }).session.parentSessionId, session.id);
   });
@@ -260,5 +276,26 @@ describe("finding status route", () => {
 
     const result = capture.read();
     assert.equal(result.statusCode, 404);
+  });
+});
+
+describe("website routes", () => {
+  it("returns websites from the website store", async () => {
+    const capture = createResponseCapture();
+    const websites = [
+      {
+        key: "example.com:443",
+        name: "example.com",
+        url: "https://example.com",
+        createdAt: "2026-09-26T10:00:00.000Z",
+        lastScanAt: "2026-09-26T10:00:00.000Z",
+      },
+    ];
+
+    await handleWebsiteListRequest(capture.response, Promise.resolve(websites));
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.deepEqual(result.body, { ok: true, websites });
   });
 });

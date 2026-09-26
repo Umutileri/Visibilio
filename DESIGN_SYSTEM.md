@@ -140,9 +140,10 @@ The UI should help users understand website problems, not create more visual noi
 
 ## Product shell UX
 
-The application shell uses a conventional persistent workspace layout. Do not reintroduce a floating navigation rail.
+The application shell uses a conventional persistent site-audit layout. Do not reintroduce a floating navigation rail.
 
-Primary navigation: Overview, Analyze, Findings, Evidence, History, Settings.
+Primary navigation: Overview, Analyze, Findings, History, Settings.
+Evidence is a finding-level detail surface reached from a finding, not a top-level section. "Workspace" is an internal account/tenancy concept and should not dominate user-facing copy in the MVP.
 
 The screen hierarchy should prioritize project/website context, current scan state, findings summary, finding detail, evidence, and next action. Important state must never depend on hover alone. Preserve the URL during retry/error flows and keep the selected finding when moving between Findings and Evidence.
 

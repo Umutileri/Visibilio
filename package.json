@@ -13,7 +13,8 @@
     "test:scanner": "tsx --test src/scanner/*.test.ts",
     "test:api": "tsx --test src/api/*.test.ts",
     "ci": "npm run build && npm run lint && npm run format:check && npm run test:scanner && npm run test:api",
-    "scan:api": "tsx src/api/server.ts"
+    "scan:api": "tsx src/api/server.ts",
+    "db:migrate": "tsx src/api/runMigrations.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "4.1.13",
@@ -21,7 +22,8 @@
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "tailwindcss": "4.1.13",
-    "vite": "7.1.7"
+    "vite": "7.1.7",
+    "pg": "8.16.3"
   },
   "devDependencies": {
     "@eslint/js": "9.36.0",
@@ -35,6 +37,7 @@
     "prettier": "3.6.2",
     "tsx": "4.19.2",
     "typescript": "~5.9.2",
-    "typescript-eslint": "8.44.0"
+    "typescript-eslint": "8.44.0",
+    "@types/pg": "8.15.5"
   }
 }
