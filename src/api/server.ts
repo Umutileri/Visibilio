@@ -57,8 +57,7 @@ function writeNotFound(response: ServerResponse): void {
   response.writeHead(404, { "content-type": "application/json" });
   response.end(JSON.stringify({ ok: false, error: { code: "NOT_FOUND", message: "Route not found." } }));
 }
-const port = Number(process.env.PORT ?? 8787);
-const MAX_REQUEST_BODY_BYTES = 32_000;
+
 
 async function startServer(): Promise<void> {
   const defaultStorage: VisibilioStorage = await createStorageFromEnv();
