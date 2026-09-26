@@ -398,7 +398,7 @@ export default function LandingPage() {
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
-                <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
+                <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span aria-hidden="true">↗</span></button>
                 <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span>↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
@@ -527,7 +527,7 @@ export default function LandingPage() {
               <p>{t.resultBody}</p>
               <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
-            <div className="landing-outcome-visual" aria-label={language === "TR" ? "Taşma sorununun önce ve sonra ölçümü" : "Before and after UI measurement"}>
+            <div className="landing-outcome-visual" aria-label={language === "TR" ? "Arayüz sorununun önce ve sonra ölçümü" : "Before and after UI measurement"}>
               <div className="outcome-visual-head">
                 <span>{t.outcomeChange}</span>
                 <b>{t.outcomeRule}</b>
@@ -576,7 +576,7 @@ export default function LandingPage() {
               <h2 dangerouslySetInnerHTML={{ __html: t.finalTitle }} />
               <p>{t.finalBodyCopy}</p>
             </div>
-            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>{t.finalSetup}</small></div>
+            <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span aria-hidden="true">↗</span></button><small>{t.finalSetup}</small></div>
           </div>
         </section>
       </main>
