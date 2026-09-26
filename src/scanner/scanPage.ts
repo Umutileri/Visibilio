@@ -42,6 +42,7 @@ export async function scanPage(
   let responseBytes = 0;
   let resourceLimitExceeded = false;
   let resourceLimitError: Error | undefined;
+  let durationLimitExceeded = false;
 
   try {
     const page = await browser.newPage({
@@ -57,7 +58,7 @@ export async function scanPage(
 
     await page.route("**/*", async (route) => {
       if (Date.now() - startedAt > maxDurationMs) {
-        resourceLimitExceeded = true;
+        durationLimitExceeded = true;
         await route.abort("timedout");
         return;
       }
@@ -65,6 +66,7 @@ export async function scanPage(
       requestCount += 1;
       if (requestCount > maxRequests) {
         resourceLimitExceeded = true;
+        resourceLimitError = new Error("SCAN_RESOURCE_LIMIT: request budget exceeded.");
         await route.abort("blockedbyclient");
         return;
       }
@@ -85,6 +87,7 @@ export async function scanPage(
         responseBytes += body.byteLength;
         if (responseBytes > maxResponseBytes) {
           resourceLimitExceeded = true;
+          resourceLimitError = new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
           await route.abort("blockedbyclient");
           return;
         }
@@ -102,7 +105,10 @@ export async function scanPage(
       });
 
       if (resourceLimitExceeded || responseBytes > maxResponseBytes) {
-        throw resourceLimitError ?? new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
+        throw resourceLimitError ?? new Error("SCAN_RESOURCE_LIMIT: resource budget exceeded.");
+      }
+      if (durationLimitExceeded) {
+        throw new Error("SCAN_DURATION_LIMIT: scan duration exceeded.");
       }
 
       const finalUrl = page.url();
@@ -172,7 +178,8 @@ export async function scanPage(
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Unknown page error";
-      const isTimeout = /timeout/i.test(message);
+      const isTimeout =
+        durationLimitExceeded || /SCAN_DURATION_LIMIT|timeout/i.test(message);
       const isResourceLimit =
         resourceLimitExceeded || /SCAN_RESOURCE_LIMIT/i.test(message);
 
