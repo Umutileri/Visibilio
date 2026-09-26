@@ -116,12 +116,16 @@ export async function handleScanSessionCancelRequest(
     return;
   }
 
-  if (session.status === "completed" || session.status === "failed") {
+  if (
+    session.status === "completed" ||
+    session.status === "failed" ||
+    session.status === "cancelled"
+  ) {
     json(response, 409, {
       ok: false,
       error: {
         code: "INVALID_REQUEST",
-        message: "Completed scans cannot be cancelled.",
+        message: "Terminal scans cannot be cancelled.",
       },
     } satisfies ScanApiFailure);
     return;
