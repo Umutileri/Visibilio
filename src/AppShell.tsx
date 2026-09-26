@@ -260,7 +260,6 @@ function AppShell() {
         throw new Error(startData.ok ? "Could not start re-test." : startData.error.message);
       }
 
-      setRetestSessionId(startData.session.id);
       setUrl(startData.session.url);
 
       const poll = async (): Promise<void> => {
@@ -294,7 +293,6 @@ function AppShell() {
           url: pollData.session.url,
           results: pollData.session.results.map((scan) => ({ viewport: scan.viewport, scan })),
         });
-        setRetestSessionId(null);
       };
 
       await poll();
