@@ -12,7 +12,6 @@ type AppSection =
   | "overview"
   | "analyze"
   | "findings"
-  | "evidence"
   | "history"
   | "settings";
 
@@ -20,9 +19,8 @@ const sections: Array<{ id: AppSection; label: string; key: string }> = [
   { id: "overview", label: "Overview", key: "01" },
   { id: "analyze", label: "Analyze", key: "02" },
   { id: "findings", label: "Findings", key: "03" },
-  { id: "evidence", label: "Evidence", key: "04" },
-  { id: "history", label: "History", key: "05" },
-  { id: "settings", label: "Settings", key: "06" },
+  { id: "history", label: "History", key: "04" },
+  { id: "settings", label: "Settings", key: "05" },
 ];
 
 const sampleFindings: UIssue[] = [
@@ -52,7 +50,8 @@ const sampleFindings: UIssue[] = [
 ];
 
 function sectionFromHash(): AppSection {
-  const value = window.location.hash.replace("#app/", "") as AppSection;
+  const value = window.location.hash.replace("#app/", "").split("?")[0] as AppSection;
+  if (value === "evidence") return "findings";
   return sections.some((section) => section.id === value) ? value : "overview";
 }
 
@@ -93,7 +92,7 @@ function ShellLogo() {
 
 function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
-  const [focusedEvidenceId, setFocusedEvidenceId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
+  const [focusedFindingId, setFocusedFindingId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
   const [url, setUrl] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
@@ -164,11 +163,11 @@ function AppShell() {
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
 
   useEffect(() => {
-    if (!focusedEvidenceId) return;
-    if (findings.some((finding) => finding.id === focusedEvidenceId)) {
-      setSelectedFindingId(focusedEvidenceId);
+    if (!focusedFindingId) return;
+    if (findings.some((finding) => finding.id === focusedFindingId)) {
+      setSelectedFindingId(focusedFindingId);
     }
-  }, [focusedEvidenceId, findings]);
+  }, [focusedFindingId, findings]);
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
@@ -336,7 +335,7 @@ function AppShell() {
             setActiveScanSessionId(null);
             scanAbortRef.current = null;
             scanTimerRef.current = null;
-            window.location.hash = "#app/findings";
+            window.location.hash = "#app/findings" + (session.findings[0] ? "?finding=" + encodeURIComponent(session.findings[0].id) : "");
             return;
           }
 
@@ -413,27 +412,20 @@ function AppShell() {
             <ShellLogo />
             <span>Visibilio</span>
           </a>
-          <div className="workspace-switcher">
-            <span className="workspace-avatar">M</span>
+          <div className="workspace-switcher site-switcher" aria-label="Current website">
+            <span className="workspace-avatar site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
             <div className="workspace-copy">
-              <strong>My workspace</strong>
-              <small>Personal</small>
+              <strong>{url ? displayHostname(url) : "Your website"}</strong>
+              <small>{url ? "Active site" : "Add a site to begin"}</small>
             </div>
             <span className="workspace-chevron" aria-hidden="true">⌄</span>
           </div>
         </div>
 
         <div className="saas-sidebar-section">
-          <span className="saas-sidebar-label">Your website</span>
-          <div className="site-context-card">
-            <span className="site-context-mark">WEB</span>
-            <div>
-              <strong>{url ? displayHostname(url) : "No website yet"}</strong>
-              <small>{url ? "Ready to scan" : "Paste a page to begin"}</small>
-            </div>
-          </div>
+          <span className="saas-sidebar-label">Website</span>
           <nav aria-label="Primary">
-            {sections.filter((item) => item.id !== "overview").map((item) => (
+            {sections.map((item) => (
               <a
                 key={item.id}
                 href={"#app/" + item.id}
@@ -448,18 +440,14 @@ function AppShell() {
         </div>
 
         <div className="saas-sidebar-bottom">
-          <div className="quota-block">
-            <div><span>Usage</span><strong>3 / 20 scans</strong></div>
-            <div className="quota-track"><span /></div>
-            <small>17 scans remaining</small>
-          </div>
+          <a className="sidebar-meta-link" href="#app/analyze">+ New scan</a>
           <a className="sidebar-meta-link" href="#app/settings">Settings</a>
         </div>
       </aside>
       <div className="saas-main">
         <header className="saas-topbar">
           <div className="topbar-context">
-            <span className="topbar-kicker">Visibilio workspace</span>
+            <span className="topbar-kicker">Website</span>
             <strong>{displayHostname(url)}</strong>
           </div>
           <div className="topbar-actions">
@@ -473,17 +461,17 @@ function AppShell() {
             <>
               <section className="workspace-welcome">
                 <div className="workspace-welcome-copy">
-                  <span className="eyebrow">Workspace</span>
+                  <span className="eyebrow">Website overview</span>
                   <h1>{url ? "Let’s check your website." : "Start with a website."}</h1>
                   <p>
                     {url
-                      ? "Your page is ready. Start with a browser scan, then inspect the evidence behind what Visibilio finds."
-                      : "Paste a public page to create your first scan. Findings, evidence, and re-tests stay connected to the website you are working on."}
+                      ? "Your site is ready. Run a scan, inspect what was found, make the change, and re-test the same check."
+                      : "Paste a public page to create your first audit. Findings and re-tests stay attached to the site you are working on."}
                   </p>
                   {url && <div className="workspace-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
                   <div className="workspace-welcome-actions">
                     <a className="solid-button" href="#app/analyze">{url ? "Scan this page" : "Add a website"}</a>
-                    {url && <a className="text-link" href="#app/history">View history →</a>}
+                    {url && <a className="text-link" href="#app/history">See past scans →</a>}
                   </div>
                 </div>
                 <div className="workspace-flow-card">
@@ -518,8 +506,8 @@ function AppShell() {
                 <div className="surface surface-main">
                   <div className="surface-heading">
                     <div>
-                      <span className="surface-kicker">Current scan</span>
-                      <h2>{hasResults ? "Findings that need attention" : "Start with your first website"}</h2>
+                      <span className="surface-kicker">{hasResults ? "Latest scan" : "Get started"}</span>
+                      <h2>{hasResults ? "Findings that need attention" : "Run your first audit"}</h2>
                     </div>
                     <a href="#app/analyze">Analyze</a>
                   </div>
@@ -559,34 +547,34 @@ function AppShell() {
                 </div>
 
                 <aside className="surface surface-side">
-                  <span className="surface-kicker">Workflow</span>
+                  <span className="surface-kicker">Next steps</span>
                   <div className="workflow-steps">
                     <div className="workflow-step is-current">
                       <b>01</b>
                       <span>
                         <strong>Scan</strong>
-                        <small>Capture browser state</small>
+                        <small>Measure the site</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>02</b>
                       <span>
                         <strong>Inspect</strong>
-                        <small>Review evidence</small>
+                        <small>Open a finding</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>03</b>
                       <span>
                         <strong>Fix</strong>
-                        <small>Change the page</small>
+                        <small>Apply the next step</small>
                       </span>
                     </div>
                     <div className="workflow-step">
                       <b>04</b>
                       <span>
                         <strong>Re-test</strong>
-                        <small>Verify the result</small>
+                        <small>Measure again</small>
                       </span>
                     </div>
                   </div>
@@ -737,8 +725,8 @@ function AppShell() {
                     </div>
                     <a
                       className="outline-button"
-                      href={"#app/evidence?finding=" + encodeURIComponent(selectedFinding.id)}
-                      onClick={() => setFocusedEvidenceId(selectedFinding.id)}
+                      href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
+                      onClick={() => setFocusedFindingId(selectedFinding.id)}
                     >
                       Show evidence
                     </a>
@@ -785,7 +773,7 @@ function AppShell() {
             </section>
           )}
 
-          {section === "evidence" && (
+          {false && section === "evidence" && (
             <section>
               <div className="page-intro">
                 <div>
@@ -891,7 +879,7 @@ function AppShell() {
                           })),
                         });
                         setSelectedFindingId(session.findings[0]?.id ?? null);
-                        window.location.hash = "#app/findings";
+                        window.location.hash = "#app/findings" + (session.findings[0] ? "?finding=" + encodeURIComponent(session.findings[0].id) : "");
                       }}
                     >
                       <strong>{session.id}</strong>
