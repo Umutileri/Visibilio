@@ -42,7 +42,6 @@ describe("scan session", () => {
   });
 });
 
-
 describe("website identity", () => {
   it("normalizes website identity from the scan URL", async () => {
     const { getWebsiteKey, getWebsiteName } = await import("./session");
