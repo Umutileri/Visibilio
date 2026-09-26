@@ -11,7 +11,7 @@ type Language = "EN" | "TR";
 const translations: Record<Language, Record<string, string>> = {
   EN: {
     product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
-    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Know what to fix next.</em>,
+    heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Know what to fix next.</em>",
     heroBody: "Scan a real page, see measurable UI problems, understand the evidence, and verify the fix.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
@@ -27,7 +27,7 @@ const translations: Record<Language, Record<string, string>> = {
   },
   TR: {
     product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
-    heroEyebrow: "Gerçek tarayıcı verileriyle web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Sonraki düzeltmeyi netleştirin.</em>,
+    heroEyebrow: "Gerçek tarayıcı verileriyle web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Sonraki düzeltmeyi netleştirin.</em>",
     heroBody: "Gerçek bir sayfayı tarayın; ölçülebilir arayüz sorunlarını görün, kanıtı anlayın ve yaptığınız düzeltmeyi tekrar test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve tekrar test etmek için tek akış.",
     startWebsite: "Sayfanızla başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı birlikte bulalım.</em>",
