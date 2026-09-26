@@ -9,6 +9,7 @@ import {
   handleScanSessionCancelRequest,
   handleScanArtifactGetRequest,
   handleScanRetestRequest,
+  handleWebsiteListRequest,
 } from "./sessionRoutes";
 
 function createResponseCapture() {
@@ -260,5 +261,26 @@ describe("finding status route", () => {
 
     const result = capture.read();
     assert.equal(result.statusCode, 404);
+  });
+});
+
+describe("website routes", () => {
+  it("returns websites from the website store", async () => {
+    const capture = createResponseCapture();
+    const websites = [
+      {
+        key: "example.com:443",
+        name: "example.com",
+        url: "https://example.com",
+        createdAt: "2026-09-26T10:00:00.000Z",
+        lastScanAt: "2026-09-26T10:00:00.000Z",
+      },
+    ];
+
+    await handleWebsiteListRequest(capture.response, Promise.resolve(websites));
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 200);
+    assert.deepEqual(result.body, { ok: true, websites });
   });
 });
