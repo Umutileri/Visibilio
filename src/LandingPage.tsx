@@ -10,7 +10,7 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Fix what users notice.</em>",
     heroBody: "Scan a real page, see measurable UI problems, understand the evidence, and verify the fix.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
@@ -18,15 +18,15 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "One place to start. Paste a page, run the check, and get a finding you can act on.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Start free · the page stays attached to your audit.",
     productEyebrow: "Why Visibilio", productTitle: "“Something feels off.”<br /><span>Now you can see why.</span>",
     productBody: "A website can look wrong without telling you why. Visibilio starts with what actually happened in the browser—not a score, not a guess.",
-    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a vague feeling<br /><em>to a useful answer.</em>", proofLead: "See the issue, understand the evidence, make the change, and verify what actually improved.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.", audienceDevelopers:"Developers", audienceDevelopersTitle:"Find the bug faster.", audienceDevelopersCopy:"Get viewport measurements, selectors, rule details, and evidence you can reproduce.", audienceOwners:"Website owners", audienceOwnersTitle:"Know what deserves attention.", audienceOwnersCopy:"See the issue in plain language before you need to understand the implementation.", audienceDesigners:"Designers", audienceDesignersTitle:"See the context behind the page.", audienceDesignersCopy:"Connect visual observations to the tested viewport and the evidence underneath them.", audienceExplore:"Explore the workflow", evidenceLink:"See what we measure", productLink:"See how Visibilio thinks", whatYouGet:"01 / WHAT YOU GET", proofCaption:"A finding you can actually act on.", retestBefore:"BEFORE", retestAfter:"AFTER", retestOverflow:"overflow", retestWithin:"within viewport", retestFix:"FIX", retestRun:"RUN THE SAME CHECK", retestFoot:"Same rule · same viewport · measured again",
+    productBody2: "That turns a vague problem into a finding with context: what broke, where it happened, what was measured, and what to investigate next.", proofTitle: "From a<br />vague feeling<br /><em>to a useful answer.</em>", proofLead: "See the issue, understand the evidence, make the change, and verify what actually improved.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Improve", proofImproveCopy: "Make the change, re-run the same check, and see what actually moved.", audienceDevelopers:"Developers", audienceDevelopersTitle:"Find the bug faster.", audienceDevelopersCopy:"Get viewport measurements, selectors, rule details, and evidence you can reproduce.", audienceOwners:"Website owners", audienceOwnersTitle:"Know what deserves attention.", audienceOwnersCopy:"See the issue in plain language before you need to understand the implementation.", audienceDesigners:"Designers", audienceDesignersTitle:"See the context behind the page.", audienceDesignersCopy:"Connect visual observations to the tested viewport and the evidence underneath them.", audienceExplore:"Explore the workflow", evidenceLink:"See what we measure", productLink:"See how Visibilio thinks", whatYouGet:"01 / WHAT YOU GET", proofCaption:"A finding you can actually act on.", retestBefore:"BEFORE", retestAfter:"AFTER", retestOverflow:"overflow", retestWithin:"within viewport", retestFix:"FIX", retestRun:"RUN THE SAME CHECK", retestFoot:"Same rule · same viewport · measured again",
     audienceSection: "One product. Different reasons to use it.", audienceTitle: "Build it.<br /><em>Own it. Improve it.</em>", audienceSectionBody: "Visibilio gives each person behind a website the same useful starting point: a clear finding backed by evidence.",
-    evidenceEyebrow: "Evidence first", demoSite: "your-site.com", demoMeasurement: "MEASUREMENT", demoMobile: "mobile", confirmedFact: "CONFIRMED FACT", aiContext: "AI CONTEXT", evidenceSource: "Evidence source · browser measurement", demoIssue: "Content extends beyond the viewport.", demoRule: "responsive.horizontal-overflow", aiCopy: "This can create horizontal scrolling on smaller screens. Check fixed-width children and grid sizing first.", viewport: "viewport", document: "document", selector: "selector", px: "px", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>", evidenceBody: "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.", resultBody: "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.", resultEyebrow: "The outcome", resultTitle: "Know what changed.<br /><em>Not just what looked better.</em>", finalBodyCopy: "Made for developers, designers, and anyone responsible for a website.",
-    retestEyebrow: "The outcome", retestTitle: "Know what changed.<br /><em>Not just what looked better.</em>",
+    evidenceEyebrow: "Evidence first", demoSite: "your-site.com", demoMeasurement: "MEASUREMENT", demoMobile: "mobile", confirmedFact: "CONFIRMED FACT", aiContext: "AI CONTEXT", evidenceSource: "Evidence source · browser measurement", demoIssue: "Content extends beyond the viewport.", demoRule: "responsive.horizontal-overflow", aiCopy: "This can create horizontal scrolling on smaller screens. Check fixed-width children and grid sizing first.", viewport: "viewport", document: "document", selector: "selector", px: "px", evidenceTitle: "Know what was measured.<br /><em>Know what was suggested.</em>", evidenceBody: "Visibilio keeps browser evidence, deterministic findings, and AI context visibly separate—so a useful suggestion never gets mistaken for a measured fact.", resultBody: "A re-test gives you a concrete before-and-after result, so improvement is something you can inspect.", resultEyebrow: "The outcome", resultTitle: "See the fix.<br /><em>Then prove it stayed fixed.</em>", finalBodyCopy: "Made for developers, designers, and anyone responsible for a website.",
+    retestEyebrow: "The outcome", retestTitle: "See the fix.<br /><em>Then prove it stayed fixed.</em>",
     faqKicker: "Questions, answered.", faqTitle: "Frequently asked<br /><em>questions</em>", faqCheck:"What does Visibilio check?", faqCheckAnswer:"Visibilio measures real browser behavior and attaches viewport, selector, and measurement evidence to each finding.", faqWho:"Who is Visibilio for?", faqWhoAnswer:"Developers, designers, and website owners who need a reproducible view of real UI issues.", faqInstall:"Do I need to install anything?", faqInstallAnswer:"No. Start with a URL and run the browser-based audit from the app.", faqAi:"What does AI do?", faqAiAnswer:"AI adds context and suggested next steps while measured browser evidence stays separate.", faqRetest:"Can I verify a fix?", faqRetestAnswer:"Yes. Re-run the same check and compare the before and after measurements.", faqFree:"Can I try it for free?", faqFreeAnswer:"Yes. The landing flow starts with a free scan workflow.",
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", finalSetup: "No setup tour required.", footerTagline: "Website UI quality, backed by evidence.", languageLabel: "Language", openNavigation: "Open navigation", closeNavigation: "Close navigation", foundLabel: "FOUND", observedLabel: "OBSERVED", interpretedLabel: "INTERPRETED", beforeLabel: "BEFORE", afterLabel: "AFTER", overflowLabel: "overflow", withinViewportLabel: "within viewport", aiNotMeasurement: "AI-generated context · not a measurement", observedCopy: "34 px horizontal overflow", observedMeta: "viewport: 390 × 844 · selector: .pricing-grid", interpretedCopy: "Check fixed-width children and grid sizing first.", observedFact: "Document width is larger than the tested viewport."
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
     heroEyebrow: "Gerçek tarayıcı verileriyle web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Görünen problemi düzeltin.</em>",
     heroBody: "Gerçek bir sayfayı tarayın; ölçülebilir arayüz sorunlarını görün, kanıtı anlayın ve yaptığınız düzeltmeyi tekrar test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve tekrar test etmek için tek akış.",
@@ -34,10 +34,10 @@ const translations: Record<Language, Record<string, string>> = {
     urlBody: "Bir sayfa girin, kontrolü çalıştırın ve üzerinde harekete geçebileceğiniz net bir bulgu alın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Ücretsiz başlayın · sayfanız denetime bağlı kalır.",
     productEyebrow: "Neden Visibilio?", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
-    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir sorundan<br /><em>net bir sonraki adıma.</em>", proofLead: "Sorunu görün, tarayıcı kanıtını inceleyin, neyi değiştireceğinizi anlayın ve aynı kontrolle sonucu doğrulayın.", proofFind: "Bul", proofFindCopy: "Sorun büyümeden önce ölçülebilir UI problemlerini görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve ölçüm kanıtını tek yerde görün.", proofImprove: "Düzelt", proofImproveCopy: "Değişikliği yapın, aynı kontrolü tekrar çalıştırın ve gerçekten neyin düzeldiğini görün.", audienceDevelopers:"Geliştiriciler", audienceDevelopersTitle:"Hatanın kaynağını daha hızlı bulun.", audienceDevelopersCopy:"Viewport ölçümlerini, selector bilgilerini, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün.", audienceOwners:"Web sitesi sahipleri", audienceOwnersTitle:"Neyin öncelikli olduğunu bilin.", audienceOwnersCopy:"Uygulama ayrıntılarına girmeden önce sorunu anlaşılır biçimde görün.", audienceDesigners:"Tasarımcılar", audienceDesignersTitle:"Sayfanın arkasındaki bağlamı görün.", audienceDesignersCopy:"Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin.", audienceExplore:"Akışı keşfedin", evidenceLink:"Neleri ölçtüğümüzü görün", productLink:"Visibilio yaklaşımını görün", whatYouGet:"01 / NE ALIRSINIZ", proofCaption:"Üzerinde gerçekten harekete geçebileceğiniz bir bulgu.", retestBefore:"ÖNCE", retestAfter:"SONRA", retestOverflow:"taşma", retestWithin:"viewport içinde", retestFix:"DÜZELT", retestRun:"AYNI KONTROLÜ TEKRAR ÇALIŞTIR", retestFoot:"Aynı kural · aynı viewport · yeniden ölçüldü",
+    productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsiz bir<br />sorundan<br /><em>net bir sonraki adıma.</em>", proofLead: "Sorunu görün, tarayıcı kanıtını inceleyin, neyi değiştireceğinizi anlayın ve aynı kontrolle sonucu doğrulayın.", proofFind: "Bul", proofFindCopy: "Sorun büyümeden önce ölçülebilir UI problemlerini görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve ölçüm kanıtını tek yerde görün.", proofImprove: "Düzelt", proofImproveCopy: "Değişikliği yapın, aynı kontrolü tekrar çalıştırın ve gerçekten neyin düzeldiğini görün.", audienceDevelopers:"Geliştiriciler", audienceDevelopersTitle:"Hatanın kaynağını daha hızlı bulun.", audienceDevelopersCopy:"Viewport ölçümlerini, selector bilgilerini, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün.", audienceOwners:"Web sitesi sahipleri", audienceOwnersTitle:"Neyin öncelikli olduğunu bilin.", audienceOwnersCopy:"Uygulama ayrıntılarına girmeden önce sorunu anlaşılır biçimde görün.", audienceDesigners:"Tasarımcılar", audienceDesignersTitle:"Sayfanın arkasındaki bağlamı görün.", audienceDesignersCopy:"Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin.", audienceExplore:"Akışı keşfedin", evidenceLink:"Neleri ölçtüğümüzü görün", productLink:"Visibilio yaklaşımını görün", whatYouGet:"01 / NE ALIRSINIZ", proofCaption:"Üzerinde gerçekten harekete geçebileceğiniz bir bulgu.", retestBefore:"ÖNCE", retestAfter:"SONRA", retestOverflow:"taşma", retestWithin:"viewport içinde", retestFix:"DÜZELT", retestRun:"AYNI KONTROLÜ TEKRAR ÇALIŞTIR", retestFoot:"Aynı kural · aynı viewport · yeniden ölçüldü",
     audienceSection: "Aynı ürün. Farklı sorumluluklar.", audienceTitle: "Sorunu bulun.<br /><em>Kanıtı görün. Sonucu doğrulayın.</em>", audienceSectionBody: "Visibilio, web sitesinden sorumlu herkes için aynı başlangıcı sunar: kanıtlarla desteklenen net bir bulgu.",
-    evidenceEyebrow: "Önce kanıt", demoSite: "siteniz.com", demoMeasurement: "ÖLÇÜM", demoMobile: "mobil", confirmedFact: "ÖLÇÜLEN GERÇEK", aiContext: "AI BAĞLAMI", evidenceSource: "Kaynak · tarayıcı ölçümü", demoIssue: "İçerik görünüm alanını aşıyor.", demoRule: "responsive.horizontal-overflow", aiCopy: "Bu durum küçük ekranlarda yatay kaydırmaya yol açabilir. Önce sabit genişlikli öğeleri ve grid boyutlandırmasını kontrol edin.", viewport: "viewport", document: "belge", selector: "selector", px: "px", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini ayırın.</em>", evidenceBody: "Visibilio, tarayıcı kanıtını, ölçülebilir bulguları ve AI yorumunu açıkça ayırır; öneri ile ölçüm birbirine karışmaz.", resultBody: "Tekrar test, önceki ve sonraki ölçümü karşılaştırır; böylece değişikliğin gerçekten işe yarayıp yaramadığını görebilirsiniz.", resultEyebrow: "Sonuç", resultTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>", finalBodyCopy: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.",
-    retestEyebrow: "Sonuç", retestTitle: "Neyin değiştiğini bilin.<br /><em>Sadece daha iyi görünmesine güvenmeyin.</em>",
+    evidenceEyebrow: "Önce kanıt", demoSite: "siteniz.com", demoMeasurement: "ÖLÇÜM", demoMobile: "mobil", confirmedFact: "ÖLÇÜLEN GERÇEK", aiContext: "AI BAĞLAMI", evidenceSource: "Kaynak · tarayıcı ölçümü", demoIssue: "İçerik görünüm alanını aşıyor.", demoRule: "responsive.horizontal-overflow", aiCopy: "Bu durum küçük ekranlarda yatay kaydırmaya yol açabilir. Önce sabit genişlikli öğeleri ve grid boyutlandırmasını kontrol edin.", viewport: "viewport", document: "belge", selector: "selector", px: "px", evidenceTitle: "Ne ölçüldüğünü bilin.<br /><em>Ne önerildiğini ayırın.</em>", evidenceBody: "Visibilio, tarayıcı kanıtını, ölçülebilir bulguları ve AI yorumunu açıkça ayırır; öneri ile ölçüm birbirine karışmaz.", resultBody: "Tekrar test, önceki ve sonraki ölçümü karşılaştırır; böylece değişikliğin gerçekten işe yarayıp yaramadığını görebilirsiniz.", resultEyebrow: "Sonuç", resultTitle: "Düzeltmeyi görün.<br /><em>Sonucun kaldığını doğrulayın.</em>", finalBodyCopy: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.",
+    retestEyebrow: "Sonuç", retestTitle: "Düzeltmeyi görün.<br /><em>Sonucun kaldığını doğrulayın.</em>",
     faqKicker: "Sorular ve yanıtlar", faqTitle: "Sık sorulan<br /><em>sorular</em>", faqCheck:"Visibilio neyi kontrol ediyor?", faqCheckAnswer:"Visibilio gerçek tarayıcı davranışını ölçer ve her bulguya viewport, selector ve ölçüm kanıtını ekler.", faqWho:"Visibilio kimler için?", faqWhoAnswer:"Gerçek arayüz sorunlarını yeniden üretebilir biçimde görmek isteyen geliştiriciler, tasarımcılar ve web sitesi sahipleri için.", faqInstall:"Bir şey yüklemem gerekiyor mu?", faqInstallAnswer:"Hayır. Bir URL girin ve tarayıcı tabanlı denetimi uygulama üzerinden çalıştırın.", faqAi:"AI ne yapıyor?", faqAiAnswer:"AI, ölçülen tarayıcı kanıtından ayrı kalarak bağlam ve sonraki adım önerileri ekler.", faqRetest:"Bir düzeltmeyi doğrulayabilir miyim?", faqRetestAnswer:"Evet. Aynı kontrolü yeniden çalıştırıp önceki ve sonraki ölçümleri karşılaştırabilirsiniz.", faqFree:"Ücretsiz deneyebilir miyim?", faqFreeAnswer:"Evet. Başlangıç akışı ücretsiz bir taramayla başlar.",
     finalKicker: "Ücretsiz başla", finalTitle: "Bir sayfa verin.<br /><em>Sorunun nerede olduğunu görelim.</em>", finalBody: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", finalAction: "Ücretsiz başla", finalSetup: "Kurulum turuna gerek yok.", footerTagline: "Kanıtla desteklenen web sitesi arayüz kalitesi.", languageLabel: "Dil", openNavigation: "Menüyü aç", closeNavigation: "Menüyü kapat", foundLabel: "BULUNDU", observedLabel: "GÖZLEMLENEN", interpretedLabel: "YORUMLANAN", beforeLabel: "ÖNCE", afterLabel: "SONRA", overflowLabel: "taşma", withinViewportLabel: "viewport içinde", aiNotMeasurement: "AI bağlamı · ölçüm değildir", observedCopy: "34 px yatay taşma", observedMeta: "viewport: 390 × 844 · selector: .pricing-grid", interpretedCopy: "Sabit genişlikli öğeleri ve grid boyutlandırmasını önce kontrol edin.", observedFact: "Belge genişliği test edilen viewport’tan daha büyük."
   }
@@ -74,7 +74,7 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
       <div className="landing-window-head">
         <span /><span /><span />
         <code>visibilio / audit / responsive</code>
-        <b>LIVE CHECK</b>
+        <b>{t.liveCheck}</b>
       </div>
       <div className="landing-window-grid">
         <div className="landing-site-frame">
@@ -83,7 +83,7 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
             <span>{t.mobile} · 390 × 844</span>
           </div>
           <div className="landing-site-body">
-            <div className="landing-site-page-title">Pricing</div>
+            <div className="landing-site-page-title">{t.demoPageTitle}</div>
             <i className="line line-a" />
             <i className="line line-b" />
             <div className="landing-site-cards"><i /><i /><i /></div>
@@ -393,7 +393,7 @@ export default function LandingPage() {
             <div className="landing-hero-copy">
               <div className="landing-hero-label">
                 <span className="landing-eyebrow">{t.heroEyebrow}</span>
-                <span>REAL BROWSER CHECK</span>
+                <span>{t.browserCheck}</span>
               </div>
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
@@ -527,11 +527,42 @@ export default function LandingPage() {
               <p>{t.resultBody}</p>
               <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
-            <div className="landing-retest-visual">
-              <div className="result-before"><small>{t.beforeLabel}</small><b>34 px</b><span>{t.overflowLabel}</span></div>
-              <div className="result-divider"><span>{t.retestFix}</span><i>→</i></div>
-              <div className="result-after"><small>{t.afterLabel}</small><b>0 px</b><span>{t.withinViewportLabel}</span></div>
-              <div className="result-foot">{t.retestFoot}</div>
+            <div className="landing-outcome-visual" aria-label={language === "TR" ? "Taşma sorununun önce ve sonra ölçümü" : "Before and after UI measurement"}>
+              <div className="outcome-visual-head">
+                <span>{t.outcomeChange}</span>
+                <b>{t.outcomeRule}</b>
+              </div>
+              <div className="outcome-compare">
+                <div className="outcome-state outcome-before">
+                  <div className="outcome-state-label"><small>{t.beforeLabel}</small><span>390 × 844</span></div>
+                  <div className="outcome-page">
+                    <i className="outcome-page-line" />
+                    <i className="outcome-page-line short" />
+                    <div className="outcome-page-cards"><b /><b /><b /></div>
+                    <div className="outcome-overflow-marker"><strong>+34 px</strong><span>{t.overflowLabel}</span></div>
+                  </div>
+                  <strong className="outcome-metric">34 <small>px</small></strong>
+                </div>
+                <div className="outcome-transition">
+                  <span>{t.retestFix}</span>
+                  <i aria-hidden="true">→</i>
+                  <small>{t.retestRun}</small>
+                </div>
+                <div className="outcome-state outcome-after">
+                  <div className="outcome-state-label"><small>{t.afterLabel}</small><span>390 × 844</span></div>
+                  <div className="outcome-page">
+                    <i className="outcome-page-line" />
+                    <i className="outcome-page-line short" />
+                    <div className="outcome-page-cards"><b /><b /><b /></div>
+                    <div className="outcome-resolved-marker"><strong>✓</strong><span>{t.outcomeResolved}</span></div>
+                  </div>
+                  <strong className="outcome-metric">0 <small>px</small></strong>
+                </div>
+              </div>
+              <div className="outcome-foot">
+                <span>{t.retestFoot}</span>
+                <strong>34 px → 0 px</strong>
+              </div>
             </div>
           </div>
         </section>
@@ -552,7 +583,7 @@ export default function LandingPage() {
 
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
-          <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
+          <div><Brand/><p>{t.footerTagline}</p></div>
           <div className="landing-footer-links">{navLinks.map(([href,key])=><a key={href} href={href}>{t[key]}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">{t.workspace}</a></div>
           <small>Visibilio · 2026</small>
         </div>
