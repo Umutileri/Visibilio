@@ -3176,3 +3176,18 @@ input:focus-visible {
     right: 14px;
   }
 }
+
+
+.site-switcher-empty {
+  padding: 8px 9px;
+  color: rgb(21 45 53 / 42%);
+  font-size: .61rem;
+}
+
+.site-switcher-menu > button.is-current {
+  background: #edf5ef;
+}
+
+.site-switcher-menu > button.is-current small {
+  color: #2e5d4c;
+}
