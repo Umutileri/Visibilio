@@ -11,7 +11,8 @@ import {
   handleWebsiteListRequest,
 } from "./sessionRoutes";
 import { defaultStorage } from "./storage";
-const { scans: defaultScanSessionStore, websites: defaultWebsiteStore } = defaultStorage;
+const defaultScanSessionStore = defaultStorage.scans;
+const defaultWebsiteStore = defaultStorage.websites;
 
 const port = Number(process.env.PORT ?? 8787);
 const MAX_REQUEST_BODY_BYTES = 32_000;
