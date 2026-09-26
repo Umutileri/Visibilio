@@ -16,13 +16,10 @@ type AppSection =
   | "settings";
 
 type RetestUiComparison = {
-  session: {
-    id: string;
-    siteName: string;
-  };
+  session: { id: string; siteName: string };
   comparison: {
     findingId: string;
-    outcome: "resolved" | "still-present";
+    outcome: "resolved" | "still-present" | "inconclusive";
   };
 };
 
@@ -278,11 +275,21 @@ function AppShell() {
             finding.viewport.height === selectedFinding.viewport.height &&
             finding.selector === selectedFinding.selector,
         );
+        const sameViewportScan = pollData.session.results.some(
+          (result) =>
+            result.ok &&
+            result.viewport.width === selectedFinding.viewport.width &&
+            result.viewport.height === selectedFinding.viewport.height,
+        );
         setRetestComparison({
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            outcome: comparison ? "still-present" : "resolved",
+            outcome: comparison
+              ? "still-present"
+              : sameViewportScan
+                ? "inconclusive"
+                : "inconclusive",
           },
         });
         setResponse({
@@ -957,9 +964,9 @@ function AppShell() {
                     {retestComparison?.comparison.findingId === selectedFinding.id && (
                       <div className="detail-section retest-inline-result">
                         <span className="detail-label">Latest re-test</span>
-                        <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
+                        <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : retestComparison.comparison.outcome === "still-present" ? "Still present in the re-test" : "Could not confirm resolution"}</strong>
                         <small>
-                          Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
+                          {retestComparison.comparison.outcome === "inconclusive" ? "The tested viewport completed, but the original finding could not be matched after the page structure changed." : "Same rule · " + retestComparison.session.siteName + " · " + retestComparison.session.id}
                         </small>
                       </div>
                     )}
