@@ -6,6 +6,7 @@ import type {
 } from "./scanner/types";
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
 import type { ScanArtifact, WebsiteRef } from "./api/sessionTypes";
+import { compareScanSessions } from "./api/scanComparison";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
@@ -211,6 +212,17 @@ function AppShell() {
     };
   }, [url]);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
+
+  const latestHistorySession = history?.ok ? history.sessions[0] : undefined;
+  const previousHistorySession =
+    history?.ok && history.sessions.length > 1 ? history.sessions[1] : undefined;
+  const historyComparison = useMemo(
+    () =>
+      latestHistorySession
+        ? compareScanSessions(latestHistorySession, previousHistorySession)
+        : null,
+    [latestHistorySession, previousHistorySession],
+  );
 
   useEffect(() => {
     if (!focusedFindingId) return;
@@ -933,8 +945,38 @@ function AppShell() {
               <div className="history-summary surface">
                 <div><span>Scans</span><strong>{history?.ok ? history.sessions.length : 0}</strong><small>stored sessions</small></div>
                 <div><span>Latest findings</span><strong>{history?.ok && history.sessions[0] ? history.sessions[0].findings.length : 0}</strong><small>on most recent scan</small></div>
-                <div><span>Website</span><strong>{currentSite}</strong><small>active audit target</small></div>
+                <div>
+                  <span>Change</span>
+                  <strong>
+                    {historyComparison
+                      ? historyComparison.newFindings.length + historyComparison.resolvedFindings.length
+                      : "—"}
+                  </strong>
+                  <small>
+                    {historyComparison?.previousSessionId ? "new + resolved since last scan" : "baseline scan"}
+                  </small>
+                </div>
               </div>
+
+              {historyComparison && historyComparison.previousSessionId && (
+                <div className="history-change-grid">
+                  <div className="surface">
+                    <span className="surface-kicker">New</span>
+                    <strong>{historyComparison.newFindings.length}</strong>
+                    <small>finding(s) not present in the previous scan.</small>
+                  </div>
+                  <div className="surface">
+                    <span className="surface-kicker">Resolved</span>
+                    <strong>{historyComparison.resolvedFindings.length}</strong>
+                    <small>finding(s) no longer present in the latest scan.</small>
+                  </div>
+                  <div className="surface">
+                    <span className="surface-kicker">Unchanged</span>
+                    <strong>{historyComparison.unchangedFindings.length}</strong>
+                    <small>finding(s) still present from the previous scan.</small>
+                  </div>
+                </div>
+              )}
 
               <div className="history-table surface">
                 <div className="history-header">
