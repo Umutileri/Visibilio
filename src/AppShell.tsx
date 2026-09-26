@@ -128,7 +128,6 @@ function AppShell() {
   const [query, setQuery] = useState("");
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
-  const [retestSessionId, setRetestSessionId] = useState<string | null>(null);
   const [retestBusy, setRetestBusy] = useState(false);
   const [retestComparison, setRetestComparison] = useState<ScanRetestResponse | null>(null);
 
@@ -237,13 +236,6 @@ function AppShell() {
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
     sampleFindings[0];
-
-  const selectedArtifact: ScanArtifact | null = response?.ok
-    ? response.session.artifacts.find(
-        (artifact) =>
-          artifact.id.includes(selectedFinding.viewport.width + "x" + selectedFinding.viewport.height),
-      ) ?? null
-    : null;
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
