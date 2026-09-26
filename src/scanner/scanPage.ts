@@ -13,6 +13,11 @@ const issueNow = () => new Date().toISOString();
 
 export interface ScanOptions {
   evidenceDir?: string;
+  /**
+   * Internal/test hook for navigation policy. Production callers should use
+   * the default SSRF-safe policy.
+   */
+  navigationGuard?: (url: string) => Promise<void>;
 }
 
 function screenshotFileName(viewport: ViewportPreset): string {
@@ -36,12 +41,14 @@ export async function scanPage(
     });
 
     page.setDefaultTimeout(DEFAULT_TIMEOUT_MS);
+    const navigationGuard =
+      options.navigationGuard ?? assertSafeNavigationTarget;
 
     await page.route("**/*", async (route) => {
       const request = route.request();
       if (request.isNavigationRequest()) {
         try {
-          await assertSafeNavigationTarget(request.url());
+          await navigationGuard(request.url());
         } catch {
           await route.abort("blockedbyclient");
           return;
@@ -57,7 +64,7 @@ export async function scanPage(
       });
 
       const finalUrl = page.url();
-      await assertSafeNavigationTarget(finalUrl);
+      await navigationGuard(finalUrl);
 
       const dimensions = await page.evaluate(() => {
         const documentElement = document.documentElement;
