@@ -2,7 +2,6 @@ import type {
   IssueSeverity,
   UIssue,
   ScanResult,
-  ScanSuccess,
 } from "./scanner/types";
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
 import type { WebsiteRef } from "./api/sessionTypes";
@@ -33,32 +32,6 @@ const sections: Array<{ id: AppSection; label: string; key: string }> = [
   { id: "findings", label: "Findings", key: "03" },
   { id: "history", label: "History", key: "04" },
   { id: "settings", label: "Settings", key: "05" },
-];
-
-const sampleFindings: UIssue[] = [
-  {
-    id: "sample-overflow",
-    rule: "responsive.horizontal-overflow",
-    category: "responsive",
-    title: "Content exceeds the mobile viewport",
-    severity: "medium",
-    description:
-      "The document is 34px wider than the tested 390px viewport, which can create horizontal scrolling.",
-    url: "https://example.com",
-    viewport: { name: "Mobile", width: 390, height: 844 },
-    selector: ".pricing-grid",
-    measurements: { viewportWidth: 390, documentWidth: 424, horizontalOverflow: 34 },
-    evidence: [
-      {
-        type: "measurement",
-        metric: "horizontalOverflow",
-        value: 34,
-        unit: "px",
-      },
-    ],
-    detectedAt: "2026-09-20T00:00:00.000Z",
-    status: "open",
-  },
 ];
 
 function sectionFromHash(): AppSection {
@@ -94,11 +67,6 @@ function flattenResults(
   results: Array<{ viewport: { name: string }; scan: ScanResult }>,
 ): UIssue[] {
   return results.flatMap(({ scan }) => (scan.ok ? scan.issues : []));
-}
-
-function statusLabel(scan: ScanSuccess | null): string {
-  if (!scan) return "No scan yet";
-  return scan.issues.length ? "Needs attention" : "No findings";
 }
 
 function ShellLogo() {
