@@ -375,7 +375,10 @@ export default function LandingPage() {
         <section className="landing-hero">
           <div className="landing-container landing-hero-grid">
             <div className="landing-hero-copy">
-              <span className="landing-eyebrow">{t.heroEyebrow}</span>
+              <div className="landing-hero-label">
+                <span className="landing-eyebrow">{t.heroEyebrow}</span>
+                <span>REAL BROWSER CHECK</span>
+              </div>
               <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
@@ -410,6 +413,16 @@ export default function LandingPage() {
                 <span>{t.audienceDevelopers}</span>
                 <span>{t.audienceDesigners}</span>
                 <span>{t.audienceOwners}</span>
+              </div>
+              <div className="landing-url-proof">
+                <span>01</span>
+                <strong>Enter a page</strong>
+                <i>→</i>
+                <span>02</span>
+                <strong>Inspect the browser</strong>
+                <i>→</i>
+                <span>03</span>
+                <strong>Get the finding</strong>
               </div>
             </div>
             <form className="landing-url-form" onSubmit={(event) => {
