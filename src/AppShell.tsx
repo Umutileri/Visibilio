@@ -306,19 +306,14 @@ function AppShell() {
           );
         }
 
-        const comparison = pollData.session.findings.find(
-          (finding) =>
-            finding.rule === selectedFinding.rule &&
-            finding.viewport.width === selectedFinding.viewport.width &&
-            finding.viewport.height === selectedFinding.viewport.height &&
-            finding.selector === selectedFinding.selector,
+        const comparison = buildRetestComparison(
+          selectedFinding,
+          pollData.session.results,
         );
         setRetestComparison({
           session: pollData.session,
-          comparison: {
-            findingId: selectedFinding.id,
-            outcome: comparison ? "still-present" : "resolved",
-          },
+          findingId: selectedFinding.id,
+          comparison,
         });
         setResponse({
           ok: true,
