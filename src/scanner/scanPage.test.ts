@@ -138,6 +138,23 @@ describe("scanPage", () => {
     assert.equal(result.screenshot.height, 900);
   });
 
+  it("fails with a resource limit when the response budget is exceeded", async () => {
+    const result = await scanPage(
+      `http://127.0.0.1:${new URL(baseUrl).port}/fixture`,
+      initialViewports[0],
+      {
+        maxResponseBytes: 1,
+        evidenceDir,
+        navigationGuard: async () => {},
+      },
+    );
+
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.equal(result.error.code, "RESOURCE_LIMIT");
+    }
+  });
+
   it("returns a page failure for an unreachable page", async () => {
     const result = await scanPage(
       "http://127.0.0.1:1/unreachable",
