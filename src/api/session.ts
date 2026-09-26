@@ -6,7 +6,7 @@ function normalizeSiteUrl(rawUrl: string): URL {
 }
 
 export function getWebsiteName(rawUrl: string): string {
-  return normalizeSiteUrl(rawUrl).hostname;
+  return normalizeSiteUrl(rawUrl).hostname.replace(/^www\\./, "");
 }
 
 function effectivePort(url: URL): string {
