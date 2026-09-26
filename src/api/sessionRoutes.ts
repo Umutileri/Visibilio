@@ -182,7 +182,7 @@ export async function handleScanRetestRequest(
     json(response, 409, { ok: false, error: { code: "INVALID_REQUEST", message: "Could not start the re-test." } } satisfies ScanApiFailure);
     return;
   }
-  json(response, 202, { ok: true, session: retest, comparison: { findingId, before: finding, outcome: "not-found" } });
+  json(response, 202, { ok: true, session: retest });
 }
 
 
