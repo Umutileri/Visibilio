@@ -12,7 +12,7 @@ import {
 } from "./sessionRoutes";
 import { createStorageFromEnv } from "./storageFactory";
 import type { VisibilioStorage } from "./storage";
-import { FallbackExplanationProvider } from "./fallbackExplanation";
+import { createExplanationProvider } from "./explanationFactory";
 import { handleFindingExplanationRequest } from "./explanationRoutes";
 
 const port = Number(process.env.PORT ?? 8787);
@@ -66,7 +66,7 @@ async function startServer(): Promise<void> {
   const defaultScanSessionStore = defaultStorage.scans;
   const defaultWebsiteStore = defaultStorage.websites;
   const { handleScanRequest, createScanSessionRequest, createRetestSessionRequest } = createScanHandlers(defaultStorage);
-  const explanationProvider = new FallbackExplanationProvider();
+  const explanationProvider = createExplanationProvider();
 
   createServer(async (request, response) => {
 
