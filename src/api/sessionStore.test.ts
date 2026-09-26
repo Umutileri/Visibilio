@@ -75,3 +75,17 @@ describe("InMemoryScanSessionStore", () => {
     );
   });
 });
+
+
+  it("filters history by canonical website key", async () => {
+    const store = new InMemoryScanSessionStore();
+    const example = createScanSession("https://www.example.com/pricing");
+    const other = createScanSession("https://other.example");
+
+    await store.create(example);
+    await store.create(other);
+
+    const sessions = await store.list("example.com");
+
+    assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com"]);
+  });
