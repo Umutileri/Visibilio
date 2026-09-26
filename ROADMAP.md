@@ -118,6 +118,10 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Landing evidence/re-test copy consistency
 - [x] Landing product proof pass
 - [x] Core landing responsive rules
+- [x] Landing hero value proposition pass
+- [x] Landing proof / workflow hierarchy pass
+- [x] Landing evidence visual hierarchy pass
+- [x] Landing re-test result visual pass
 - [ ] Full device/browser validation
 - [ ] Loading/error recovery polish
 - [ ] Density and whitespace review from real-user feedback
