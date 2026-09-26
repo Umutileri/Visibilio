@@ -466,7 +466,8 @@ function AppShell() {
   const hasResults = findings.length > 0;
   const issuesVisible = filteredFindings;
   const currentSite = displayHostname(url);
-  const issueLabel = findings.length === 1 ? "finding" : "findings";
+  const issueLabel = findings.length === 1 ? "finding" : "findings";\n  const canRetry = Boolean(url.trim()) && !isScanning;
+
   const selectedArtifact = response?.ok && selectedFinding
     ? response.session.artifacts.find(
         (artifact) =>
@@ -790,7 +791,20 @@ function AppShell() {
                   <span>2 controlled viewports</span>
                   <span>Evidence-first</span>
                 </div>
-                {error && <div className="inline-error">{error}</div>}
+                {error && (
+                  <div className="inline-error">
+                    <span>{error}</span>
+                    {canRetry && (
+                      <button
+                        className="text-link"
+                        type="button"
+                        onClick={() => void runScan()}
+                      >
+                        Retry
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="scan-stages" aria-live="polite">
