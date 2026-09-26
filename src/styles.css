@@ -3076,3 +3076,18 @@ input:focus-visible {
     border-bottom: 0;
   }
 }
+
+
+.retest-inline-result {
+  display: grid;
+  gap: 5px;
+}
+
+.retest-inline-result strong {
+  font-size: .8rem;
+}
+
+.retest-inline-result small {
+  color: rgb(21 45 53 / 42%);
+  font-size: .61rem;
+}
