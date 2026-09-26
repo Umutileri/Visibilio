@@ -90,6 +90,7 @@
 }
 
 .landing-nav {
+  position: relative;
   width: min(1240px, calc(100% - 36px));
   min-height: 58px;
   margin-inline: auto;
@@ -246,10 +247,9 @@
 }
 
 .landing-hero {
-  min-height: calc(100vh - 78px);
   display: flex;
   align-items: center;
-  padding: 60px 0 68px;
+  padding: clamp(72px, 8vw, 96px) 0 clamp(76px, 8vw, 100px);
   border-bottom: 1px solid rgb(21 45 53 / 8%);
 }
 
@@ -665,7 +665,7 @@
 .landing-retest-section,
 .landing-faq-section,
 .landing-final-section {
-  padding: 100px 0;
+  padding: clamp(76px, 7vw, 88px) 0;
 }
 
 .landing-intro-section {
@@ -715,7 +715,7 @@
 }
 
 .landing-feature-section {
-  padding: 104px 0 128px;
+  padding: clamp(82px, 7vw, 96px) 0 clamp(92px, 8vw, 108px);
   background: var(--landing-surface);
 }
 
