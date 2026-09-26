@@ -6,6 +6,7 @@ import type {
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
 import type { WebsiteRef } from "./api/sessionTypes";
 import { compareScanSessions } from "./api/scanComparison";
+import type { FindingExplanationResponse } from "./api/types";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
@@ -104,6 +105,8 @@ function AppShell() {
   const [retestBusy, setRetestBusy] = useState(false);
   const [retestComparison, setRetestComparison] = useState<RetestUiComparison | null>(null);
   const [evidenceOpen, setEvidenceOpen] = useState(false);
+  const [explanation, setExplanation] = useState<FindingExplanationResponse | null>(null);
+  const [explanationLoading, setExplanationLoading] = useState(false);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -210,6 +213,42 @@ function AppShell() {
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
     null;
+
+  useEffect(() => {
+    setExplanation(null);
+  }, [selectedFindingId, response?.ok ? response.session.id : null]);
+
+  async function loadExplanation() {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint || !response?.ok || !selectedFinding) return;
+    setExplanationLoading(true);
+    setExplanation(null);
+    try {
+      const result = await fetch(
+        endpoint.replace(/\/$/, "") +
+          "/api/scans/" +
+          encodeURIComponent(response.session.id) +
+          "/findings/" +
+          encodeURIComponent(selectedFinding.id) +
+          "/explanation",
+      );
+      const data = (await result.json()) as FindingExplanationResponse;
+      if (!result.ok || !data.ok) {
+        throw new Error(data.ok ? "Could not generate an explanation." : data.error.message);
+      }
+      setExplanation(data);
+    } catch (error) {
+      setExplanation({
+        ok: false,
+        error: {
+          code: "SCAN_ERROR",
+          message: error instanceof Error ? error.message : "Could not generate an explanation.",
+        },
+      });
+    } finally {
+      setExplanationLoading(false);
+    }
+  }
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
@@ -975,6 +1014,42 @@ function AppShell() {
                         </small>
                       </div>
                     )}
+                    <div className="detail-section explanation-section">
+                      <div className="detail-section-head">
+                        <span className="detail-label">Explanation</span>
+                        <button
+                          className="outline-button"
+                          type="button"
+                          onClick={() => void loadExplanation()}
+                          disabled={explanationLoading}
+                        >
+                          {explanationLoading ? "Explaining…" : explanation?.ok ? "Refresh explanation" : "Explain finding"}
+                        </button>
+                      </div>
+                      {explanationLoading && (
+                        <div className="explanation-placeholder">
+                          <span>Reading deterministic evidence…</span>
+                        </div>
+                      )}
+                      {!explanationLoading && explanation?.ok && (
+                        <div className="explanation-card">
+                          <span className="explanation-source">
+                            {explanation.explanation.source === "ai" ? "AI explanation" : "Scanner context"}
+                          </span>
+                          <strong>{explanation.explanation.summary}</strong>
+                          <p>{explanation.explanation.technical}</p>
+                          <div className="explanation-context">
+                            {explanation.explanation.context.map((item) => <span key={item}>{item}</span>)}
+                          </div>
+                          {explanation.explanation.uncertainty && (
+                            <small>{explanation.explanation.uncertainty}</small>
+                          )}
+                        </div>
+                      )}
+                      {!explanationLoading && explanation && !explanation.ok && (
+                        <div className="explanation-error">{explanation.error.message}</div>
+                      )}
+                    </div>
                     <div className="detail-section">
                       <span className="detail-label">Measurements</span>
                       <div className="measurement-line">
