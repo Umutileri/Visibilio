@@ -70,7 +70,9 @@ Use progressive disclosure for selectors and implementation detail.
 ## C — SaaS structure
 
 ### C1 — History
-Show scan time, site/project, finding count, status, and entry to scan details.
+Show scan time, website, finding count, status, and entry to the selected scan's findings.
+
+The history surface should answer "what changed on this site?" rather than behave like an infrastructure log. Keep the scan id available as technical metadata, not as the primary label.
 
 ### C2 — Websites
 Use the model:
