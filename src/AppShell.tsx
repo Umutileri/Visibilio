@@ -929,12 +929,12 @@ function AppShell() {
             <section className="settings-layout">
               <div className="page-intro">
                 <span className="eyebrow">Settings</span>
-                <h1>Workspace settings.</h1>
-                <p>Account, scan defaults, and future project configuration live here.</p>
+                <h1>Site settings.</h1>
+                <p>Scan defaults and account configuration for the website you are working on.</p>
               </div>
 
               <div className="settings-list surface">
-                <div><span>Workspace</span><strong>My workspace</strong><small>Personal</small></div>
+                <div><span>Website</span><strong>{url ? displayHostname(url) : "No website selected"}</strong><small>Current audit target</small></div>
                 <div><span>Scan API</span><strong>{import.meta.env.VITE_SCAN_API_URL || "Not configured"}</strong><small>Environment configuration</small></div>
                 <div><span>Default viewports</span><strong>390 × 844 and 1440 × 900</strong><small>Controlled scanner presets</small></div>
               </div>
