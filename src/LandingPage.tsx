@@ -378,7 +378,7 @@ export default function LandingPage() {
               <span className="landing-section-kicker">{t.startWebsite}</span>
               <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
               <p>{t.urlBody}</p>
-              <div className="landing-url-audience">
+              <div className="landing-url-audience" aria-label={t.audience}>
                 <span>{t.audienceDevelopers}</span>
                 <span>{t.audienceDesigners}</span>
                 <span>{t.audienceOwners}</span>
@@ -423,9 +423,9 @@ export default function LandingPage() {
                 <h2>{featureSteps[activeStep].title}</h2>
                 <p>{featureSteps[activeStep].copy}</p>
               </div>
-              <div className="landing-feature-nav" aria-label="Feature steps">
+              <div className="landing-feature-nav" role="tablist" aria-label={language === "TR" ? "Özellik adımları" : "Feature steps"}>
                 {featureSteps.map((step, index) => (
-                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
+                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
                     <span>{step.index}</span><strong>{step.title}</strong>
                   </button>
                 ))}
@@ -433,7 +433,7 @@ export default function LandingPage() {
             </div>
             <div className="landing-feature-scroll">
               {featureSteps.map((step, index) => (
-                <div key={step.id} className="landing-feature-step" data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
+                <div key={step.id} id={`landing-feature-step-${step.id}`} className="landing-feature-step" role="tabpanel" aria-hidden={index !== activeStep} data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="landing-feature-art">
                     <div className="landing-feature-chrome"><span>{step.index} / {step.title}</span><span>VISIBILIO</span></div>
                     <StepVisual id={step.id} t={t} />
@@ -485,7 +485,7 @@ export default function LandingPage() {
           <div className="landing-container landing-final-grid">
             <div>
               <span className="landing-section-kicker">{t.finalKicker}</span>
-              <h2>{language === "TR" ? <>Bir sayfa verin.<br /><em>Daha net bir sonraki adım alın.</em></> : <>Give us a page.<br /><em>Get a clearer next step.</em></>}</h2>
+              <h2 dangerouslySetInnerHTML={{ __html: t.finalTitle }} />
               <p>{t.finalBodyCopy}</p>
             </div>
             <div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span>↗</span></button><small>{t.finalSetup}</small></div>
