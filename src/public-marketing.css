@@ -2254,3 +2254,42 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Landing interaction safeguards: keep anchor targets clear of the sticky header. */
+.landing-page section[id],
+.landing-page footer[id] {
+  scroll-margin-top: 92px;
+}
+
+.landing-page a:focus-visible,
+.landing-page button:focus-visible,
+.landing-page input:focus-visible,
+.landing-page summary:focus-visible {
+  outline: 2px solid var(--landing-ink);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .landing-page section[id] {
+    scroll-margin-top: 84px;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-page section[id] {
+    scroll-margin-top: 76px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page *,
+  .landing-page *::before,
+  .landing-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
