@@ -74,15 +74,22 @@ export async function scanPage(
           return;
         }
       }
-      await route.continue();
+
+      try {
+        const response = await route.fetch();
+        const body = await response.body();
+        responseBytes += body.byteLength;
+        if (responseBytes > maxResponseBytes) {
+          await route.abort("failed");
+          return;
+        }
+        await route.fulfill({ response, body });
+      } catch {
+        await route.abort("failed");
+      }
     });
 
     try {
-      page.on("response", (response) => {
-        const length = response.headers()["content-length"];
-        if (length) responseBytes += Number(length) || 0;
-      });
-
       await page.goto(url, {
         waitUntil: "domcontentloaded",
         timeout: DEFAULT_TIMEOUT_MS,
