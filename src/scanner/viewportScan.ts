@@ -10,13 +10,9 @@ export interface ViewportScanResult {
 
 export async function scanViewports(
   url: string,
-  optionsOrCancel: ScanOptions | (() => Promise<boolean>) = {},
-  maybeCancel?: () => Promise<boolean>,
+  shouldCancel?: () => Promise<boolean>,
+  options: ScanOptions = {},
 ): Promise<ViewportScanResult> {
-  const options =
-    typeof optionsOrCancel === "function" ? {} : optionsOrCancel;
-  const shouldCancel =
-    typeof optionsOrCancel === "function" ? optionsOrCancel : maybeCancel;
   const results: ScanResult[] = [];
 
   for (const viewport of initialViewports) {
