@@ -3242,3 +3242,39 @@ input:focus-visible {
     display: grid;
   }
 }
+
+
+.history-change-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.history-change-grid > div {
+  display: grid;
+  gap: 5px;
+  min-height: 110px;
+  padding: 16px;
+}
+
+.history-change-grid strong {
+  font-size: 1.5rem;
+  letter-spacing: -.04em;
+}
+
+.history-change-grid small {
+  color: rgb(21 45 53 / 46%);
+  font-size: .62rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .history-change-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-change-grid > div {
+    min-height: 86px;
+  }
+}
