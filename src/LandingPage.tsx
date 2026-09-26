@@ -73,7 +73,8 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
     <div className="landing-hero-evidence" aria-label={`${t.finding}: ${t.contentExceeds}`}>
       <div className="landing-window-head">
         <span /><span /><span />
-        <code>visibilio / findings / responsive</code>
+        <code>visibilio / audit / responsive</code>
+        <b>LIVE CHECK</b>
       </div>
       <div className="landing-window-grid">
         <div className="landing-site-frame">
@@ -82,22 +83,23 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
             <span>{t.mobile} · 390 × 844</span>
           </div>
           <div className="landing-site-body">
+            <div className="landing-site-page-title">Pricing</div>
             <i className="line line-a" />
             <i className="line line-b" />
             <div className="landing-site-cards"><i /><i /><i /></div>
-            <div className="landing-overflow-callout">34 {t.px} overflow</div>
+            <div className="landing-overflow-callout"><b>34 {t.px}</b><span>{t.overflowLabel}</span></div>
           </div>
         </div>
         <aside className="landing-evidence-card">
-          <small>{t.finding}</small>
+          <div className="landing-evidence-status"><span /> {t.finding}</div>
           <strong>{t.contentExceeds}</strong>
-          <b>34 px</b>
-          <dl>
-            <div><dt>{t.viewport}</dt><dd>390 px</dd></div>
-            <div><dt>{t.document}</dt><dd>424 px</dd></div>
-            <div><dt>{t.selector}</dt><dd>.pricing-grid</dd></div>
-          </dl>
-          <p>{t.measuredBrowser}</p>
+          <b>34 <small>{t.px}</small></b>
+          <div className="landing-evidence-grid">
+            <div><span>{t.viewport}</span><strong>390 px</strong></div>
+            <div><span>{t.document}</span><strong>424 px</strong></div>
+            <div><span>{t.selector}</span><strong>.pricing-grid</strong></div>
+          </div>
+          <p><span>✓</span>{t.measuredBrowser}</p>
         </aside>
       </div>
     </div>
