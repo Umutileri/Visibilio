@@ -2,10 +2,12 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
-import { createStorageFromEnv } from "./storageFactory";
-export const defaultStorage = createStorageFromEnv();
-const defaultScanSessionStore = defaultStorage.scans;
-const defaultWebsiteStore = defaultStorage.websites;
+import type { VisibilioStorage } from "./storage";
+
+export function createScanHandlers(storage: VisibilioStorage) {
+  const defaultScanSessionStore = storage.scans;
+  const defaultWebsiteStore = storage.websites;
+
 import type {
   ScanApiFailure,
   ScanApiRequest,
@@ -15,7 +17,7 @@ import type { ScanSession } from "./sessionTypes";
 
 const MAX_URL_LENGTH = 2048;
 
-export async function createScanSessionRequest(
+  async function createScanSessionRequest(
   rawUrl: string,
 ): Promise<ScanSession | null> {
   const url = validateScanUrl(rawUrl);
@@ -41,7 +43,7 @@ export async function createScanSessionRequest(
   return session;
 }
 
-export async function runScanSession(sessionId: string, url: string): Promise<void> {
+  async function runScanSession(sessionId: string, url: string): Promise<void> {
   const session = await defaultScanSessionStore.get(sessionId);
   if (!session) return;
 
@@ -100,7 +102,7 @@ export function validateScanUrl(rawUrl: string): URL | null {
   }
 }
 
-export async function handleScanRequest(
+  async function handleScanRequest(
   request: IncomingMessage,
   response: ServerResponse,
 ): Promise<void> {
@@ -200,7 +202,7 @@ export async function handleScanRequest(
   response.end(JSON.stringify(success));
 }
 
-export async function createRetestSessionRequest(
+  async function createRetestSessionRequest(
   parentSessionId: string,
   findingId: string,
 ): Promise<ScanSession | null> {
@@ -229,4 +231,12 @@ export async function createRetestSessionRequest(
   await defaultScanSessionStore.create(linked);
   void runScanSession(linked.id, linked.url);
   return linked;
+}
+
+  return {
+    createScanSessionRequest,
+    runScanSession,
+    handleScanRequest,
+    createRetestSessionRequest,
+  };
 }
