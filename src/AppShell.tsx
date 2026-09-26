@@ -320,7 +320,13 @@ function AppShell() {
           const session = pollData.session;
           const progressIndex = session.results.length;
           if (session.status === "scanning") {
-            setScanStage(progressIndex === 0 ? "desktop" : "mobile");
+            setScanStage(
+              progressIndex === 0
+                ? "desktop"
+                : progressIndex < session.results.length + 1
+                  ? "mobile"
+                  : "checks",
+            );
           }
           if (session.status === "completed") {
             setScanStage("done");
@@ -641,7 +647,7 @@ function AppShell() {
                   <div className="stage" key={key}>
                     <b>{key}</b>
                     <span>{label}</span>
-                    <small>{isScanning ? "queued" : "ready"}</small>
+                    <small>{isScanning ? (key === "01" ? "loading" : scanStage === "done" ? "complete" : "running") : "ready"}</small>
                   </div>
                 ))}
               </div>
