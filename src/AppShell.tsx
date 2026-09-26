@@ -788,6 +788,16 @@ function AppShell() {
                     </div>
                   </div>
 
+                  {retestComparison?.ok && retestComparison.comparison.findingId === selectedFinding.id && (
+                    <div className="detail-section retest-inline-result">
+                      <span className="detail-label">Latest re-test</span>
+                      <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
+                      <small>
+                        Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
+                      </small>
+                    </div>
+                  )}
+
                   <div className="detail-section">
                     <span className="detail-label">Measurements</span>
                     <div className="measurement-line">
