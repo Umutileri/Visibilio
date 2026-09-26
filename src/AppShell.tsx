@@ -50,9 +50,11 @@ const sampleFindings: UIssue[] = [
 ];
 
 function sectionFromHash(): AppSection {
-  const value = window.location.hash.replace("#app/", "").split("?")[0] as AppSection;
+  const value = window.location.hash.replace("#app/", "").split("?")[0];
   if (value === "evidence") return "findings";
-  return sections.some((section) => section.id === value) ? value : "overview";
+  return sections.some((section) => section.id === value)
+    ? (value as AppSection)
+    : "overview";
 }
 
 function displayHostname(value: string): string {
