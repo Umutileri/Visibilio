@@ -56,12 +56,14 @@ export async function scanPage(
 
     await page.route("**/*", async (route) => {
       if (Date.now() - startedAt > maxDurationMs) {
+        resourceLimitExceeded = true;
         await route.abort("timedout");
         return;
       }
 
       requestCount += 1;
       if (requestCount > maxRequests) {
+        resourceLimitExceeded = true;
         await route.abort("blockedbyclient");
         return;
       }
