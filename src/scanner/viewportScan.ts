@@ -8,15 +8,15 @@ export interface ViewportScanResult {
   results: ScanResult[];
 }
 
+export interface ViewportScanOptions extends ScanOptions {
+  shouldCancel?: () => Promise<boolean>;
+}
+
 export async function scanViewports(
   url: string,
-  shouldCancel?: (() => Promise<boolean>) | ScanOptions,
-  options: ScanOptions = {},
+  options: ViewportScanOptions = {},
 ): Promise<ViewportScanResult> {
-  const cancel =
-    typeof shouldCancel === "function" ? shouldCancel : undefined;
-  const scanOptions =
-    typeof shouldCancel === "function" ? options : shouldCancel ?? {};
+  const { shouldCancel, ...scanOptions } = options;
   const results: ScanResult[] = [];
 
   for (const viewport of initialViewports) {
