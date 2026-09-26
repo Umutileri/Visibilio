@@ -63,7 +63,7 @@ function sessionFromRow(row: ScanRow): ScanSession {
   };
 }
 
-class PostgresWebsiteRepository implements WebsiteRepository {
+export class PostgresWebsiteRepository implements WebsiteRepository {
   constructor(private readonly pool: Pool) {}
 
   async upsert(website: WebsiteRef): Promise<WebsiteRef> {
@@ -96,7 +96,7 @@ class PostgresWebsiteRepository implements WebsiteRepository {
   }
 }
 
-class PostgresScanSessionRepository implements ScanSessionRepository {
+export class PostgresScanSessionRepository implements ScanSessionRepository {
   constructor(private readonly pool: Pool) {}
 
   async create(session: ScanSession): Promise<ScanSession> {
