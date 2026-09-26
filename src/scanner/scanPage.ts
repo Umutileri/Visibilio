@@ -42,6 +42,14 @@ export async function scanPage(
         timeout: DEFAULT_TIMEOUT_MS,
       });
 
+      // Navigation may follow redirects. The current scanner only accepts the
+      // validated initial target; redirect enforcement belongs at the browser
+      // request boundary before public deployment.
+      const finalUrl = page.url();
+      if (!/^https?:\/\//i.test(finalUrl)) {
+        throw new Error("Navigation ended on an unsupported protocol.");
+      }
+
       const dimensions = await page.evaluate(() => {
         const documentElement = document.documentElement;
         const body = document.body;
