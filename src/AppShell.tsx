@@ -320,13 +320,7 @@ function AppShell() {
           const session = pollData.session;
           const progressIndex = session.results.length;
           if (session.status === "scanning") {
-            setScanStage(
-              progressIndex === 0
-                ? "desktop"
-                : progressIndex < session.results.length + 1
-                  ? "mobile"
-                  : "checks",
-            );
+            setScanStage(progressIndex === 0 ? "desktop" : "mobile");
           }
           if (session.status === "completed") {
             setScanStage("done");
