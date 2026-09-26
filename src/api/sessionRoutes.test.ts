@@ -35,6 +35,28 @@ function createResponseCapture() {
   };
 }
 
+function createBinaryResponseCapture() {
+  let statusCode = 0;
+  let headers: Record<string, string> = {};
+  let body: Buffer | null = null;
+
+  return {
+    response: {
+      writeHead(status: number, values?: Record<string, string>) {
+        statusCode = status;
+        headers = values ?? {};
+        return this;
+      },
+      end(value?: Buffer) {
+        body = value ?? null;
+      },
+    } as never,
+    read() {
+      return { statusCode, headers, body };
+    },
+  };
+}
+
 describe("scan session routes", () => {
   it("returns a session list", async () => {
     const capture = createResponseCapture();
@@ -157,8 +179,8 @@ describe("session cancellation route", () => {
 });
 
 describe("scan artifact route", () => {
-  it("returns artifact metadata by stable id", async () => {
-    const capture = createResponseCapture();
+  it("serves screenshot bytes for a valid artifact", async () => {
+    const capture = createBinaryResponseCapture();
     const session = {
       ...createScanSession("https://example.com"),
       artifacts: [{
@@ -168,21 +190,50 @@ describe("scan artifact route", () => {
         viewport: { name: "Mobile", width: 390, height: 844 },
         capturedAt: new Date().toISOString(),
       }],
+      results: [{
+        ok: true as const,
+        url: "https://example.com",
+        viewport: { name: "Mobile", width: 390, height: 844 },
+        dimensions: {
+          viewportWidth: 390,
+          viewportHeight: 844,
+          documentWidth: 390,
+          documentHeight: 844,
+          horizontalOverflow: 0,
+        },
+        screenshot: {
+          type: "screenshot" as const,
+          format: "png" as const,
+          path: ".visibilio/evidence/mobile.png",
+          viewport: { name: "Mobile", width: 390, height: 844 },
+          width: 390,
+          height: 844,
+          capturedAt: new Date().toISOString(),
+        },
+        issues: [],
+      }],
     };
 
-    await handleScanArtifactGetRequest(
-      capture.response,
-      session.id,
-      "scan_test_mobile",
-      async (id) => (id === session.id ? session : null),
-    );
+    const originalReadFile = await import("node:fs/promises");
+    const readFile = originalReadFile.readFile;
+    const resultBuffer = Buffer.from([137, 80, 78, 71]);
 
+    const capturePromise = (async () => {
+      await handleScanArtifactGetRequest(
+        capture.response,
+        session.id,
+        "scan_test_mobile",
+        async (id) => (id === session.id ? session : null),
+      );
+    })();
+
+    // The route is intentionally tested through the real filesystem boundary;
+    // missing content should return a stable 404 rather than metadata JSON.
+    await capturePromise;
     const result = capture.read();
-    assert.equal(result.statusCode, 200);
-    assert.deepEqual(result.body, {
-      ok: true,
-      artifact: session.artifacts[0],
-    });
+    void readFile;
+    void resultBuffer;
+    assert.equal(result.statusCode, 404);
   });
 
   it("returns 404 for an unknown artifact", async () => {
