@@ -13,6 +13,47 @@ import {
 import { createStorageFromEnv } from "./storageFactory";
 import type { VisibilioStorage } from "./storage";
 
+async function handleFindingStatusRoute(
+  request: IncomingMessage,
+  response: ServerResponse,
+  sessionId: string,
+  findingId: string,
+): Promise<void> {
+  let body = "";
+  for await (const chunk of request) {
+    body += chunk.toString();
+    if (body.length > MAX_REQUEST_BODY_BYTES) {
+      response.writeHead(413, { "content-type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Request body is too large." } }));
+      return;
+    }
+  }
+  try {
+    const payload = JSON.parse(body) as { status?: unknown };
+    if (payload.status !== "open" && payload.status !== "resolved" && payload.status !== "ignored") {
+      response.writeHead(400, { "content-type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Status must be open, resolved, or ignored." } }));
+      return;
+    }
+    await handleScanFindingStatusRequest(
+      response,
+      sessionId,
+      findingId,
+      payload.status,
+      (id) => defaultStorage.scans.get(id),
+      (session) => defaultStorage.scans.update(session),
+    );
+  } catch {
+    response.writeHead(400, { "content-type": "application/json" });
+    response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Request body must be valid JSON." } }));
+  }
+}
+
+function writeNotFound(response: ServerResponse): void {
+  response.writeHead(404, { "content-type": "application/json" });
+  response.end(JSON.stringify({ ok: false, error: { code: "NOT_FOUND", message: "Route not found." } }));
+}
+
 
 const port = Number(process.env.PORT ?? 8787);
 const MAX_REQUEST_BODY_BYTES = 32_000;
