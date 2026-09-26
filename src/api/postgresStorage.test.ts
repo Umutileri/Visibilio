@@ -14,7 +14,8 @@ function mockPool(
     queries,
     async query(text: string, values?: unknown[]) {
       queries.push({ text, values });
-      return responses.shift() ?? { rows: [] };
+      const response = responses.shift();
+      return { rows: response?.rows ?? [] };
     },
   };
 }
