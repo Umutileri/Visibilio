@@ -165,7 +165,7 @@ function AppShell() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [url]);
   const findings = useMemo(() => flattenResults(scanResults), [scanResults]);
 
   useEffect(() => {
