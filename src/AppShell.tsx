@@ -16,6 +16,17 @@ type AppSection =
   | "history"
   | "settings";
 
+type RetestUiComparison = {
+  session: {
+    id: string;
+    siteName: string;
+  };
+  comparison: {
+    findingId: string;
+    outcome: "resolved" | "still-present";
+  };
+};
+
 const sections: Array<{ id: AppSection; label: string; key: string }> = [
   { id: "overview", label: "Overview", key: "01" },
   { id: "analyze", label: "Analyze", key: "02" },
@@ -129,7 +140,7 @@ function AppShell() {
   const [severity, setSeverity] = useState<"all" | IssueSeverity>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
   const [retestBusy, setRetestBusy] = useState(false);
-  const [retestComparison, setRetestComparison] = useState<ScanRetestResponse | null>(null);
+  const [retestComparison, setRetestComparison] = useState<RetestUiComparison | null>(null);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
