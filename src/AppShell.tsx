@@ -106,6 +106,7 @@ function AppShell() {
   const [focusedFindingId, setFocusedFindingId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
   const [url, setUrl] = useState("");
   const [siteMenuOpen, setSiteMenuOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
   const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "done">("idle");
@@ -509,13 +510,28 @@ function AppShell() {
 
         <div className="saas-sidebar-section">
           <span className="saas-sidebar-label">Website</span>
-          <nav aria-label="Primary">
+          <button
+            className="mobile-nav-toggle"
+            type="button"
+            aria-expanded={mobileNavOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMobileNavOpen((value) => !value)}
+          >
+            <span aria-hidden="true">{mobileNavOpen ? "×" : "☰"}</span>
+            <span>{mobileNavOpen ? "Close menu" : "Menu"}</span>
+          </button>
+          <nav
+            id="primary-navigation"
+            aria-label="Primary"
+            className={mobileNavOpen ? "is-mobile-open" : ""}
+          >
             {sections.map((item) => (
               <a
                 key={item.id}
                 href={"#app/" + item.id}
                 className={"saas-nav-link" + (section === item.id ? " is-active" : "")}
                 aria-current={section === item.id ? "page" : undefined}
+                onClick={() => setMobileNavOpen(false)}
               >
                 <span>{item.label}</span>
                 <small>{item.key}</small>
