@@ -283,7 +283,21 @@ function AppShell() {
           return;
         }
 
-        const comparison = pollData.session.findings.find((finding) => finding.rule === selectedFinding.rule && finding.viewport.width === selectedFinding.viewport.width && finding.viewport.height === selectedFinding.viewport.height && finding.selector === selectedFinding.selector);
+        if (pollData.session.status === "failed" || pollData.session.status === "cancelled") {
+          throw new Error(
+            pollData.session.status === "cancelled"
+              ? "Re-test was cancelled."
+              : "Re-test failed.",
+          );
+        }
+
+        const comparison = pollData.session.findings.find(
+          (finding) =>
+            finding.rule === selectedFinding.rule &&
+            finding.viewport.width === selectedFinding.viewport.width &&
+            finding.viewport.height === selectedFinding.viewport.height &&
+            finding.selector === selectedFinding.selector,
+        );
         setRetestComparison({
           ok: true,
           session: pollData.session,
