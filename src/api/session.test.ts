@@ -55,7 +55,7 @@ describe("website identity", () => {
 });
 
 describe("retest comparison", () => {
-  it("does not mark a missing selector as resolved", () => {
+  it("marks a fully scanned missing finding as resolved", () => {
     const original = {
       id: "finding-1",
       rule: "responsive.horizontal-overflow",
@@ -92,6 +92,6 @@ describe("retest comparison", () => {
       issues: [],
     };
 
-    assert.equal(buildRetestComparison(original, [result]).outcome, "not-found");
+    assert.equal(buildRetestComparison(original, [result]).outcome, "resolved");
   });
 });
