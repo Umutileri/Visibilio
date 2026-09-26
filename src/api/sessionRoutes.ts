@@ -6,6 +6,7 @@ import type {
   ScanSessionGetResponse,
   ScanSessionListResponse,
   ScanFindingStatusResponse,
+  WebsiteListResponse,
 } from "./types";
 
 function json(response: ServerResponse, statusCode: number, body: unknown): void {
@@ -178,4 +179,30 @@ export async function handleScanRetestRequest(
     return;
   }
   json(response, 202, { ok: true, session: retest, comparison: { findingId, before: finding, outcome: "not-found" } });
+}
+
+
+export async function handleWebsiteListRequest(
+  response: ServerResponse,
+  sessions: Promise<ScanSession[]>,
+): Promise<void> {
+  const allSessions = await sessions;
+  const sites = new Map<string, { key: string; name: string; url: string }>();
+
+  for (const session of allSessions) {
+    if (!sites.has(session.siteKey)) {
+      sites.set(session.siteKey, {
+        key: session.siteKey,
+        name: session.siteName,
+        url: session.url,
+      });
+    }
+  }
+
+  const body: WebsiteListResponse = {
+    ok: true,
+    websites: [...sites.values()],
+  };
+
+  json(response, 200, body);
 }
