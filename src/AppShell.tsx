@@ -279,7 +279,17 @@ function AppShell() {
         }
 
         if (pollData.session.status === "scanning" || pollData.session.status === "queued") {
-          window.setTimeout(() => void poll().catch((error) => setError(error instanceof Error ? error.message : "Could not read re-test progress.")), 700);
+          scanTimerRef.current = window.setTimeout(
+            () =>
+              void poll().catch((error) =>
+                setError(
+                  error instanceof Error
+                    ? error.message
+                    : "Could not read re-test progress.",
+                ),
+              ),
+            700,
+          );
           return;
         }
 
