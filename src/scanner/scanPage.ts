@@ -81,7 +81,7 @@ export async function scanPage(
         responseBytes += body.byteLength;
         if (responseBytes > maxResponseBytes) {
           await route.abort("failed");
-          return;
+          throw new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
         }
         await route.fulfill({ response, body });
       } catch {
