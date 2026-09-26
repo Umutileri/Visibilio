@@ -89,7 +89,7 @@ Current boundary: localhost-bound API + deterministic scanner. Public scanning r
 - [x] Initial DNS/IP SSRF filtering
 - [x] Request body limit
 - [x] Scan timeout
-- [ ] Redirect/navigation SSRF controls
+- [x] Redirect/navigation SSRF controls
 - [ ] DNS rebinding-safe enforcement
 - [ ] Browser isolation/sandbox strategy
 - [x] Resource/cost limits (time/request/response budgets)
