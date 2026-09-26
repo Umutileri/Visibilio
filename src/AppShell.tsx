@@ -849,7 +849,7 @@ function AppShell() {
                     <button
                       key={finding.id}
                       type="button"
-                      className={"finding-row" + (finding.id === selectedFinding.id ? " is-selected" : "")}
+                      className={"finding-row" + (finding.id === selectedFinding?.id ? " is-selected" : "")}
                       onClick={() => setSelectedFindingId(finding.id)}
                     >
                       <span className={"severity-pill severity-pill-" + finding.severity}>{finding.severity}</span>
@@ -865,94 +865,97 @@ function AppShell() {
                   ))}
                 </div>
 
-                <aside className="finding-detail surface">
-                  <div className="detail-head">
-                    <div>
-                      <span className={"severity-pill severity-pill-" + selectedFinding.severity}>
-                        {selectedFinding.severity}
-                      </span>
-                      <h2>{selectedFinding.title}</h2>
-                      <p>{selectedFinding.description}</p>
-                    </div>
-                    <a
-                      className="outline-button"
-                      href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
-                      onClick={() => setFocusedFindingId(selectedFinding.id)}
-                    >
-                      Evidence
-                    </a>
-                  </div>
-                  <div className="detail-section">
-                    <span className="detail-label">Context</span>
-                    <div className="detail-grid">
-                      <div><small>Viewport</small><strong>{selectedFinding.viewport.name}</strong></div>
-                      <div><small>Selector</small><strong>{selectedFinding.selector ?? "—"}</strong></div>
-                      <div><small>Rule</small><strong>{selectedFinding.rule}</strong></div>
-                      <div><small>Status</small><strong>{selectedFinding.status}</strong></div>
-                    </div>
-                  </div>
-                  <div className="detail-section">
-                    <span className="detail-label">Next action</span>
-                    <div className="finding-status-actions">
+                {selectedFinding ? (
+                  <aside className="finding-detail surface">
+                    <div className="detail-head">
+                      <div>
+                        <span className={"severity-pill severity-pill-" + selectedFinding.severity}>
+                          {selectedFinding.severity}
+                        </span>
+                        <h2>{selectedFinding.title}</h2>
+                        <p>{selectedFinding.description}</p>
+                      </div>
                       <a
-                        className="solid-button"
-                        href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
-                      >
-                        Review evidence
-                      </a>
-                      <button
                         className="outline-button"
-                        type="button"
-                        disabled={retestBusy}
-                        onClick={() => {
-                          setUrl(selectedFinding.url);
-                          void runRetest();
-                        }}
+                        href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
+                        onClick={() => setFocusedFindingId(selectedFinding.id)}
                       >
-                        {retestBusy ? "Re-testing…" : "Re-test"}
-                      </button>
+                        Evidence
+                      </a>
                     </div>
-                  </div>
-
-                  <div className="detail-section">
-                    <span className="detail-label">Status</span>
-                    <div className="finding-status-actions">
-                      {(["open", "resolved", "ignored"] as const).map((value) => (
+                    <div className="detail-section">
+                      <span className="detail-label">Context</span>
+                      <div className="detail-grid">
+                        <div><small>Viewport</small><strong>{selectedFinding.viewport.name}</strong></div>
+                        <div><small>Selector</small><strong>{selectedFinding.selector ?? "—"}</strong></div>
+                        <div><small>Rule</small><strong>{selectedFinding.rule}</strong></div>
+                        <div><small>Status</small><strong>{selectedFinding.status}</strong></div>
+                      </div>
+                    </div>
+                    <div className="detail-section">
+                      <span className="detail-label">Next action</span>
+                      <div className="finding-status-actions">
+                        <a className="solid-button" href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}>
+                          Review evidence
+                        </a>
                         <button
-                          key={value}
                           className="outline-button"
                           type="button"
-                          onClick={() => void updateFindingStatus(value)}
-                          disabled={selectedFinding.status === value}
+                          disabled={retestBusy}
+                          onClick={() => {
+                            setUrl(selectedFinding.url);
+                            void runRetest();
+                          }}
                         >
-                          {value === "open" ? "Open" : value === "resolved" ? "Resolve" : "Ignore"}
+                          {retestBusy ? "Re-testing…" : "Re-test"}
                         </button>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-
-                  {retestComparison?.comparison.findingId === selectedFinding.id && (
-                    <div className="detail-section retest-inline-result">
-                      <span className="detail-label">Latest re-test</span>
-                      <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
-                      <small>
-                        Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
-                      </small>
+                    <div className="detail-section">
+                      <span className="detail-label">Status</span>
+                      <div className="finding-status-actions">
+                        {(["open", "resolved", "ignored"] as const).map((value) => (
+                          <button
+                            key={value}
+                            className="outline-button"
+                            type="button"
+                            onClick={() => void updateFindingStatus(value)}
+                            disabled={selectedFinding.status === value}
+                          >
+                            {value === "open" ? "Open" : value === "resolved" ? "Resolve" : "Ignore"}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  )}
-
-                  <div className="detail-section">
-                    <span className="detail-label">Measurements</span>
-                    <div className="measurement-line">
-                      {selectedFinding.evidence?.map((item) => (
-                        <span key={item.metric}>
-                          <b>{item.value}{item.unit}</b>
-                          {item.metric}
-                        </span>
-                      ))}
+                    {retestComparison?.comparison.findingId === selectedFinding.id && (
+                      <div className="detail-section retest-inline-result">
+                        <span className="detail-label">Latest re-test</span>
+                        <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
+                        <small>
+                          Same rule · {retestComparison.session.siteName} · {retestComparison.session.id}
+                        </small>
+                      </div>
+                    )}
+                    <div className="detail-section">
+                      <span className="detail-label">Measurements</span>
+                      <div className="measurement-line">
+                        {selectedFinding.evidence?.map((item) => (
+                          <span key={item.metric}>
+                            <b>{item.value}{item.unit}</b>
+                            {item.metric}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </aside>
+                  </aside>
+                ) : (
+                  <aside className="finding-detail surface empty-site">
+                    <span className="empty-mark">—</span>
+                    <strong>{hasResults ? "No findings match these filters" : "No findings yet"}</strong>
+                    <p>{hasResults ? "Try clearing a filter or search term to see the full audit." : "Run a website scan to generate measurable findings and evidence."}</p>
+                    <a className="text-link" href="#app/analyze">Run a scan →</a>
+                  </aside>
+                )}
               </div>
             </section>
           )}
