@@ -106,9 +106,9 @@ Status: in progress.
 - [x] Error state
 - [x] Real API handoff
 - [x] Step-by-step scan progress based on server status
-- [ ] Retry without losing target
+- [x] Retry without losing target
 - [x] Scan cancellation
-- [ ] Clear result summary
+- [x] Clear result summary
 
 ### P4 — Findings + Evidence
 Status: partially complete.
