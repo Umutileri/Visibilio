@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { chromium } from "playwright";
 import { runDetectionRules } from "./detectionRules";
+import { assertSafeNavigationTarget } from "../api/urlSafety";
 import { initialViewports } from "./viewports";
 import type { ScanResult, ViewportPreset } from "./types";
 
@@ -36,19 +37,27 @@ export async function scanPage(
 
     page.setDefaultTimeout(DEFAULT_TIMEOUT_MS);
 
+    await page.route("**/*", async (route) => {
+      const request = route.request();
+      if (request.isNavigationRequest()) {
+        try {
+          await assertSafeNavigationTarget(request.url());
+        } catch {
+          await route.abort("blockedbyclient");
+          return;
+        }
+      }
+      await route.continue();
+    });
+
     try {
       await page.goto(url, {
         waitUntil: "domcontentloaded",
         timeout: DEFAULT_TIMEOUT_MS,
       });
 
-      // Navigation may follow redirects. The current scanner only accepts the
-      // validated initial target; redirect enforcement belongs at the browser
-      // request boundary before public deployment.
       const finalUrl = page.url();
-      if (!/^https?:\/\//i.test(finalUrl)) {
-        throw new Error("Navigation ended on an unsupported protocol.");
-      }
+      await assertSafeNavigationTarget(finalUrl);
 
       const dimensions = await page.evaluate(() => {
         const documentElement = document.documentElement;
