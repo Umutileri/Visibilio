@@ -208,6 +208,14 @@ export async function createRetestSessionRequest(
     parentSessionId,
     retestOfFindingId: findingId,
   };
+
+  await defaultWebsiteStore.upsert({
+    key: linked.siteKey,
+    name: linked.siteName,
+    url: linked.url,
+    lastScanAt: linked.createdAt,
+  });
+
   await defaultScanSessionStore.create(linked);
   void runScanSession(linked.id, linked.url);
   return linked;
