@@ -196,8 +196,8 @@ Goal: serve real users safely and economically.
 - [ ] Workspace/project isolation
 - [ ] Queue/job worker
 - [ ] Browser sandboxing
-- [ ] Navigation and redirect controls
-- [ ] Resource/time/cost budgets
+- [ ] Navigation and redirect controls (scan boundary only; navigation hardening still required)
+- [x] Resource/time/cost budgets (time/request/response)
 - [ ] Screenshot/artifact storage
 - [ ] Rate limiting
 - [ ] Abuse protection

@@ -438,7 +438,7 @@ export default function LandingPage() {
               </div>
               <div className="landing-feature-nav" role="tablist" aria-label={language === "TR" ? "Özellik adımları" : "Feature steps"}>
                 {featureSteps.map((step, index) => (
-                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
+                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" id={`landing-feature-tab-${step.id}`} aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
                     <span>{step.index}</span><strong>{step.title}</strong>
                   </button>
                 ))}
@@ -446,7 +446,7 @@ export default function LandingPage() {
             </div>
             <div className="landing-feature-scroll">
               {featureSteps.map((step, index) => (
-                <div key={step.id} id={`landing-feature-step-${step.id}`} className="landing-feature-step" role="tabpanel" aria-hidden={index !== activeStep} data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
+                <div key={step.id} id={`landing-feature-step-${step.id}`} className="landing-feature-step" role="tabpanel" aria-labelledby={`landing-feature-tab-${step.id}`} data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="landing-feature-art">
                     <div className="landing-feature-chrome"><span>{step.index} / {step.title}</span><span>VISIBILIO</span></div>
                     <StepVisual id={step.id} t={t} />
