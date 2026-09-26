@@ -184,24 +184,11 @@ export async function handleScanRetestRequest(
 
 export async function handleWebsiteListRequest(
   response: ServerResponse,
-  sessions: Promise<ScanSession[]>,
+  websites: Promise<import("./sessionTypes").WebsiteRef[]>,
 ): Promise<void> {
-  const allSessions = await sessions;
-  const sites = new Map<string, { key: string; name: string; url: string }>();
-
-  for (const session of allSessions) {
-    if (!sites.has(session.siteKey)) {
-      sites.set(session.siteKey, {
-        key: session.siteKey,
-        name: session.siteName,
-        url: session.url,
-      });
-    }
-  }
-
   const body: WebsiteListResponse = {
     ok: true,
-    websites: [...sites.values()],
+    websites: await websites,
   };
 
   json(response, 200, body);
