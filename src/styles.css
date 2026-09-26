@@ -3413,3 +3413,176 @@ input:focus-visible {
     width: 100%;
   }
 }
+
+
+/* Product shell refinement — website-first context, calmer mobile entry, denser result surfaces. */
+.site-switcher-shell {
+  position: relative;
+}
+.site-switcher-button {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.site-switcher-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 8px;
+  border: 1px solid rgb(21 45 53 / 10%);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(21 45 53 / 13%);
+}
+.site-switcher-menu > span,
+.site-switcher-menu > a,
+.site-switcher-menu > button {
+  display: block;
+  width: 100%;
+}
+.site-switcher-menu > button {
+  padding: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #152d35;
+  text-align: left;
+}
+.site-switcher-menu > button:hover,
+.site-switcher-menu > button.is-current {
+  background: #f1f6f3;
+}
+.site-switcher-menu > button strong,
+.site-switcher-menu > button small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-switcher-menu > button strong { font-size: .68rem; }
+.site-switcher-menu > button small { margin-top: 3px; color: rgb(21 45 53 / 43%); font-size: .58rem; }
+.site-switcher-label {
+  padding: 5px 8px 7px;
+  color: rgb(21 45 53 / 39%);
+  font-size: .55rem;
+  font-weight: 850;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.site-switcher-menu > a {
+  margin-top: 4px;
+  padding: 9px 8px 5px;
+  border-top: 1px solid rgb(21 45 53 / 7%);
+  color: #5c7b70;
+  font-size: .62rem;
+  font-weight: 800;
+}
+.mobile-nav-toggle {
+  display: none;
+}
+.saas-nav-link {
+  transition: background-color .16s ease, color .16s ease, transform .16s ease;
+}
+.saas-nav-link.is-active {
+  box-shadow: inset 2px 0 #5c7b70;
+}
+.site-welcome {
+  padding-bottom: 6px;
+}
+.site-welcome-copy {
+  max-width: 720px;
+}
+.site-url-chip {
+  display: flex;
+  max-width: min(100%, 720px);
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 9px 11px;
+  border: 1px solid rgb(21 45 53 / 9%);
+  border-radius: 9px;
+  background: #fff;
+}
+.site-url-chip span {
+  flex: 0 0 auto;
+  color: rgb(21 45 53 / 37%);
+  font-size: .55rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+.site-url-chip strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #152d35;
+  font: 600 .66rem/1.4 "Geist Mono", "JetBrains Mono", monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-result-strip {
+  margin-top: 30px;
+}
+.audit-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, .7fr);
+  gap: 34px;
+  margin-top: 14px;
+  padding: 22px;
+}
+.audit-summary-main h2 {
+  max-width: 18ch;
+  margin: 7px 0 9px;
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -.055em;
+}
+.audit-summary-main p {
+  max-width: 58ch;
+  margin: 0;
+  color: rgb(21 45 53 / 55%);
+  font-size: .72rem;
+  line-height: 1.65;
+}
+.audit-summary-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+.audit-severity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-self: center;
+  border-top: 1px solid rgb(21 45 53 / 8%);
+  border-bottom: 1px solid rgb(21 45 53 / 8%);
+}
+.audit-severity-grid > div {
+  min-width: 0;
+  padding: 14px 11px;
+  border-right: 1px solid rgb(21 45 53 / 8%);
+}
+.audit-severity-grid > div:last-child { border-right: 0; }
+.audit-severity-grid span {
+  display: block;
+  color: rgb(21 45 53 / 38%);
+  font-size: .53rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.audit-severity-grid strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.6rem;
+  letter-spacing: -.06em;
+}
