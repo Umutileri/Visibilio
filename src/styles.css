@@ -3015,3 +3015,64 @@ input:focus-visible {
     max-width: 50vw;
   }
 }
+
+
+/* History surface */
+.history-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.history-summary > div {
+  min-height: 88px;
+  padding: 16px;
+  border-right: 1px solid rgb(21 45 53 / 7%);
+}
+
+.history-summary > div:last-child {
+  border-right: 0;
+}
+
+.history-summary span,
+.history-summary small {
+  display: block;
+  color: rgb(21 45 53 / 42%);
+  font-size: .61rem;
+  font-weight: 750;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.history-summary strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 1.55rem;
+  letter-spacing: -.04em;
+}
+
+.history-summary small {
+  margin-top: 3px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.history-table {
+  margin-top: 14px;
+}
+
+@media (max-width: 760px) {
+  .history-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .history-summary > div {
+    border-right: 0;
+    border-bottom: 1px solid rgb(21 45 53 / 7%);
+  }
+
+  .history-summary > div:last-child {
+    border-bottom: 0;
+  }
+}
