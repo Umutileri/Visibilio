@@ -183,7 +183,7 @@ describe("session cancellation route", () => {
 describe("scan artifact route", () => {
   it("serves screenshot bytes for a valid artifact", async () => {
     const capture = createBinaryResponseCapture();
-    const evidenceRoot = join(".visibilio", "evidence");
+    const evidenceRoot = join(".visibilio", "evidence", session.id);
     const screenshotPath = join(evidenceRoot, "route-test.png");
     await mkdir(evidenceRoot, { recursive: true });
     await writeFile(screenshotPath, Buffer.from([137, 80, 78, 71]));
