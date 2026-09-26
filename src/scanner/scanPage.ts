@@ -13,6 +13,9 @@ const issueNow = () => new Date().toISOString();
 
 export interface ScanOptions {
   evidenceDir?: string;
+  maxDurationMs?: number;
+  maxResponseBytes?: number;
+  maxRequests?: number;
   /**
    * Internal/test hook for navigation policy. Production callers should use
    * the default SSRF-safe policy.
@@ -31,6 +34,12 @@ export async function scanPage(
   options: ScanOptions = {},
 ): Promise<ScanResult> {
   const browser = await chromium.launch({ headless: true });
+  const maxDurationMs = options.maxDurationMs ?? 15_000;
+  const maxResponseBytes = options.maxResponseBytes ?? 8 * 1024 * 1024;
+  const maxRequests = options.maxRequests ?? 150;
+  const startedAt = Date.now();
+  let requestCount = 0;
+  let responseBytes = 0;
 
   try {
     const page = await browser.newPage({
@@ -45,6 +54,17 @@ export async function scanPage(
       options.navigationGuard ?? assertSafeNavigationTarget;
 
     await page.route("**/*", async (route) => {
+      if (Date.now() - startedAt > maxDurationMs) {
+        await route.abort("timedout");
+        return;
+      }
+
+      requestCount += 1;
+      if (requestCount > maxRequests) {
+        await route.abort("blockedbyclient");
+        return;
+      }
+
       const request = route.request();
       if (request.isNavigationRequest()) {
         try {
@@ -58,10 +78,19 @@ export async function scanPage(
     });
 
     try {
+      page.on("response", (response) => {
+        const length = response.headers()["content-length"];
+        if (length) responseBytes += Number(length) || 0;
+      });
+
       await page.goto(url, {
         waitUntil: "domcontentloaded",
         timeout: DEFAULT_TIMEOUT_MS,
       });
+
+      if (responseBytes > maxResponseBytes) {
+        throw new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
+      }
 
       const finalUrl = page.url();
       await navigationGuard(finalUrl);
