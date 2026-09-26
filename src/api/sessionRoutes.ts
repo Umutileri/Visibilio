@@ -1,4 +1,6 @@
 import type { ServerResponse } from "node:http";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import type { ScanSession } from "./sessionTypes";
 import { updateFindingStatus } from "./session";
 import type {
@@ -157,7 +159,49 @@ export async function handleScanArtifactGetRequest(
     return;
   }
 
-  json(response, 200, { ok: true, artifact });
+  const scan = session.results.find(
+    (item) =>
+      item.ok &&
+      session.artifacts.some(
+        (candidate) =>
+          candidate.id === artifactId &&
+          candidate.viewport.width === item.viewport.width &&
+          candidate.viewport.height === item.viewport.height,
+      ),
+  );
+
+  if (!scan || !scan.ok) {
+    json(response, 404, {
+      ok: false,
+      error: { code: "NOT_FOUND", message: "Artifact content is not available." },
+    } satisfies ScanApiFailure);
+    return;
+  }
+
+  const expectedPath = resolve(scan.screenshot.path);
+  const root = resolve(".visibilio/evidence");
+  if (expectedPath !== root && !expectedPath.startsWith(root + "/")) {
+    json(response, 400, {
+      ok: false,
+      error: { code: "INVALID_REQUEST", message: "Artifact path is outside the evidence store." },
+    } satisfies ScanApiFailure);
+    return;
+  }
+
+  try {
+    const data = await readFile(expectedPath);
+    response.writeHead(200, {
+      "content-type": artifact.contentType,
+      "cache-control": "private, max-age=300",
+      "content-length": data.byteLength,
+    });
+    response.end(data);
+  } catch {
+    json(response, 404, {
+      ok: false,
+      error: { code: "NOT_FOUND", message: "Artifact content is not available." },
+    } satisfies ScanApiFailure);
+  }
 }
 
 export async function handleScanRetestRequest(
