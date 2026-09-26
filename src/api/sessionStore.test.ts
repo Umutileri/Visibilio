@@ -86,4 +86,19 @@ describe("InMemoryScanSessionStore", () => {
 
     assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com"]);
   });
+
+  it("keeps different effective ports as separate websites", async () => {
+    const store = new InMemoryScanSessionStore();
+    const httpsSite = createScanSession("https://example.com");
+    const stagingSite = createScanSession("http://example.com:8080");
+
+    await store.create(httpsSite);
+    await store.create(stagingSite);
+
+    assert.equal(httpsSite.siteKey, "example.com:443");
+    assert.equal(stagingSite.siteKey, "example.com:8080");
+    assert.equal((await store.list("example.com:443")).length, 1);
+    assert.equal((await store.list("example.com:8080")).length, 1);
+  });
+
 });
