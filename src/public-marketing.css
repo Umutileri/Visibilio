@@ -3132,3 +3132,52 @@
   .landing-page .landing-demo-evidence .evidence-inspector { grid-template-columns: 1fr 1fr; }
   .landing-page .landing-demo-explain { grid-template-columns: 1fr; }
 }
+
+
+/* 2026 landing section rhythm */
+.landing-page .landing-url-section {
+  padding: clamp(88px, 9vw, 128px) 0;
+}
+.landing-page .landing-url-copy {
+  min-width: 0;
+}
+.landing-page .landing-url-copy h2 {
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.landing-page .landing-url-copy p {
+  max-width: 520px;
+}
+.landing-page .landing-url-proof {
+  min-width: 0;
+}
+.landing-page .landing-url-proof strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing-page .landing-proof-caption {
+  min-width: 0;
+}
+.landing-page .landing-proof-caption strong {
+  overflow-wrap: anywhere;
+}
+.landing-page .landing-faq-list details {
+  min-width: 0;
+}
+.landing-page .landing-faq-list summary {
+  gap: 20px;
+}
+.landing-page .landing-faq-list summary > span {
+  flex: 0 0 auto;
+}
+@media (max-width: 900px) {
+  .landing-page .landing-url-section { padding: 72px 0; }
+}
+@media (max-width: 640px) {
+  .landing-page .landing-url-section { padding: 58px 0; }
+  .landing-page .landing-url-copy h2 { max-width: 10.5ch; }
+  .landing-page .landing-url-proof { overflow-x: auto; }
+  .landing-page .landing-url-proof > * { flex: 0 0 auto; }
+  .landing-page .landing-faq-list summary { gap: 12px; }
+}
