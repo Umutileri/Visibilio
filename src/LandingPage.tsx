@@ -331,7 +331,7 @@ export default function LandingPage() {
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
           <div className="landing-nav-actions">
-          <div className="landing-language-switcher" aria-label="Language">
+            <div className="landing-language-switcher" aria-label="Language">
             <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
             <span>/</span>
             <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
