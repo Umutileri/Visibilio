@@ -20,7 +20,7 @@ export async function scanViewports(
   const results: ScanResult[] = [];
 
   for (const viewport of initialViewports) {
-    if (cancel && (await cancel())) break;
+    if (shouldCancel && (await shouldCancel())) break;
     results.push(await scanPage(url, viewport, scanOptions));
   }
 
