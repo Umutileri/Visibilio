@@ -3,6 +3,7 @@ import { createServer, type Server } from "node:http";
 import { access, rm } from "node:fs/promises";
 import { after, before, describe, it } from "node:test";
 import { scanPage } from "./scanPage";
+import { assertSafeNavigationTarget } from "../api/urlSafety";
 import { initialViewports } from "./viewports";
 
 let server: Server;
@@ -53,6 +54,10 @@ describe("scanPage", () => {
   it("detects mobile overflow and emits a structured issue", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0], {
       evidenceDir,
+      navigationGuard: async (target) => {
+        if (target.startsWith(baseUrl)) return;
+        await assertSafeNavigationTarget(target);
+      },
     });
 
     assert.equal(result.ok, true);
@@ -85,6 +90,10 @@ describe("scanPage", () => {
   it("reports deterministic accessibility findings", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[0], {
       evidenceDir,
+      navigationGuard: async (target) => {
+        if (target.startsWith(baseUrl)) return;
+        await assertSafeNavigationTarget(target);
+      },
     });
 
     assert.equal(result.ok, true);
@@ -114,6 +123,10 @@ describe("scanPage", () => {
   it("does not report overflow on the wider desktop viewport", async () => {
     const result = await scanPage(`${baseUrl}/fixture`, initialViewports[1], {
       evidenceDir,
+      navigationGuard: async (target) => {
+        if (target.startsWith(baseUrl)) return;
+        await assertSafeNavigationTarget(target);
+      },
     });
 
     assert.equal(result.ok, true);
