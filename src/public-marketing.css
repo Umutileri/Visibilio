@@ -1145,6 +1145,7 @@
 .landing-proof-list article {
   min-width: 0;
   min-height: 224px;
+  position: relative;
   padding: 24px 28px 28px 0;
   border-right: 1px solid rgb(21 45 53 / 9%);
 }
@@ -1158,14 +1159,17 @@
 }
 
 .landing-proof-list article > span {
-  color: rgb(21 45 53 / 27%);
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: rgb(21 45 53 / 38%);
   font-size: .58rem;
   font-weight: 800;
 }
 
 .landing-proof-list h3 {
   max-width: 14ch;
-  margin: 38px 0 10px;
+  margin: 34px 0 12px;
   font-size: 1.45rem;
   font-weight: 700;
   line-height: 1.05;
@@ -1295,11 +1299,13 @@
 .landing-evidence-contrast {
   min-width: 0;
   border-top: 1px solid rgb(21 45 53 / 10%);
+  border-bottom: 1px solid rgb(21 45 53 / 10%);
 }
 
 .landing-evidence-contrast > div {
   min-width: 0;
-  padding: 22px 0 24px;
+  padding: 24px 20px 26px;
+  background: rgb(255 255 255 / 34%);
   border-bottom: 1px solid rgb(21 45 53 / 8%);
 }
 
@@ -1360,9 +1366,9 @@
 
 .landing-retest-visual {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 92px minmax(0, 1fr);
+  grid-template-columns: minmax(0, .95fr) minmax(190px, 1fr) minmax(0, .95fr);
   gap: 14px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .result-before,
@@ -1397,7 +1403,13 @@
 }
 
 .result-divider {
+  display: grid;
   min-width: 0;
+  place-items: center;
+  align-content: center;
+  padding: 12px;
+  border: 1px solid rgb(99 129 115 / 18%);
+  background: #edf4ef;
   text-align: center;
 }
 
@@ -1406,23 +1418,37 @@
   color: var(--landing-sage);
   font-size: .57rem;
   font-weight: 800;
+  letter-spacing: .08em;
 }
 
 .result-divider i {
   display: block;
-  margin-top: 10px;
+  margin-top: 9px;
   color: var(--landing-sage);
   font-size: 2rem;
   font-style: normal;
+  line-height: 1;
 }
 
 .result-foot {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding-top: 10px;
   color: rgb(21 45 53 / 35%);
   font-size: .57rem;
   font-weight: 600;
   line-height: 1.5;
+}
+
+.result-foot::after {
+  content: "✓ VERIFIED";
+  color: var(--landing-sage);
+  font-size: .54rem;
+  font-weight: 800;
+  letter-spacing: .08em;
 }
 
 .landing-faq-section {
