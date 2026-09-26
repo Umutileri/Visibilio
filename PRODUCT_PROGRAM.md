@@ -233,6 +233,9 @@ Landing-page polish is part of the product, not a separate marketing exercise.
 - [x] Landing workflow hierarchy
 - [x] Landing evidence/re-test visual hierarchy
 - [x] Consistent primary CTA language
+- [x] Distinct outcome visual with animated measured-state transition
+- [x] Workflow proof-card alignment contract
+- [x] EN/TR hardcoded-copy audit for landing interactions and evidence states
 - [ ] Full device/browser validation
 - [ ] Skeleton/loading polish
 - [ ] Error recovery
@@ -288,6 +291,7 @@ Before calling the public landing “done”, validate the complete page as one 
 - Proof cards: all three cards use the same inner grid and baseline alignment.
 - Evidence: measured facts and AI interpretation are visually distinct.
 - Re-test: before/after values read as a result, not decorative numbers.
+- Outcome: the final proof visual is meaningfully different from the step-04 workflow demo and shows the UI state changing.
 - Mobile: no horizontal overflow, no hover dependency, and no isolated headings.
 - Localization: EN and TR preserve meaning, hierarchy, and product terminology rather than translating word-for-word.
 - Deployment: CI passes and the deployed page is checked at representative viewport widths.
