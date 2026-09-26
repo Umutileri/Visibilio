@@ -13,7 +13,8 @@
     "test:scanner": "tsx --test src/scanner/*.test.ts",
     "test:api": "tsx --test src/api/*.test.ts",
     "ci": "npm run build && npm run lint && npm run format:check && npm run test:scanner && npm run test:api",
-    "scan:api": "tsx src/api/server.ts"
+    "scan:api": "tsx src/api/server.ts",
+    "db:migrate": "tsx src/api/runMigrations.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "4.1.13",
