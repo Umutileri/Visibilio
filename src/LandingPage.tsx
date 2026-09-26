@@ -61,7 +61,7 @@ function localizeFeatureSteps(language: Language) {
 
 function Brand() {
   return (
-    <a className="landing-brand" href="#top" aria-label={t.homeAria}>
+    <a className="landing-brand" href="#top" aria-label="Visibilio home">
       <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
       <span>Visibilio</span>
     </a>
