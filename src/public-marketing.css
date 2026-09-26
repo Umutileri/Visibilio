@@ -2484,3 +2484,19 @@
   0%, 38% { opacity: 0; transform: translateY(5px) scale(.96); }
   48%, 100% { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+
+/* Missing class contracts discovered by JSX/CSS audit. */
+.landing-proof-intro,
+.landing-audience-callout {
+  min-width: 0;
+}
+.landing-share-section {
+  width: 100%;
+}
+.landing-share-dark {
+  background: var(--landing-ink);
+}
+.landing-outcome-visual {
+  min-width: 0;
+}
