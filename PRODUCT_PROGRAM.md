@@ -81,6 +81,8 @@ Status: complete for current rule set.
 ### P2 — Scan execution boundary
 Status: in progress.
 
+Current boundary: localhost-bound API + deterministic scanner. Public scanning remains disabled until redirect/navigation SSRF enforcement, DNS rebinding resistance, browser isolation, and resource/cost controls are complete.
+
 - [x] Typed server API contract
 - [x] HTTP/HTTPS validation
 - [x] Credential rejection
@@ -126,15 +128,16 @@ Status: partially complete.
 ### P5 — Scan Session + persistence boundary
 Goal: turn one scan response into a reusable product object.
 
-- [ ] Define ScanSession contract
-- [ ] Define stable scan id
-- [ ] Record started/completed timestamps
-- [ ] Record scan status
-- [ ] Store viewport results
-- [ ] Store findings
-- [ ] Store evidence artifact references
-- [ ] Separate current session from prior sessions
-- [ ] Add local persistence first, backend persistence later
+- [x] Define ScanSession contract
+- [x] Define stable scan id
+- [x] Record started/completed timestamps
+- [x] Record scan status
+- [x] Store viewport results
+- [x] Store findings
+- [x] Store evidence artifact references
+- [x] Separate current session from prior sessions
+- [x] Add local in-memory Website/Scan stores as the domain boundary
+- [ ] Add durable persistence
 
 ### P6 — AI Explanation
 Goal: explain findings without changing evidence.
@@ -178,9 +181,10 @@ Goal: make Visibilio useful repeatedly without exposing workspace/project semant
 - [x] Website switcher
 - [x] Site-scoped scan history
 - [x] Scan history
-- [ ] Previous/current comparison
-- [ ] Findings resolved since previous scan
-- [ ] New findings since previous scan
+- [x] Previous/current comparison model
+- [x] Findings resolved since previous scan
+- [x] New findings since previous scan
+- [x] History movement summary
 - [ ] Overview “health movement” summary
 - [ ] Persistent evidence/artifacts
 
