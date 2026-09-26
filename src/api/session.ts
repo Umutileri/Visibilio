@@ -93,13 +93,26 @@ export function findRetestMatch(
   return undefined;
 }
 
+export type RetestOutcome = "resolved" | "still-present" | "inconclusive";
+
+export interface RetestComparison {
+  before: UIssue;
+  after?: UIssue;
+  outcome: RetestOutcome;
+}
+
 export function buildRetestComparison(
   original: UIssue,
   results: ScanResult[],
-): { before: UIssue; after?: UIssue; outcome: "resolved" | "still-present" | "not-found" } {
-  const after = findRetestMatch(original, results);
+): RetestComparison {
+  const successfulResults = results.filter((result) => result.ok);
+  if (successfulResults.length !== results.length) {
+    return { before: original, outcome: "inconclusive" };
+  }
+
+  const after = findRetestMatch(original, successfulResults);
   if (!after) {
-    return { before: original, outcome: "not-found" };
+    return { before: original, outcome: "resolved" };
   }
   return { before: original, after, outcome: "still-present" };
 }
