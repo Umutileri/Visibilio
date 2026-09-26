@@ -43,7 +43,7 @@ describe("scanViewports", () => {
   it("runs the configured viewport set", async () => {
     const evidenceDir = await mkdtemp(tmpdir() + "/visibilio-evidence-");
     try {
-      const result = await scanViewports(`${baseUrl}/fixture`, undefined, { evidenceDir });
+      const result = await scanViewports(`${baseUrl}/fixture`, { evidenceDir });
 
       assert.equal(result.results.length, 2);
       assert.equal(result.results[0]?.viewport.name, "Mobile");
