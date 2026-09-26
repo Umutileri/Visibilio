@@ -141,3 +141,20 @@ A1 → A2 → B1 → B2 → B3 → B4 → C1 → C2 → C3 → D1 → D2 → D3 
 - Treat evidence as a first-class product object.
 - Design for non-developers first; expose technical detail progressively.
 - Avoid generic AI SaaS patterns such as gradients, glow, floating assistants, and dense KPI grids.
+
+
+## 2026-09-26 refinement pass
+
+The product shell and public landing should share the same evidence-first interaction model.
+
+### Shell decisions
+- Website is the visible product context; workspace remains an internal tenancy concept.
+- Mobile primary navigation uses an explicit disclosure control rather than a horizontally centered tab strip.
+- Overview surfaces a compact latest-scan summary and severity breakdown when results exist.
+- Finding detail remains the place for evidence and re-test actions.
+
+### Landing decisions
+- Workflow proof cards use explicit shared alignment rules.
+- The final outcome visual is deliberately different from the step-04 workflow visual.
+- Outcome demonstrates a measured UI state changing from `34 px` overflow to `0 px` within viewport.
+- EN/TR marketing interaction labels are localized rather than hardcoded where they appear in the UI.
