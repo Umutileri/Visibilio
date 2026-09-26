@@ -41,8 +41,6 @@ export class InMemoryScanSessionStore implements ScanSessionStore {
       right.createdAt.localeCompare(left.createdAt),
     );
   }
-
-}
 }
 
 export const defaultScanSessionStore = new InMemoryScanSessionStore();
