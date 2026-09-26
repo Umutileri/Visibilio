@@ -2,8 +2,8 @@
 
 ## A — Foundation
 
-### A1 — Close M3
-- Finish PR #30 only when formatting, build, lint, and scanner tests are green.
+### A1 — Foundation checks
+- Keep formatting, build, lint, scanner tests, and API tests green on the active baseline.
 - Keep deterministic findings evidence-backed and tested.
 
 ### A2 — Safe scanner boundary
