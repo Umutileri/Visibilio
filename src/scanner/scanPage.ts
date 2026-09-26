@@ -160,13 +160,18 @@ export async function scanPage(
       const message =
         error instanceof Error ? error.message : "Unknown page error";
       const isTimeout = /timeout/i.test(message);
+      const isResourceLimit = /SCAN_RESOURCE_LIMIT/i.test(message);
 
       return {
         ok: false,
         url,
         viewport,
         error: {
-          code: isTimeout ? "TIMEOUT" : "PAGE_ERROR",
+          code: isResourceLimit
+            ? "RESOURCE_LIMIT"
+            : isTimeout
+              ? "TIMEOUT"
+              : "PAGE_ERROR",
           message,
         },
       };
