@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import type { VisibilioStorage } from "./storage";
 import { createPostgresStorage } from "./postgresStorage";
+import { runMigrations } from "./runMigrations";
 import { createInMemoryStorage } from "./storage";
 
 export type StorageMode = "memory" | "postgres";
@@ -22,6 +23,7 @@ export async function createStorageFromEnv(
     throw new Error("VISIBILIO_STORAGE=postgres requires DATABASE_URL.");
   }
 
+  await runMigrations(env.DATABASE_URL);
   const storage = createPostgresStorage(env.DATABASE_URL);
   await storage.pool.query("SELECT 1");
   return storage;
