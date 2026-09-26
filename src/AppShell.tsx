@@ -985,7 +985,7 @@ function AppShell() {
                 )}
               </div>
 
-              {evidenceOpen && selectedFinding && selectedArtifact && scanApiBase && (
+              {evidenceOpen && response?.ok && selectedFinding && selectedArtifact && scanApiBase && (
                 <div className="evidence-overlay" role="dialog" aria-modal="true" aria-label="Evidence viewer" onClick={() => setEvidenceOpen(false)}>
                   <div className="evidence-modal surface" onClick={(event) => event.stopPropagation()}>
                     <div className="evidence-modal-head">
