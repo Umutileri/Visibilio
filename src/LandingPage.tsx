@@ -10,7 +10,7 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", viewportWidthLabel: "Viewport width", documentWidthLabel: "Document width", featureStepsLabel: "Feature steps", outcomeAria: "Before and after UI measurement", homeAria: "Visibilio home", 
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Know what to fix next.</em>",
     heroBody: "Scan a real page, see measurable UI problems, understand the evidence, and verify the fix.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
@@ -26,7 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>See what needs fixing.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", finalSetup: "No setup tour required.", footerTagline: "Website UI quality, backed by browser evidence.", languageLabel: "Language", openNavigation: "Open navigation", closeNavigation: "Close navigation", foundLabel: "FOUND", observedLabel: "OBSERVED", interpretedLabel: "INTERPRETED", beforeLabel: "BEFORE", afterLabel: "AFTER", overflowLabel: "overflow", withinViewportLabel: "within viewport", aiNotMeasurement: "AI-generated context · not a measurement", observedCopy: "34 px horizontal overflow", observedMeta: "viewport: 390 × 844 · selector: .pricing-grid", interpretedCopy: "Check fixed-width children and grid sizing first.", observedFact: "Document width is larger than the tested viewport."
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?", viewportWidthLabel: "Ekran genişliği", documentWidthLabel: "Belge genişliği", featureStepsLabel: "Özellik adımları", outcomeAria: "Arayüz sorununun önce ve sonra ölçümü", homeAria: "Visibilio ana sayfa",
     heroEyebrow: "Gerçek tarayıcı verileriyle web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Sonraki düzeltmeyi netleştirin.</em>",
     heroBody: "Gerçek bir sayfayı tarayın; ölçülebilir arayüz sorunlarını görün, kanıtı anlayın ve yaptığınız düzeltmeyi tekrar test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve tekrar test etmek için tek akış.",
@@ -61,7 +61,7 @@ function localizeFeatureSteps(language: Language) {
 
 function Brand() {
   return (
-    <a className="landing-brand" href="#top" aria-label="Visibilio home">
+    <a className="landing-brand" href="#top" aria-label={t.homeAria}>
       <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
       <span>Visibilio</span>
     </a>
@@ -129,8 +129,8 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
       <div className="landing-demo landing-demo-evidence">
         <div className="evidence-heading-row"><span>{t.demoMeasurement}</span><b>{t.demoMobile} / 390 × 844</b></div>
         <div className="evidence-inspector">
-          <div><small>{t.viewport}Width</small><strong>390</strong><em>px</em></div>
-          <div><small>{t.document}Width</small><strong>424</strong><em>px</em></div>
+          <div><small>{t.viewportWidthLabel}</small><strong>390</strong><em>px</em></div>
+          <div><small>{t.documentWidthLabel}</small><strong>424</strong><em>px</em></div>
           <div><small>{t.overflowLabel}</small><strong>34</strong><em>px</em></div>
           <div><small>{t.selector}</small><strong>.pricing-grid</strong></div>
         </div>
@@ -480,7 +480,7 @@ export default function LandingPage() {
                 <h2>{featureSteps[activeStep].title}</h2>
                 <p>{featureSteps[activeStep].copy}</p>
               </div>
-              <div className="landing-feature-nav" role="tablist" aria-label={language === "TR" ? "Özellik adımları" : "Feature steps"}>
+              <div className="landing-feature-nav" role="tablist" aria-label={t.featureStepsLabel}>
                 {featureSteps.map((step, index) => (
                   <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" id={`landing-feature-tab-${step.id}`} aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
                     <span>{step.index}</span><strong>{step.title}</strong>
@@ -527,7 +527,7 @@ export default function LandingPage() {
               <p>{t.resultBody}</p>
               <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
             </div>
-            <div className="landing-outcome-visual" aria-label={language === "TR" ? "Arayüz sorununun önce ve sonra ölçümü" : "Before and after UI measurement"}>
+            <div className="landing-outcome-visual" aria-label={t.outcomeAria}>
               <div className="outcome-visual-head">
                 <span>{t.outcomeChange}</span>
                 <b>{t.outcomeRule}</b>
