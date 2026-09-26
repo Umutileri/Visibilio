@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import type { QueryResult } from "pg";
 import { createScanSession, updateScanSession } from "./session";
 import {
   PostgresScanSessionRepository,
@@ -8,8 +7,8 @@ import {
 } from "./postgresStorage";
 
 function mockPool(
-  responses: Array<Partial<QueryResult<unknown>>>,
-): { queries: Array<{ text: string; values?: unknown[] }>; query: (...args: any[]) => Promise<any> } {
+  responses: Array<{ rows?: unknown[] }>,
+): { queries: Array<{ text: string; values?: unknown[] }>; query: (text: string, values?: unknown[]) => Promise<{ rows: unknown[] }> } {
   const queries: Array<{ text: string; values?: unknown[] }> = [];
   return {
     queries,
