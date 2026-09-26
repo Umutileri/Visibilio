@@ -96,11 +96,6 @@ function flattenResults(
   return results.flatMap(({ scan }) => (scan.ok ? scan.issues : []));
 }
 
-function statusLabel(scan: ScanSuccess | null): string {
-  if (!scan) return "No scan yet";
-  return scan.issues.length ? "Needs attention" : "No findings";
-}
-
 function ShellLogo() {
   return (
     <img
