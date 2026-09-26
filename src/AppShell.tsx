@@ -470,6 +470,15 @@ function AppShell() {
   const scanApiBase = import.meta.env.VITE_SCAN_API_URL?.replace(/\/$/, "") ?? "";
 
 
+  useEffect(() => {
+    if (!evidenceOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setEvidenceOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [evidenceOpen]);
+
   return (
     <div className="saas-app">
       <aside className="saas-sidebar">
