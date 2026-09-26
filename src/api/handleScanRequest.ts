@@ -63,6 +63,12 @@ const MAX_URL_LENGTH = 2048;
       artifacts,
     });
     await defaultScanSessionStore.update(completedSession);
+    await defaultWebsiteStore.upsert({
+      key: completedSession.siteKey,
+      name: completedSession.siteName,
+      url: completedSession.url,
+      lastScanAt: completedSession.completedAt ?? completedSession.createdAt,
+    });
   } catch {
     const latestSession = await defaultScanSessionStore.get(sessionId);
     if (!latestSession || latestSession.status === "cancelled") return;
