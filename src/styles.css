@@ -2809,3 +2809,209 @@ input:focus-visible {
     padding: 10px;
   }
 }
+
+
+/* Site-centric product shell: keep the app about the website being audited, not a generic workspace. */
+.saas-app {
+  grid-template-columns: 224px minmax(0, 1fr);
+  background: #f6faf7;
+}
+
+.saas-sidebar {
+  background: #f8fbf9;
+}
+
+.saas-sidebar-head {
+  padding-bottom: 10px;
+}
+
+.site-switcher {
+  margin-top: 18px;
+}
+
+.site-switcher .site-avatar {
+  background: #d4ecdd;
+  color: #152d35;
+}
+
+.saas-sidebar-label {
+  margin-top: 8px;
+}
+
+.saas-sidebar-section nav {
+  display: grid;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.saas-nav-link {
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding-inline: 12px;
+}
+
+.saas-nav-link.is-active {
+  border-color: rgb(21 45 53 / 8%);
+  background: #e8f1eb;
+}
+
+.sidebar-meta-link {
+  margin-top: 6px;
+}
+
+.topbar-kicker {
+  letter-spacing: .1em;
+}
+
+.topbar-back {
+  padding: 7px 9px;
+  border: 1px solid rgb(21 45 53 / 9%);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.site-overview-welcome {
+  min-height: 330px;
+}
+
+.workspace-welcome-copy h1 {
+  max-width: 12ch;
+}
+
+.workspace-flow-card {
+  background: #edf5ef;
+}
+
+.workspace-flow-step.is-active strong {
+  color: #2e5d4c;
+}
+
+.workspace-result-strip {
+  border-top-color: rgb(21 45 53 / 8%);
+  border-bottom-color: rgb(21 45 53 / 8%);
+}
+
+.page-intro h1 {
+  max-width: 14ch;
+}
+
+.findings-intro .finding-count strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.finding-layout {
+  align-items: start;
+}
+
+.finding-list {
+  background: transparent;
+}
+
+.finding-row {
+  min-height: 64px;
+}
+
+.finding-row.is-selected {
+  border-radius: 8px;
+  outline: 1px solid rgb(21 45 53 / 9%);
+}
+
+.finding-detail {
+  position: sticky;
+  top: 82px;
+}
+
+.finding-status-actions .solid-button,
+.finding-status-actions .outline-button {
+  min-height: 36px;
+}
+
+@media (max-width: 1050px) {
+  .saas-app {
+    grid-template-columns: 206px minmax(0, 1fr);
+  }
+
+  .finding-detail {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .saas-sidebar {
+    border-bottom: 1px solid rgb(21 45 53 / 8%);
+  }
+
+  .saas-sidebar-head {
+    padding-bottom: 8px;
+  }
+
+  .site-switcher {
+    margin-top: 10px;
+  }
+
+  .saas-sidebar-section nav {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .saas-nav-link {
+    min-height: 38px;
+    padding-inline: 11px;
+  }
+
+  .saas-nav-link small {
+    display: none;
+  }
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .site-overview-welcome {
+    min-height: 0;
+  }
+
+  .workspace-flow-card {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 14px;
+  }
+
+  .workspace-flow-card > .surface-kicker {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+  }
+
+  .workspace-flow-step {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+
+  .workspace-flow-step small {
+    font-size: .59rem;
+  }
+
+  .finding-detail {
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 520px) {
+  .workspace-flow-card {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-flow-card > .surface-kicker {
+    grid-column: auto;
+  }
+
+  .workspace-flow-step {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .topbar-context strong {
+    max-width: 50vw;
+  }
+}
