@@ -106,7 +106,7 @@ function AppShell() {
   const [siteMenuOpen, setSiteMenuOpen] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
-  const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "checks" | "done">("idle");
+  const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "done">("idle");
   const scanAbortRef = useRef<AbortController | null>(null);
   const scanTimerRef = useRef<number | null>(null);
   const [error, setError] = useState("");
