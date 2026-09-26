@@ -1666,14 +1666,7 @@
   .landing-proof-list {
     margin-top: 38px;
   }
-\n  .landing-workflow-strip {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-top: 28px;
-    padding: 14px 0;
-  }
-
-  .landing-workflow-strip i {
+\n  .landing-workflow-strip i {
     display: none;
   }
 
