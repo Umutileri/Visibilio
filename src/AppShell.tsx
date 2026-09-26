@@ -6,6 +6,7 @@ import type {
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
 import type { WebsiteRef } from "./api/sessionTypes";
 import { compareScanSessions } from "./api/scanComparison";
+import { buildRetestComparison, type RetestComparison } from "./api/session";
 import type { FindingExplanationResponse } from "./api/types";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -18,10 +19,8 @@ type AppSection =
 
 type RetestUiComparison = {
   session: { id: string; siteName: string };
-  comparison: {
-    findingId: string;
-    outcome: "resolved" | "still-present" | "inconclusive";
-  };
+  findingId: string;
+  comparison: RetestComparison;
 };
 
 const sections: Array<{ id: AppSection; label: string; key: string }> = [
@@ -1005,7 +1004,7 @@ function AppShell() {
                         ))}
                       </div>
                     </div>
-                    {retestComparison?.comparison.findingId === selectedFinding.id && (
+                    {retestComparison?.findingId === selectedFinding.id && (
                       <div className="detail-section retest-inline-result">
                         <span className="detail-label">Latest re-test</span>
                         <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : retestComparison.comparison.outcome === "still-present" ? "Still present in the re-test" : "Could not confirm resolution"}</strong>
