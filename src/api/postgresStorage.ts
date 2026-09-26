@@ -31,6 +31,10 @@ function iso(value: Date | string | null): string | undefined {
   return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
 }
 
+function requiredIso(value: Date | string): string {
+  return iso(value)!;
+}
+
 function websiteFromRow(row: DatabaseRow): WebsiteRef {
   return {
     key: row.site_key,
@@ -50,7 +54,7 @@ function sessionFromRow(row: ScanRow): ScanSession {
     parentSessionId: row.parent_session_id ?? undefined,
     retestOfFindingId: row.retest_of_finding_id ?? undefined,
     status: row.status,
-    createdAt: iso(row.created_at)!,
+    createdAt: requiredIso(row.created_at),
     startedAt: iso(row.started_at),
     completedAt: iso(row.completed_at),
     results: row.results ?? [],
