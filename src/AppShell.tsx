@@ -121,7 +121,12 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
-    const onHash = () => setSection(sectionFromHash());
+    const onHash = () => {
+      setSection(sectionFromHash());
+      const hash = window.location.hash;
+      const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : "";
+      setFocusedFindingId(new URLSearchParams(query).get("finding"));
+    };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
