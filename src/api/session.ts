@@ -11,7 +11,7 @@ export function getWebsiteName(rawUrl: string): string {
 
 export function getWebsiteKey(rawUrl: string): string {
   const url = normalizeSiteUrl(rawUrl);
-  return url.hostname.toLowerCase();
+  return url.hostname.toLowerCase().replace(/^www\./, "");
 }
 
 export function createScanSession(url: string): ScanSession {
