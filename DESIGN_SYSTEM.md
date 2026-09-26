@@ -39,7 +39,7 @@ Preferred monospace fonts:
 - Geist Mono
 - JetBrains Mono
 
-The final font choice should be made once the application shell exists rather than creating unnecessary dependency work early.
+The marketing surface currently uses DM Sans; product-shell typography should remain tokenized and consolidated before adding additional font dependencies.
 
 ## Spacing and layout
 
