@@ -152,41 +152,90 @@ Prefer an engineering-tool/editorial layout over a generic card-heavy AI dashboa
 
 ## Public marketing experience
 
-The public landing page is part of the product experience. It must demonstrate the same UI quality that Visibilio promises to help users achieve.
+The landing page is a product surface, not a separate brochure. Its primary job is to make Visibilio's value understandable quickly, show evidence rather than abstract promises, and move the visitor toward an initial page analysis.
 
-### Navigation
-- Keep the navigation persistent and unobtrusive.
-- Prefer a compact product-site navigation over a traditional enterprise navbar.
-- Primary action is “Start for free”.
-- Secondary action opens the product workspace.
-- Anchor navigation must have smooth, predictable scrolling.
+### Marketing hierarchy
 
-### Page rhythm
-The landing flow should read as:
-1. Promise
-2. Show the product in action
-3. Invite the user to share a URL
-4. Explain the problem and Visibilio's difference
-5. Demonstrate the workflow
-6. Explain audience value
-7. Establish the evidence-first principle
-8. Show the measurable outcome
-9. End with a clear “Start for free” action
+The page should answer these questions in order:
 
-### Visual language
-Avoid:
-- looping keyword marquees
-- decorative process banners
-- generic AI dashboards
-- excessive pills, gradients, glows, or floating ornament
-- marketing claims that cannot be demonstrated by the product
+1. **What is Visibilio?** A website UI analysis and quality tool.
+2. **What does it find?** Measurable UI problems in a real browser.
+3. **Why trust the result?** Findings retain viewport, selector, and measurement evidence.
+4. **What happens next?** The user can understand the finding, act on it, and re-test the same check.
+5. **What should I do now?** Start with a page or URL.
+
+The first viewport should communicate category + outcome + product proof + one clear primary action. Clever wording must not replace product clarity.
+
+### Visual hierarchy
+
+Use a deliberate hierarchy:
+
+- **Primary:** headline, product evidence, primary CTA, measured result
+- **Secondary:** explanatory copy, workflow labels, audience context
+- **Tertiary:** metadata, navigation helpers, decorative rules
+
+Do not give the same visual weight to every section. Every major section needs one dominant idea.
+
+### Story architecture
+
+Use the sequence:
+
+**Promise → Product proof → URL action → Problem framing → Workflow → Audience value → Evidence principle → Before/after result → Objections → Final action**
+
+The workflow should read as one connected system:
+
+**Find → Measure → Explain → Fix → Re-test**
+
+Avoid presenting these as unrelated feature cards.
+
+### Product proof rules
+
+Marketing visuals must resemble believable product output.
 
 Prefer:
-- strong typographic hierarchy
-- asymmetrical editorial composition where useful
-- real product-shaped evidence
-- restrained motion
-- purposeful whitespace
-- clear alignment and grid discipline
+- measured values
+- viewport dimensions
+- selectors
+- finding status
+- before/after comparisons
+- explicit distinction between deterministic evidence and AI interpretation
 
-The landing page should itself be a small demonstration of evidence-backed interface quality.
+Avoid:
+- generic dashboards
+- decorative charts with no product meaning
+- fake social proof
+- invented customer metrics
+- unexplained AI effects
+
+### CTA rules
+
+Use one primary acquisition action throughout the page: **Start for free / Analyze a page**.
+
+Secondary links may explain the workflow but should not compete visually with the primary action.
+
+### Density and whitespace
+
+Whitespace should separate concepts, not create empty screens. If a section has a large vertical area, that space must support a clear visual or narrative purpose.
+
+Prefer shorter, denser transitions around workflow explanations and stronger breathing room around major narrative changes.
+
+### Mobile rules
+
+The mobile experience must preserve the same narrative hierarchy:
+
+- navigation becomes compact and accessible
+- primary CTA remains easy to reach
+- product proof stacks without losing labels
+- workflow stays visibly connected
+- metrics remain legible
+- no horizontal scrolling
+- no section relies on hover
+- headings should not become isolated from their supporting content
+
+### Motion
+
+Motion should explain state or progression. Avoid animation that exists only to make the page feel “AI-like”.
+
+### Validation
+
+Landing changes are not complete until they have been checked at representative widths (small phone, large phone, tablet, desktop) and interactive states (menu open/closed, anchor navigation, language switch, URL submission, reduced motion).
