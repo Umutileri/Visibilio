@@ -13,6 +13,8 @@ import type { ScanSession } from "./sessionTypes";
 const MAX_URL_LENGTH = 2048;
 const MAX_REQUEST_BODY_BYTES = 32_000;
 
+let legacyHandlers: ReturnType<typeof createScanHandlers> | null = null;
+
 function failure(
   response: ServerResponse,
   statusCode: number,
@@ -296,3 +298,15 @@ export function createScanHandlers(storage: VisibilioStorage) {
 }
 
 export const defaultStorage = null;
+
+
+export async function handleScanRequest(
+  request: IncomingMessage,
+  response: ServerResponse,
+): Promise<void> {
+  if (!legacyHandlers) {
+    const { defaultStorage } = await import("./storage");
+    legacyHandlers = createScanHandlers(defaultStorage);
+  }
+  return legacyHandlers.handleScanRequest(request, response);
+}
