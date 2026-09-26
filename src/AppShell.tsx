@@ -275,21 +275,11 @@ function AppShell() {
             finding.viewport.height === selectedFinding.viewport.height &&
             finding.selector === selectedFinding.selector,
         );
-        const sameViewportScan = pollData.session.results.some(
-          (result) =>
-            result.ok &&
-            result.viewport.width === selectedFinding.viewport.width &&
-            result.viewport.height === selectedFinding.viewport.height,
-        );
         setRetestComparison({
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            outcome: comparison
-              ? "still-present"
-              : sameViewportScan
-                ? "inconclusive"
-                : "inconclusive",
+            outcome: comparison ? "still-present" : "inconclusive",
           },
         });
         setResponse({
@@ -466,7 +456,8 @@ function AppShell() {
   const hasResults = findings.length > 0;
   const issuesVisible = filteredFindings;
   const currentSite = displayHostname(url);
-  const issueLabel = findings.length === 1 ? "finding" : "findings";\n  const canRetry = Boolean(url.trim()) && !isScanning;
+  const issueLabel = findings.length === 1 ? "finding" : "findings";
+  const canRetry = Boolean(url.trim()) && !isScanning;
 
   const selectedArtifact = response?.ok && selectedFinding
     ? response.session.artifacts.find(
