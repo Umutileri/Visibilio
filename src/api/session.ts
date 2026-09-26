@@ -9,9 +9,14 @@ export function getWebsiteName(rawUrl: string): string {
   return normalizeSiteUrl(rawUrl).hostname;
 }
 
+function effectivePort(url: URL): string {
+  if (url.port) return url.port;
+  return url.protocol === "https:" ? "443" : "80";
+}
+
 export function getWebsiteKey(rawUrl: string): string {
   const url = normalizeSiteUrl(rawUrl);
-  return url.hostname.toLowerCase().replace(/^www\./, "");
+  return url.hostname.toLowerCase().replace(/^www\./, "") + ":" + effectivePort(url);
 }
 
 export function createScanSession(url: string): ScanSession {
