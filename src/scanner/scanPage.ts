@@ -41,6 +41,7 @@ export async function scanPage(
   let requestCount = 0;
   let responseBytes = 0;
   let resourceLimitExceeded = false;
+  let resourceLimitError: Error | undefined;
 
   try {
     const page = await browser.newPage({
@@ -101,7 +102,7 @@ export async function scanPage(
       });
 
       if (resourceLimitExceeded || responseBytes > maxResponseBytes) {
-        throw new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
+        throw resourceLimitError ?? new Error("SCAN_RESOURCE_LIMIT: response budget exceeded.");
       }
 
       const finalUrl = page.url();
