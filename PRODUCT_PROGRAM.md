@@ -92,7 +92,7 @@ Current boundary: localhost-bound API + deterministic scanner. Public scanning r
 - [ ] Redirect/navigation SSRF controls
 - [ ] DNS rebinding-safe enforcement
 - [ ] Browser isolation/sandbox strategy
-- [ ] Resource/cost limits
+- [x] Resource/cost limits (time/request/response budgets)
 - [ ] Job lifecycle / queue
 - [ ] Public deployment
 
@@ -121,7 +121,7 @@ Status: partially complete.
 - [x] Screenshot artifact identity with stable session-scoped id
 - [x] Finding status actions
 - [x] “Show evidence” focused interaction
-- [ ] Screenshot binary serving / focused image viewer
+- [x] Screenshot binary serving / focused image viewer
 - [ ] Empty/loading/error polish
 - [ ] Mobile interaction polish
 
@@ -143,14 +143,14 @@ Goal: turn one scan response into a reusable product object.
 ### P6 — AI Explanation
 Goal: explain findings without changing evidence.
 
-- [ ] AI input contract
-- [ ] Plain-language explanation
-- [ ] Technical explanation
-- [ ] Evidence/context passed explicitly
-- [ ] Uncertainty handling
-- [ ] Invalid response handling
-- [ ] Retry behavior
-- [ ] Distinguish deterministic finding vs AI explanation in UI
+- [x] AI input contract
+- [x] Plain-language explanation
+- [x] Technical explanation
+- [x] Evidence/context passed explicitly
+- [x] Uncertainty handling
+- [x] Invalid response handling
+- [x] Retry behavior
+- [x] Distinguish deterministic finding vs AI explanation in UI
 
 ### P7 — Suggested Fixes
 Goal: move from understanding to action.
@@ -171,7 +171,7 @@ Goal: verify whether a change changed the measured result.
 - [x] Before/after measurement comparison
 - [x] Resolved/unresolved determination
 - [x] Safe finding matching
-- [ ] Changed-structure handling
+- [x] Changed-structure handling
 - [ ] Re-test history
 
 ### P9 — Websites + History
