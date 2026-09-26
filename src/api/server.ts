@@ -14,6 +14,7 @@ import { defaultScanSessionStore } from "./sessionStore";
 import { defaultWebsiteStore } from "./websiteStore";
 
 const port = Number(process.env.PORT ?? 8787);
+const MAX_REQUEST_BODY_BYTES = 32_000;
 
 function writeNotFound(response: ServerResponse): void {
   response.writeHead(404, { "content-type": "application/json" });
@@ -91,7 +92,22 @@ createServer(async (request, response) => {
 
   if (pathname === "/api/scans" && request.method === "POST") {
     let body = "";
-    for await (const chunk of request) body += chunk.toString();
+    for await (const chunk of request) {
+      body += chunk.toString();
+      if (body.length > MAX_REQUEST_BODY_BYTES) {
+        response.writeHead(413, { "content-type": "application/json" });
+        response.end(
+          JSON.stringify({
+            ok: false,
+            error: {
+              code: "INVALID_REQUEST",
+              message: "Request body is too large.",
+            },
+          }),
+        );
+        return;
+      }
+    }
 
     try {
       const payload = JSON.parse(body) as { url?: unknown };
