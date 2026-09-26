@@ -87,6 +87,7 @@ export async function scanPage(
         }
         await route.fulfill({ response, body });
       } catch {
+        if (resourceLimitExceeded) return;
         await route.abort("failed");
       }
     });
