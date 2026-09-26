@@ -18,6 +18,13 @@ AI-assisted website UI analysis that helps you **find**, **understand**, and **f
 
 ## What is Visibilio?
 
+### The landing page
+
+The public page is designed around the same product loop as the application: **Find → Measure → Explain → Fix → Re-test**. It uses concrete browser measurements, selectors, viewport values, and before/after examples rather than abstract product claims.
+
+The primary action is to analyze a page. The page should make the product category, measurable evidence, and next step understandable before asking the visitor to learn the rest of the system.
+
+
 Visibilio is a **website UI analysis and improvement platform** built to make website problems easier to see, understand, and fix.
 
 Instead of simply giving you a score, Visibilio is designed around one simple loop:
