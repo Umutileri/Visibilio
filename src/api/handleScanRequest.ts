@@ -2,7 +2,10 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
-import { defaultStorage } from "./storage";
+import { createStorageFromEnv } from "./storageFactory";
+import type { VisibilioStorage } from "./storage";
+
+export const defaultStorage = createStorageFromEnv();
 const defaultScanSessionStore = defaultStorage.scans;
 const defaultWebsiteStore = defaultStorage.websites;
 import type {
