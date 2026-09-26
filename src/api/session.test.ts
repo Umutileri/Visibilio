@@ -14,7 +14,7 @@ describe("scan session", () => {
     assert.match(session.id, /^scan_/);
     assert.equal(session.status, "queued");
     assert.equal(session.url, "https://example.com");
-    assert.equal(session.siteKey, "example.com");
+    assert.equal(session.siteKey, "example.com:443");
     assert.equal(session.siteName, "example.com");
     assert.deepEqual(session.results, []);
     assert.deepEqual(session.findings, []);
