@@ -80,3 +80,11 @@ export interface ScanSessionStartSuccess {
 }
 
 export type ScanSessionStartResponse = ScanSessionStartSuccess | ScanApiFailure;
+
+
+export interface WebsiteListSuccess {
+  ok: true;
+  websites: import("./sessionTypes").WebsiteRef[];
+}
+
+export type WebsiteListResponse = WebsiteListSuccess | ScanApiFailure;
