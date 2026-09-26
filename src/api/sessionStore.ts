@@ -4,7 +4,7 @@ export interface ScanSessionStore {
   create(session: ScanSession): Promise<ScanSession>;
   get(id: string): Promise<ScanSession | null>;
   update(session: ScanSession): Promise<ScanSession>;
-  list(): Promise<ScanSession[]>;
+  list(siteKey?: string): Promise<ScanSession[]>;
 }
 
 export class InMemoryScanSessionStore implements ScanSessionStore {
@@ -32,8 +32,12 @@ export class InMemoryScanSessionStore implements ScanSessionStore {
     return session;
   }
 
-  async list(): Promise<ScanSession[]> {
-    return [...this.sessions.values()].sort((left, right) =>
+  async list(siteKey?: string): Promise<ScanSession[]> {
+    const sessions = [...this.sessions.values()].filter(
+      (session) => !siteKey || session.siteKey === siteKey,
+    );
+
+    return sessions.sort((left, right) =>
       right.createdAt.localeCompare(left.createdAt),
     );
   }
