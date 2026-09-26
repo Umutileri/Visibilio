@@ -384,7 +384,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-\n.landing-window-head > b {
+
+.landing-window-head > b {
   margin-left: auto;
   color: var(--landing-sage);
   font-size: .52rem;
