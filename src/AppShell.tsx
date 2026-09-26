@@ -106,6 +106,7 @@ function AppShell() {
   const [statusFilter, setStatusFilter] = useState<"all" | UIssue["status"]>("all");
   const [retestBusy, setRetestBusy] = useState(false);
   const [retestComparison, setRetestComparison] = useState<RetestUiComparison | null>(null);
+  const [evidenceOpen, setEvidenceOpen] = useState(false);
 
   useEffect(() => {
     const pendingUrl = window.sessionStorage.getItem("visibilio-pending-url");
@@ -459,6 +460,24 @@ function AppShell() {
   const issuesVisible = filteredFindings;
   const currentSite = displayHostname(url);
   const issueLabel = findings.length === 1 ? "finding" : "findings";
+  const selectedArtifact = response?.ok && selectedFinding
+    ? response.session.artifacts.find(
+        (artifact) =>
+          artifact.viewport.width === selectedFinding.viewport.width &&
+          artifact.viewport.height === selectedFinding.viewport.height,
+      )
+    : null;
+  const scanApiBase = import.meta.env.VITE_SCAN_API_URL?.replace(/\/$/, "") ?? "";
+
+
+  useEffect(() => {
+    if (!evidenceOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setEvidenceOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [evidenceOpen]);
 
   return (
     <div className="saas-app">
@@ -875,13 +894,16 @@ function AppShell() {
                         <h2>{selectedFinding.title}</h2>
                         <p>{selectedFinding.description}</p>
                       </div>
-                      <a
+                      <button
                         className="outline-button"
-                        href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
-                        onClick={() => setFocusedFindingId(selectedFinding.id)}
+                        type="button"
+                        onClick={() => {
+                          setFocusedFindingId(selectedFinding.id);
+                          setEvidenceOpen(true);
+                        }}
                       >
                         Evidence
-                      </a>
+                      </button>
                     </div>
                     <div className="detail-section">
                       <span className="detail-label">Context</span>
@@ -895,9 +917,14 @@ function AppShell() {
                     <div className="detail-section">
                       <span className="detail-label">Next action</span>
                       <div className="finding-status-actions">
-                        <a className="solid-button" href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}>
-                          Review evidence
-                        </a>
+                        <button
+                          className="solid-button"
+                          type="button"
+                          onClick={() => setEvidenceOpen(true)}
+                          disabled={!selectedArtifact}
+                        >
+                          {selectedArtifact ? "Review evidence" : "Evidence unavailable"}
+                        </button>
                         <button
                           className="outline-button"
                           type="button"
@@ -957,6 +984,35 @@ function AppShell() {
                   </aside>
                 )}
               </div>
+
+              {evidenceOpen && response?.ok && selectedFinding && selectedArtifact && scanApiBase && (
+                <div className="evidence-overlay" role="dialog" aria-modal="true" aria-label="Evidence viewer" onClick={() => setEvidenceOpen(false)}>
+                  <div className="evidence-modal surface" onClick={(event) => event.stopPropagation()}>
+                    <div className="evidence-modal-head">
+                      <div>
+                        <span className="detail-label">Visual evidence</span>
+                        <strong>{selectedFinding.title}</strong>
+                        <small>{selectedFinding.viewport.width} × {selectedFinding.viewport.height}</small>
+                      </div>
+                      <button className="outline-button" type="button" onClick={() => setEvidenceOpen(false)}>
+                        Close
+                      </button>
+                    </div>
+                    <div className="evidence-frame">
+                      <img
+                        src={
+                          scanApiBase +
+                          "/api/scans/" +
+                          encodeURIComponent(response.session.id) +
+                          "/artifacts/" +
+                          encodeURIComponent(selectedArtifact.id)
+                        }
+                        alt={"Screenshot evidence for " + selectedFinding.title}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </section>
           )}
 
