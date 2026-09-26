@@ -129,9 +129,9 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
       <div className="landing-demo landing-demo-evidence">
         <div className="evidence-heading-row"><span>{t.demoMeasurement}</span><b>{t.demoMobile} / 390 × 844</b></div>
         <div className="evidence-inspector">
-          <div><small>viewportWidth</small><strong>390</strong><em>px</em></div>
-          <div><small>documentWidth</small><strong>424</strong><em>px</em></div>
-          <div><small>horizontalOverflow</small><strong>34</strong><em>px</em></div>
+          <div><small>{t.viewport}Width</small><strong>390</strong><em>px</em></div>
+          <div><small>{t.document}Width</small><strong>424</strong><em>px</em></div>
+          <div><small>{t.overflowLabel}</small><strong>34</strong><em>px</em></div>
           <div><small>{t.selector}</small><strong>.pricing-grid</strong></div>
         </div>
         <div className="evidence-ruler"><span>{t.viewport}</span><i /><b>+34 px</b></div>
