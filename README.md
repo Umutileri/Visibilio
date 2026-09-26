@@ -97,10 +97,10 @@ See [`PRODUCT_PROGRAM.md`](./PRODUCT_PROGRAM.md) for the implementation and busi
 | ⚠️ UI issue detection | Detect measurable responsive problems |
 | 🖼️ Visual evidence | Capture screenshots and measurements |
 | 📋 Issue reports | Turn findings into clear reports |
-| ✨ AI explanations | Explain issues in simple and technical language |
+| ✨ AI explanations | Explain findings while keeping measured evidence separate |
 | 🔄 Re-test | Verify whether a change resolved the issue |
 
-The first concrete detection target is **horizontal overflow**.
+The current deterministic rule set includes horizontal overflow, rendered element overflow, missing image alt text, missing form-control accessible names, and missing document language.
 
 ---
 
@@ -115,7 +115,7 @@ The first concrete detection target is **horizontal overflow**.
 **Testing / analysis**
 - Playwright
 
-The architecture will evolve as the product grows. New infrastructure should be introduced only when it solves a real product problem.
+The architecture is currently split between the React application shell, a Node/Playwright scanner, typed REST APIs, and a PostgreSQL persistence adapter. Public URL scanning remains gated behind the remaining SSRF, browser-isolation, queue, rate-limit, and observability controls.
 
 ---
 
