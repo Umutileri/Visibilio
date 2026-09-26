@@ -114,9 +114,9 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
           <div className="demo-overflow-box"><span>+34 px</span></div>
         </div>
         <div className="demo-note">
-          <small>FOUND</small>
+          <div className="demo-note-top"><small>{t.foundLabel}</small><span>{t.demoRule}</span></div>
           <strong>{t.demoIssue}</strong>
-          <span>{t.demoRule}</span>
+          <div className="demo-note-metric"><b>34 px</b><span>{t.overflowLabel}</span></div>
         </div>
       </div>
     );
@@ -130,7 +130,7 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
           <div><small>viewportWidth</small><strong>390</strong><em>px</em></div>
           <div><small>documentWidth</small><strong>424</strong><em>px</em></div>
           <div><small>horizontalOverflow</small><strong>34</strong><em>px</em></div>
-          <div><small>selector</small><strong>.pricing-grid</strong></div>
+          <div><small>{t.selector}</small><strong>.pricing-grid</strong></div>
         </div>
         <div className="evidence-ruler"><span>{t.viewport}</span><i /><b>+34 px</b></div>
       </div>
@@ -155,21 +155,22 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
 
   return (
     <div className="landing-demo landing-demo-retest">
-      <div className="retest-column">
-        <small>{t.retestBefore}</small>
-        <strong>34 px</strong>
-        <span>{t.retestOverflow}</span>
+      <div className="retest-summary">
+        <div className="retest-eyebrow">{t.retestBefore}</div>
+        <div className="retest-value">34 <span>px</span></div>
+        <div className="retest-label">{t.retestOverflow}</div>
       </div>
-      <div className="retest-center">
-        <span>{t.retestFix}</span>
-        <b>→</b>
-        <small>{t.retestRun}</small>
+      <div className="retest-action">
+        <div className="retest-action-step"><span>01</span><b>{t.retestFix}</b></div>
+        <i aria-hidden="true">→</i>
+        <div className="retest-action-step"><span>02</span><b>{t.retestRun}</b></div>
       </div>
-      <div className="retest-column retest-after">
-        <small>{t.retestAfter}</small>
-        <strong>0 px</strong>
-        <span>{t.retestWithin}</span>
+      <div className="retest-summary is-resolved">
+        <div className="retest-eyebrow">{t.retestAfter}</div>
+        <div className="retest-value">0 <span>px</span></div>
+        <div className="retest-label">{t.retestWithin}</div>
       </div>
+      <div className="retest-foot"><span>{t.retestFoot}</span><b>✓</b></div>
     </div>
   );
 }
