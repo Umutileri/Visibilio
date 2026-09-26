@@ -1,13 +1,10 @@
 # Visibilio Roadmap
 
-> Detailed product/business program: [PRODUCT_PROGRAM.md](./PRODUCT_PROGRAM.md)
+> Detailed implementation and business program: [PRODUCT_PROGRAM.md](./PRODUCT_PROGRAM.md)
 
 The roadmap is milestone-driven. Each milestone should produce a small, testable increment.
 
 ## M0 — Project Foundation
-
-**Goal:** Establish the development foundation.
-
 - [x] Create GitHub repository
 - [x] Create core product documentation
 - [x] Define agent guidelines
@@ -20,144 +17,121 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 
 **Exit criteria:** The app installs, runs locally, builds successfully, and basic checks pass.
 
-## M1 — Local Website Scan
-
-**Goal:** Execute a controlled test page and collect browser measurements.
-
-- [x] Define scan input
+## M1 — Deterministic Audit Engine
+- [x] Define scan input and typed results
 - [x] Add Playwright runner
-- [x] Add initial viewport presets
-- [x] Capture page/document dimensions
+- [x] Add viewport presets
+- [x] Capture document/viewport dimensions
 - [x] Detect horizontal overflow
-- [x] Return structured scan output
-- [x] Add error and timeout handling
+- [x] Detect rendered element overflow
+- [x] Detect missing image alt
+- [x] Detect missing form-control accessible name
+- [x] Detect missing document language
+- [x] Store selector and measurement evidence
+- [x] Add positive, negative, boundary, and regression tests
 
-**Exit criteria:** A controlled test page can be scanned and return reproducible measurement data.
+**Exit criteria:** Controlled page scans produce reproducible, evidence-backed findings across configured viewports.
 
-## M2 — First Issue System
+## M2 — Product Shell + Findings
+- [x] Website as the primary product object
+- [x] Overview / Analyze / Findings / History / Settings navigation
+- [x] Site-scoped scan history
+- [x] Finding detail and filters
+- [x] Screenshot capture and session-scoped artifact identity
+- [x] Binary screenshot artifact serving
+- [x] Focused evidence viewer
+- [x] Retry and cancellation flows
+- [x] Retest lineage and before/after comparison
 
-**Goal:** Convert measurements into a stable issue model.
+**Exit criteria:** A user can scan a controlled website, inspect evidence, retest a finding, and see the result.
 
-- [x] Define issue schema
-- [x] Define rule identifiers
-- [x] Implement horizontal-overflow rule
-- [x] Define deterministic severity behavior
-- [x] Store detection evidence
-- [x] Add positive tests
-- [x] Add negative tests
-- [x] Add boundary tests
+## M3 — Persistence + AI Explanation
+- [x] Website and ScanSession repository contracts
+- [x] In-memory storage for tests
+- [x] PostgreSQL persistence adapter
+- [x] Explicit database migration command
+- [x] AI explanation input/output contract
+- [x] Deterministic fallback explanation
+- [x] HTTP explanation provider adapter
+- [x] Provider response validation and retries
+- [x] Finding explanation UI
 
-**Exit criteria:** Horizontal overflow can be detected consistently with automated tests and clear evidence.
+**Exit criteria:** Scan history has a durable storage boundary and findings can receive clearly separated AI/fallback explanations.
 
-## M3 — Deterministic UI Audit Rules
+## M4 — Scan Execution Boundary
+- [x] HTTP/HTTPS validation
+- [x] Credential rejection
+- [x] Initial hostname/IP SSRF filtering
+- [x] Request body limit
+- [x] Scan timeout
+- [x] Request-count budget
+- [x] Response-byte budget
+- [ ] Redirect/navigation SSRF hardening
+- [ ] DNS rebinding-safe enforcement
+- [ ] Browser isolation/sandbox strategy
+- [ ] Queue/worker job lifecycle
+- [ ] Rate limiting and abuse controls
+- [ ] Observability
+- [ ] Production deployment validation
 
-**Goal:** Turn the scanner into a reusable rule runner with evidence-backed responsive and accessibility findings.
+**Exit criteria:** Arbitrary public URL scanning is enabled only after the remaining network, browser-isolation, queue, and abuse controls are verified.
 
-- [x] Separate detection rules from the Playwright page runner
-- [x] Detect rendered elements that extend beyond the viewport
-- [x] Detect images without an alt attribute
-- [x] Detect form controls without a programmatic name
-- [x] Detect documents without a language
-- [x] Add selector evidence where practical
-- [x] Add regression coverage for representative findings
-- [x] Verify the full CI workflow on GitHub
+## M5 — Suggested Fixes
+- [ ] Identify likely causes from evidence
+- [ ] Provide implementation directions
+- [ ] Optional code examples
+- [ ] Explicit suggestion labeling
+- [ ] Uncertainty and safety boundaries
 
-**Exit criteria:** A controlled page scan can produce multiple deterministic UI findings across configured viewports without relying on AI.
+**Exit criteria:** A user can move from a finding to a practical next step without confusing suggestions with measured facts.
 
-## M4 — Visual Evidence + Audit Workspace
+## M6 — Repeat-Use Intelligence
+- [x] Site-scoped history
+- [x] New-finding detection
+- [x] Resolved-finding detection
+- [x] History movement summary
+- [ ] Overview health movement
+- [ ] Persistent screenshot/object storage
+- [ ] Retest history surface
+- [ ] Cross-scan trend view
 
-**Goal:** Make findings easy to understand.
+**Exit criteria:** Users can understand how a website changed across repeated scans.
 
-- [x] Capture screenshots
-- [x] Store viewport metadata
-- [x] Show measured values
-- [x] Identify affected selectors where practical
-- [x] Add issue evidence view
-- [x] Connect workspace to typed scan API
-- [ ] Serve screenshots through stable artifact URLs
-- [ ] Add focused evidence viewer
+## M7 — Public SaaS
+- [ ] Authentication
+- [ ] Account/website isolation
+- [ ] Browser sandboxing
+- [ ] Navigation and redirect controls
+- [ ] Cost/usage metering
+- [ ] Rate limiting
+- [ ] Abuse protection
+- [ ] Privacy and retention policy
+- [ ] Production deployment
+- [ ] Operational monitoring
 
-**Exit criteria:** A user can see visual evidence and the measurements behind an issue.
+**Exit criteria:** Real users can safely run scans within explicit security, privacy, and resource constraints.
 
-## M4 — Audit Dashboard
+## M8 — UX / Marketing Polish
+- [ ] Landing navigation hierarchy refinement
+- [ ] Landing desktop/tablet/mobile validation
+- [ ] Keyboard/focus coverage
+- [ ] Reduced-motion behavior
+- [ ] Loading/error recovery polish
+- [ ] Density and whitespace tuning
+- [ ] Evidence interaction polish
+- [ ] Landing product proof
+- [ ] Copy and terminology consistency
 
-**Goal:** Turn scan results into a usable product interface.
-
-- [x] Issue summary
-- [x] Severity grouping
-- [x] Issue list
-- [x] Issue detail view
-- [x] Filters
-- [x] Loading state
-- [x] Empty state
-- [x] Error state
-- [x] Responsive layout
-
-**Exit criteria:** A user can move from a completed scan to a clear issue overview and detail.
-
-## M5 — AI Explanation
-
-**Goal:** Add AI interpretation on top of structured findings.
-
-- [ ] Define AI input contract
-- [ ] Generate plain-language explanations
-- [ ] Generate technical explanations
-- [ ] Preserve measured evidence separately
-- [ ] Add uncertainty handling
-- [ ] Add invalid/failed-response handling
-
-**Exit criteria:** AI explains existing structured findings without inventing evidence.
-
-## M6 — Suggested Fixes
-
-**Goal:** Make findings actionable.
-
-- [ ] Suggest likely causes
-- [ ] Suggest implementation directions
-- [ ] Provide code examples where appropriate
-- [ ] Label suggestions as suggestions
-- [ ] Add safety/uncertainty boundaries
-
-**Exit criteria:** A user can move from a finding to a practical next step without the system overstating certainty.
-
-## M7 — Re-test
-
-**Goal:** Verify whether an issue changed after a fix.
-
-- [ ] Re-run the same rule
-- [ ] Compare before/after measurements
-- [ ] Show resolved/unresolved state
-- [ ] Preserve previous evidence
-- [ ] Handle changed page structure safely
-
-**Exit criteria:** The system can demonstrate whether the same issue remains or has been resolved.
-
-## M8 — Public Website Scanning
-
-**Goal:** Safely extend scanning to user-provided public URLs.
-
-- [ ] URL validation
-- [ ] SSRF protections
-- [ ] Request/time/resource limits
-- [ ] Browser sandboxing strategy
-- [ ] Job/queue architecture
-- [ ] Scan status handling
-- [ ] Failure reporting
-
-**Exit criteria:** Public scanning works within explicit security and resource constraints.
+**Exit criteria:** The public landing page and product shell demonstrate the same evidence-first quality bar.
 
 ## Beyond MVP
-
-Possible future work:
-
-- Additional responsive/layout rules
-- Accessibility-oriented checks
-- Before/after comparison
-- Browser/device matrix
+- Additional responsive and accessibility rules
+- More viewport/device coverage
+- Visual comparison
 - Reports and exports
-- Human-assisted UI Fix Service
-- Team workspaces
 - Browser extension
-- Learning resources
+- Team collaboration
+- Billing and usage plans
+- Human-assisted UI Fix Service
 
-The roadmap should change when evidence from real usage suggests a different priority.
+The roadmap should change when real product evidence suggests a different priority.
