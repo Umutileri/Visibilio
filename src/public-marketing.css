@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 .landing-page {
   --landing-bg: #fbfdfb;
@@ -16,7 +16,7 @@
   overflow-x: clip;
   background: var(--landing-bg);
   color: var(--landing-ink);
-  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .landing-page *,
@@ -67,7 +67,7 @@
 .evidence-heading-row,
 .demo-browser-head,
 .landing-footer small {
-  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 .landing-hero-label {
