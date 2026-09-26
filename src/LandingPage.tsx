@@ -10,7 +10,7 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", 
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Fix what users notice.</em>",
     heroBody: "Scan a real page, see measurable UI problems, understand the evidence, and verify the fix.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
@@ -26,7 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Start free", finalTitle: "Give us a page.<br /><em>Get a clearer next step.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Start for free", finalSetup: "No setup tour required.", footerTagline: "Website UI quality, backed by evidence.", languageLabel: "Language", openNavigation: "Open navigation", closeNavigation: "Close navigation", foundLabel: "FOUND", observedLabel: "OBSERVED", interpretedLabel: "INTERPRETED", beforeLabel: "BEFORE", afterLabel: "AFTER", overflowLabel: "overflow", withinViewportLabel: "within viewport", aiNotMeasurement: "AI-generated context · not a measurement", observedCopy: "34 px horizontal overflow", observedMeta: "viewport: 390 × 844 · selector: .pricing-grid", interpretedCopy: "Check fixed-width children and grid sizing first.", observedFact: "Document width is larger than the tested viewport."
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?",
     heroEyebrow: "Gerçek tarayıcı verileriyle web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Görünen problemi düzeltin.</em>",
     heroBody: "Gerçek bir sayfayı tarayın; ölçülebilir arayüz sorunlarını görün, kanıtı anlayın ve yaptığınız düzeltmeyi tekrar test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve tekrar test etmek için tek akış.",
@@ -368,7 +368,7 @@ export default function LandingPage() {
       <header className="landing-nav-wrap">
         <div className="landing-nav">
           <Brand />
-          <nav id="landing-navigation" className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label="Main navigation">
+          <nav id="landing-navigation" className={menuOpen ? "landing-nav-links is-open" : "landing-nav-links"} aria-label={t.navLabel}>
             {navLinks.map(([href, key]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{t[key]}</a>
             ))}
