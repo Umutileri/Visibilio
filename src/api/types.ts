@@ -64,12 +64,6 @@ export interface ScanRetestRequest {
 export interface ScanRetestSuccess {
   ok: true;
   session: ScanSession;
-  comparison: {
-    findingId: string;
-    before: UIssue;
-    after?: UIssue;
-    outcome: "resolved" | "still-present" | "not-found";
-  };
 }
 
 export type ScanRetestResponse = ScanRetestSuccess | ScanApiFailure;
