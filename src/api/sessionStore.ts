@@ -42,25 +42,7 @@ export class InMemoryScanSessionStore implements ScanSessionStore {
     );
   }
 
-  async listSites(): Promise<Array<{ key: string; name: string; url: string; latestScanAt?: string }>> {
-    const sites = new Map<string, { key: string; name: string; url: string; latestScanAt?: string }>();
-
-    for (const session of this.sessions.values()) {
-      const existing = sites.get(session.siteKey);
-      if (!existing || session.createdAt > (existing.latestScanAt ?? "")) {
-        sites.set(session.siteKey, {
-          key: session.siteKey,
-          name: session.siteName,
-          url: session.url,
-          latestScanAt: session.createdAt,
-        });
-      }
-    }
-
-    return [...sites.values()].sort((left, right) =>
-      (right.latestScanAt ?? "").localeCompare(left.latestScanAt ?? ""),
-    );
-  }
+}
 }
 
 export const defaultScanSessionStore = new InMemoryScanSessionStore();
