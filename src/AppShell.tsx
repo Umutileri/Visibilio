@@ -866,10 +866,17 @@ function AppShell() {
             <section>
               <div className="page-intro">
                 <div>
-                  <span className="eyebrow">History</span>
-                  <h1>See how the site changes.</h1>
-                  <p>Previous scans become the baseline for improvement, comparison, and re-test.</p>
+                  <span className="eyebrow">{currentSite}</span>
+                  <h1>Scan history.</h1>
+                  <p>Use previous scans as the baseline for what changed, what remains, and what to re-test.</p>
                 </div>
+                <a className="solid-button" href="#app/analyze">New scan</a>
+              </div>
+
+              <div className="history-summary surface">
+                <div><span>Scans</span><strong>{history?.ok ? history.sessions.length : 0}</strong><small>stored sessions</small></div>
+                <div><span>Latest findings</span><strong>{history?.ok && history.sessions[0] ? history.sessions[0].findings.length : 0}</strong><small>on most recent scan</small></div>
+                <div><span>Website</span><strong>{currentSite}</strong><small>active audit target</small></div>
               </div>
 
               <div className="history-table surface">
