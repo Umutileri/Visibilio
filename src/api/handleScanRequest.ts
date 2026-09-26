@@ -3,6 +3,7 @@ import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
 import { defaultScanSessionStore } from "./sessionStore";
+import { defaultWebsiteStore } from "./websiteStore";
 import type {
   ScanApiFailure,
   ScanApiRequest,
@@ -24,6 +25,14 @@ export async function createScanSessionRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+
+  await defaultWebsiteStore.upsert({
+    key: session.siteKey,
+    name: session.siteName,
+    url: session.url,
+    lastScanAt: session.createdAt,
+  });
+
   await defaultScanSessionStore.create(session);
 
   void runScanSession(session.id, session.url);
