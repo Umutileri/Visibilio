@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { ScanResult, UIssue } from "../scanner/types";
 import type { ScanSession, ScanStatus } from "./sessionTypes";
 
@@ -6,7 +7,7 @@ function normalizeSiteUrl(rawUrl: string): URL {
 }
 
 export function getWebsiteName(rawUrl: string): string {
-  return normalizeSiteUrl(rawUrl).hostname.replace(/^www\\./, "");
+  return normalizeSiteUrl(rawUrl).hostname.replace(/^www\./, "");
 }
 
 function effectivePort(url: URL): string {
@@ -21,7 +22,7 @@ export function getWebsiteKey(rawUrl: string): string {
 
 export function createScanSession(url: string): ScanSession {
   return {
-    id: "scan_" + Date.now().toString(36),
+    id: "scan_" + randomUUID(),
     url,
     siteKey: getWebsiteKey(url),
     siteName: getWebsiteName(url),
