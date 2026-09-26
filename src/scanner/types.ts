@@ -63,7 +63,7 @@ export interface ScanFailure {
   url: string;
   viewport: ViewportPreset;
   error: {
-    code: "TIMEOUT" | "BROWSER_ERROR" | "PAGE_ERROR";
+    code: "TIMEOUT" | "BROWSER_ERROR" | "PAGE_ERROR" | "RESOURCE_LIMIT";
     message: string;
   };
 }
