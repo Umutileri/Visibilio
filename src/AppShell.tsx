@@ -403,6 +403,8 @@ function AppShell() {
   const medium = severityCount(findings, "medium");
   const low = severityCount(findings, "low");
   const issuesVisible = hasResults ? filteredFindings : sampleFindings;
+  const currentSite = displayHostname(url);
+  const issueLabel = findings.length === 1 ? "finding" : "findings";
 
   return (
     <div className="saas-app">
@@ -585,10 +587,10 @@ function AppShell() {
 
           {section === "analyze" && (
             <section className="page-intro narrow-page">
-              <span className="eyebrow">New scan</span>
+              <span className="eyebrow">New audit</span>
               <h1>Scan a website.</h1>
               <p>
-                Visibilio measures the page in controlled browser viewports and returns evidence-backed UI findings.
+                Run a browser-backed audit across controlled viewports. Visibilio turns measurements into findings you can inspect and re-test.
               </p>
               <div className="scan-composer">
                 <label htmlFor="scan-url">Website URL</label>
@@ -650,15 +652,15 @@ function AppShell() {
             <section>
               <div className="page-intro findings-intro">
                 <div>
-                  <span className="eyebrow">Findings</span>
-                  <h1>What needs attention.</h1>
+                  <span className="eyebrow">{currentSite}</span>
+                  <h1>Findings.</h1>
                   <p>
-                    Review deterministic findings by severity, category, and affected element.
+                    Review measured issues on this site. Open one to see the evidence, context, and next action.
                   </p>
                 </div>
                 <div className="finding-count">
                   <strong>{hasResults ? findings.length : sampleFindings.length}</strong>
-                  <span>open findings</span>
+                  <span>{issueLabel}</span>
                 </div>
               </div>
 
@@ -728,7 +730,7 @@ function AppShell() {
                       href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
                       onClick={() => setFocusedFindingId(selectedFinding.id)}
                     >
-                      Show evidence
+                      Evidence
                     </a>
                   </div>
                   <div className="detail-section">
@@ -740,6 +742,29 @@ function AppShell() {
                       <div><small>Status</small><strong>{selectedFinding.status}</strong></div>
                     </div>
                   </div>
+                  <div className="detail-section">
+                    <span className="detail-label">Next action</span>
+                    <div className="finding-status-actions">
+                      <a
+                        className="solid-button"
+                        href="#app/findings?finding=" + encodeURIComponent(selectedFinding.id)
+                      >
+                        Review evidence
+                      </a>
+                      <button
+                        className="outline-button"
+                        type="button"
+                        disabled={retestBusy}
+                        onClick={() => {
+                          setUrl(selectedFinding.url);
+                          void runRetest();
+                        }}
+                      >
+                        {retestBusy ? "Re-testing…" : "Re-test"}
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="detail-section">
                     <span className="detail-label">Status</span>
                     <div className="finding-status-actions">
