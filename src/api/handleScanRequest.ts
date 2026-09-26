@@ -2,8 +2,8 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
-import { defaultScanSessionStore } from "./sessionStore";
-import { defaultWebsiteStore } from "./websiteStore";
+import { defaultStorage } from "./storage";
+const { scans: defaultScanSessionStore, websites: defaultWebsiteStore } = defaultStorage;
 import type {
   ScanApiFailure,
   ScanApiRequest,
