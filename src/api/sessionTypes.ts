@@ -34,6 +34,8 @@ export interface WebsiteRef {
   key: string;
   name: string;
   url: string;
+  createdAt?: string;
+  lastScanAt?: string;
 }
 
 export interface ScanSessionResponse {
