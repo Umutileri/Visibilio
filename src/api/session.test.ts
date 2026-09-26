@@ -4,6 +4,7 @@ import type { ScanResult } from "../scanner/types";
 import {
   createScanSession,
   sessionStatusFromResults,
+  buildRetestComparison,
   updateScanSession,
 } from "./session";
 
@@ -50,5 +51,47 @@ describe("website identity", () => {
     assert.equal(getWebsiteKey("http://example.com:8080"), "example.com:8080");
     assert.equal(getWebsiteName("https://example.com/pricing"), "example.com");
     assert.equal(getWebsiteName("https://WWW.Example.com/pricing"), "example.com");
+  });
+});
+
+describe("retest comparison", () => {
+  it("does not mark a missing selector as resolved", () => {
+    const original = {
+      id: "finding-1",
+      rule: "responsive.horizontal-overflow",
+      category: "responsive" as const,
+      title: "Horizontal overflow",
+      severity: "medium" as const,
+      description: "Overflow",
+      url: "https://example.com",
+      viewport: { name: "Mobile", width: 390, height: 844 },
+      selector: ".pricing-grid",
+      detectedAt: "2026-09-26T10:00:00.000Z",
+      status: "open" as const,
+    };
+    const result = {
+      ok: true as const,
+      url: original.url,
+      viewport: original.viewport,
+      dimensions: {
+        viewportWidth: 390,
+        viewportHeight: 844,
+        documentWidth: 390,
+        documentHeight: 844,
+        horizontalOverflow: 0,
+      },
+      screenshot: {
+        type: "screenshot" as const,
+        format: "png" as const,
+        path: ".visibilio/evidence/mobile.png",
+        viewport: original.viewport,
+        width: 390,
+        height: 844,
+        capturedAt: original.detectedAt,
+      },
+      issues: [],
+    };
+
+    assert.equal(buildRetestComparison(original, [result]).outcome, "not-found");
   });
 });
