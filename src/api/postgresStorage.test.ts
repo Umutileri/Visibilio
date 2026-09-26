@@ -46,7 +46,7 @@ describe("postgres repositories", () => {
       createdAt: "2026-09-26T10:00:00.000Z",
       lastScanAt: "2026-09-26T10:01:00.000Z",
     });
-    assert.match(pool.queries[0].text, /WHERE site_key = $1/);
+    assert.ok(pool.queries[0].text.includes("WHERE site_key = $1"));
   });
 
   it("serializes and restores scan sessions including retest lineage", async () => {
