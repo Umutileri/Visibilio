@@ -94,6 +94,7 @@ function AppShell() {
   const [section, setSection] = useState<AppSection>(sectionFromHash());
   const [focusedFindingId, setFocusedFindingId] = useState<string | null>(() => { const hash = window.location.hash; const query = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : ""; return new URLSearchParams(query).get("finding"); });
   const [url, setUrl] = useState("");
+  const [siteMenuOpen, setSiteMenuOpen] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [activeScanSessionId, setActiveScanSessionId] = useState<string | null>(null);
   const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "checks" | "done">("idle");
@@ -419,13 +420,30 @@ function AppShell() {
             <ShellLogo />
             <span>Visibilio</span>
           </a>
-          <div className="workspace-switcher site-switcher" aria-label="Current website">
-            <span className="workspace-avatar site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
-            <div className="workspace-copy">
-              <strong>{url ? displayHostname(url) : "Your website"}</strong>
-              <small>{url ? "Active site" : "Add a site to begin"}</small>
-            </div>
-            <span className="workspace-chevron" aria-hidden="true">⌄</span>
+          <div className={"workspace-switcher site-switcher" + (siteMenuOpen ? " is-open" : "")}>
+            <button
+              className="site-switcher-button"
+              type="button"
+              aria-expanded={siteMenuOpen}
+              aria-haspopup="true"
+              onClick={() => setSiteMenuOpen((value) => !value)}
+            >
+              <span className="workspace-avatar site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
+              <span className="workspace-copy">
+                <strong>{url ? displayHostname(url) : "Your website"}</strong>
+                <small>{url ? "Active site" : "Add a site to begin"}</small>
+              </span>
+              <span className="workspace-chevron" aria-hidden="true">⌄</span>
+            </button>
+            {siteMenuOpen && (
+              <div className="site-switcher-menu">
+                <span className="site-switcher-label">Current website</span>
+                {url && <button type="button" onClick={() => { setSiteMenuOpen(false); window.location.hash = "#app/overview"; }}>
+                  <strong>{displayHostname(url)}</strong><small>Overview</small>
+                </button>}
+                <a href="#app/analyze" onClick={() => setSiteMenuOpen(false)}>+ Add another website</a>
+              </div>
+            )}
           </div>
         </div>
 
