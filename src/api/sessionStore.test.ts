@@ -82,9 +82,9 @@ describe("InMemoryScanSessionStore", () => {
     await store.create(example);
     await store.create(other);
 
-    const sessions = await store.list("example.com");
+    const sessions = await store.list("example.com:443");
 
-    assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com"]);
+    assert.deepEqual(sessions.map((session) => session.siteKey), ["example.com:443"]);
   });
 
   it("keeps different effective ports as separate websites", async () => {
