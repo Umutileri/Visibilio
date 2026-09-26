@@ -456,7 +456,7 @@ function AppShell() {
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
   const hasResults = findings.length > 0;
-  const issuesVisible = hasResults ? filteredFindings : sampleFindings;
+  const issuesVisible = filteredFindings;
   const currentSite = displayHostname(url);
   const issueLabel = findings.length === 1 ? "finding" : "findings";
 
@@ -808,8 +808,8 @@ function AppShell() {
                   </p>
                 </div>
                 <div className="finding-count">
-                  <strong>{hasResults ? findings.length : sampleFindings.length}</strong>
-                  <span>{hasResults ? issueLabel : "sample findings"}</span>
+                  <strong>{findings.length}</strong>
+                  <span>{issueLabel}</span>
                 </div>
               </div>
 
