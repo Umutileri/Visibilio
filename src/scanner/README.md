@@ -1,15 +1,43 @@
 # Local scanner
 
-This directory contains the reusable local browser analysis layer.
+This directory contains the reusable browser analysis layer used by Visibilio.
 
 ## Current contract
 
-`scanPage(url, viewport) -> ScanResult`
+`scanPage(url, viewport, options?) -> ScanResult`
 
-The first measurement set is intentionally small and deterministic:
+The scanner uses Playwright and produces deterministic, evidence-backed results. The current rule set includes:
 
 - viewport width and height
 - document width and height
-- horizontal overflow in pixels
+- horizontal overflow
+- rendered element overflow
+- images without an `alt` attribute
+- form controls without an accessible name
+- documents without a `lang` attribute
+- selector and measurement evidence where available
+- screenshot evidence for successful scans
 
-The scanner currently runs only against controlled local/test pages. User-provided public URLs are intentionally deferred until the execution boundary defines URL validation, SSRF protection, resource limits, and browser sandboxing.
+## Execution guardrails
+
+`ScanOptions` can enforce:
+
+- maximum scan duration
+- maximum request count
+- maximum aggregate response bytes
+- a navigation guard for URL/redirect policy
+- an evidence output directory
+
+The current defaults are:
+
+- 15 seconds maximum scan budget
+- 150 requests
+- 8 MiB aggregate response-body budget
+
+Budget breaches are returned as the typed `RESOURCE_LIMIT` scanner failure.
+
+## Public scanning boundary
+
+Arbitrary public URL scanning is still gated. Before production/public scanning is enabled, the execution boundary must also provide redirect/navigation SSRF enforcement, DNS rebinding-safe destination validation, browser isolation/sandboxing, queued job lifecycle and cancellation, rate limiting and abuse controls, persistent screenshot/object storage, observability, and production deployment validation.
+
+The scanner should remain independently testable and deterministic as these execution controls evolve.
