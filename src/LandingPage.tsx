@@ -344,14 +344,14 @@ export default function LandingPage() {
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
           <div className="landing-nav-actions">
-            <div className="landing-language-switcher" aria-label="Language">
+            <div className="landing-language-switcher" aria-label={t.languageLabel}>
               <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
               <span>/</span>
               <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
             </div>
             <a className="landing-signin" href="#app/overview">{t.workspace}</a>
             <button className="landing-cta" type="button" onClick={() => openApp()}>{t.start}</button>
-            <button className="landing-menu-button" type="button" aria-controls="landing-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
+            <button className="landing-menu-button" type="button" aria-controls="landing-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? t.closeNavigation : t.openNavigation} onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
       </header>
