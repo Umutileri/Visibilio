@@ -122,6 +122,9 @@ The roadmap is milestone-driven. Each milestone should produce a small, testable
 - [x] Landing proof / workflow hierarchy pass
 - [x] Landing evidence visual hierarchy pass
 - [x] Landing re-test result visual pass
+- [x] Distinct outcome visual and measured-state transition
+- [x] Workflow proof-card alignment hardening
+- [x] EN/TR landing hardcoded-copy audit
 - [ ] Full device/browser validation
 - [ ] Loading/error recovery polish
 - [ ] Density and whitespace review from real-user feedback
