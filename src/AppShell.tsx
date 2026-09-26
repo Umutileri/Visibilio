@@ -211,7 +211,7 @@ function AppShell() {
   const selectedFinding =
     findings.find((finding) => finding.id === selectedFindingId) ??
     findings[0] ??
-    sampleFindings[0];
+    null;
 
   async function runRetest() {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
