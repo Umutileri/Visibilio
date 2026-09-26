@@ -99,12 +99,7 @@ export function buildRetestComparison(
 ): { before: UIssue; after?: UIssue; outcome: "resolved" | "still-present" | "not-found" } {
   const after = findRetestMatch(original, results);
   if (!after) {
-    const sameViewport = results.some(
-      (result) => result.ok &&
-        result.viewport.width === original.viewport.width &&
-        result.viewport.height === original.viewport.height,
-    );
-    return { before: original, outcome: sameViewport ? "not-found" : "not-found" };
+    return { before: original, outcome: "not-found" };
   }
   return { before: original, after, outcome: "still-present" };
 }
