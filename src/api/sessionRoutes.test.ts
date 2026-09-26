@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import type { ScanSession } from "./sessionTypes";
 import { createScanSession } from "./session";
 import {
@@ -181,59 +183,59 @@ describe("session cancellation route", () => {
 describe("scan artifact route", () => {
   it("serves screenshot bytes for a valid artifact", async () => {
     const capture = createBinaryResponseCapture();
-    const session = {
-      ...createScanSession("https://example.com"),
-      artifacts: [{
-        id: "scan_test_mobile",
-        kind: "screenshot" as const,
-        contentType: "image/png" as const,
-        viewport: { name: "Mobile", width: 390, height: 844 },
-        capturedAt: new Date().toISOString(),
-      }],
-      results: [{
-        ok: true as const,
-        url: "https://example.com",
-        viewport: { name: "Mobile", width: 390, height: 844 },
-        dimensions: {
-          viewportWidth: 390,
-          viewportHeight: 844,
-          documentWidth: 390,
-          documentHeight: 844,
-          horizontalOverflow: 0,
-        },
-        screenshot: {
-          type: "screenshot" as const,
-          format: "png" as const,
-          path: ".visibilio/evidence/mobile.png",
+    const evidenceRoot = join(".visibilio", "evidence");
+    const screenshotPath = join(evidenceRoot, "route-test.png");
+    await mkdir(evidenceRoot, { recursive: true });
+    await writeFile(screenshotPath, Buffer.from([137, 80, 78, 71]));
+
+    try {
+      const session = {
+        ...createScanSession("https://example.com"),
+        artifacts: [{
+          id: "scan_test_mobile",
+          kind: "screenshot" as const,
+          contentType: "image/png" as const,
           viewport: { name: "Mobile", width: 390, height: 844 },
-          width: 390,
-          height: 844,
           capturedAt: new Date().toISOString(),
-        },
-        issues: [],
-      }],
-    };
+        }],
+        results: [{
+          ok: true as const,
+          url: "https://example.com",
+          viewport: { name: "Mobile", width: 390, height: 844 },
+          dimensions: {
+            viewportWidth: 390,
+            viewportHeight: 844,
+            documentWidth: 390,
+            documentHeight: 844,
+            horizontalOverflow: 0,
+          },
+          screenshot: {
+            type: "screenshot" as const,
+            format: "png" as const,
+            path: screenshotPath,
+            viewport: { name: "Mobile", width: 390, height: 844 },
+            width: 390,
+            height: 844,
+            capturedAt: new Date().toISOString(),
+          },
+          issues: [],
+        }],
+      };
 
-    const originalReadFile = await import("node:fs/promises");
-    const readFile = originalReadFile.readFile;
-    const resultBuffer = Buffer.from([137, 80, 78, 71]);
-
-    const capturePromise = (async () => {
       await handleScanArtifactGetRequest(
         capture.response,
         session.id,
         "scan_test_mobile",
         async (id) => (id === session.id ? session : null),
       );
-    })();
 
-    // The route is intentionally tested through the real filesystem boundary;
-    // missing content should return a stable 404 rather than metadata JSON.
-    await capturePromise;
-    const result = capture.read();
-    void readFile;
-    void resultBuffer;
-    assert.equal(result.statusCode, 404);
+      const result = capture.read();
+      assert.equal(result.statusCode, 200);
+      assert.equal(result.headers["content-type"], "image/png");
+      assert.deepEqual([...((result.body as Buffer) ?? [])], [137, 80, 78, 71]);
+    } finally {
+      await rm(screenshotPath, { force: true });
+    }
   });
 
   it("returns 404 for an unknown artifact", async () => {
