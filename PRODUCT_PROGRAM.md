@@ -137,7 +137,8 @@ Goal: turn one scan response into a reusable product object.
 - [x] Store evidence artifact references
 - [x] Separate current session from prior sessions
 - [x] Add local in-memory Website/Scan stores as the domain boundary
-- [ ] Add durable persistence
+- [x] Add durable PostgreSQL persistence adapter + explicit migration path
+- [ ] Add persistence-backed production deployment validation
 
 ### P6 — AI Explanation
 Goal: explain findings without changing evidence.
