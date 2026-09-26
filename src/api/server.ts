@@ -13,11 +13,15 @@ import {
 import { createStorageFromEnv } from "./storageFactory";
 import type { VisibilioStorage } from "./storage";
 
+const port = Number(process.env.PORT ?? 8787);
+const MAX_REQUEST_BODY_BYTES = 32_000;
+
 async function handleFindingStatusRoute(
   request: IncomingMessage,
   response: ServerResponse,
   sessionId: string,
   findingId: string,
+  storage: VisibilioStorage,
 ): Promise<void> {
   let body = "";
   for await (const chunk of request) {
@@ -40,8 +44,8 @@ async function handleFindingStatusRoute(
       sessionId,
       findingId,
       payload.status,
-      (id) => defaultStorage.scans.get(id),
-      (session) => defaultStorage.scans.update(session),
+      (id) => storage.scans.get(id),
+      (session) => storage.scans.update(session),
     );
   } catch {
     response.writeHead(400, { "content-type": "application/json" });
@@ -53,8 +57,6 @@ function writeNotFound(response: ServerResponse): void {
   response.writeHead(404, { "content-type": "application/json" });
   response.end(JSON.stringify({ ok: false, error: { code: "NOT_FOUND", message: "Route not found." } }));
 }
-
-
 const port = Number(process.env.PORT ?? 8787);
 const MAX_REQUEST_BODY_BYTES = 32_000;
 
@@ -153,6 +155,7 @@ async function startServer(): Promise<void> {
       response,
       decodeURIComponent(findingMatch[1]),
       decodeURIComponent(findingMatch[2]),
+      defaultStorage,
     );
     return;
   }
