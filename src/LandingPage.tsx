@@ -144,7 +144,7 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
       <div className="landing-demo landing-demo-explain">
         <div className="explain-block">
           <small>{t.confirmedFact}</small>
-          <strong>Document width is larger than the tested viewport.</strong>
+          <strong>{t.observedFact}</strong>
           <span>{t.evidenceSource}</span>
         </div>
         <div className="explain-block explain-ai">
