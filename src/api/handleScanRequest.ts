@@ -42,7 +42,7 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
 
     const artifacts = result.results.flatMap((scan) => scan.ok ? [{ id: sessionId + "_" + scan.viewport.width + "x" + scan.viewport.height, kind: "screenshot" as const, contentType: "image/png" as const, viewport: scan.viewport, capturedAt: scan.screenshot.capturedAt }] : []);
 
-    const completedSession = updateScanSession(latestSession, {
+      const completedSession = updateScanSession(latestSession, {
       status: result.results.every((scan) => scan.ok) ? "completed" : "failed",
       completedAt: new Date().toISOString(),
       results: result.results,
@@ -51,8 +51,11 @@ export async function runScanSession(sessionId: string, url: string): Promise<vo
     });
     await defaultScanSessionStore.update(completedSession);
   } catch {
+    const latestSession = await defaultScanSessionStore.get(sessionId);
+    if (!latestSession || latestSession.status === "cancelled") return;
+
     await defaultScanSessionStore.update(
-      updateScanSession(session, {
+      updateScanSession(latestSession, {
         status: "failed",
         completedAt: new Date().toISOString(),
       }),
