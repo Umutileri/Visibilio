@@ -4,8 +4,8 @@ import type {
   ScanResult,
   ScanSuccess,
 } from "./scanner/types";
-import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse } from "./api/types";
-import type { ScanArtifact } from "./api/sessionTypes";
+import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
+import type { ScanArtifact, WebsiteRef } from "./api/sessionTypes";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AppSection =
@@ -112,6 +112,8 @@ function AppShell() {
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
   const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
+  const [websites, setWebsites] = useState<WebsiteRef[]>([]);
+  const [websitesLoading, setWebsitesLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
     null,
@@ -142,6 +144,31 @@ function AppShell() {
   }, []);
 
   const scanResults = useMemo(() => (response?.ok ? response.results : []), [response]);
+
+  useEffect(() => {
+    const endpoint = import.meta.env.VITE_SCAN_API_URL;
+    if (!endpoint) return;
+
+    let cancelled = false;
+
+    const loadWebsites = async () => {
+      setWebsitesLoading(true);
+      try {
+        const result = await fetch(endpoint.replace(/\/$/, "") + "/api/websites");
+        const data = (await result.json()) as WebsiteListResponse;
+        if (!cancelled && data.ok) setWebsites(data.websites);
+      } catch {
+        if (!cancelled) setWebsites([]);
+      } finally {
+        if (!cancelled) setWebsitesLoading(false);
+      }
+    };
+
+    void loadWebsites();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const endpoint = import.meta.env.VITE_SCAN_API_URL;
@@ -446,10 +473,27 @@ function AppShell() {
             </button>
             {siteMenuOpen && (
               <div className="site-switcher-menu">
-                <span className="site-switcher-label">Current website</span>
-                {url && <button type="button" onClick={() => { setSiteMenuOpen(false); window.location.hash = "#app/overview"; }}>
-                  <strong>{displayHostname(url)}</strong><small>Overview</small>
-                </button>}
+                <span className="site-switcher-label">Websites</span>
+                {websitesLoading && <span className="site-switcher-empty">Loading sites…</span>}
+                {!websitesLoading && websites.map((site) => (
+                  <button
+                    key={site.key}
+                    type="button"
+                    className={websiteKey(url) === site.key ? "is-current" : undefined}
+                    onClick={() => {
+                      setUrl(site.url);
+                      setResponse(null);
+                      setSelectedFindingId(null);
+                      setRetestComparison(null);
+                      setSiteMenuOpen(false);
+                      window.location.hash = "#app/overview";
+                    }}
+                  >
+                    <strong>{site.name}</strong>
+                    <small>{websiteKey(url) === site.key ? "Current website" : site.url}</small>
+                  </button>
+                ))}
+                {!websitesLoading && websites.length === 0 && <span className="site-switcher-empty">No scanned websites yet.</span>}
                 <a href="#app/analyze" onClick={() => setSiteMenuOpen(false)}>+ Add another website</a>
               </div>
             )}
