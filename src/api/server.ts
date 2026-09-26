@@ -10,7 +10,9 @@ import {
   handleScanRetestRequest,
   handleWebsiteListRequest,
 } from "./sessionRoutes";
-import { defaultStorage } from "./storage";
+import { createStorageFromEnv } from "./storageFactory";
+
+const defaultStorage = createStorageFromEnv();
 const defaultScanSessionStore = defaultStorage.scans;
 const defaultWebsiteStore = defaultStorage.websites;
 
