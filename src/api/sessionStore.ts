@@ -1,5 +1,5 @@
 import type { ScanSession } from "./sessionTypes";
-import { defaultStorage } from "./storage";
+import { createInMemoryStorage, defaultStorage } from "./storage";
 
 export interface ScanSessionStore {
   create(session: ScanSession): Promise<ScanSession>;
@@ -9,5 +9,25 @@ export interface ScanSessionStore {
 }
 
 export const defaultScanSessionStore: ScanSessionStore = defaultStorage.scans;
+
+export class InMemoryScanSessionStore implements ScanSessionStore {
+  private readonly store = createInMemoryStorage().scans;
+
+  create(session: ScanSession): Promise<ScanSession> {
+    return this.store.create(session);
+  }
+
+  get(id: string): Promise<ScanSession | null> {
+    return this.store.get(id);
+  }
+
+  update(session: ScanSession): Promise<ScanSession> {
+    return this.store.update(session);
+  }
+
+  list(siteKey?: string): Promise<ScanSession[]> {
+    return this.store.list(siteKey);
+  }
+}
 
 export { defaultStorage };
