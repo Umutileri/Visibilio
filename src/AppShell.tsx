@@ -468,7 +468,7 @@ function AppShell() {
             <ShellLogo />
             <span>Visibilio</span>
           </a>
-          <div className={"workspace-switcher site-switcher" + (siteMenuOpen ? " is-open" : "")}>
+          <div className={"site-switcher-shell site-switcher" + (siteMenuOpen ? " is-open" : "")}>
             <button
               className="site-switcher-button"
               type="button"
@@ -476,12 +476,12 @@ function AppShell() {
               aria-haspopup="true"
               onClick={() => setSiteMenuOpen((value) => !value)}
             >
-              <span className="workspace-avatar site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
-              <span className="workspace-copy">
+              <span className="site-avatar-shell site-avatar">{url ? displayHostname(url).charAt(0).toUpperCase() : "W"}</span>
+              <span className="site-copy">
                 <strong>{url ? displayHostname(url) : "Your website"}</strong>
                 <small>{url ? "Active site" : "Add a site to begin"}</small>
               </span>
-              <span className="workspace-chevron" aria-hidden="true">⌄</span>
+              <span className="site-chevron" aria-hidden="true">⌄</span>
             </button>
             {siteMenuOpen && (
               <div className="site-switcher-menu">
@@ -564,8 +564,8 @@ function AppShell() {
         <div className="saas-content">
           {section === "overview" && (
             <>
-              <section className="workspace-welcome">
-                <div className="workspace-welcome-copy">
+              <section className="site-welcome">
+                <div className="site-welcome-copy">
                   <span className="eyebrow">Website overview</span>
                   <h1>{url ? "Let’s check this site." : "Start with a website."}</h1>
                   <p>
@@ -573,21 +573,21 @@ function AppShell() {
                       ? "Your site is ready. Run a scan, inspect what was found, make the change, and re-test the same check."
                       : "Paste a public page to create your first audit. Findings and re-tests stay attached to the site you are working on."}
                   </p>
-                  {url && <div className="workspace-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
-                  <div className="workspace-welcome-actions">
+                  {url && <div className="site-url-chip"><span>PAGE</span><strong>{url}</strong></div>}
+                  <div className="site-welcome-actions">
                     <a className="solid-button" href="#app/analyze">{url ? "Scan this page" : "Add a website"}</a>
                     {url && <a className="text-link" href="#app/history">See past scans →</a>}
                   </div>
                 </div>
-                <div className="workspace-flow-card">
+                <div className="site-flow-card">
                   <span className="surface-kicker">What happens next</span>
-                  <div className="workspace-flow-step is-active"><b>01</b><strong>Scan</strong><small>Measure the page in controlled browsers.</small></div>
-                  <div className="workspace-flow-step"><b>02</b><strong>Inspect</strong><small>Open the evidence behind each finding.</small></div>
-                  <div className="workspace-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
+                  <div className="site-flow-step is-active"><b>01</b><strong>Scan</strong><small>Measure the page in controlled browsers.</small></div>
+                  <div className="site-flow-step"><b>02</b><strong>Inspect</strong><small>Open the evidence behind each finding.</small></div>
+                  <div className="site-flow-step"><b>03</b><strong>Re-test</strong><small>Verify a change with the same check.</small></div>
                 </div>
               </section>
               {hasResults && (
-                <section className="context-strip workspace-result-strip">
+                <section className="context-strip site-result-strip">
                   <div>
                     <span>Last scan</span>
                     <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
@@ -607,7 +607,7 @@ function AppShell() {
                 </section>
               )}
 
-              <section className="workspace-grid">
+              <section className="site-grid">
                 <div className="surface surface-main">
                   <div className="surface-heading">
                     <div>
@@ -638,7 +638,7 @@ function AppShell() {
                       ))}
                     </div>
                   ) : (
-                    <div className="empty-workspace">
+                    <div className="empty-site">
                       <span className="empty-mark">01</span>
                       <strong>Analyze a live page</strong>
                       <p>
