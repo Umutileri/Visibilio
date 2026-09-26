@@ -1,4 +1,4 @@
-import type { ScanResult, UIssue, ViewportPreset } from "../scanner/types";
+import type { ScanResult, ViewportPreset } from "../scanner/types";
 import type { ScanSession } from "./sessionTypes";
 
 export interface ScanApiRequest {
