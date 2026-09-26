@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { join } from "node:path";
 import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
