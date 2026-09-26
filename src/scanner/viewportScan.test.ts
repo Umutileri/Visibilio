@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { createServer, type Server } from "node:http";
 import { after, before, describe, it } from "node:test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { scanViewports } from "./viewportScan";
 
 let server: Server;
@@ -39,10 +41,19 @@ after(async () => {
 
 describe("scanViewports", () => {
   it("runs the configured viewport set", async () => {
-    const result = await scanViewports(`${baseUrl}/fixture`);
+    const evidenceDir = await mkdtemp(tmpdir() + "/visibilio-evidence-");
+    try {
+      const result = await scanViewports(`${baseUrl}/fixture`, { evidenceDir });
 
-    assert.equal(result.results.length, 2);
-    assert.equal(result.results[0]?.viewport.name, "Mobile");
-    assert.equal(result.results[1]?.viewport.name, "Desktop");
+      assert.equal(result.results.length, 2);
+      assert.equal(result.results[0]?.viewport.name, "Mobile");
+      assert.equal(result.results[1]?.viewport.name, "Desktop");
+      const paths = result.results.flatMap((scan) => (scan.ok ? [scan.screenshot.path] : []));
+      assert.equal(paths.length, 2);
+      assert.notEqual(paths[0], paths[1]);
+      assert.ok(paths.every((path) => path.startsWith(evidenceDir)));
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
   });
 });
