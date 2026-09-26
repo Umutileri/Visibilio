@@ -1,6 +1,6 @@
 import type { ServerResponse } from "node:http";
 import type { ScanSession } from "./sessionTypes";
-import { buildRetestComparison, updateFindingStatus } from "./session";
+import { updateFindingStatus } from "./session";
 import type {
   ScanApiFailure,
   ScanSessionGetResponse,
