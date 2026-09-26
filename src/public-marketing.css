@@ -2678,3 +2678,72 @@
 .retest-result-panel {
   min-width: 0;
 }
+
+
+/* Full-page landing QA pass: reduce repetition, sharpen section separation, and stabilize responsive composition. */
+.landing-intro-section .landing-prose-large { max-width: 760px; }
+.landing-intro-section .landing-prose-large p { max-width: 62ch; }
+.landing-audience-section { background: #f8fbf9; }
+.landing-audience-grid article {
+  min-height: 226px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.landing-audience-grid article h3 { max-width: 17ch; }
+.landing-audience-grid article p { max-width: 30ch; }
+.landing-audience-grid article a {
+  margin-top: auto;
+  padding-top: 20px;
+  color: var(--landing-sage);
+  font-size: .63rem;
+  font-weight: 800;
+}
+.landing-evidence-section { background: #f1f5f2; }
+.landing-evidence-feature { gap: clamp(40px, 6vw, 88px); }
+.landing-evidence-contrast {
+  box-shadow: 0 18px 45px rgb(21 45 53 / 6%);
+  background: #fff;
+}
+.landing-evidence-contrast > div {
+  min-height: 152px;
+  padding: 26px 24px 28px;
+}
+.landing-evidence-contrast strong {
+  max-width: 30ch;
+  margin-top: 12px;
+}
+.landing-retest-section { background: #f8fbf9; }
+.landing-retest-story { align-items: center; }
+.landing-retest-story > div:first-child { max-width: 560px; }
+.landing-retest-story h2 {
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.landing-retest-story p { max-width: 48ch; }
+.landing-faq-section { background: #fff; }
+.landing-faq-list details { transition: background-color .16s ease; }
+.landing-faq-list details[open] { background: #f6faf7; }
+.landing-final-section {
+  position: relative;
+  overflow: hidden;
+}
+.landing-final-section::before {
+  content: "";
+  position: absolute;
+  width: min(55vw, 760px);
+  height: min(55vw, 760px);
+  right: -20%;
+  top: -45%;
+  border-radius: 50%;
+  background: rgb(212 236 221 / 16%);
+  pointer-events: none;
+}
+.landing-final-grid { position: relative; }
+
+@media (max-width: 900px) {
+  .landing-audience-grid article { min-height: 200px; }
+  .landing-evidence-contrast { box-shadow: none; }
+  .landing-retest-story { align-items: start; }
+  .landing-retest-story h2 { max-width: 13ch; }
+}
