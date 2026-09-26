@@ -3191,3 +3191,54 @@ input:focus-visible {
 .site-switcher-menu > button.is-current small {
   color: #2e5d4c;
 }
+
+
+/* Mobile navigation */
+.mobile-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid rgb(21 45 53 / 9%);
+  border-radius: 10px;
+  background: #fff;
+  color: #152d35;
+  font-size: .7rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .saas-sidebar-section nav {
+    display: none;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open {
+    display: grid;
+    overflow: visible;
+    margin-top: 7px;
+    padding: 0;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open .saas-nav-link {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open .saas-nav-link small {
+    display: block;
+  }
+}
+
+@media (min-width: 761px) {
+  .saas-sidebar-section nav {
+    display: grid;
+  }
+}
