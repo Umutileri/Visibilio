@@ -104,7 +104,7 @@ function HeroEvidence({ t }: { t: Record<string, string> }) {
   );
 }
 
-function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
+function StepVisual({ id, t, language }: { id: string; t: Record<string, string>; language: Language }) {
   if (id === "detect") {
     return (
       <div className="landing-demo landing-demo-detect">
@@ -296,6 +296,15 @@ export default function LandingPage() {
   }, [language]);
 
   useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const current = entries.filter((entry) => entry.isIntersecting)
@@ -436,7 +445,7 @@ export default function LandingPage() {
                 <div key={step.id} className="landing-feature-step" data-step={index} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="landing-feature-art">
                     <div className="landing-feature-chrome"><span>{step.index} / {step.title}</span><span>VISIBILIO</span></div>
-                    <StepVisual id={step.id} t={t} />
+                    <StepVisual id={step.id} t={t} language={language} />
                   </div>
                 </div>
               ))}
@@ -495,7 +504,7 @@ export default function LandingPage() {
 
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
-          <div><Brand/><p>Website UI quality, backed by evidence.</p></div>
+          <div><Brand/><p>{t.footerTagline}</p></div>
           <div className="landing-footer-links">{navLinks.map(([href,key])=><a key={href} href={href}>{t[key]}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">{t.workspace}</a></div>
           <small>Visibilio · 2026</small>
         </div>
