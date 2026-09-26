@@ -170,12 +170,14 @@ Goal: verify whether a change changed the measured result.
 - [ ] Changed-structure handling
 - [ ] Re-test history
 
-### P9 — Projects + History
-Goal: make Visibilio useful repeatedly.
+### P9 — Websites + History
+Goal: make Visibilio useful repeatedly without exposing workspace/project semantics.
 
-- [ ] Website/project entity
-- [ ] Project switcher
-- [ ] Scan history
+- [x] Website entity contract
+- [x] In-memory Website store
+- [x] Website switcher
+- [x] Site-scoped scan history
+- [x] Scan history
 - [ ] Previous/current comparison
 - [ ] Findings resolved since previous scan
 - [ ] New findings since previous scan
