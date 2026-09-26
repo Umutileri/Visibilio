@@ -11,6 +11,7 @@ import {
   handleWebsiteListRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
+import { defaultWebsiteStore } from "./websiteStore";
 
 const port = Number(process.env.PORT ?? 8787);
 
@@ -136,7 +137,7 @@ createServer(async (request, response) => {
   }
 
   if (pathname === "/api/websites" && request.method === "GET") {
-    void handleWebsiteListRequest(response, defaultScanSessionStore.list());
+    void handleWebsiteListRequest(response, defaultWebsiteStore.list());
     return;
   }
 
