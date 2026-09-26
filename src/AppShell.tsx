@@ -464,7 +464,7 @@ function AppShell() {
               <section className="workspace-welcome">
                 <div className="workspace-welcome-copy">
                   <span className="eyebrow">Website overview</span>
-                  <h1>{url ? "Let’s check your website." : "Start with a website."}</h1>
+                  <h1>{url ? "Let’s check this site." : "Start with a website."}</h1>
                   <p>
                     {url
                       ? "Your site is ready. Run a scan, inspect what was found, make the change, and re-test the same check."
@@ -660,7 +660,7 @@ function AppShell() {
                 </div>
                 <div className="finding-count">
                   <strong>{hasResults ? findings.length : sampleFindings.length}</strong>
-                  <span>{issueLabel}</span>
+                  <span>{hasResults ? issueLabel : "sample findings"}</span>
                 </div>
               </div>
 
@@ -747,7 +747,7 @@ function AppShell() {
                     <div className="finding-status-actions">
                       <a
                         className="solid-button"
-                        href="#app/findings?finding=" + encodeURIComponent(selectedFinding.id)
+                        href={"#app/findings?finding=" + encodeURIComponent(selectedFinding.id)}
                       >
                         Review evidence
                       </a>
