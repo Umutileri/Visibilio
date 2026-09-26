@@ -299,7 +299,6 @@ function AppShell() {
             finding.selector === selectedFinding.selector,
         );
         setRetestComparison({
-          ok: true,
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
