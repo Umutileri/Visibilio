@@ -11,79 +11,19 @@ import {
   handleWebsiteListRequest,
 } from "./sessionRoutes";
 import { createStorageFromEnv } from "./storageFactory";
+import type { VisibilioStorage } from "./storage";
 
-const defaultStorage = createStorageFromEnv();
-const defaultScanSessionStore = defaultStorage.scans;
-const defaultWebsiteStore = defaultStorage.websites;
 
 const port = Number(process.env.PORT ?? 8787);
 const MAX_REQUEST_BODY_BYTES = 32_000;
 
-function writeNotFound(response: ServerResponse): void {
-  response.writeHead(404, { "content-type": "application/json" });
-  response.end(
-    JSON.stringify({
-      ok: false,
-      error: { code: "NOT_FOUND", message: "Route not found." },
-    }),
-  );
-}
+async function startServer(): Promise<void> {
+  const defaultStorage: VisibilioStorage = await createStorageFromEnv();
+  const defaultScanSessionStore = defaultStorage.scans;
+  const defaultWebsiteStore = defaultStorage.websites;
 
-async function handleFindingStatusRoute(
-  request: IncomingMessage,
-  response: ServerResponse,
-  sessionId: string,
-  findingId: string,
-): Promise<void> {
-  let body = "";
-  for await (const chunk of request) {
-    body += chunk.toString();
-    if (body.length > 32000) {
-      response.writeHead(413, { "content-type": "application/json" });
-      response.end(JSON.stringify({ ok: false, error: { code: "INVALID_REQUEST", message: "Request body is too large." } }));
-      return;
-    }
-  }
+  createServer(async (request, response) => {
 
-  try {
-    const payload = JSON.parse(body) as { status?: string };
-    if (!payload.status || !["open", "resolved", "ignored"].includes(payload.status)) {
-      response.writeHead(400, { "content-type": "application/json" });
-      response.end(
-        JSON.stringify({
-          ok: false,
-          error: {
-            code: "INVALID_STATUS",
-            message: "Status must be open, resolved, or ignored.",
-          },
-        }),
-      );
-      return;
-    }
-
-    await handleScanFindingStatusRequest(
-      response,
-      sessionId,
-      findingId,
-      payload.status as "open" | "resolved" | "ignored",
-      (id) => defaultScanSessionStore.get(id),
-      (session) => defaultScanSessionStore.update(session),
-    );
-  } catch {
-    response.writeHead(400, { "content-type": "application/json" });
-    response.end(
-      JSON.stringify({
-        ok: false,
-        error: {
-          code: "INVALID_REQUEST",
-          message: "Request body must be valid JSON.",
-        },
-      }),
-    );
-  }
-}
-
-createServer(async (request, response) => {
   const pathname = request.url
     ? new URL(request.url, "http://127.0.0.1").pathname
     : "";
@@ -231,4 +171,14 @@ createServer(async (request, response) => {
   writeNotFound(response);
 }).listen(port, "127.0.0.1", () => {
   console.log("Visibilio scan API listening on 127.0.0.1:" + port);
+});
+
+}
+
+void startServer().catch((error) => {
+  console.error(
+    "Visibilio scan API failed to start:",
+    error instanceof Error ? error.message : error,
+  );
+  process.exitCode = 1;
 });
