@@ -194,7 +194,6 @@ function ProductProof({ t }: { t: Record<string, string> }) {
             <span className="landing-display-label">02</span>
           </div>
           <div>
-            <div className="landing-proof-kicker">FROM SIGNAL TO ACTION</div>
             <h2 id="proof-title" dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
             <p className="landing-proof-lead">{t.proofLead}</p>
           </div>
