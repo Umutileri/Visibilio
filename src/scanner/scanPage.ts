@@ -82,6 +82,7 @@ export async function scanPage(
         responseBytes += body.byteLength;
         if (responseBytes > maxResponseBytes) {
           resourceLimitExceeded = true;
+          await route.abort("blockedbyclient");
           return;
         }
         await route.fulfill({ response, body });
@@ -169,7 +170,8 @@ export async function scanPage(
       const message =
         error instanceof Error ? error.message : "Unknown page error";
       const isTimeout = /timeout/i.test(message);
-      const isResourceLimit = /SCAN_RESOURCE_LIMIT/i.test(message);
+      const isResourceLimit =
+        resourceLimitExceeded || /SCAN_RESOURCE_LIMIT/i.test(message);
 
       return {
         ok: false,
