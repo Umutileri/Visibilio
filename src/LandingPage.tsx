@@ -157,20 +157,47 @@ function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
 
   return (
     <div className="landing-demo landing-demo-retest">
-      <div className="retest-summary">
-        <div className="retest-eyebrow">{t.retestBefore}</div>
-        <div className="retest-value">34 <span>px</span></div>
-        <div className="retest-label">{t.retestOverflow}</div>
+      <div className="retest-browser">
+        <div className="retest-browser-head">
+          <span>{t.demoSite}</span>
+          <b>390 × 844</b>
+        </div>
+        <div className="retest-browser-stage">
+          <div className="retest-page retest-page-before">
+            <div className="retest-page-header" />
+            <div className="retest-page-content">
+              <i />
+              <i />
+              <div className="retest-card-row"><b /><b /><b /></div>
+            </div>
+            <div className="retest-overflow-edge">
+              <span>+34 px</span>
+            </div>
+          </div>
+          <div className="retest-page retest-page-after" aria-hidden="true">
+            <div className="retest-page-header" />
+            <div className="retest-page-content">
+              <i />
+              <i />
+              <div className="retest-card-row"><b /><b /><b /></div>
+            </div>
+          </div>
+          <div className="retest-scan-line" aria-hidden="true" />
+          <div className="retest-state-badge">{t.retestBefore} → {t.retestAfter}</div>
+        </div>
       </div>
-      <div className="retest-action">
-        <div className="retest-action-step"><span>01</span><b>{t.retestFix}</b></div>
-        <i aria-hidden="true">→</i>
-        <div className="retest-action-step"><span>02</span><b>{t.retestRun}</b></div>
-      </div>
-      <div className="retest-summary is-resolved">
-        <div className="retest-eyebrow">{t.retestAfter}</div>
-        <div className="retest-value">0 <span>px</span></div>
-        <div className="retest-label">{t.retestWithin}</div>
+      <div className="retest-result-panel">
+        <div>
+          <small>{t.retestBefore}</small>
+          <strong>34 <span>px</span></strong>
+          <em>{t.retestOverflow}</em>
+        </div>
+        <div className="retest-result-arrow" aria-hidden="true">→</div>
+        <div className="is-resolved">
+          <small>{t.retestAfter}</small>
+          <strong>0 <span>px</span></strong>
+          <em>{t.retestWithin}</em>
+        </div>
       </div>
       <div className="retest-foot"><span>{t.retestFoot}</span><b>✓</b></div>
     </div>
