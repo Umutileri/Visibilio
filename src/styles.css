@@ -3586,3 +3586,110 @@ input:focus-visible {
   font-size: 1.6rem;
   letter-spacing: -.06em;
 }
+
+
+/* Mobile product shell: use a real disclosure menu instead of centered tab-like items. */
+@media (max-width: 760px) {
+  .saas-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    height: auto;
+    border-bottom: 1px solid rgb(21 45 53 / 9%);
+  }
+  .saas-sidebar-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 14px 16px 10px;
+  }
+  .saas-sidebar-section {
+    padding: 0 16px 12px;
+  }
+  .mobile-nav-toggle {
+    display: inline-flex;
+    width: 100%;
+    min-height: 42px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 12px;
+    border: 1px solid rgb(21 45 53 / 10%);
+    border-radius: 9px;
+    background: #fff;
+    color: #152d35;
+    font-size: .68rem;
+    font-weight: 800;
+  }
+  .mobile-nav-toggle > span:first-child {
+    display: inline-grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 7px;
+    background: #e7f0ea;
+    color: #2e5d4c;
+    font-size: .9rem;
+  }
+  .saas-sidebar-section nav {
+    display: none !important;
+    gap: 4px;
+    overflow: hidden;
+    padding: 6px 0 0;
+  }
+  .saas-sidebar-section nav.is-mobile-open {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+  .saas-nav-link {
+    min-height: 44px;
+    margin: 0;
+    padding-inline: 11px;
+    border-radius: 8px;
+  }
+  .saas-nav-link small {
+    display: block;
+  }
+  .topbar-context {
+    min-width: 0;
+  }
+  .saas-topbar {
+    position: static;
+    padding: 9px 16px;
+  }
+  .topbar-back {
+    display: none;
+  }
+  .connection-status {
+    display: none;
+  }
+  .saas-content {
+    width: min(100% - 28px, 1280px);
+    margin-inline: auto;
+    padding: 26px 0 92px;
+  }
+  .site-welcome {
+    gap: 24px;
+  }
+  .audit-summary {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .audit-summary-actions {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 520px) {
+  .saas-sidebar-section nav.is-mobile-open {
+    grid-template-columns: 1fr;
+  }
+  .site-switcher-menu {
+    left: -2px;
+    right: -2px;
+  }
+  .audit-severity-grid > div {
+    padding-inline: 8px;
+  }
+  .audit-severity-grid strong {
+    font-size: 1.35rem;
+  }
+}
