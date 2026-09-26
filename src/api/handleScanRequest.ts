@@ -3,7 +3,8 @@ import { scanViewports } from "../scanner/viewportScan";
 import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
 import { defaultStorage } from "./storage";
-const { scans: defaultScanSessionStore, websites: defaultWebsiteStore } = defaultStorage;
+const defaultScanSessionStore = defaultStorage.scans;
+const defaultWebsiteStore = defaultStorage.websites;
 import type {
   ScanApiFailure,
   ScanApiRequest,
