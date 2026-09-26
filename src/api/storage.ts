@@ -33,7 +33,8 @@ class InMemoryWebsiteRepository implements WebsiteRepository {
     const next = {
       ...existing,
       ...website,
-      createdAt: existing?.createdAt ?? website.createdAt ?? new Date().toISOString(),
+      createdAt:
+        existing?.createdAt ?? website.createdAt ?? new Date().toISOString(),
     };
     this.websites.set(next.key, next);
     return next;
