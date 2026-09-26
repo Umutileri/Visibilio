@@ -123,6 +123,7 @@ function AppShell() {
   const [scanStage, setScanStage] = useState<"idle" | "loading" | "desktop" | "mobile" | "done">("idle");
   const scanAbortRef = useRef<AbortController | null>(null);
   const scanTimerRef = useRef<number | null>(null);
+  const retestTimerRef = useRef<number | null>(null);
   const [error, setError] = useState("");
   const [response, setResponse] = useState<ScanApiResponse | null>(null);
   const [history, setHistory] = useState<ScanSessionListResponse | null>(null);
@@ -279,7 +280,7 @@ function AppShell() {
         }
 
         if (pollData.session.status === "scanning" || pollData.session.status === "queued") {
-          scanTimerRef.current = window.setTimeout(
+          retestTimerRef.current = window.setTimeout(
             () =>
               void poll().catch((error) =>
                 setError(
@@ -471,6 +472,10 @@ function AppShell() {
       window.clearTimeout(scanTimerRef.current);
       scanTimerRef.current = null;
     }
+    if (retestTimerRef.current !== null) {
+      window.clearTimeout(retestTimerRef.current);
+      retestTimerRef.current = null;
+    }
     setIsScanning(false);
     setActiveScanSessionId(null);
     setScanStage("idle");
@@ -478,6 +483,7 @@ function AppShell() {
   useEffect(() => () => {
     scanAbortRef.current?.abort();
     if (scanTimerRef.current !== null) window.clearTimeout(scanTimerRef.current);
+    if (retestTimerRef.current !== null) window.clearTimeout(retestTimerRef.current);
   }, []);
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
