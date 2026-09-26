@@ -8,6 +8,7 @@ import {
   handleScanSessionCancelRequest,
   handleScanArtifactGetRequest,
   handleScanRetestRequest,
+  handleWebsiteListRequest,
 } from "./sessionRoutes";
 import { defaultScanSessionStore } from "./sessionStore";
 
@@ -131,6 +132,11 @@ createServer(async (request, response) => {
     const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
     const siteKey = requestUrl.searchParams.get("site") || undefined;
     void handleScanSessionListRequest(response, defaultScanSessionStore.list(siteKey));
+    return;
+  }
+
+  if (pathname === "/api/websites" && request.method === "GET") {
+    void handleWebsiteListRequest(response, defaultScanSessionStore.list());
     return;
   }
 
