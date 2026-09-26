@@ -186,10 +186,21 @@ export async function handleWebsiteListRequest(
   response: ServerResponse,
   websites: Promise<import("./sessionTypes").WebsiteRef[]>,
 ): Promise<void> {
-  const body: WebsiteListResponse = {
-    ok: true,
-    websites: await websites,
-  };
+  try {
+    const body: WebsiteListResponse = {
+      ok: true,
+      websites: await websites,
+    };
 
-  json(response, 200, body);
+    json(response, 200, body);
+  } catch {
+    const body: ScanApiFailure = {
+      ok: false,
+      error: {
+        code: "SCAN_ERROR",
+        message: "Could not load websites.",
+      },
+    };
+    json(response, 500, body);
+  }
 }
