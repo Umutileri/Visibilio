@@ -456,9 +456,6 @@ function AppShell() {
 
   const primaryScan = scanResults[0]?.scan.ok ? scanResults[0].scan : null;
   const hasResults = findings.length > 0;
-  const critical = severityCount(findings, "high");
-  const medium = severityCount(findings, "medium");
-  const low = severityCount(findings, "low");
   const issuesVisible = hasResults ? filteredFindings : sampleFindings;
   const currentSite = displayHostname(url);
   const issueLabel = findings.length === 1 ? "finding" : "findings";
