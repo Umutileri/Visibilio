@@ -432,13 +432,13 @@ export default function LandingPage() {
               </div>
               <div className="landing-url-proof">
                 <span>01</span>
-                <strong>Enter a page</strong>
+                <strong>{t.urlStep1}</strong>
                 <i>→</i>
                 <span>02</span>
-                <strong>Inspect the browser</strong>
+                <strong>{t.urlStep2}</strong>
                 <i>→</i>
                 <span>03</span>
-                <strong>Get the finding</strong>
+                <strong>{t.urlStep3}</strong>
               </div>
             </div>
             <form className="landing-url-form" onSubmit={(event) => {
@@ -513,7 +513,7 @@ export default function LandingPage() {
               <p>{t.evidenceBody}</p>
             </div>
             <div className="landing-evidence-contrast">
-              <div><small>OBSERVED</small><strong>34 px horizontal overflow</strong><span>viewport: 390 × 844 · selector: .pricing-grid</span></div>
+              <div><small>{t.observedLabel}</small><strong>{t.observedCopy}</strong><span>{t.observedMeta}</span></div>
               <div><small>{t.interpretedLabel}</small><strong>{t.interpretedCopy}</strong><span>{t.aiNotMeasurement}</span></div>
             </div>
           </div>
