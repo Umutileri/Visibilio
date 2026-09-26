@@ -720,13 +720,25 @@ function AppShell() {
                   ["03", "Mobile viewport"],
                   ["04", "Accessibility checks"],
                   ["05", "Layout checks"],
-                ].map(([key, label]) => (
-                  <div className="stage" key={key}>
-                    <b>{key}</b>
-                    <span>{label}</span>
-                    <small>{isScanning ? (key === "01" ? "loading" : scanStage === "done" ? "complete" : "running") : "ready"}</small>
-                  </div>
-                ))}
+                ].map(([key, label]) => {
+                  const stageKey = Number(key);
+                  const currentStage =
+                    scanStage === "loading" ? 1 :
+                    scanStage === "desktop" ? 2 :
+                    scanStage === "mobile" ? 3 :
+                    scanStage === "done" ? 5 : 0;
+                  const isComplete = !isScanning && scanStage === "done"
+                    ? true
+                    : stageKey < currentStage;
+                  const isCurrent = stageKey === currentStage;
+                  return (
+                    <div className={"stage" + (isCurrent ? " is-current" : "") + (isComplete ? " is-complete" : "")} key={key}>
+                      <b>{key}</b>
+                      <span>{label}</span>
+                      <small>{isComplete ? "complete" : isCurrent ? "running" : "ready"}</small>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           )}
