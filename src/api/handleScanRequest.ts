@@ -161,6 +161,14 @@ export async function handleScanRequest(
     status: "scanning",
     startedAt: new Date().toISOString(),
   });
+
+  await defaultWebsiteStore.upsert({
+    key: session.siteKey,
+    name: session.siteName,
+    url: session.url,
+    lastScanAt: session.createdAt,
+  });
+
   await defaultScanSessionStore.create(session);
 
   await runScanSession(session.id, session.url);
