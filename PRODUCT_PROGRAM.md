@@ -27,21 +27,23 @@ The product should create recurring value, not a one-off report:
 - Treat the landing page itself as a demonstration of Visibilio's UI-quality standard
 
 ### Product shell
-- Project / website context
+- Website context as the primary product object
 - Overview
-- Analyze
-- Findings
-- Evidence
-- History
+- Analyze / new audit
+- Findings with inline evidence + next actions
+- Scan history
 - Settings
+- Evidence is a finding-level destination, not a top-level navigation item
+
+The MVP shell should not expose "Workspace" as a primary user-facing concept. A workspace can remain an internal tenancy/account boundary for future authentication, billing, collaboration, and project isolation, but the product UI should lead with the website being audited.
 
 Do not reintroduce a floating navigation rail. Keep the shell conventional, calm, and information-dense.
 
 ## Core domain model
 
 User
-  -> Workspace
-      -> Project / Website
+  -> Account / Workspace (internal tenancy boundary)
+      -> Website
           -> ScanSession
               -> ViewportResult
                   -> Issue
