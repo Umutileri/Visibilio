@@ -3693,3 +3693,46 @@ input:focus-visible {
     font-size: 1.35rem;
   }
 }
+
+
+/* 2026 mobile navigation alignment hardening */
+@media (max-width: 760px) {
+  .saas-sidebar-section nav.is-mobile-open {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open .saas-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 44px;
+    padding-inline: 12px;
+    text-align: left;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open .saas-nav-link span {
+    text-align: left;
+  }
+
+  .mobile-nav-toggle {
+    text-align: left;
+  }
+
+  .site-switcher-menu {
+    max-height: min(70vh, 420px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 390px) {
+  .mobile-nav-toggle {
+    min-height: 40px;
+  }
+
+  .saas-sidebar-section nav.is-mobile-open .saas-nav-link {
+    min-height: 42px;
+  }
+}
