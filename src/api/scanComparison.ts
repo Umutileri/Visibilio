@@ -3,15 +3,6 @@ import type { ScanSession } from "./sessionTypes";
 
 export type FindingChange = "new" | "resolved" | "unchanged";
 
-export interface FindingComparison {
-  key: string;
-  title: string;
-  severity: UIssue["severity"];
-  change: FindingChange;
-  before?: UIssue;
-  after?: UIssue;
-}
-
 function findingKey(finding: UIssue): string {
   return [
     finding.rule,
