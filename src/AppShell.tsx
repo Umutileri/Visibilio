@@ -619,26 +619,60 @@ function AppShell() {
                 </div>
               </section>
               {hasResults && (
-                <section className="context-strip site-result-strip">
-                  <div>
-                    <span>Last scan</span>
-                    <strong>{primaryScan ? "Just now" : "Not scanned yet"}</strong>
-                  </div>
-                  <div>
-                    <span>Status</span>
-                    <strong>{statusLabel(primaryScan)}</strong>
-                  </div>
-                  <div>
-                    <span>Viewports</span>
-                    <strong>390 × 844 · 1440 × 900</strong>
-                  </div>
-                  <div>
-                    <span>Findings</span>
-                    <strong>{findings.length}</strong>
-                  </div>
-                </section>
+                <>
+                  <section className="context-strip site-result-strip">
+                    <div>
+                      <span>Latest scan</span>
+                      <strong>{primaryScan ? "Completed" : "No result"}</strong>
+                    </div>
+                    <div>
+                      <span>Issues found</span>
+                      <strong>{findings.length}</strong>
+                    </div>
+                    <div>
+                      <span>Open</span>
+                      <strong>{findings.filter((finding) => finding.status === "open").length}</strong>
+                    </div>
+                    <div>
+                      <span>Resolved</span>
+                      <strong>{findings.filter((finding) => finding.status === "resolved").length}</strong>
+                    </div>
+                  </section>
+                  <section className="audit-summary surface">
+                    <div className="audit-summary-main">
+                      <span className="surface-kicker">Audit summary</span>
+                      <h2>
+                        {findings.length === 0
+                          ? "No issues were detected."
+                          : findings.length === 1
+                            ? "One issue needs your attention."
+                            : `${findings.length} issues need your attention.`}
+                      </h2>
+                      <p>
+                        {findings.length === 0
+                          ? "The tested page passed the current deterministic checks. Re-test after meaningful UI changes."
+                          : "Start with the highest-severity finding, inspect its evidence, make the change, then run the same check again."}
+                      </p>
+                      <div className="audit-summary-actions">
+                        <a className="solid-button" href="#app/findings">
+                          Review findings →
+                        </a>
+                        <a className="text-link" href="#app/history">
+                          Compare past scans
+                        </a>
+                      </div>
+                    </div>
+                    <div className="audit-severity-grid" aria-label="Finding severity breakdown">
+                      {(["high", "medium", "low"] as const).map((level) => (
+                        <div key={level}>
+                          <span>{level}</span>
+                          <strong>{findings.filter((finding) => finding.severity === level).length}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
               )}
-
               <section className="site-grid">
                 <div className="surface surface-main">
                   <div className="surface-heading">
