@@ -1,5 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { createRetestSessionRequest, createScanSessionRequest, handleScanRequest } from "./handleScanRequest";
+import { createScanHandlers } from "./handleScanRequest";
 import {
   handleScanSessionGetRequest,
   handleScanSessionListRequest,
@@ -21,6 +21,7 @@ async function startServer(): Promise<void> {
   const defaultStorage: VisibilioStorage = await createStorageFromEnv();
   const defaultScanSessionStore = defaultStorage.scans;
   const defaultWebsiteStore = defaultStorage.websites;
+  const { handleScanRequest, createScanSessionRequest, createRetestSessionRequest } = createScanHandlers(defaultStorage);
 
   createServer(async (request, response) => {
 
