@@ -318,7 +318,7 @@ function AppShell() {
           session: pollData.session,
           comparison: {
             findingId: selectedFinding.id,
-            outcome: comparison ? "still-present" : "inconclusive",
+            outcome: comparison ? "still-present" : "resolved",
           },
         });
         setResponse({
