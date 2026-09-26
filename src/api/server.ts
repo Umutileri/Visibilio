@@ -12,6 +12,8 @@ import {
 } from "./sessionRoutes";
 import { createStorageFromEnv } from "./storageFactory";
 import type { VisibilioStorage } from "./storage";
+import { FallbackExplanationProvider } from "./fallbackExplanation";
+import { handleFindingExplanationRequest } from "./explanationRoutes";
 
 const port = Number(process.env.PORT ?? 8787);
 const MAX_REQUEST_BODY_BYTES = 32_000;
@@ -64,6 +66,7 @@ async function startServer(): Promise<void> {
   const defaultScanSessionStore = defaultStorage.scans;
   const defaultWebsiteStore = defaultStorage.websites;
   const { handleScanRequest, createScanSessionRequest, createRetestSessionRequest } = createScanHandlers(defaultStorage);
+  const explanationProvider = new FallbackExplanationProvider();
 
   createServer(async (request, response) => {
 
@@ -145,8 +148,20 @@ async function startServer(): Promise<void> {
 
   const sessionMatch = pathname.match(/^\/api\/scans\/([^/]+)$/);
   const findingMatch = pathname.match(/^\/api\/scans\/([^/]+)\/findings\/([^/]+)$/);
+  const explanationMatch = pathname.match(/^\/api\/scans\/([^/]+)\/findings\/([^/]+)\/explanation$/);
   const artifactMatch = pathname.match(/^\/api\/scans\/([^/]+)\/artifacts\/([^/]+)$/);
   const retestMatch = pathname.match(/^\/api\/scans\/([^/]+)\/retest$/);
+
+  if (explanationMatch && request.method === "GET") {
+    void handleFindingExplanationRequest(
+      response,
+      defaultStorage,
+      decodeURIComponent(explanationMatch[1]),
+      decodeURIComponent(explanationMatch[2]),
+      explanationProvider,
+    );
+    return;
+  }
 
   if (findingMatch && request.method === "PATCH") {
     void handleFindingStatusRoute(

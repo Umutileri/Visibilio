@@ -81,4 +81,13 @@ export interface WebsiteListSuccess {
   websites: import("./sessionTypes").WebsiteRef[];
 }
 
+export interface FindingExplanationSuccess {
+  ok: true;
+  explanation: import("./explanation").FindingExplanation;
+}
+
+export type FindingExplanationResponse =
+  | FindingExplanationSuccess
+  | ScanApiFailure;
+
 export type WebsiteListResponse = WebsiteListSuccess | ScanApiFailure;
