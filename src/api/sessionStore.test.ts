@@ -76,8 +76,8 @@ describe("InMemoryScanSessionStore", () => {
   });
   it("filters history by canonical website key", async () => {
     const store = new InMemoryScanSessionStore();
-    const example = createScanSession("https://www.example.com/pricing");
-    const other = createScanSession("https://other.example");
+    const example = { ...createScanSession("https://www.example.com/pricing"), id: "scan_example" };
+    const other = { ...createScanSession("https://other.example"), id: "scan_other" };
 
     await store.create(example);
     await store.create(other);
