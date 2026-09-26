@@ -16,6 +16,7 @@ The product should create recurring value, not a one-off report:
 
 ### Public marketing
 - Clear product promise
+- Category + outcome understandable without scrolling
 - Concrete scanner/evidence examples
 - No fake scan results
 - CTA into Analyze
@@ -225,16 +226,18 @@ Goal: make the proven workflow feel excellent.
 
 Landing-page polish is part of the product, not a separate marketing exercise.
 
-- [ ] Navigation hierarchy refinement
-- [ ] Desktop/tablet/mobile behavior
-- [ ] Keyboard/focus coverage
-- [ ] Reduced-motion behavior
+- [x] Navigation hierarchy refinement
+- [x] Desktop/tablet/mobile behavior baseline
+- [x] Landing-page product proof
+- [x] Landing hero/category clarity pass
+- [x] Landing workflow hierarchy
+- [x] Landing evidence/re-test visual hierarchy
+- [x] Consistent primary CTA language
+- [ ] Full device/browser validation
 - [ ] Skeleton/loading polish
 - [ ] Error recovery
-- [ ] Density/whitespace tuning
+- [ ] Density/whitespace tuning from user feedback
 - [ ] Screenshot/evidence interaction polish
-- [ ] Landing-page product proof
-- [ ] Consistent copy and terminology
 
 ## Pricing/business validation path
 
