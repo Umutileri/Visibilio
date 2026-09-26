@@ -511,7 +511,7 @@ function AppShell() {
                       <span className="surface-kicker">{hasResults ? "Latest scan" : "Get started"}</span>
                       <h2>{hasResults ? "Findings that need attention" : "Run your first audit"}</h2>
                     </div>
-                    <a href="#app/analyze">Analyze</a>
+                    <a href="#app/analyze">New scan</a>
                   </div>
                   {hasResults ? (
                     <div className="compact-list">
@@ -522,7 +522,7 @@ function AppShell() {
                           type="button"
                           onClick={() => {
                             setSelectedFindingId(finding.id);
-                            window.location.hash = "#app/findings";
+                            window.location.hash = "#app/findings?finding=" + encodeURIComponent(finding.id);
                           }}
                         >
                           <span className={"severity-dot severity-" + finding.severity} />
