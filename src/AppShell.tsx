@@ -914,7 +914,7 @@ function AppShell() {
                     </div>
                   </div>
 
-                  {retestComparison?.ok && retestComparison.comparison.findingId === selectedFinding.id && (
+                  {retestComparison?.comparison.findingId === selectedFinding.id && (
                     <div className="detail-section retest-inline-result">
                       <span className="detail-label">Latest re-test</span>
                       <strong>{retestComparison.comparison.outcome === "resolved" ? "Resolved in the re-test" : "Still present in the re-test"}</strong>
