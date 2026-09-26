@@ -183,14 +183,15 @@ describe("session cancellation route", () => {
 describe("scan artifact route", () => {
   it("serves screenshot bytes for a valid artifact", async () => {
     const capture = createBinaryResponseCapture();
-    const evidenceRoot = join(".visibilio", "evidence");
+    const session = createScanSession("https://example.com");
+    const evidenceRoot = join(".visibilio", "evidence", session.id);
     const screenshotPath = join(evidenceRoot, "route-test.png");
     await mkdir(evidenceRoot, { recursive: true });
     await writeFile(screenshotPath, Buffer.from([137, 80, 78, 71]));
 
     try {
-      const session = {
-        ...createScanSession("https://example.com"),
+      const sessionWithArtifact = {
+        ...session,
         artifacts: [{
           id: "scan_test_mobile",
           kind: "screenshot" as const,
@@ -226,7 +227,7 @@ describe("scan artifact route", () => {
         capture.response,
         session.id,
         "scan_test_mobile",
-        async (id) => (id === session.id ? session : null),
+        async (id) => (id === session.id ? sessionWithArtifact : null),
       );
 
       const result = capture.read();
@@ -234,7 +235,7 @@ describe("scan artifact route", () => {
       assert.equal(result.headers["content-type"], "image/png");
       assert.deepEqual([...((result.body as Buffer) ?? [])], [137, 80, 78, 71]);
     } finally {
-      await rm(screenshotPath, { force: true });
+      await rm(evidenceRoot, { recursive: true, force: true });
     }
   });
 

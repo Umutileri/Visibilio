@@ -186,7 +186,7 @@ export async function handleScanArtifactGetRequest(
   }
 
   const expectedPath = resolve(scan.screenshot.path);
-  const root = resolve(".visibilio/evidence");
+  const root = resolve(".visibilio", "evidence", sessionId);
   if (expectedPath !== root && !expectedPath.startsWith(root + "/")) {
     json(response, 400, {
       ok: false,
