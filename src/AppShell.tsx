@@ -5,7 +5,7 @@ import type {
   ScanSuccess,
 } from "./scanner/types";
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
-import type { ScanArtifact, WebsiteRef } from "./api/sessionTypes";
+import type { WebsiteRef } from "./api/sessionTypes";
 import { compareScanSessions } from "./api/scanComparison";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -94,10 +94,6 @@ function flattenResults(
   results: Array<{ viewport: { name: string }; scan: ScanResult }>,
 ): UIssue[] {
   return results.flatMap(({ scan }) => (scan.ok ? scan.issues : []));
-}
-
-function severityCount(findings: UIssue[], severity: IssueSeverity): number {
-  return findings.filter((issue) => issue.severity === severity).length;
 }
 
 function statusLabel(scan: ScanSuccess | null): string {
