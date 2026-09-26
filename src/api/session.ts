@@ -104,7 +104,7 @@ export function buildRetestComparison(
         result.viewport.width === original.viewport.width &&
         result.viewport.height === original.viewport.height,
     );
-    return { before: original, outcome: sameViewport ? "resolved" : "not-found" };
+    return { before: original, outcome: sameViewport ? "not-found" : "not-found" };
   }
   return { before: original, after, outcome: "still-present" };
 }
