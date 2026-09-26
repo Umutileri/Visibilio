@@ -4,7 +4,7 @@ import { createScanSession, updateScanSession } from "./session";
 import { assertSafeTarget } from "./urlSafety";
 import type { VisibilioStorage } from "./storage";
 
-export function createScanHandlers(storage: VisibilioStorage) {
+function createScanHandlers(storage: VisibilioStorage) {
   const defaultScanSessionStore = storage.scans;
   const defaultWebsiteStore = storage.websites;
 
@@ -233,10 +233,7 @@ export function validateScanUrl(rawUrl: string): URL | null {
   return linked;
 }
 
-  return {
-    createScanSessionRequest,
-    runScanSession,
-    handleScanRequest,
-    createRetestSessionRequest,
-  };
+  return { createScanSessionRequest, runScanSession, handleScanRequest, createRetestSessionRequest };
 }
+
+export { createScanHandlers };
