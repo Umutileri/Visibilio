@@ -583,7 +583,7 @@ export default function LandingPage() {
 
       <footer className="landing-footer">
         <div className="landing-container landing-footer-grid">
-          <div><Brand/><p>{t.footerTagline}</p></div>
+          <div><Brand label={t.homeAria} /><p>{t.footerTagline}</p></div>
           <div className="landing-footer-links">{navLinks.map(([href,key])=><a key={href} href={href}>{t[key]}</a>)}<a href="#retest">{t.retest}</a><a href="#app/overview">{t.workspace}</a></div>
           <small>Visibilio · 2026</small>
         </div>
