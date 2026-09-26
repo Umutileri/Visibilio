@@ -125,6 +125,21 @@ describe("session cancellation route", () => {
     assert.equal(result.statusCode, 404);
   });
 
+  it("rejects cancellation after a cancelled state", async () => {
+    const capture = createResponseCapture();
+    const session = { ...createScanSession("https://example.com"), status: "cancelled" as const };
+
+    await handleScanSessionCancelRequest(
+      capture.response,
+      session.id,
+      async () => session,
+      async (next) => next,
+    );
+
+    const result = capture.read();
+    assert.equal(result.statusCode, 409);
+  });
+
   it("rejects cancellation after a terminal state", async () => {
     const capture = createResponseCapture();
     const session = { ...createScanSession("https://example.com"), status: "completed" as const };
