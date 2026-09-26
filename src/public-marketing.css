@@ -53,6 +53,16 @@
   text-wrap: pretty;
 }
 
+
+.landing-page :is(#top, #product, #how-it-works, #evidence, #retest, #faq) {
+  scroll-margin-top: 92px;
+}
+
+.landing-page :where(a, button, input, summary):focus-visible {
+  outline: 2px solid var(--landing-sage);
+  outline-offset: 3px;
+}
+
 .landing-container {
   width: min(var(--landing-max), calc(100% - (var(--landing-gutter) * 2)));
   margin-inline: auto;
@@ -2252,5 +2262,17 @@
 
   .landing-footer-links {
     grid-template-columns: 1fr;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page *,
+  .landing-page *::before,
+  .landing-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
