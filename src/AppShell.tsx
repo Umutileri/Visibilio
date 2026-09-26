@@ -70,7 +70,10 @@ function displayHostname(value: string): string {
 function websiteKey(value: string): string {
   if (!value) return "";
   try {
-    return new URL(value).hostname.toLowerCase().replace(/^www\\./, "");
+    const parsed = new URL(value);
+    const hostname = parsed.hostname.toLowerCase().replace(/^www\\./, "");
+    const port = parsed.port || (parsed.protocol === "https:" ? "443" : "80");
+    return hostname + ":" + port;
   } catch {
     return "";
   }
