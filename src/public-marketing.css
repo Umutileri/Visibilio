@@ -3515,8 +3515,9 @@
 .landing-page .landing-demo-evidence .evidence-inspector > div {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(2.5rem, auto);
   align-content: start;
-  align-items: baseline;
+  align-items: end;
   min-width: 0;
   min-height: 112px;
   gap: 8px 4px;
@@ -3550,10 +3551,12 @@
   text-overflow: clip;
 }
 .landing-page .landing-demo-evidence .evidence-inspector > div em {
-  display: inline;
-  margin: 0;
+  display: inline-block;
+  align-self: end;
+  margin: 0 0 .12em;
   color: #638173;
   font-size: .72rem;
+  line-height: 1;
   font-style: normal;
 }
 .landing-page .landing-demo-evidence .evidence-inspector > div:last-child {
