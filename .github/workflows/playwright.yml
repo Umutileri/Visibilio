@@ -1,8 +1,6 @@
 name: Playwright landing checks
 
 on:
-  pull_request:
-    branches: [main]
   push:
     branches: [fix/landing-responsive-pass]
 
