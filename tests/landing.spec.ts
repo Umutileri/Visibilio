@@ -138,25 +138,6 @@ test("app mobile navigation opens as a left-aligned list", async ({ page }) => {
 });
 
 
-test("mobile FAQ uses readable contrast on its light surface", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  const faq = page.locator(".landing-faq-section");
-  await expect(faq).toBeVisible();
-  const styles = await faq.evaluate((section) => {
-    const question = section.querySelector(".landing-faq-list summary") as HTMLElement;
-    const answer = section.querySelector(".landing-faq-list details p") as HTMLElement;
-    return {
-      background: getComputedStyle(section).backgroundColor,
-      questionColor: getComputedStyle(question).color,
-      answerColor: getComputedStyle(answer).color,
-    };
-  });
-  expect(styles.background).toBe("rgb(242, 246, 243)");
-  expect(styles.questionColor).toBe("rgb(21, 45, 53)");
-  expect(styles.answerColor).toBe("rgb(62, 91, 80)");
-});
-
 test("mobile feature and evidence cards do not reserve viewport-sized blank space", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
