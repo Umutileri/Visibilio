@@ -54,3 +54,43 @@ test("mobile navigation opens right-aligned instead of centered", async ({ page 
   expect(geometry.width).toBeLessThanOrEqual(366);
   expect(geometry.left).toBeGreaterThan(0);
 });
+
+
+test("app shell keeps its typography and box sizing scoped to the app route", async ({ page }) => {
+  await page.goto("/#app/overview");
+  const app = page.locator(".saas-app");
+  await expect(app).toBeVisible();
+
+  const style = await app.evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return {
+      fontFamily: computed.fontFamily,
+      boxSizing: computed.boxSizing,
+      backgroundColor: computed.backgroundColor,
+    };
+  });
+
+  expect(style.fontFamily).toContain("Inter");
+  expect(style.boxSizing).toBe("border-box");
+  expect(style.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+test("landing page does not inherit legacy marketing shell selectors", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.locator(".landing-page").evaluate((element) => {
+    const nav = element.querySelector(".landing-nav") as HTMLElement | null;
+    const brand = element.querySelector(".landing-brand") as HTMLElement | null;
+    if (!nav || !brand) return null;
+    return {
+      navPosition: getComputedStyle(nav).position,
+      navDisplay: getComputedStyle(nav).display,
+      brandDisplay: getComputedStyle(brand).display,
+      width: nav.getBoundingClientRect().width,
+    };
+  });
+
+  expect(result).not.toBeNull();
+  expect(result?.navDisplay).toBe("grid");
+  expect(result?.brandDisplay).toBe("inline-flex");
+  expect(result?.width).toBeGreaterThan(0);
+});
