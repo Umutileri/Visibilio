@@ -154,7 +154,7 @@ test("mobile FAQ uses readable contrast on its light surface", async ({ page }) 
   });
   expect(styles.background).toBe("rgb(242, 246, 243)");
   expect(styles.questionColor).toBe("rgb(21, 45, 53)");
-  expect(styles.answerColor).toBe("rgb(21, 45, 53)");
+  expect(styles.answerColor).toBe("rgb(62, 91, 80)");
 });
 
 test("mobile feature and evidence cards do not reserve viewport-sized blank space", async ({ page }) => {
