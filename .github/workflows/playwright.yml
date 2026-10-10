@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright@1.55.0 install --with-deps chromium
       - name: Run app build
         run: npm run build
       - name: Run landing responsive checks
