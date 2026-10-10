@@ -136,3 +136,61 @@ test("app mobile navigation opens as a left-aligned list", async ({ page }) => {
   expect(geometry.right).toBeLessThanOrEqual(390);
   expect(geometry.linkAlign).toBe("left");
 });
+
+
+test("mobile FAQ uses readable contrast on its light surface", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const faq = page.locator(".landing-faq-section");
+  await expect(faq).toBeVisible();
+  const styles = await faq.evaluate((section) => {
+    const question = section.querySelector(".landing-faq-list summary") as HTMLElement;
+    const answer = section.querySelector(".landing-faq-list details p") as HTMLElement;
+    return {
+      background: getComputedStyle(section).backgroundColor,
+      questionColor: getComputedStyle(question).color,
+      answerColor: getComputedStyle(answer).color,
+    };
+  });
+  expect(styles.background).toBe("rgb(242, 246, 243)");
+  expect(styles.questionColor).toBe("rgb(21, 45, 53)");
+  expect(styles.answerColor).toBe("rgb(21, 45, 53)");
+});
+
+test("mobile feature and evidence cards do not reserve viewport-sized blank space", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const step = page.locator(".landing-feature-step").nth(1);
+  const art = step.locator(".landing-feature-art");
+  await expect(art).toBeVisible();
+  const metrics = await step.evaluate((element) => ({
+    stepHeight: element.getBoundingClientRect().height,
+    artHeight: element.querySelector(".landing-feature-art")!.getBoundingClientRect().height,
+    minHeight: getComputedStyle(element).minHeight,
+  }));
+  expect(metrics.minHeight).toBe("0px");
+  expect(metrics.stepHeight).toBeLessThan(900);
+  expect(metrics.artHeight).toBeGreaterThan(200);
+});
+
+test("mobile evidence inspector metrics render as separate readable cards", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const inspector = page.locator(".evidence-inspector").first();
+  await expect(inspector).toBeVisible();
+  const metrics = await inspector.evaluate((element) => {
+    const cards = [...element.children].map((card) => {
+      const rect = card.getBoundingClientRect();
+      return {
+        width: rect.width,
+        height: rect.height,
+        display: getComputedStyle(card).display,
+        label: card.querySelector("small")?.getBoundingClientRect().width ?? 0,
+      };
+    });
+    return { columns: getComputedStyle(element).gridTemplateColumns, cards };
+  });
+  expect(metrics.columns.split(" ").length).toBe(2);
+  expect(metrics.cards.length).toBe(4);
+  expect(metrics.cards.every((card) => card.width > 100 && card.height >= 70)).toBe(true);
+});
