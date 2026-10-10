@@ -1,6 +1,13 @@
-import { randomUUID } from "node:crypto";
 import type { ScanResult, UIssue } from "../scanner/types";
 import type { ScanSession, ScanStatus } from "./sessionTypes";
+
+function createSessionId(): string {
+  const cryptoApi = globalThis.crypto;
+  if (!cryptoApi?.randomUUID) {
+    throw new Error("A cryptographically secure UUID generator is required to create a scan session.");
+  }
+  return cryptoApi.randomUUID();
+}
 
 function normalizeSiteUrl(rawUrl: string): URL {
   return new URL(rawUrl);
@@ -22,7 +29,7 @@ export function getWebsiteKey(rawUrl: string): string {
 
 export function createScanSession(url: string): ScanSession {
   return {
-    id: "scan_" + randomUUID(),
+    id: "scan_" + createSessionId(),
     url,
     siteKey: getWebsiteKey(url),
     siteName: getWebsiteName(url),
