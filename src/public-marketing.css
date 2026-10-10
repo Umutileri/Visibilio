@@ -3460,180 +3460,155 @@
 }
 
 
-/* Final mobile cascade correction: scoped selectors outrank the earlier broad
-   interaction overrides without changing desktop layouts. */
+
+/* Visibilio landing visual system — intentional light/dark section rhythm.
+   Dark surfaces are accents, not a global theme. */
+.landing-page {
+  --landing-bg: #fbfdfb;
+  --landing-surface: #f2f6f3;
+  --landing-surface-strong: #e8f1eb;
+  --landing-ink: #152d35;
+  --landing-muted: rgb(21 45 53 / 68%);
+  --landing-soft: rgb(21 45 53 / 48%);
+  --landing-sage: #638173;
+  --landing-light: #d4ecdd;
+}
+
+/* The FAQ intentionally returns to the deep-teal editorial surface. */
+.landing-page .landing-faq-section {
+  background: #152d35;
+  color: #f7fbf8;
+}
+.landing-page .landing-faq-title .landing-section-kicker {
+  color: #b7d5c1;
+}
+.landing-page .landing-faq-title h2 em {
+  color: #d4ecdd;
+}
+.landing-page .landing-faq-list {
+  border-top-color: rgb(212 236 221 / 24%);
+}
+.landing-page .landing-faq-list details {
+  border-bottom-color: rgb(212 236 221 / 18%);
+}
+.landing-page .landing-faq-list summary {
+  color: #f7fbf8;
+}
+.landing-page .landing-faq-list summary span {
+  color: #d4ecdd;
+}
+.landing-page .landing-faq-list details[open] {
+  background: rgb(212 236 221 / 8%);
+}
+.landing-page .landing-faq-list details p {
+  color: #cbded2;
+  opacity: 1;
+}
+
+/* Evidence inspector: labels, values and units must read as separate rows. */
+.landing-page .landing-demo-evidence .evidence-inspector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: start;
+  align-items: baseline;
+  min-width: 0;
+  min-height: 112px;
+  gap: 8px 4px;
+  padding: 16px;
+  border: 1px solid rgb(21 45 53 / 10%);
+  border-radius: 10px;
+  background: #fff;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div small {
+  grid-column: 1 / -1;
+  display: block;
+  color: #638173;
+  font-size: .62rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div strong {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  color: #152d35;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -.055em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  text-overflow: clip;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div em {
+  display: inline;
+  margin: 0;
+  color: #638173;
+  font-size: .72rem;
+  font-style: normal;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div:last-child {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 84px;
+}
+.landing-page .landing-demo-evidence .evidence-inspector > div:last-child strong {
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  line-height: 1.4;
+  letter-spacing: -.025em;
+}
+
+/* Supporting cards use controlled contrast and consistent section surfaces. */
+.landing-page .landing-audience-grid article,
+.landing-page .landing-proof-list article {
+  border: 1px solid rgb(21 45 53 / 9%);
+  background-color: #f7faf8;
+  box-shadow: 0 10px 30px rgb(21 45 53 / 4%);
+}
+.landing-page .landing-audience-grid article:nth-child(2),
+.landing-page .landing-proof-list article:nth-child(2) {
+  background-color: #eef4f0;
+}
+.landing-page .landing-audience-grid article:nth-child(3),
+.landing-page .landing-proof-list article:nth-child(3) {
+  background-color: #e8f1eb;
+}
+.landing-page .landing-evidence-contrast > div {
+  border: 1px solid rgb(21 45 53 / 10%);
+  border-radius: 12px;
+  background: #fff;
+}
+.landing-page .landing-outcome-visual {
+  overflow: hidden;
+  border: 1px solid rgb(21 45 53 / 10%);
+  background: #fff;
+}
+
+/* Mobile: compact rhythm; demos size to their content, never to the viewport. */
 @media (max-width: 640px) {
-  .landing-page .landing-feature-scroll .landing-feature-step {
+  .landing-page .landing-feature-step {
     min-height: 0;
     height: auto;
     padding-block: 12px 22px;
   }
-
-  .landing-page .landing-feature-scroll .landing-feature-step .landing-feature-art {
-    height: auto;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-content: start;
-    min-height: 102px;
-    padding: 13px;
-    white-space: normal;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div:last-child {
-    grid-column: 1 / -1;
-    min-height: 76px;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector strong {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    overflow: visible;
-    font-size: clamp(1.7rem, 8vw, 2.2rem);
-    text-overflow: clip;
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div:last-child strong {
-    font-size: .84rem;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector em {
-    display: inline;
-  }
-}
-
-@media (max-width: 390px) {
-  .landing-page .landing-feature-scroll .landing-feature-step {
-    padding-block: 8px 18px;
-  }
-
-  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div {
-    padding: 10px;
-  }
-}
-
-/* Mobile visual repair: align the FAQ palette with its light surface and
-   keep evidence metrics readable instead of stretching them into a long column. */
-.landing-page .landing-faq-section {
-  background: #f2f6f3;
-  color: var(--landing-ink);
-}
-
-.landing-page .landing-faq-title .landing-section-kicker {
-  color: var(--landing-sage);
-}
-
-.landing-page .landing-faq-title h2 em {
-  color: var(--landing-sage);
-}
-
-.landing-page .landing-faq-list {
-  border-top-color: rgb(21 45 53 / 14%);
-}
-
-.landing-page .landing-faq-list details {
-  border-bottom-color: rgb(21 45 53 / 13%);
-}
-
-.landing-page .landing-faq-list summary {
-  color: var(--landing-ink);
-}
-
-.landing-page .landing-faq-list summary span {
-  color: var(--landing-sage);
-}
-
-.landing-page .landing-faq-list details[open] {
-  background: #e8f1eb;
-}
-
-.landing-page .landing-faq-list details p {
-  color: #3e5b50;
-  opacity: 1;
-}
-
-.landing-page .evidence-inspector {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.landing-page .evidence-inspector > div {
-  display: grid;
-  align-content: start;
-  min-width: 0;
-  min-height: 132px;
-  padding: 18px;
-  border: 1px solid rgb(21 45 53 / 9%);
-  border-radius: 10px;
-  background: #fff;
-}
-
-.landing-page .evidence-inspector > div:last-child {
-  grid-column: 1 / -1;
-  min-height: 92px;
-}
-
-.landing-page .evidence-inspector small {
-  display: block;
-  color: var(--landing-soft);
-  font-size: .62rem;
-  font-weight: 750;
-  line-height: 1.4;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.landing-page .evidence-inspector strong {
-  display: inline-block;
-  min-width: 0;
-  margin-top: 12px;
-  color: var(--landing-ink);
-  font-size: clamp(2rem, 7vw, 3rem);
-  line-height: .95;
-  letter-spacing: -.055em;
-  overflow-wrap: anywhere;
-}
-
-.landing-page .evidence-inspector em {
-  margin-left: 5px;
-  color: var(--landing-muted);
-  font-size: .78rem;
-  font-style: normal;
-}
-
-.landing-page .evidence-inspector > div:last-child strong {
-  font-size: .9rem;
-  line-height: 1.4;
-  letter-spacing: -.02em;
-}
-
-@media (max-width: 640px) {
-  .landing-page .landing-feature-step {
-    min-height: 0;
-    align-items: stretch;
-    padding: 14px 0 24px;
-  }
-
   .landing-page .landing-feature-art {
     width: 100%;
+    height: auto;
   }
-
   .landing-page .landing-demo-evidence {
-    padding: 16px;
+    padding: 14px;
   }
-
-  .landing-page .evidence-heading-row {
+  .landing-page .landing-demo-evidence .evidence-heading-row {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -3641,123 +3616,108 @@
     gap: 8px 12px;
     font-size: .62rem;
   }
-
-  .landing-page .evidence-heading-row b {
+  .landing-page .landing-demo-evidence .evidence-heading-row b {
     text-align: right;
     overflow-wrap: anywhere;
   }
-
-  .landing-page .evidence-inspector {
+  .landing-page .landing-demo-evidence .evidence-inspector {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-top: 16px;
   }
-
-  .landing-page .evidence-inspector > div {
-    min-height: 104px;
-    padding: 13px;
+  .landing-page .landing-demo-evidence .evidence-inspector > div {
+    min-height: 98px;
+    padding: 12px;
   }
-
-  .landing-page .evidence-inspector > div:last-child {
-    grid-column: 1 / -1;
-    min-height: 78px;
+  .landing-page .landing-demo-evidence .evidence-inspector > div:last-child {
+    min-height: 72px;
   }
-
-  .landing-page .evidence-inspector strong {
-    margin-top: 10px;
-    font-size: clamp(1.8rem, 8vw, 2.25rem);
+  .landing-page .landing-demo-evidence .evidence-inspector > div strong {
+    font-size: clamp(1.65rem, 8vw, 2.15rem);
   }
-
-  .landing-page .evidence-inspector > div:last-child strong {
-    font-size: .84rem;
+  .landing-page .landing-demo-evidence .evidence-inspector > div:last-child strong {
+    font-size: .82rem;
   }
-
-  .landing-page .evidence-ruler {
-    margin-top: 18px;
+  .landing-page .landing-demo-evidence .evidence-ruler {
+    margin-top: 16px;
   }
-
-  .landing-page .landing-faq-section,
-  .landing-page .landing-audience-section,
-  .landing-page .landing-evidence-section,
-  .landing-page .landing-retest-section {
-    padding-block: 48px;
+  .landing-page .landing-feature-scroll {
+    display: grid;
+    gap: 14px;
   }
-
+  .landing-page .landing-feature-step {
+    scroll-margin-top: 84px;
+    contain: none;
+  }
+  .landing-page .landing-proof-list,
+  .landing-page .landing-audience-grid {
+    gap: 10px;
+  }
+  .landing-page .landing-proof-list article,
+  .landing-page .landing-audience-grid article {
+    min-height: 0;
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .landing-page .landing-proof-list article h3,
+  .landing-page .landing-audience-grid article h3 {
+    margin-top: 12px;
+  }
+  .landing-page .landing-faq-section {
+    padding-block: 56px;
+  }
   .landing-page .landing-faq-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+    gap: 22px;
   }
-
   .landing-page .landing-faq-title {
     position: static;
   }
-
   .landing-page .landing-faq-title h2 {
     max-width: 100%;
-    font-size: clamp(2.8rem, 12vw, 4rem);
+    font-size: clamp(2.75rem, 11vw, 3.8rem);
   }
-
-  .landing-page .landing-audience-grid {
-    margin-top: 28px;
-    gap: 0;
+  .landing-page .landing-faq-list summary {
+    gap: 14px;
   }
-
-  .landing-page .landing-audience-grid article {
-    padding: 22px 0;
-    border-radius: 0;
+  .landing-page .landing-faq-list details p {
+    max-width: 100%;
+    margin-right: 24px;
   }
-
-  .landing-page .landing-audience-grid article h3 {
-    margin-top: 14px;
+  .landing-page .landing-evidence-section,
+  .landing-page .landing-audience-section,
+  .landing-page .landing-retest-section,
+  .landing-page .landing-proof-section {
+    padding-block: 56px;
   }
-
-  .landing-page .landing-proof-list {
-    margin-top: 28px;
-    gap: 10px;
-  }
-
-  .landing-page .landing-proof-list article {
-    min-height: 0;
-    padding: 20px;
-  }
-
-  .landing-page .landing-proof-list article h3 {
-    margin-top: 14px;
-  }
-
-  .landing-page .landing-evidence-feature {
+  .landing-page .landing-evidence-feature,
+  .landing-page .landing-retest-story {
     gap: 24px;
   }
-
   .landing-page .landing-evidence-contrast > div {
     min-height: 0;
     padding: 18px 16px;
   }
-
   .landing-page .landing-evidence-contrast strong {
-    font-size: 1.05rem;
-    line-height: 1.35;
+    font-size: 1rem;
+    line-height: 1.4;
   }
-
-  .landing-page .landing-retest-story {
-    gap: 24px;
-  }
-
-  .landing-page .landing-final-grid {
-    gap: 28px;
+  .landing-page .landing-outcome-visual {
+    max-width: 100%;
+    border-radius: 12px;
   }
 }
-
 @media (max-width: 390px) {
-  .landing-page .landing-feature-step {
-    padding-block: 10px 20px;
+  .landing-page .landing-demo-evidence .evidence-inspector > div {
+    padding: 10px;
   }
-
-  .landing-page .evidence-inspector > div {
-    padding: 11px;
+  .landing-page .landing-demo-evidence .evidence-inspector > div small {
+    font-size: .56rem;
   }
-
-  .landing-page .landing-audience-grid article {
-    padding-inline: 0;
+  .landing-page .landing-demo-evidence .evidence-inspector > div strong {
+    font-size: 1.65rem;
+  }
+  .landing-page .landing-demo-evidence .evidence-inspector > div:last-child strong {
+    font-size: .78rem;
   }
 }
