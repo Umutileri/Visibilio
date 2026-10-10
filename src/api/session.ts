@@ -1,6 +1,5 @@
 import type { ScanResult, UIssue } from "../scanner/types";
 import type { ScanSession, ScanStatus } from "./sessionTypes";
-import { buildRetestComparison, type RetestComparison } from "./retestComparison";
 
 function createSessionId(): string {
   const cryptoApi = globalThis.crypto;
