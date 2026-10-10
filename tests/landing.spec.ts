@@ -90,6 +90,6 @@ test("landing page does not inherit legacy marketing shell selectors", async ({ 
 
   expect(result).not.toBeNull();
   expect(result?.navDisplay).toBe("grid");
-  expect(result?.brandDisplay).toBe("inline-flex");
+  expect(result?.brandDisplay).toBe("flex");
   expect(result?.width).toBeGreaterThan(0);
 });
