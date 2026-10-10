@@ -3460,6 +3460,67 @@
 }
 
 
+/* Final mobile cascade correction: scoped selectors outrank the earlier broad
+   interaction overrides without changing desktop layouts. */
+@media (max-width: 640px) {
+  .landing-page .landing-feature-scroll .landing-feature-step {
+    min-height: 0;
+    height: auto;
+    padding-block: 12px 22px;
+  }
+
+  .landing-page .landing-feature-scroll .landing-feature-step .landing-feature-art {
+    height: auto;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    min-height: 102px;
+    padding: 13px;
+    white-space: normal;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div:last-child {
+    grid-column: 1 / -1;
+    min-height: 76px;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector strong {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    overflow: visible;
+    font-size: clamp(1.7rem, 8vw, 2.2rem);
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div:last-child strong {
+    font-size: .84rem;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector em {
+    display: inline;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .landing-feature-scroll .landing-feature-step {
+    padding-block: 8px 18px;
+  }
+
+  .landing-page .landing-feature-scroll .landing-demo-evidence .evidence-inspector > div {
+    padding: 10px;
+  }
+}
+
 /* Mobile visual repair: align the FAQ palette with its light surface and
    keep evidence metrics readable instead of stretching them into a long column. */
 .landing-page .landing-faq-section {
