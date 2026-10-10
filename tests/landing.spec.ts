@@ -5,12 +5,12 @@ test("landing page loads and has a visible primary action", async ({ page }) => 
   await expect(page).toHaveTitle(/Visibilio/i);
   await expect(page.locator("main")).toBeVisible();
   await expect(
-    page.getByRole("button", { name: /analyze|analiz/i }).first(),
+    page.getByRole("button", { name: /analyze a page|sayfayı analiz et/i }).first(),
   ).toBeVisible();
 });
 
-test("landing page does not overflow horizontally on mobile", async ({ page, isMobile }) => {
-  test.skip(!isMobile, "Mobile viewport regression check");
+test("landing page does not overflow horizontally on mobile", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile viewport regression check");
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
   const dimensions = await page.evaluate(() => ({
@@ -23,8 +23,8 @@ test("landing page does not overflow horizontally on mobile", async ({ page, isM
   ).toBeLessThanOrEqual(dimensions.viewport);
 });
 
-test("mobile navigation opens as a navigation panel", async ({ page, isMobile }) => {
-  test.skip(!isMobile, "Mobile navigation check");
+test("mobile navigation opens as a navigation panel", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile navigation check");
   await page.goto("/");
   const menuButton = page.getByRole("button", { name: /open navigation|menüyü aç|navigasyonu aç/i });
   await expect(menuButton).toBeVisible();
