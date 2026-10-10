@@ -10,8 +10,13 @@ permissions:
   contents: read
   pull-requests: read
 
+concurrency:
+  group: visibilio-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,12 +28,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: package.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package.json') }}
 
-      - name: Install Playwright browser
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
       - name: Check formatting
@@ -56,3 +68,6 @@ jobs:
 
       - name: Run API tests
         run: npm run test:api
+
+      - name: Run landing responsive checks
+        run: npx playwright test --project=chromium

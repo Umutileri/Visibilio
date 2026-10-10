@@ -38,6 +38,7 @@
     "tsx": "4.19.2",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.44.0",
-    "@types/pg": "8.15.5"
+    "@types/pg": "8.15.5",
+    "@playwright/test": "1.55.0"
   }
 }
