@@ -83,89 +83,6 @@ input:focus-visible {
   border: 0;
 }
 
-.container {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-}
-
-.site {
-  min-height: 100vh;
-  overflow: clip;
-}
-
-.nav-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  border-bottom: 1px solid rgb(21 45 53 / 8%);
-  background: rgb(247 250 248 / 92%);
-  backdrop-filter: blur(18px);
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 76px;
-  gap: 24px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.brand-logo {
-  display: block;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #d4ecdd;
-  object-fit: cover;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  color: rgb(21 45 53 / 58%);
-  font-size: 0.76rem;
-  font-weight: 650;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.nav-links a,
-.nav-cta,
-.button {
-  transition:
-    transform 180ms ease,
-    background 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease;
-}
-
-.nav-links a:hover,
-.nav-cta:hover,
-.button:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-.nav-cta {
-  padding: 10px 14px;
-  border: 1px solid rgb(21 45 53 / 15%);
-  border-radius: 9px;
-  background: #fff;
-  font-size: 0.75rem;
-  font-weight: 750;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 /* Keep global styles limited to document defaults; route-specific UI stays scoped. */
 .saas-app,
 .saas-app *,
@@ -187,6 +104,7 @@ input:focus-visible {
 .saas-app select {
   font: inherit;
 }
+
 
 .hero {
   display: grid;
