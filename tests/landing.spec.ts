@@ -55,7 +55,6 @@ test("mobile navigation opens right-aligned instead of centered", async ({ page 
   expect(geometry.left).toBeGreaterThan(0);
 });
 
-
 test("app shell keeps its typography and box sizing scoped to the app route", async ({ page }) => {
   await page.goto("/#app/overview");
   const app = page.locator(".saas-app");
