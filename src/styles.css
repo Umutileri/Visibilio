@@ -109,6 +109,42 @@ input:focus-visible {
 
 /* App-shell styles live below; marketing styles are scoped in public-marketing.css. */
 
+
+/* Shared app-shell details retained from the former shell stylesheet. */
+.eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0;
+  color: #5c7b70;
+  font-size: 0.69rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.explanation-section {
+  min-width: 0;
+}
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 0;
+}
+
+@media (min-width: 761px) {
+  .settings-layout {
+    max-width: 980px;
+  }
+}
+
+@media (max-width: 760px) {
+  .settings-layout {
+    width: 100%;
+  }
+}
+
 /* SaaS product shell */
 .saas-app {
   min-height: 100vh;
