@@ -4,9 +4,9 @@ import type { ScanResult } from "../scanner/types";
 import {
   createScanSession,
   sessionStatusFromResults,
-  buildRetestComparison,
   updateScanSession,
 } from "./session";
+import { buildRetestComparison } from "./retestComparison";
 
 describe("scan session", () => {
   it("creates a queued session with a stable id shape", () => {
