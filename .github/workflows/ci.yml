@@ -31,7 +31,7 @@ jobs:
       - name: Install Playwright browsers
         run: |
           npx playwright install --with-deps chromium
-          npx playwright install chromium
+          npx playwright@1.55.0 install chromium
 
       - name: Check formatting
         shell: bash
