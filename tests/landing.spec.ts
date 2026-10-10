@@ -28,9 +28,10 @@ for (const width of [320, 375, 390, 430, 768, 1024, 1440]) {
 test("mobile navigation opens right-aligned instead of centered", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  const menuButton = page.getByRole("button", { name: /open navigation|menüyü aç|navigasyonu aç/i });
+  const menuButton = page.locator(".landing-menu-button");
   const nav = page.locator("#landing-navigation");
   await expect(menuButton).toBeVisible();
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
   await menuButton.click();
   await expect(nav).toBeVisible();
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
