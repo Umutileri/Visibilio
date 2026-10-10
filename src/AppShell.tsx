@@ -6,7 +6,7 @@ import type {
 import type { ScanApiResponse, ScanRetestResponse, ScanSessionGetResponse, ScanSessionListResponse, ScanSessionStartResponse, WebsiteListResponse } from "./api/types";
 import type { WebsiteRef } from "./api/sessionTypes";
 import { compareScanSessions } from "./api/scanComparison";
-import { buildRetestComparison, type RetestComparison } from "./api/session";
+import { buildRetestComparison, type RetestComparison } from "./api/retestComparison";
 import type { FindingExplanationResponse } from "./api/types";
 import { useEffect, useMemo, useRef, useState } from "react";
 
