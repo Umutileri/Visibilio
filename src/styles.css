@@ -83,34 +83,89 @@ input:focus-visible {
   border: 0;
 }
 
-/* Keep global styles limited to document defaults; route-specific UI stays scoped. */
-.saas-app,
-.saas-app *,
-.saas-app *::before,
-.saas-app *::after {
-  box-sizing: border-box;
+/* Route-safe document defaults. Component styles stay within their own shell. */
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: #f7faf8;
+  color: #152d35;
+  font-family: var(--font-ui);
+  -webkit-text-size-adjust: 100%;
 }
 
-.saas-app {
+body {
+  min-width: 320px;
   min-height: 100vh;
+  margin: 0;
   font-family: var(--font-ui);
   color: #152d35;
   background: #f7faf8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.saas-app button,
-.saas-app input,
-.saas-app textarea,
-.saas-app select {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
 
-/* App-shell styles live below; marketing styles are scoped in public-marketing.css. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #8bb8a0;
+  outline-offset: 3px;
+}
 
+a {
+  color: inherit;
+}
 
-/* Shared app-shell details retained from the former shell stylesheet. */
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Shared details used by app sections. */
 .eyebrow {
   display: inline-flex;
   width: fit-content;
