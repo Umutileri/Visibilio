@@ -166,6 +166,28 @@ input:focus-visible {
   text-transform: uppercase;
 }
 
+/* Keep global styles limited to document defaults; route-specific UI stays scoped. */
+.saas-app,
+.saas-app *,
+.saas-app *::before,
+.saas-app *::after {
+  box-sizing: border-box;
+}
+
+.saas-app {
+  min-height: 100vh;
+  font-family: var(--font-ui);
+  color: #152d35;
+  background: #f7faf8;
+}
+
+.saas-app button,
+.saas-app input,
+.saas-app textarea,
+.saas-app select {
+  font: inherit;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(460px, 1.05fr);
