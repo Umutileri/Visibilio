@@ -3557,7 +3557,8 @@
 }
 
 .landing-page .landing-faq-list details p {
-  color: var(--landing-muted);
+  color: #3e5b50;
+  opacity: 1;
 }
 
 .landing-page .evidence-inspector {
