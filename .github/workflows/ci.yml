@@ -57,3 +57,6 @@ jobs:
 
       - name: Run API tests
         run: npm run test:api
+
+      - name: Run landing responsive checks
+        run: npx playwright test --project=chromium
