@@ -93,3 +93,46 @@ test("landing page does not inherit legacy marketing shell selectors", async ({ 
   expect(result?.brandDisplay).toBe("flex");
   expect(result?.width).toBeGreaterThan(0);
 });
+
+for (const width of [320, 375, 390, 430, 768, 1024, 1440]) {
+  test(`app shell stays within the viewport at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/#app/overview");
+    await expect(page.locator(".saas-app")).toBeVisible();
+    const size = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+    }));
+    expect(
+      size.document,
+      `App shell horizontal overflow at ${width}px: document ${size.document}px, viewport ${size.viewport}px`,
+    ).toBeLessThanOrEqual(size.viewport);
+  });
+}
+
+test("app mobile navigation opens as a left-aligned list", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/#app/overview");
+  const menuButton = page.locator(".mobile-nav-toggle");
+  const nav = page.locator("#primary-navigation");
+  await expect(menuButton).toBeVisible();
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+  await menuButton.click();
+  await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+  await expect(nav).toHaveClass(/is-mobile-open/);
+  const geometry = await nav.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const link = element.querySelector("a") as HTMLElement | null;
+    return {
+      left: rect.left,
+      right: rect.right,
+      width: rect.width,
+      display: getComputedStyle(element).display,
+      linkAlign: link ? getComputedStyle(link).textAlign : null,
+    };
+  });
+  expect(geometry.display).not.toBe("none");
+  expect(geometry.left).toBeGreaterThanOrEqual(0);
+  expect(geometry.right).toBeLessThanOrEqual(390);
+  expect(geometry.linkAlign).toBe("left");
+});
