@@ -31,7 +31,8 @@ jobs:
       - name: Install Playwright browsers
         run: |
           npx playwright install --with-deps chromium
-          npx playwright@1.55.0 install chromium
+          node -e "const { execSync } = require('node:child_process'); const revision = require('playwright/lib/server/registry/index.js').registry.findExecutable('chromium').executable; console.log('Installed scanner browser at:', revision.executablePath);"
+          npx playwright install chromium
 
       - name: Check formatting
         shell: bash
