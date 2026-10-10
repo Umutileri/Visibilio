@@ -1,12 +1,23 @@
 import { expect, test } from "@playwright/test";
 
-test("landing page loads and has a visible primary action", async ({ page }) => {
+test("landing page loads with the shared Inter typography", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Visibilio/i);
   await expect(page.locator("main")).toBeVisible();
   await expect(
     page.getByRole("button", { name: /analyze a page|sayfayı analiz et/i }).first(),
   ).toBeVisible();
+
+  await expect(
+    page.locator('link[rel="stylesheet"][href*="fonts.googleapis.com/css2?family=Inter"]'),
+  ).toHaveCount(1);
+  await expect
+    .poll(() =>
+      page.locator(".landing-page").evaluate((element) =>
+        getComputedStyle(element).fontFamily.includes("Inter"),
+      ),
+    )
+    .toBe(true);
 });
 
 for (const width of [320, 375, 390, 430, 768, 1024, 1440]) {
