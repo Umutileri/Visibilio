@@ -194,3 +194,73 @@ test("mobile evidence inspector metrics render as separate readable cards", asyn
   expect(metrics.cards.length).toBe(4);
   expect(metrics.cards.every((card) => card.width > 100 && card.height >= 70)).toBe(true);
 });
+
+
+test("FAQ retains the intentional dark teal accent surface on every viewport", async ({ page }) => {
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const styles = await page.locator(".landing-faq-section").evaluate((section) => {
+      const summary = section.querySelector(".landing-faq-list summary") as HTMLElement;
+      const answer = section.querySelector(".landing-faq-list details p") as HTMLElement;
+      return {
+        background: getComputedStyle(section).backgroundColor,
+        summary: getComputedStyle(summary).color,
+        answer: getComputedStyle(answer).color,
+      };
+    });
+    expect(styles.background).toBe("rgb(21, 45, 53)");
+    expect(styles.summary).toBe("rgb(247, 251, 248)");
+    expect(styles.answer).toBe("rgb(203, 222, 210)");
+  }
+});
+
+test("evidence metric label, value and unit never overlap on mobile", async ({ page }) => {
+  for (const width of [320, 375, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    const inspector = page.locator(".landing-demo-evidence .evidence-inspector").first();
+    await expect(inspector).toBeVisible();
+    const metrics = await inspector.evaluate((element) => {
+      const cards = [...element.children].map((card) => {
+        const label = card.querySelector("small")!.getBoundingClientRect();
+        const value = card.querySelector("strong")!.getBoundingClientRect();
+        const unit = card.querySelector("em")?.getBoundingClientRect();
+        return {
+          width: card.getBoundingClientRect().width,
+          labelBottom: label.bottom,
+          valueTop: value.top,
+          valueRight: value.right,
+          unitLeft: unit?.left ?? value.right,
+          unitBottom: unit?.bottom ?? value.bottom,
+          valueBottom: value.bottom,
+        };
+      });
+      return {
+        columns: getComputedStyle(element).gridTemplateColumns,
+        cards,
+      };
+    });
+    expect(metrics.columns.split(" ").length).toBe(2);
+    expect(metrics.cards).toHaveLength(4);
+    for (const card of metrics.cards) {
+      expect(card.width).toBeGreaterThan(100);
+      expect(card.valueTop).toBeGreaterThanOrEqual(card.labelBottom - 1);
+      expect(card.unitLeft).toBeGreaterThanOrEqual(card.valueRight - 1);
+      expect(card.unitBottom).toBeLessThanOrEqual(card.valueBottom + 1);
+    }
+  }
+});
+
+test("landing accent surfaces are balanced rather than globally dark", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const surfaces = await page.locator(".landing-page section").evaluateAll((sections) =>
+    sections.map((section) => getComputedStyle(section).backgroundColor),
+  );
+  const darkSections = surfaces.filter((color) =>
+    ["rgb(21, 45, 53)", "rgb(16, 37, 44)", "rgb(29, 32, 33)"].includes(color),
+  ).length;
+  expect(darkSections).toBeGreaterThan(0);
+  expect(darkSections).toBeLessThan(surfaces.length);
+});
