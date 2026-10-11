@@ -333,3 +333,62 @@ test("product proof workflow is editorial and has no feature cards", async ({ pa
     expect(result.items.every((item) => item.borderRadius === "0px")).toBe(true);
   }
 });
+
+test("landing editorial sections share one heading scale and avoid repeated card surfaces", async ({ page }) => {
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const headingSelectors = [
+      ".landing-hero-copy h1",
+      ".landing-url-copy h2",
+      ".landing-prose-large h2",
+      ".landing-proof-heading h2",
+      ".landing-audience-intro h2",
+      ".landing-section-heading h2",
+      ".landing-retest-story h2",
+      ".landing-faq-title h2",
+      ".landing-final-grid h2",
+    ];
+    const headingStyles = await page.evaluate((selectors) =>
+      selectors.map((selector) => {
+        const element = document.querySelector(selector);
+        if (!element) return null;
+        const style = getComputedStyle(element);
+        return {
+          fontWeight: style.fontWeight,
+          letterSpacing: style.letterSpacing,
+          lineHeight: style.lineHeight,
+          fontSize: Number.parseFloat(style.fontSize),
+        };
+      }), headingSelectors);
+    expect(headingStyles.every(Boolean)).toBe(true);
+    const weights = headingStyles.map((style) => style!.fontWeight);
+    const tracking = headingStyles.map((style) => style!.letterSpacing);
+    expect(new Set(weights).size).toBe(1);
+    expect(new Set(tracking).size).toBe(1);
+
+    const cardlessAreas = await page.evaluate(() => {
+      const selectors = [
+        ".landing-proof-editorial .landing-proof-list li",
+        ".landing-audience-grid article",
+        ".landing-evidence-contrast > div",
+      ];
+      return selectors.flatMap((selector) =>
+        [...document.querySelectorAll(selector)].map((element) => {
+          const style = getComputedStyle(element);
+          return {
+            background: style.backgroundColor,
+            radius: style.borderRadius,
+            shadow: style.boxShadow,
+          };
+        }),
+      );
+    });
+    expect(cardlessAreas.length).toBeGreaterThan(0);
+    expect(cardlessAreas.every((item) =>
+      (item.background === "rgba(0, 0, 0, 0)" || item.background === "transparent") &&
+      item.radius === "0px" &&
+      item.shadow === "none"
+    )).toBe(true);
+  }
+});
