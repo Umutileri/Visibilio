@@ -245,3 +245,69 @@ test("landing accent surfaces are balanced rather than globally dark", async ({ 
   expect(darkSections).toBeGreaterThan(0);
   expect(darkSections).toBeLessThan(surfaces.length);
 });
+
+test("mobile audience cards keep label, heading, copy and link in a clear vertical hierarchy", async ({ page }) => {
+  for (const width of [320, 375, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    const cards = page.locator(".landing-audience-grid article");
+    await expect(cards).toHaveCount(3);
+    for (const card of await cards.all()) {
+      const geometry = await card.evaluate((element) => {
+        const label = element.querySelector(":scope > span")!.getBoundingClientRect();
+        const heading = element.querySelector("h3")!.getBoundingClientRect();
+        const copy = element.querySelector("p")!.getBoundingClientRect();
+        const link = element.querySelector("a")!.getBoundingClientRect();
+        return {
+          cardWidth: element.getBoundingClientRect().width,
+          labelBottom: label.bottom,
+          headingTop: heading.top,
+          headingBottom: heading.bottom,
+          copyTop: copy.top,
+          copyBottom: copy.bottom,
+          linkTop: link.top,
+          linkBottom: link.bottom,
+          cardBottom: element.getBoundingClientRect().bottom,
+        };
+      });
+      expect(geometry.cardWidth).toBeGreaterThan(260);
+      expect(geometry.headingTop).toBeGreaterThan(geometry.labelBottom);
+      expect(geometry.copyTop).toBeGreaterThanOrEqual(geometry.headingBottom - 1);
+      expect(geometry.linkTop).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
+      expect(geometry.linkBottom).toBeLessThanOrEqual(geometry.cardBottom);
+    }
+  }
+});
+
+test("evidence section separates observed facts from AI interpretation at mobile widths", async ({ page }) => {
+  for (const width of [320, 375, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    const cards = page.locator(".landing-evidence-contrast > div");
+    await expect(cards).toHaveCount(2);
+    for (const card of await cards.all()) {
+      const geometry = await card.evaluate((element) => {
+        const label = element.querySelector("small")!.getBoundingClientRect();
+        const value = element.querySelector("strong")!.getBoundingClientRect();
+        const meta = element.querySelector("span")!.getBoundingClientRect();
+        const cardRect = element.getBoundingClientRect();
+        return {
+          width: cardRect.width,
+          labelBottom: label.bottom,
+          valueTop: value.top,
+          valueBottom: value.bottom,
+          metaTop: meta.top,
+          metaBottom: meta.bottom,
+          cardBottom: cardRect.bottom,
+          scrollWidth: element.scrollWidth,
+          clientWidth: element.clientWidth,
+        };
+      });
+      expect(geometry.width).toBeGreaterThan(260);
+      expect(geometry.valueTop).toBeGreaterThanOrEqual(geometry.labelBottom - 1);
+      expect(geometry.metaTop).toBeGreaterThanOrEqual(geometry.valueBottom - 1);
+      expect(geometry.metaBottom).toBeLessThanOrEqual(geometry.cardBottom);
+      expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    }
+  }
+});
