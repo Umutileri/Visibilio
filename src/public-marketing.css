@@ -4445,7 +4445,7 @@
 .landing-page .landing-retest-story h2,
 .landing-page .landing-faq-title h2,
 .landing-page .landing-final-grid h2 {
-  letter-spacing: -.065em;
+  letter-spacing: var(--landing-type-tracking);
 }
 @media (max-width: 640px) {
   .landing-page .landing-hero-copy h1,
@@ -4457,6 +4457,6 @@
   .landing-page .landing-retest-story h2,
   .landing-page .landing-faq-title h2,
   .landing-page .landing-final-grid h2 {
-    letter-spacing: -.065em;
+    letter-spacing: -.061em;
   }
 }
