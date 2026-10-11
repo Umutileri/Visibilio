@@ -1,5 +1,13 @@
 import { expect, test } from "@playwright/test";
 
+
+test("marketing copy does not promise public hosted scanning or a live free tier", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".landing-final-section")).toContainText(/early access/i);
+  await expect(page.locator(".landing-final-action small")).toContainText(/hosted scanning is not available/i);
+  await expect(page.locator(".landing-faq-list")).toContainText(/paid plans and public scan availability are not live yet/i);
+});
+
 test("landing page loads with the shared Inter typography", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Visibilio/i);
