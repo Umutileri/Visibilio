@@ -4161,3 +4161,276 @@
     line-height: 1.6;
   }
 }
+
+/* Premium editorial type system: consistent hierarchy, varied section composition. */
+.landing-page {
+  --landing-type-display: clamp(2.85rem, 5.35vw, 5.15rem);
+  --landing-type-mobile: clamp(2.45rem, 10.1vw, 3.45rem);
+  --landing-type-leading: .985;
+  --landing-type-tracking: -.065em;
+}
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2,
+.landing-page .landing-prose-large h2,
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-audience-intro h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-story h2,
+.landing-page .landing-faq-title h2,
+.landing-page .landing-final-grid h2 {
+  font-size: var(--landing-type-display);
+  line-height: var(--landing-type-leading);
+  letter-spacing: var(--landing-type-tracking);
+  font-weight: 620;
+  text-wrap: balance;
+  font-kerning: normal;
+}
+.landing-page .landing-hero-copy h1 {
+  max-width: 11ch;
+}
+.landing-page .landing-url-copy h2,
+.landing-page .landing-prose-large h2,
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-audience-intro h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-story h2,
+.landing-page .landing-faq-title h2,
+.landing-page .landing-final-grid h2 {
+  max-width: 12.5ch;
+}
+.landing-page .landing-section-kicker,
+.landing-page .landing-eyebrow {
+  font-size: .66rem;
+  line-height: 1.35;
+  letter-spacing: .105em;
+  font-weight: 800;
+}
+.landing-page .landing-hero-copy > p,
+.landing-page .landing-url-copy > p,
+.landing-page .landing-prose p,
+.landing-page .landing-proof-lead,
+.landing-page .landing-audience-intro > p,
+.landing-page .landing-section-heading > p,
+.landing-page .landing-retest-story > div > p,
+.landing-page .landing-final-grid p {
+  font-size: .97rem;
+  line-height: 1.72;
+  color: var(--landing-muted);
+}
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-audience-intro h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-story h2,
+.landing-page .landing-faq-title h2,
+.landing-page .landing-final-grid h2 {
+  margin-top: 16px;
+}
+.landing-page .landing-proof-editorial .landing-proof-heading h2 {
+  font-size: var(--landing-type-display);
+}
+
+/* Role section: no repeated boxes; use one typographic column with quiet separators. */
+.landing-page .landing-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: clamp(38px, 5vw, 62px);
+  border-top: 1px solid rgb(21 45 53 / 18%);
+  border-bottom: 1px solid rgb(21 45 53 / 18%);
+}
+.landing-page .landing-audience-grid article,
+.landing-page .landing-audience-grid article:nth-child(2),
+.landing-page .landing-audience-grid article:nth-child(3) {
+  display: flex;
+  min-width: 0;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 25px 28px 26px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.landing-page .landing-audience-grid article + article {
+  padding-left: 28px;
+  border-left: 1px solid rgb(21 45 53 / 14%);
+}
+.landing-page .landing-audience-grid article > span {
+  color: var(--landing-sage);
+  font-size: .65rem;
+  line-height: 1.4;
+  letter-spacing: .09em;
+  font-weight: 820;
+}
+.landing-page .landing-audience-grid article h3 {
+  max-width: 17ch;
+  margin: 26px 0 10px;
+  font-size: clamp(1.28rem, 1.7vw, 1.55rem);
+  line-height: 1.18;
+  letter-spacing: -.04em;
+  font-weight: 650;
+}
+.landing-page .landing-audience-grid article p {
+  max-width: 34ch;
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--landing-muted);
+}
+.landing-page .landing-audience-grid article a {
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: .72rem;
+}
+
+/* Evidence is a typographic comparison, not two product cards. */
+.landing-page .landing-evidence-contrast {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgb(21 45 53 / 18%);
+  border-bottom: 1px solid rgb(21 45 53 / 18%);
+}
+.landing-page .landing-evidence-contrast > div,
+.landing-page .landing-evidence-contrast > div:first-child,
+.landing-page .landing-evidence-contrast > div:last-child {
+  display: grid;
+  gap: 8px;
+  min-height: 0;
+  padding: 22px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.landing-page .landing-evidence-contrast > div + div {
+  border-top: 1px solid rgb(21 45 53 / 14%);
+}
+.landing-page .landing-evidence-contrast small {
+  font-size: .64rem;
+  letter-spacing: .1em;
+  font-weight: 820;
+}
+.landing-page .landing-evidence-contrast strong {
+  max-width: 36ch;
+  font-size: clamp(1.12rem, 1.65vw, 1.38rem);
+  line-height: 1.42;
+  font-weight: 650;
+  letter-spacing: -.025em;
+}
+.landing-page .landing-evidence-contrast > div span,
+.landing-page .landing-evidence-contrast > div:last-child span {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--landing-muted);
+}
+
+/* FAQ remains the deliberate dark editorial moment; no other section changes color. */
+.landing-page .landing-faq-section {
+  background: #152d35;
+}
+.landing-page .landing-faq-list details[open] {
+  background: transparent;
+}
+.landing-page .landing-faq-list details p {
+  max-width: 62ch;
+}
+
+/* Compact devices: editorial lists become a single reading column, never cards. */
+@media (max-width: 900px) {
+  .landing-page .landing-audience-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .landing-page .landing-audience-grid article,
+  .landing-page .landing-audience-grid article:nth-child(2),
+  .landing-page .landing-audience-grid article:nth-child(3),
+  .landing-page .landing-audience-grid article + article {
+    min-height: 0;
+    padding: 21px 0;
+    border: 0;
+    background: transparent;
+  }
+  .landing-page .landing-audience-grid article + article {
+    border-top: 1px solid rgb(21 45 53 / 14%);
+  }
+  .landing-page .landing-audience-grid article h3 {
+    margin: 11px 0 7px;
+  }
+  .landing-page .landing-audience-grid article p {
+    max-width: 58ch;
+  }
+  .landing-page .landing-audience-grid article a {
+    margin-top: 0;
+    padding-top: 13px;
+  }
+}
+@media (max-width: 640px) {
+  .landing-page {
+    --landing-type-mobile: clamp(2.45rem, 10.1vw, 3.35rem);
+  }
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2,
+  .landing-page .landing-prose-large h2,
+  .landing-page .landing-proof-heading h2,
+  .landing-page .landing-audience-intro h2,
+  .landing-page .landing-section-heading h2,
+  .landing-page .landing-retest-story h2,
+  .landing-page .landing-faq-title h2,
+  .landing-page .landing-final-grid h2 {
+    max-width: 100%;
+    font-size: var(--landing-type-mobile);
+    line-height: 1.01;
+    letter-spacing: -.061em;
+    font-weight: 620;
+  }
+  .landing-page .landing-section-kicker,
+  .landing-page .landing-eyebrow {
+    font-size: .62rem;
+  }
+  .landing-page .landing-hero-copy > p,
+  .landing-page .landing-url-copy > p,
+  .landing-page .landing-prose p,
+  .landing-page .landing-proof-lead,
+  .landing-page .landing-audience-intro > p,
+  .landing-page .landing-section-heading > p,
+  .landing-page .landing-retest-story > div > p,
+  .landing-page .landing-final-grid p {
+    font-size: .92rem;
+    line-height: 1.66;
+  }
+  .landing-page .landing-audience-grid {
+    margin-top: 27px;
+  }
+  .landing-page .landing-audience-grid article,
+  .landing-page .landing-audience-grid article:nth-child(2),
+  .landing-page .landing-audience-grid article:nth-child(3),
+  .landing-page .landing-audience-grid article + article {
+    padding: 18px 0;
+  }
+  .landing-page .landing-audience-grid article h3 {
+    font-size: 1.2rem;
+    line-height: 1.22;
+  }
+  .landing-page .landing-audience-grid article p {
+    font-size: .88rem;
+    line-height: 1.6;
+  }
+  .landing-page .landing-evidence-contrast > div,
+  .landing-page .landing-evidence-contrast > div:first-child,
+  .landing-page .landing-evidence-contrast > div:last-child {
+    padding: 17px 0;
+    border-radius: 0;
+  }
+  .landing-page .landing-evidence-contrast strong {
+    max-width: 100%;
+    font-size: 1.02rem;
+    line-height: 1.42;
+  }
+  .landing-page .landing-evidence-contrast > div span,
+  .landing-page .landing-evidence-contrast > div:last-child span {
+    font-size: .65rem;
+    overflow-wrap: anywhere;
+  }
+}
