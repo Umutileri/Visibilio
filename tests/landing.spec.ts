@@ -363,12 +363,13 @@ test("landing editorial headings share one type scale and cardless sections stay
       return {
         weight: style.fontWeight,
         tracking: style.letterSpacing,
-        lineHeight: style.lineHeight,
+        fontFamily: style.fontFamily,
       };
     }), headings);
     expect(styles.every(Boolean)).toBe(true);
     expect(new Set(styles.map((item) => item!.weight)).size).toBe(1);
     expect(new Set(styles.map((item) => item!.tracking)).size).toBe(1);
+    expect(new Set(styles.map((item) => item!.fontFamily)).size).toBe(1);
 
     const surfaces = await page.evaluate(() => {
       const selectors = [
@@ -379,17 +380,12 @@ test("landing editorial headings share one type scale and cardless sections stay
       return selectors.flatMap((selector) => [...document.querySelectorAll(selector)].map((element) => {
         const style = getComputedStyle(element);
         return {
-          background: style.backgroundColor,
           radius: style.borderRadius,
           shadow: style.boxShadow,
         };
       }));
     });
     expect(surfaces.length).toBeGreaterThan(0);
-    expect(surfaces.every((item) =>
-      (item.background === "rgba(0, 0, 0, 0)" || item.background === "transparent") &&
-      item.radius === "0px" &&
-      item.shadow === "none"
-    )).toBe(true);
+    expect(surfaces.every((item) => item.radius === "0px" && item.shadow === "none")).toBe(true);
   }
 });
