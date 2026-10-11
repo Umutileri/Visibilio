@@ -213,28 +213,31 @@ function ProductProof({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section className="landing-proof-section" aria-labelledby="proof-title">
+    <section className="landing-proof-section landing-proof-editorial" aria-labelledby="proof-title">
       <div className="landing-container">
-        <div className="landing-proof-heading">
+        <header className="landing-proof-heading">
           <div className="landing-proof-intro">
             <span className="landing-section-kicker">{t.productEyebrow}</span>
             <span className="landing-display-label">02</span>
           </div>
-          <div>
+          <div className="landing-proof-heading-copy">
             <h2 id="proof-title" dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
             <p className="landing-proof-lead">{t.proofLead}</p>
           </div>
-        </div>
+        </header>
 
-        <div className="landing-proof-list">
+        <ol className="landing-proof-list" aria-label={t.featureStepsLabel}>
           {proofItems.map(([number, title, copy]) => (
-            <article key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </article>
+            <li key={number}>
+              <span className="proof-index">{number}</span>
+              <div className="proof-copy">
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </div>
+              {number !== "03" && <span className="proof-rule" aria-hidden="true" />}
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
