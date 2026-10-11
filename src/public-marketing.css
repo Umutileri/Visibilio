@@ -4460,3 +4460,22 @@
     letter-spacing: -.061em;
   }
 }
+
+
+/* Audience section: one purposeful next step, not one repeated link per role. */
+.landing-page .landing-audience-grid article { min-height: 0; }
+.landing-page .landing-audience-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(21 45 53 / 18%);
+  color: var(--landing-ink);
+  font-size: .76rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.landing-page .landing-audience-more span { color: var(--landing-sage); transition: transform .18s ease; }
+.landing-page .landing-audience-more:hover span { transform: translate(2px,-2px); }
+.landing-page .landing-audience-more:focus-visible { outline: 2px solid var(--landing-sage); outline-offset: 4px; }
