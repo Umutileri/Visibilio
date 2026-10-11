@@ -4003,3 +4003,161 @@
     font-size: .62rem;
   }
 }
+
+/* Editorial workflow — intentionally text-led, without feature cards. */
+.landing-page .landing-proof-editorial {
+  background: #fbfdfb;
+}
+.landing-page .landing-proof-editorial .landing-proof-heading {
+  display: grid;
+  grid-template-columns: minmax(180px, .38fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(36px, 7vw, 96px);
+}
+.landing-page .landing-proof-editorial .landing-proof-heading-copy {
+  min-width: 0;
+  max-width: 800px;
+}
+.landing-page .landing-proof-editorial .landing-proof-heading h2 {
+  max-width: 13ch;
+  margin: 0 0 18px;
+  font-size: clamp(2.9rem, 5.15vw, 5.25rem);
+  line-height: .98;
+  letter-spacing: -.067em;
+  text-wrap: balance;
+}
+.landing-page .landing-proof-editorial .landing-proof-lead {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--landing-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.landing-page .landing-proof-editorial .landing-proof-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: clamp(54px, 6vw, 76px) 0 0;
+  padding: 0;
+  border-top: 1px solid rgb(21 45 53 / 20%);
+  border-bottom: 1px solid rgb(21 45 53 / 20%);
+  list-style: none;
+}
+.landing-page .landing-proof-editorial .landing-proof-list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+  min-height: 220px;
+  padding: 26px 28px 28px 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.landing-page .landing-proof-editorial .landing-proof-list li + li {
+  padding-left: 28px;
+  border-left: 1px solid rgb(21 45 53 / 14%);
+}
+.landing-page .landing-proof-editorial .proof-index {
+  padding-top: 5px;
+  color: var(--landing-sage);
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 750;
+  letter-spacing: .04em;
+}
+.landing-page .landing-proof-editorial .proof-copy {
+  min-width: 0;
+}
+.landing-page .landing-proof-editorial .proof-copy h3 {
+  max-width: 17ch;
+  margin: 0 0 12px;
+  color: var(--landing-ink);
+  font-size: clamp(1.3rem, 1.85vw, 1.7rem);
+  font-weight: 650;
+  line-height: 1.16;
+  letter-spacing: -.045em;
+  text-wrap: pretty;
+}
+.landing-page .landing-proof-editorial .proof-copy p {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--landing-muted);
+  font-size: .89rem;
+  line-height: 1.65;
+}
+.landing-page .landing-proof-editorial .proof-rule {
+  display: none;
+}
+@media (max-width: 900px) {
+  .landing-page .landing-proof-editorial .landing-proof-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-list {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 34px;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-list li,
+  .landing-page .landing-proof-editorial .landing-proof-list li + li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    min-height: 0;
+    gap: 16px;
+    padding: 22px 0;
+    border: 0;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-list li + li {
+    border-top: 1px solid rgb(21 45 53 / 14%);
+  }
+  .landing-page .landing-proof-editorial .proof-copy h3 {
+    max-width: 28ch;
+    margin-bottom: 7px;
+    font-size: 1.35rem;
+  }
+  .landing-page .landing-proof-editorial .proof-copy p {
+    max-width: 58ch;
+    font-size: .92rem;
+  }
+}
+@media (max-width: 640px) {
+  .landing-page .landing-proof-editorial {
+    padding-block: 58px;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-heading {
+    gap: 16px;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-heading h2 {
+    max-width: 100%;
+    margin-bottom: 14px;
+    font-size: clamp(2.45rem, 10.3vw, 3.45rem);
+    line-height: 1;
+    letter-spacing: -.06em;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-lead {
+    font-size: .94rem;
+    line-height: 1.65;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-list {
+    margin-top: 28px;
+  }
+  .landing-page .landing-proof-editorial .landing-proof-list li,
+  .landing-page .landing-proof-editorial .landing-proof-list li + li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+    padding: 19px 0;
+  }
+  .landing-page .landing-proof-editorial .proof-index {
+    padding-top: 3px;
+    font-size: .66rem;
+  }
+  .landing-page .landing-proof-editorial .proof-copy h3 {
+    font-size: 1.22rem;
+    line-height: 1.2;
+  }
+  .landing-page .landing-proof-editorial .proof-copy p {
+    font-size: .88rem;
+    line-height: 1.6;
+  }
+}
