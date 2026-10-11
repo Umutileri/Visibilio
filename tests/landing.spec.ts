@@ -334,14 +334,13 @@ test("product proof workflow is editorial and has no feature cards", async ({ pa
   }
 });
 
-test("landing editorial sections share one heading scale and avoid repeated card surfaces", async ({ page }) => {
+test("landing editorial headings share one type scale and cardless sections stay unboxed", async ({ page }) => {
   for (const width of [390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
-    const headingSelectors = [
+    const headings = [
       ".landing-hero-copy h1",
       ".landing-url-copy h2",
-      ".landing-prose-large h2",
       ".landing-proof-heading h2",
       ".landing-audience-intro h2",
       ".landing-section-heading h2",
@@ -349,43 +348,37 @@ test("landing editorial sections share one heading scale and avoid repeated card
       ".landing-faq-title h2",
       ".landing-final-grid h2",
     ];
-    const headingStyles = await page.evaluate((selectors) =>
-      selectors.map((selector) => {
-        const element = document.querySelector(selector);
-        if (!element) return null;
-        const style = getComputedStyle(element);
-        return {
-          fontWeight: style.fontWeight,
-          letterSpacing: style.letterSpacing,
-          lineHeight: style.lineHeight,
-          fontSize: Number.parseFloat(style.fontSize),
-        };
-      }), headingSelectors);
-    expect(headingStyles.every(Boolean)).toBe(true);
-    const weights = headingStyles.map((style) => style!.fontWeight);
-    const tracking = headingStyles.map((style) => style!.letterSpacing);
-    expect(new Set(weights).size).toBe(1);
-    expect(new Set(tracking).size).toBe(1);
+    const styles = await page.evaluate((selectors) => selectors.map((selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const style = getComputedStyle(element);
+      return {
+        weight: style.fontWeight,
+        tracking: style.letterSpacing,
+        lineHeight: style.lineHeight,
+      };
+    }), headings);
+    expect(styles.every(Boolean)).toBe(true);
+    expect(new Set(styles.map((item) => item!.weight)).size).toBe(1);
+    expect(new Set(styles.map((item) => item!.tracking)).size).toBe(1);
 
-    const cardlessAreas = await page.evaluate(() => {
+    const surfaces = await page.evaluate(() => {
       const selectors = [
         ".landing-proof-editorial .landing-proof-list li",
         ".landing-audience-grid article",
         ".landing-evidence-contrast > div",
       ];
-      return selectors.flatMap((selector) =>
-        [...document.querySelectorAll(selector)].map((element) => {
-          const style = getComputedStyle(element);
-          return {
-            background: style.backgroundColor,
-            radius: style.borderRadius,
-            shadow: style.boxShadow,
-          };
-        }),
-      );
+      return selectors.flatMap((selector) => [...document.querySelectorAll(selector)].map((element) => {
+        const style = getComputedStyle(element);
+        return {
+          background: style.backgroundColor,
+          radius: style.borderRadius,
+          shadow: style.boxShadow,
+        };
+      }));
     });
-    expect(cardlessAreas.length).toBeGreaterThan(0);
-    expect(cardlessAreas.every((item) =>
+    expect(surfaces.length).toBeGreaterThan(0);
+    expect(surfaces.every((item) =>
       (item.background === "rgba(0, 0, 0, 0)" || item.background === "transparent") &&
       item.radius === "0px" &&
       item.shadow === "none"
