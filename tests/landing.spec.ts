@@ -311,3 +311,25 @@ test("evidence section separates observed facts from AI interpretation at mobile
     }
   }
 });
+
+test("product proof workflow is editorial and has no feature cards", async ({ page }) => {
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const list = page.locator(".landing-proof-editorial .landing-proof-list");
+    await expect(list).toBeVisible();
+    await expect(list.locator(":scope > li")).toHaveCount(3);
+    const result = await list.evaluate((element) => ({
+      tag: element.tagName,
+      items: [...element.children].map((item) => ({
+        tag: item.tagName,
+        background: getComputedStyle(item).backgroundColor,
+        borderRadius: getComputedStyle(item).borderRadius,
+      })),
+    }));
+    expect(result.tag).toBe("OL");
+    expect(result.items.every((item) => item.tag === "LI")).toBe(true);
+    expect(result.items.every((item) => item.background === "rgba(0, 0, 0, 0)" || item.background === "transparent")).toBe(true);
+    expect(result.items.every((item) => item.borderRadius === "0px")).toBe(true);
+  }
+});
