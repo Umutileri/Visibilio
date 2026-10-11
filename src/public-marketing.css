@@ -4434,3 +4434,29 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* Ensure the shared premium headline tracking wins over legacy section selectors. */
+.landing-page .landing-hero-copy h1,
+.landing-page .landing-url-copy h2,
+.landing-page .landing-prose-large h2,
+.landing-page .landing-proof-heading h2,
+.landing-page .landing-audience-intro h2,
+.landing-page .landing-section-heading h2,
+.landing-page .landing-retest-story h2,
+.landing-page .landing-faq-title h2,
+.landing-page .landing-final-grid h2 {
+  letter-spacing: var(--landing-type-tracking);
+}
+@media (max-width: 640px) {
+  .landing-page .landing-hero-copy h1,
+  .landing-page .landing-url-copy h2,
+  .landing-page .landing-prose-large h2,
+  .landing-page .landing-proof-heading h2,
+  .landing-page .landing-audience-intro h2,
+  .landing-page .landing-section-heading h2,
+  .landing-page .landing-retest-story h2,
+  .landing-page .landing-faq-title h2,
+  .landing-page .landing-final-grid h2 {
+    letter-spacing: -.061em;
+  }
+}
