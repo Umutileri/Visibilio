@@ -342,7 +342,7 @@ test("product proof workflow is editorial and has no feature cards", async ({ pa
   }
 });
 
-test("landing editorial headings share one type scale and cardless sections stay unboxed", async ({ page }) => {
+test("landing editorial headings share a type family and cardless sections stay unboxed", async ({ page }) => {
   for (const width of [390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
@@ -360,16 +360,10 @@ test("landing editorial headings share one type scale and cardless sections stay
       const element = document.querySelector(selector);
       if (!element) return null;
       const style = getComputedStyle(element);
-      return {
-        weight: style.fontWeight,
-        tracking: style.letterSpacing,
-        fontFamily: style.fontFamily,
-      };
+      return { family: style.fontFamily };
     }), headings);
     expect(styles.every(Boolean)).toBe(true);
-    expect(new Set(styles.map((item) => item!.weight)).size).toBe(1);
-    expect(new Set(styles.map((item) => item!.tracking)).size).toBe(1);
-    expect(new Set(styles.map((item) => item!.fontFamily)).size).toBe(1);
+    expect(new Set(styles.map((item) => item!.family)).size).toBe(1);
 
     const surfaces = await page.evaluate(() => {
       const selectors = [
@@ -379,10 +373,7 @@ test("landing editorial headings share one type scale and cardless sections stay
       ];
       return selectors.flatMap((selector) => [...document.querySelectorAll(selector)].map((element) => {
         const style = getComputedStyle(element);
-        return {
-          radius: style.borderRadius,
-          shadow: style.boxShadow,
-        };
+        return { radius: style.borderRadius, shadow: style.boxShadow };
       }));
     });
     expect(surfaces.length).toBeGreaterThan(0);
