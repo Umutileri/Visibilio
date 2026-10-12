@@ -4,15 +4,15 @@ import type { ScanResult } from "../scanner/types";
 import {
   createScanSession,
   sessionStatusFromResults,
-  buildRetestComparison,
   updateScanSession,
 } from "./session";
+import { buildRetestComparison } from "./retestComparison";
 
 describe("scan session", () => {
   it("creates a queued session with a stable id shape", () => {
     const session = createScanSession("https://example.com");
 
-    assert.match(session.id, /^scan_/);
+    assert.match(session.id, /^scan_[0-9a-f-]{36}$/i);
     assert.equal(session.status, "queued");
     assert.equal(session.url, "https://example.com");
     assert.equal(session.siteKey, "example.com:443");
