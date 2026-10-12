@@ -15,3 +15,9 @@ coverage/
 playwright-report/
 test-results/
 .cache/
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
