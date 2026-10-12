@@ -116,3 +116,22 @@ test("app mobile navigation opens as a left-aligned list", async ({ page }) => {
 });
 
 
+
+test("refined landing close has a clean navbar, FAQ and prominent final CTA", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".landing-nav-wrap")).toBeVisible();
+  await expect(page.locator(".landing-final-card")).toBeVisible();
+  await expect(page.locator(".landing-final-main-action")).toBeVisible();
+  await expect(page.locator(".landing-footer-refined")).toBeVisible();
+  await expect(page.locator(".landing-final-action")).toHaveCount(0);
+  await expect(page.locator(".landing-faq-list details")).toHaveCount(6);
+});
+
+test("final CTA and footer remain usable on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expect(page.locator(".landing-final-main-action")).toBeVisible();
+  await expect(page.locator(".landing-footer-refined")).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});
