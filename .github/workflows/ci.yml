@@ -9,6 +9,7 @@ on:
       - "feat/landing-toxic-violet-product-led"
       - "feat/refine-nav-faq-final-cta"
       - "fix/faq-sticky-expand-and-hero-orb"
+      - "refine/faq-centered-hero-button-and-nav"
       - "feat/clean-premium-navbar-and-close"
 
 permissions:
