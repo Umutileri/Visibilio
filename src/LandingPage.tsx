@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const navLinks = [
+  ["#v2-workflow", "how"],
   ["#product", "product"],
-  ["#how-it-works", "how"],
-  ["#evidence", "evidence"],
+  ["#faq", "evidence"],
 ] as const;
 
 type Language = "EN" | "TR";
@@ -317,363 +317,12 @@ const translations: Record<Language, Record<string, string>> = {
   },
 };
 
-function localizeFeatureSteps(language: Language) {
-  return language === "TR"
-    ? [
-        {
-          id: "detect",
-          index: "01",
-          title: "Sorunu peşine düşmeden önce görün.",
-          copy: "Kontrollü tarayıcı çalıştırması, belirsiz bir puan yerine ölçülebilir arayüz sorunlarını bulur.",
-        },
-        {
-          id: "evidence",
-          index: "02",
-          title: "Tam olarak ne olduğunu bilin.",
-          copy: "Her bulgu viewport, selector ve ölçülen değerleriyle birlikte tutulur.",
-        },
-        {
-          id: "explain",
-          index: "03",
-          title: "Bulguyu karara dönüştürün.",
-          copy: "AI, ölçülen gerçekler sabit kalırken kanıtı anlaşılır sonraki adımlara çevirir.",
-        },
-        {
-          id: "retest",
-          index: "04",
-          title: "Düzeltin. Sonra tekrar ölçün.",
-          copy: "Aynı kontrolü yeniden çalıştırın ve önceki ile sonraki durumu karşılaştırın.",
-        },
-      ]
-    : [
-        {
-          id: "detect",
-          index: "01",
-          title: "See the issue before you chase it.",
-          copy: "A controlled browser run finds measurable UI problems across the page—not a vague score.",
-        },
-        {
-          id: "evidence",
-          index: "02",
-          title: "Know exactly what happened.",
-          copy: "Each finding keeps its viewport, selector, and measured values attached to it.",
-        },
-        {
-          id: "explain",
-          index: "03",
-          title: "Turn a finding into a decision.",
-          copy: "AI helps translate evidence into clear next steps while the measured facts stay intact.",
-        },
-        {
-          id: "retest",
-          index: "04",
-          title: "Fix it. Then measure again.",
-          copy: "Re-run the same check and compare the before and after state.",
-        },
-      ];
-}
-
 function Brand({ label }: { label: string }) {
   return (
     <a className="landing-brand" href="#top" aria-label={label}>
       <img src="/Visibilio/visibilio-icon.svg" alt="" aria-hidden="true" />
       <span>Visibilio</span>
     </a>
-  );
-}
-
-function HeroEvidence({ t }: { t: Record<string, string> }) {
-  return (
-    <div className="landing-hero-evidence" aria-label={`${t.finding}: ${t.contentExceeds}`}>
-      <div className="landing-window-head">
-        <span />
-        <span />
-        <span />
-        <code>visibilio / audit / responsive</code>
-        <b>{t.liveCheck}</b>
-      </div>
-      <div className="landing-window-grid">
-        <div className="landing-site-frame">
-          <div className="landing-site-head">
-            <b>{t.demoSite}</b>
-            <span>{t.mobile} · 390 × 844</span>
-          </div>
-          <div className="landing-site-body">
-            <div className="landing-site-page-title">{t.demoPageTitle}</div>
-            <i className="line line-a" />
-            <i className="line line-b" />
-            <div className="landing-site-cards">
-              <i />
-              <i />
-              <i />
-            </div>
-            <div className="landing-overflow-callout">
-              <b>34 {t.px}</b>
-              <span>{t.overflowLabel}</span>
-            </div>
-          </div>
-        </div>
-        <aside className="landing-evidence-card">
-          <div className="landing-evidence-status">
-            <span /> {t.finding}
-          </div>
-          <strong>{t.contentExceeds}</strong>
-          <b>
-            34 <small>{t.px}</small>
-          </b>
-          <div className="landing-evidence-grid">
-            <div>
-              <span>{t.viewport}</span>
-              <strong>390 px</strong>
-            </div>
-            <div>
-              <span>{t.document}</span>
-              <strong>424 px</strong>
-            </div>
-            <div>
-              <span>{t.selector}</span>
-              <strong>.pricing-grid</strong>
-            </div>
-          </div>
-          <p>
-            <span>✓</span>
-            {t.measuredBrowser}
-          </p>
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function StepVisual({ id, t }: { id: string; t: Record<string, string> }) {
-  if (id === "detect") {
-    return (
-      <div className="landing-demo landing-demo-detect">
-        <div className="demo-page">
-          <div className="demo-browser-head">
-            <span>{t.demoSite}</span>
-            <small>390 × 844</small>
-          </div>
-          <div className="demo-content-lines">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="demo-overflow-box">
-            <span>+34 px</span>
-          </div>
-        </div>
-        <div className="demo-note">
-          <div className="demo-note-top">
-            <small>{t.foundLabel}</small>
-            <span>{t.demoRule}</span>
-          </div>
-          <strong>{t.demoIssue}</strong>
-          <div className="demo-note-metric">
-            <b>34 px</b>
-            <span>{t.overflowLabel}</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (id === "evidence") {
-    return (
-      <div className="landing-demo landing-demo-evidence">
-        <div className="evidence-heading-row">
-          <span>{t.demoMeasurement}</span>
-          <b>{t.demoMobile} / 390 × 844</b>
-        </div>
-        <div className="evidence-inspector">
-          <div>
-            <small>{t.viewportWidthLabel}</small>
-            <strong>390</strong>
-            <em>px</em>
-          </div>
-          <div>
-            <small>{t.documentWidthLabel}</small>
-            <strong>424</strong>
-            <em>px</em>
-          </div>
-          <div>
-            <small>{t.overflowLabel}</small>
-            <strong>34</strong>
-            <em>px</em>
-          </div>
-          <div>
-            <small>{t.selector}</small>
-            <strong>.pricing-grid</strong>
-          </div>
-        </div>
-        <div className="evidence-ruler">
-          <span>{t.viewport}</span>
-          <i />
-          <b>+34 px</b>
-        </div>
-      </div>
-    );
-  }
-
-  if (id === "explain") {
-    return (
-      <div className="landing-demo landing-demo-explain">
-        <div className="explain-block">
-          <small>{t.confirmedFact}</small>
-          <strong>{t.observedFact}</strong>
-          <span>{t.evidenceSource}</span>
-        </div>
-        <div className="explain-block explain-ai">
-          <small>{t.aiContext}</small>
-          <p>{t.aiCopy}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="landing-demo landing-demo-retest">
-      <div className="retest-browser">
-        <div className="retest-browser-head">
-          <span>{t.demoSite}</span>
-          <b>390 × 844</b>
-        </div>
-        <div className="retest-browser-stage">
-          <div className="retest-page retest-page-before">
-            <div className="retest-page-header" />
-            <div className="retest-page-content">
-              <i />
-              <i />
-              <div className="retest-card-row">
-                <b />
-                <b />
-                <b />
-              </div>
-            </div>
-            <div className="retest-overflow-edge">
-              <span>+34 px</span>
-            </div>
-          </div>
-          <div className="retest-page retest-page-after" aria-hidden="true">
-            <div className="retest-page-header" />
-            <div className="retest-page-content">
-              <i />
-              <i />
-              <div className="retest-card-row">
-                <b />
-                <b />
-                <b />
-              </div>
-            </div>
-          </div>
-          <div className="retest-scan-line" aria-hidden="true" />
-          <div className="retest-state-badge">
-            {t.retestBefore} → {t.retestAfter}
-          </div>
-        </div>
-      </div>
-      <div className="retest-result-panel">
-        <div>
-          <small>{t.retestBefore}</small>
-          <strong>
-            34 <span>px</span>
-          </strong>
-          <em>{t.retestOverflow}</em>
-        </div>
-        <div className="retest-result-arrow" aria-hidden="true">
-          →
-        </div>
-        <div className="is-resolved">
-          <small>{t.retestAfter}</small>
-          <strong>
-            0 <span>px</span>
-          </strong>
-          <em>{t.retestWithin}</em>
-        </div>
-      </div>
-      <div className="retest-foot">
-        <span>{t.retestFoot}</span>
-        <b>✓</b>
-      </div>
-    </div>
-  );
-}
-
-function ProductProof({ t }: { t: Record<string, string> }) {
-  const proofItems = [
-    ["01", t.proofFind, t.proofFindCopy],
-    ["02", t.proofUnderstand, t.proofUnderstandCopy],
-    ["03", t.proofImprove, t.proofImproveCopy],
-  ];
-
-  return (
-    <section
-      className="landing-proof-section landing-proof-editorial"
-      aria-labelledby="proof-title"
-    >
-      <div className="landing-container">
-        <header className="landing-proof-heading">
-          <div className="landing-proof-intro">
-            <span className="landing-section-kicker">{t.productEyebrow}</span>
-            <span className="landing-display-label">02</span>
-          </div>
-          <div className="landing-proof-heading-copy">
-            <h2 id="proof-title" dangerouslySetInnerHTML={{ __html: t.proofTitle }} />
-            <p className="landing-proof-lead">{t.proofLead}</p>
-          </div>
-        </header>
-
-        <ol className="landing-proof-list" aria-label={t.featureStepsLabel}>
-          {proofItems.map(([number, title, copy]) => (
-            <li key={number}>
-              <span className="proof-index">{number}</span>
-              <div className="proof-copy">
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </div>
-              {number !== "03" && <span className="proof-rule" aria-hidden="true" />}
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
-
-function AudienceBlock({ t }: { t: Record<string, string> }) {
-  return (
-    <section className="landing-audience-section">
-      <div className="landing-container">
-        <div className="landing-audience-intro">
-          <span className="landing-section-kicker">{t.audienceSection}</span>
-          <h2 dangerouslySetInnerHTML={{ __html: t.audienceTitle }} />
-          <p>{t.audienceSectionBody}</p>
-        </div>
-        <div className="landing-audience-grid">
-          <article>
-            <span className="audience-card-index">01</span>
-            <span className="audience-card-role">{t.audienceDevelopers.toUpperCase()}</span>
-            <h3>{t.audienceDevelopersTitle}</h3>
-            <p>{t.audienceDevelopersCopy}</p>
-          </article>
-          <article>
-            <span className="audience-card-index">02</span>
-            <span className="audience-card-role">{t.audienceOwners.toUpperCase()}</span>
-            <h3>{t.audienceOwnersTitle}</h3>
-            <p>{t.audienceOwnersCopy}</p>
-          </article>
-          <article>
-            <span className="audience-card-index">03</span>
-            <span className="audience-card-role">{t.audienceDesigners.toUpperCase()}</span>
-            <h3>{t.audienceDesignersTitle}</h3>
-            <p>{t.audienceDesignersCopy}</p>
-          </article>
-        </div>
-        <a className="landing-audience-more" href="#how-it-works">
-          {t.audienceSectionLink} <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </section>
   );
 }
 
@@ -719,10 +368,7 @@ export default function LandingPage() {
     return window.localStorage.getItem("visibilio-language") === "TR" ? "TR" : "EN";
   });
   const t = translations[language];
-  const featureSteps = localizeFeatureSteps(language);
-  const [activeStep, setActiveStep] = useState(0);
   const [isOpeningAnalyzer, setIsOpeningAnalyzer] = useState(false);
-  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
     document.documentElement.lang = language.toLowerCase();
@@ -736,35 +382,6 @@ export default function LandingPage() {
       window.location.pathname + (query ? "?" + query : "") + window.location.hash,
     );
   }, [language]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    const handleResize = () => {
-      if (window.innerWidth > 900) setMenuOpen(false);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", handleResize);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const current = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!current) return;
-        const next = Number((current.target as HTMLElement).dataset.step);
-        if (!Number.isNaN(next)) setActiveStep(next);
-      },
-      { threshold: [0.35, 0.6, 0.8], rootMargin: "-16% 0px -20% 0px" },
-    );
-    stepRefs.current.forEach((node) => node && observer.observe(node));
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const openApp = (targetUrl?: string) => {
     setIsOpeningAnalyzer(true);
@@ -839,311 +456,92 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section className="landing-hero">
-          <div className="landing-container landing-hero-grid">
-            <div className="landing-hero-copy">
-              <div className="landing-hero-label">
-                <span className="landing-eyebrow">{t.heroEyebrow}</span>
-                <span>{t.browserCheck}</span>
-              </div>
-              <h1 dangerouslySetInnerHTML={{ __html: t.heroTitle }} />
+        <section className="v2-hero" aria-labelledby="v2-hero-title">
+          <div className="v2-container v2-hero-grid">
+            <div className="v2-hero-copy">
+              <div className="v2-eyebrow"><span className="v2-pulse" /> {t.heroEyebrow}</div>
+              <h1 id="v2-hero-title">Your UI has blind spots.<br /><em>Visibilio finds them.</em></h1>
               <p>{t.heroBody}</p>
-              <div className="landing-hero-actions">
-                <button className="landing-primary" type="button" onClick={() => openApp()}>
+              <div className="v2-hero-actions">
+                <button className="v2-button v2-button-primary" type="button" onClick={() => openApp()}>
                   {t.heroAnalyze} <span aria-hidden="true">↗</span>
                 </button>
-                <a className="landing-secondary" href="#how-it-works">
-                  {t.seeHow} <span aria-hidden="true">↓</span>
-                </a>
+                <a className="v2-text-link" href="#v2-workflow">{t.seeHow} <span aria-hidden="true">↓</span></a>
               </div>
-              <div className="landing-hero-note landing-audience-callout">
-                <strong className="landing-audience-title">
-                  <span>{t.audienceDevelopers.toLowerCase()}</span>
-                  <i>·</i>
-                  <span>{t.audienceDesigners.toLowerCase()}</span>
-                  <i>·</i>
-                  <span>{t.audienceOwners.toLowerCase()}</span>
-                </strong>
-                <span className="landing-audience-body">{t.audienceBody}</span>
-              </div>
+              <div className="v2-hero-meta"><span>Browser-based checks</span><i /> <span>Evidence-linked findings</span><i /> <span>Re-test your fixes</span></div>
             </div>
-            <div>
-              <HeroEvidence t={t} />
-              <div className="landing-proof-caption">
-                <span>{t.whatYouGet}</span>
-                <strong>{t.proofCaption}</strong>
+            <div className="v2-product-stage">
+              <div className="v2-stage-glow" />
+              <div className="v2-browser">
+                <div className="v2-browser-bar">
+                  <div className="v2-browser-dots"><i /><i /><i /></div>
+                  <div className="v2-browser-address"><span>⌕</span> preview.yourwebsite.com</div>
+                  <span className="v2-browser-state"><b /> SCAN COMPLETE</span>
+                </div>
+                <div className="v2-browser-content">
+                  <div className="v2-site-preview">
+                    <div className="v2-preview-nav"><b>northstar.</b><span>Product&nbsp;&nbsp; Resources&nbsp;&nbsp; Pricing</span><button>Get started</button></div>
+                    <div className="v2-preview-hero"><small>BUILT FOR WHAT'S NEXT</small><strong>Make room<br />for better work.</strong><p>Everything your team needs to move with clarity.</p><span className="v2-preview-cta">Explore the platform ↗</span></div>
+                    <div className="v2-preview-cards"><i /><i /><i /></div>
+                    <div className="v2-issue-pin v2-pin-one"><b>01</b><span>Heading overflow</span></div>
+                    <div className="v2-issue-pin v2-pin-two"><b>02</b><span>Low contrast</span></div>
+                  </div>
+                  <aside className="v2-findings-panel">
+                    <div className="v2-panel-top"><span>SCAN FINDINGS</span><b>3 ISSUES</b></div>
+                    <div className="v2-health"><div><small>UI HEALTH</small><strong>Needs attention</strong></div><span>!</span></div>
+                    <div className="v2-finding-row is-critical"><i>!</i><div><b>Horizontal overflow</b><small>390px · .hero-content</small></div><span>High</span></div>
+                    <div className="v2-finding-row"><i>◐</i><div><b>Text contrast</b><small>Button · 2.8:1 ratio</small></div><span>Med</span></div>
+                    <div className="v2-finding-row"><i>↔</i><div><b>Inconsistent spacing</b><small>Card grid · 24 / 32px</small></div><span>Low</span></div>
+                    <div className="v2-panel-foot"><span><b /> Evidence attached</span><span>View report ↗</span></div>
+                  </aside>
+                </div>
               </div>
+              <div className="v2-floating-note"><span className="v2-note-icon">✳</span><div><b>Found in seconds</b><small>One issue ready to inspect</small></div><span className="v2-note-arrow">↗</span></div>
+              <div className="v2-stage-caption"><span>01 / LIVE PRODUCT PREVIEW</span><span>VISIBILIO ANALYSIS ENGINE</span></div>
             </div>
           </div>
         </section>
 
-        <section className="landing-share-section landing-url-section">
-          <div className="landing-container landing-share-grid landing-share-dark">
-            <div className="landing-url-copy">
-              <span className="landing-section-kicker">{t.startWebsite}</span>
-              <h2 dangerouslySetInnerHTML={{ __html: t.urlTitle }} />
-              <p>{t.urlBody}</p>
-              <div className="landing-url-audience" aria-label={t.audience}>
-                <span>{t.audienceDevelopers}</span>
-                <span>{t.audienceDesigners}</span>
-                <span>{t.audienceOwners}</span>
-              </div>
+        <section className="v2-proof-strip" aria-label="Product capabilities">
+          <div className="v2-container v2-proof-inner"><span>MADE FOR THE DETAILS THAT BREAK EXPERIENCES</span><div><b>Responsive</b><i /> <b>Visual quality</b><i /> <b>Accessibility</b><i /> <b>Browser evidence</b></div></div>
+        </section>
+
+        <section className="v2-workflow" id="v2-workflow">
+          <div className="v2-container">
+            <div className="v2-section-heading"><span className="v2-kicker">THE WORKFLOW</span><h2>From “something feels off”<br /><em>to knowing what to fix.</em></h2><p>Less guesswork. Clear findings, useful context, and a way to verify the change.</p></div>
+            <div className="v2-workflow-grid">
+              <article className="v2-workflow-card v2-card-large"><span className="v2-card-index">01 / DETECT</span><div className="v2-card-visual v2-detect-visual"><div className="v2-viewport-frame"><div className="v2-viewport-top" /><div className="v2-viewport-lines"><i /><i /><i /></div><div className="v2-viewport-blocks"><b /><b /><b /></div><span className="v2-measure-line" /><span className="v2-measure-tag">+34px overflow</span></div></div><h3>Catch what breaks<br />across screen sizes.</h3><p>Inspect real browser layouts and surface issues that only appear at specific viewports.</p></article>
+              <article className="v2-workflow-card"><span className="v2-card-index">02 / UNDERSTAND</span><div className="v2-card-visual v2-understand-visual"><div className="v2-code-window"><div><i /><i /><i /></div><code><b>.hero-content</b> {'{'}<br />&nbsp;&nbsp;max-width: <em>980px</em>;<br />&nbsp;&nbsp;overflow: <strong>visible</strong>;<br />{' }'}</code><span>Selector identified</span></div></div><h3>Know where<br />to look next.</h3><p>Connect every finding to its viewport, affected element, and supporting evidence.</p></article>
+              <article className="v2-workflow-card"><span className="v2-card-index">03 / VERIFY</span><div className="v2-card-visual v2-verify-visual"><div className="v2-verify-check"><span>✓</span><div><b>Re-test passed</b><small>Horizontal overflow</small></div><strong>0px</strong></div><div className="v2-verify-bars"><i /><b /></div></div><h3>Make the fix.<br />Prove the result.</h3><p>Run the same check again and compare what changed instead of relying on a hunch.</p></article>
             </div>
-            <form
-              className="landing-url-form"
-              onSubmit={(event) => {
-                event.preventDefault();
-                const form = event.currentTarget;
-                const data = new FormData(form);
-                openApp(String(data.get("url") ?? ""));
-              }}
-            >
-              <label htmlFor="landing-url">{t.urlLabel}</label>
-              <div className="landing-url-field">
-                <input
-                  id="landing-url"
-                  type="url"
-                  name="url"
-                  inputMode="url"
-                  autoComplete="url"
-                  placeholder="https://your-site.com/pricing…"
-                  required
-                />
-                <button type="submit" disabled={isOpeningAnalyzer}>
-                  {isOpeningAnalyzer ? t.analyzing : t.analyze} <span aria-hidden="true">↗</span>
-                </button>
-              </div>
-              <small aria-live="polite">{isOpeningAnalyzer ? t.analyzing : t.urlNote}</small>
+          </div>
+        </section>
+
+        <section className="v2-url-section" id="product">
+          <div className="v2-container v2-url-layout">
+            <div><span className="v2-kicker">START WITH A URL</span><h2>Bring your website.<br /><em>We'll bring the clarity.</em></h2><p>Open the analyzer and inspect a page with browser-based checks. Public hosted scans are still in development.</p></div>
+            <form className="v2-url-form" onSubmit={(event) => { event.preventDefault(); const data = new FormData(event.currentTarget); openApp(String(data.get("url") ?? "")); }}>
+              <label htmlFor="v2-url-input">WEBSITE URL</label>
+              <div><span>↗</span><input id="v2-url-input" type="url" name="url" placeholder="https://yourwebsite.com" required /><button type="submit" disabled={isOpeningAnalyzer}>{isOpeningAnalyzer ? t.analyzing : "Inspect page"} <b>↗</b></button></div>
+              <small>Early access · No installation required for the current local workflow</small>
             </form>
           </div>
         </section>
 
-        <section className="landing-intro-section" id="product">
-          <div className="landing-container landing-two-col">
-            <div className="landing-section-side">
-              <span className="landing-eyebrow">{t.productEyebrow}</span>
-              <span className="landing-display-label">01</span>
-            </div>
-            <div className="landing-prose landing-prose-large">
-              <h2 dangerouslySetInnerHTML={{ __html: t.productTitle }} />
-              <p>{t.productBody}</p>
-              <p>{t.productBody2}</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="landing-feature-section" id="how-it-works">
-          <div className="landing-container landing-feature-layout">
-            <div className="landing-feature-sticky">
-              <span className="landing-section-kicker">{t.how}</span>
-              <div className="landing-feature-title">
-                <span>{featureSteps[activeStep].index} / 04</span>
-                <h2>{featureSteps[activeStep].title}</h2>
-                <p>{featureSteps[activeStep].copy}</p>
-              </div>
-              <div className="landing-feature-nav" role="tablist" aria-label={t.featureStepsLabel}>
-                {featureSteps.map((step, index) => (
-                  <button
-                    key={step.id}
-                    className={index === activeStep ? "is-active" : ""}
-                    type="button"
-                    role="tab"
-                    id={`landing-feature-tab-${step.id}`}
-                    aria-selected={index === activeStep}
-                    aria-controls={`landing-feature-step-${step.id}`}
-                    tabIndex={index === activeStep ? 0 : -1}
-                    onKeyDown={(event) => {
-                      if (
-                        event.key !== "ArrowDown" &&
-                        event.key !== "ArrowRight" &&
-                        event.key !== "ArrowUp" &&
-                        event.key !== "ArrowLeft"
-                      )
-                        return;
-                      event.preventDefault();
-                      const direction =
-                        event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1;
-                      const next = (index + direction + featureSteps.length) % featureSteps.length;
-                      setActiveStep(next);
-                      document
-                        .getElementById(`landing-feature-tab-${featureSteps[next].id}`)
-                        ?.focus();
-                      stepRefs.current[next]?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      });
-                    }}
-                    onClick={() => {
-                      setActiveStep(index);
-                      stepRefs.current[index]?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      });
-                    }}
-                  >
-                    <span>{step.index}</span>
-                    <strong>{step.title}</strong>
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="landing-feature-scroll">
-              {featureSteps.map((step, index) => (
-                <div
-                  key={step.id}
-                  id={`landing-feature-step-${step.id}`}
-                  className="landing-feature-step"
-                  role="tabpanel"
-                  aria-labelledby={`landing-feature-tab-${step.id}`}
-                  data-step={index}
-                  ref={(node) => {
-                    stepRefs.current[index] = node;
-                  }}
-                >
-                  <div className="landing-feature-art">
-                    <div className="landing-feature-chrome">
-                      <span>
-                        {step.index} / {step.title}
-                      </span>
-                      <span>VISIBILIO</span>
-                    </div>
-                    <StepVisual id={step.id} t={t} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <ProductProof t={t} />
-        <AudienceBlock t={t} />
-
-        <section className="landing-evidence-section" id="evidence">
-          <div className="landing-container landing-evidence-feature">
-            <div className="landing-section-heading">
-              <span className="landing-section-kicker">{t.evidenceEyebrow}</span>
-              <span className="landing-display-label">03</span>
-              <h2 dangerouslySetInnerHTML={{ __html: t.evidenceTitle }} />
-              <p>{t.evidenceBody}</p>
-            </div>
-            <div className="landing-evidence-contrast">
-              <div className="evidence-observed">
-                <small>{t.observedLabel}</small>
-                <strong>{t.observedCopy}</strong>
-                <span>{t.observedMeta}</span>
-              </div>
-              <div className="evidence-interpreted">
-                <small>{t.interpretedLabel}</small>
-                <strong>{t.interpretedCopy}</strong>
-                <span>{t.aiNotMeasurement}</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="landing-retest-section" id="retest">
-          <div className="landing-container landing-retest-story">
-            <div>
-              <span className="landing-section-kicker">{t.resultEyebrow}</span>
-              <h2 dangerouslySetInnerHTML={{ __html: t.resultTitle }} />
-              <p>{t.resultBody}</p>
-              <button className="landing-primary" type="button" onClick={() => openApp()}>
-                {t.heroAnalyze} <span aria-hidden="true">↗</span>
-              </button>
-            </div>
-            <div
-              className="landing-outcome-visual"
-              role="img"
-              aria-label={t.outcomeAria}
-              aria-describedby="landing-outcome-summary"
-            >
-              <div className="outcome-visual-head">
-                <span>{t.outcomeChange}</span>
-                <b>{t.outcomeRule}</b>
-              </div>
-              <div className="outcome-compare">
-                <div className="outcome-state outcome-before">
-                  <div className="outcome-state-label">
-                    <small>{t.beforeLabel}</small>
-                    <span>390 × 844</span>
-                  </div>
-                  <div className="outcome-page">
-                    <i className="outcome-page-line" />
-                    <i className="outcome-page-line short" />
-                    <div className="outcome-page-cards">
-                      <b />
-                      <b />
-                      <b />
-                    </div>
-                    <div className="outcome-overflow-marker">
-                      <strong>+34 px</strong>
-                      <span>{t.overflowLabel}</span>
-                    </div>
-                  </div>
-                  <strong className="outcome-metric">
-                    34 <small>px</small>
-                  </strong>
-                </div>
-                <div className="outcome-transition">
-                  <span>{t.retestFix}</span>
-                  <i aria-hidden="true">→</i>
-                  <small>{t.retestRun}</small>
-                </div>
-                <div className="outcome-state outcome-after">
-                  <div className="outcome-state-label">
-                    <small>{t.afterLabel}</small>
-                    <span>390 × 844</span>
-                  </div>
-                  <div className="outcome-page">
-                    <i className="outcome-page-line" />
-                    <i className="outcome-page-line short" />
-                    <div className="outcome-page-cards">
-                      <b />
-                      <b />
-                      <b />
-                    </div>
-                    <div className="outcome-resolved-marker">
-                      <strong>✓</strong>
-                      <span>{t.outcomeResolved}</span>
-                    </div>
-                  </div>
-                  <strong className="outcome-metric">
-                    0 <small>px</small>
-                  </strong>
-                </div>
-              </div>
-              <div className="outcome-foot">
-                <span>{t.retestFoot}</span>
-                <strong>34 px → 0 px</strong>
-              </div>
-              <p id="landing-outcome-summary" className="sr-only">
-                {t.outcomeSummary}
-              </p>
+        <section className="v2-audience-section">
+          <div className="v2-container v2-audience-layout">
+            <div><span className="v2-kicker">WHO IT'S FOR</span><h2>Built for people<br />who care how the web <em>works.</em></h2></div>
+            <div className="v2-audience-list">
+              <article><span>01</span><div><h3>Frontend developers</h3><p>Find reproducible UI bugs with the context you need to debug faster.</p></div><b>↗</b></article>
+              <article><span>02</span><div><h3>Designers & freelancers</h3><p>Review responsive behavior and visual details before handing work over.</p></div><b>↗</b></article>
+              <article><span>03</span><div><h3>Agencies & website teams</h3><p>Turn website reviews into clearer, evidence-backed conversations.</p></div><b>↗</b></article>
             </div>
           </div>
         </section>
 
         <FAQSection t={t} />
 
-        <section className="landing-final-section">
-          <div className="landing-container landing-final-grid">
-            <div>
-              <span className="landing-section-kicker">{t.finalKicker}</span>
-              <h2 dangerouslySetInnerHTML={{ __html: t.finalTitle }} />
-              <p>{t.finalBodyCopy}</p>
-            </div>
-            <div className="landing-final-action">
-              <button
-                className="landing-primary landing-primary-light"
-                type="button"
-                onClick={() => openApp()}
-              >
-                {t.finalAction} <span aria-hidden="true">↗</span>
-              </button>
-              <small>{t.finalSetup}</small>
-            </div>
-          </div>
-        </section>
+        <section className="landing-final-section"><div className="landing-container landing-final-grid"><div><span className="landing-section-kicker">{t.finalKicker}</span><h2>See the issue.<br /><em>Make the next move.</em></h2><p>{t.finalBodyCopy}</p></div><div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span aria-hidden="true">↗</span></button><small>{t.finalSetup}</small></div></div></section>
       </main>
 
       <footer className="landing-footer">
