@@ -10,6 +10,7 @@ on:
       - "feat/refine-nav-faq-final-cta"
       - "fix/faq-sticky-expand-and-hero-orb"
       - "refine/faq-centered-hero-button-and-nav"
+      - "fix/restore-hero-and-align-faq-title"
       - "feat/clean-premium-navbar-and-close"
 
 permissions:
