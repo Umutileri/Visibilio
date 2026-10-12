@@ -135,3 +135,31 @@ test("final CTA and footer remain usable on a mobile viewport", async ({ page })
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("FAQ uses a plain heading with no kicker dot or legacy badge", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".landing-faq-title .landing-section-kicker")).toHaveCount(0);
+  await expect(page.locator(".landing-faq-title .landing-faq-heading")).toBeVisible();
+  await expect(page.locator(".landing-faq-list summary .faq-question").first()).toHaveCSS("color", "rgb(40, 33, 47)");
+});
+
+test("final CTA is a simple text-led close without decorative logo cards", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".landing-final-simple")).toBeVisible();
+  await expect(page.locator(".landing-final-card")).toHaveCount(0);
+  await expect(page.locator(".final-aside-mark")).toHaveCount(0);
+  await expect(page.locator(".landing-final-main-action")).toBeVisible();
+});
+
+test("premium navbar keeps links centered and stays within viewport", async ({ page }) => {
+  for (const width of [375, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({width,height:900});
+    await page.goto("/");
+    await expect(page.locator(".landing-nav")).toBeVisible();
+    const dimensions = await page.evaluate(() => ({
+      scroll: document.documentElement.scrollWidth,
+      client: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.client);
+  }
+});
