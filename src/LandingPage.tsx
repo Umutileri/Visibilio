@@ -326,7 +326,7 @@ function Brand({ label }: { label: string }) {
   );
 }
 
-function FAQSection({ t, language }: { t: Record<string, string>; language: Language }) {
+function FAQSection({ t }: { t: Record<string, string> }) {
   const items = [
     [t.faqCheck, t.faqCheckAnswer],
     [t.faqWho, t.faqWhoAnswer],
@@ -340,15 +340,12 @@ function FAQSection({ t, language }: { t: Record<string, string>; language: Lang
     <section className="landing-faq-section" id="faq">
       <div className="landing-container landing-faq-grid">
         <div className="landing-faq-title">
-          <span className="landing-section-kicker"><span className="faq-kicker-mark" />{t.faqKicker}</span>
-          <h2 dangerouslySetInnerHTML={{ __html: t.faqTitle }} />
-          <p className="landing-faq-intro">{language === "TR" ? "Ürünün nasıl çalıştığını ve şu an nelerin kullanılabilir olduğunu öğrenin." : "A clearer look at how Visibilio works, what it checks, and what is available today."}</p>
+          <h2 className="landing-faq-heading" dangerouslySetInnerHTML={{ __html: t.faqTitle }} />
         </div>
         <div className="landing-faq-list">
           {items.map(([question, answer], index) => (
             <details key={question} className={index === 0 ? "is-featured" : ""} open={index === 0}>
               <summary>
-                <span className="faq-index">{String(index + 1).padStart(2, "0")}</span>
                 <span className="faq-question">{question}</span>
                 <span className="faq-toggle" aria-hidden="true"><i /></span>
               </summary>
@@ -541,29 +538,18 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <FAQSection t={t} language={language} />
+        <FAQSection t={t} />
 
         <section className="landing-final-section landing-final-feature" id="final-cta">
-          <div className="landing-container">
-            <div className="landing-final-card">
-              <div className="landing-final-orbit landing-final-orbit-one" />
-              <div className="landing-final-orbit landing-final-orbit-two" />
-              <div className="landing-final-content">
-                <span className="landing-final-eyebrow"><i />{t.finalKicker}</span>
-                <h2>{language === "TR" ? <>Sonraki düzeltmenizi<br /><em>kanıtla tamamlayın.</em></> : <>Make your next fix<br /><em>one you can prove.</em></>}</h2>
-                <p>{t.finalBodyCopy}</p>
-                <button className="landing-final-main-action" type="button" onClick={() => openApp()} disabled={isOpeningAnalyzer}>
-                  {isOpeningAnalyzer ? t.analyzing : t.finalAction}
-                  <span aria-hidden="true">↗</span>
-                </button>
-                <small className="landing-final-note">{t.finalSetup}</small>
-              </div>
-              <div className="landing-final-aside" aria-hidden="true">
-                <span className="final-aside-label">VISIBILIO / NEXT STEP</span>
-                <div className="final-aside-mark">V<span>.</span></div>
-                <div className="final-aside-bottom"><i />{language === "TR" ? "ÖLÇ · DÜZELT · DOĞRULA" : "MEASURE · FIX · VERIFY"}</div>
-              </div>
-            </div>
+          <div className="landing-container landing-final-simple">
+            <span className="landing-final-eyebrow">{t.finalKicker}</span>
+            <h2>{language === "TR" ? <>Sorunu görün.<br /><em>Sonraki adımı atın.</em></> : <>See what needs fixing.<br /><em>Know what to do next.</em></>}</h2>
+            <p>{t.finalBodyCopy}</p>
+            <button className="landing-final-main-action" type="button" onClick={() => openApp()} disabled={isOpeningAnalyzer}>
+              {isOpeningAnalyzer ? t.analyzing : t.finalAction}
+              <span aria-hidden="true">↗</span>
+            </button>
+            <small className="landing-final-note">{t.finalSetup}</small>
           </div>
         </section>
       </main>
