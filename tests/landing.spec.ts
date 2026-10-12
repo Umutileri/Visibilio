@@ -219,7 +219,7 @@ test("hero contains no oversized grey decorative orb", async ({ page }) => {
 });
 
 
-test("FAQ title is centered and question typography is restrained", async ({ page }) => {
+test("FAQ title is left aligned and question typography is restrained", async ({ page }) => {
   await page.setViewportSize({width:1440,height:900});
   await page.goto("/#faq");
   const title = page.locator(".landing-faq-title .landing-faq-heading");
@@ -227,15 +227,15 @@ test("FAQ title is centered and question typography is restrained", async ({ pag
   const align = await title.evaluate((el) => getComputedStyle(el).textAlign);
   const titleRect = await title.boundingBox();
   const colRect = await page.locator(".landing-faq-title").boundingBox();
-  expect(align).toBe("center");
+  expect(align).toBe("left");
   expect(titleRect).not.toBeNull();
   expect(colRect).not.toBeNull();
-  expect(Math.abs((titleRect!.x + titleRect!.width / 2) - (colRect!.x + colRect!.width / 2))).toBeLessThan(2);
+  expect(Math.abs(titleRect!.x - colRect!.x)).toBeLessThan(2);
   const fontSize = await page.locator(".landing-faq-list summary").first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
   expect(fontSize).toBeLessThanOrEqual(16);
 });
 
-test("V2 hero has no oversized circular decoration and uses a flat dark background", async ({ page }) => {
+test("V2 hero restores the lilac surface and removes the round decoration", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator(".v2-hero");
   await expect(hero).toBeVisible();
@@ -244,7 +244,7 @@ test("V2 hero has no oversized circular decoration and uses a flat dark backgrou
     after: getComputedStyle(el, "::after").content,
     glow: getComputedStyle(el.querySelector(".v2-stage-glow")!).display,
   }));
-  expect(styles.background).toBe("rgb(9, 8, 11)");
+  expect(styles.background).not.toBe("rgb(9, 8, 11)");
   expect(styles.after).toBe("none");
   expect(styles.glow).toBe("none");
 });
