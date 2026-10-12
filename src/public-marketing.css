@@ -6355,3 +6355,141 @@
   transition: none !important;
   animation: none !important;
 }
+
+
+/* Final visual polish: centered FAQ, quieter nav, a clean black hero, and a violet radial CTA. */
+.landing-page .landing-nav-wrap {
+  padding-block: 10px;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.landing-page .landing-nav {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: rgb(255 255 255 / 96%);
+  backdrop-filter: none;
+  outline: 0;
+}
+
+/* Center the FAQ title in its own sticky column while keeping it tied to the FAQ section. */
+.landing-page .landing-faq-grid {
+  align-items: start;
+}
+.landing-page .landing-faq-title {
+  position: sticky;
+  top: 112px;
+  align-self: start;
+  display: flex;
+  min-height: 340px;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.landing-page .landing-faq-title .landing-faq-heading {
+  max-width: 9ch;
+  margin-inline: auto;
+  text-align: center;
+}
+.landing-page .landing-faq-list summary {
+  font-size: clamp(.88rem, 1.05vw, .98rem) !important;
+  font-weight: 590;
+  min-height: 72px;
+}
+.landing-page .landing-faq-list .faq-question {
+  font-size: inherit;
+  line-height: 1.4;
+}
+.landing-page .landing-faq-list details p {
+  font-size: .82rem;
+}
+@media (max-width: 900px) {
+  .landing-page .landing-faq-title {
+    top: 92px;
+    min-height: 290px;
+  }
+}
+@media (max-width: 640px) {
+  .landing-page .landing-faq-title {
+    position: static;
+    min-height: 0;
+    text-align: left;
+  }
+  .landing-page .landing-faq-title .landing-faq-heading {
+    max-width: 9ch;
+    margin-inline: 0;
+    text-align: left;
+  }
+  .landing-page .landing-faq-list summary {
+    font-size: .88rem !important;
+    min-height: 66px;
+  }
+  .landing-page .landing-faq-list details p {
+    font-size: .79rem;
+  }
+}
+
+/* The V2 hero should be truly black, without the oversized right-side orb or haze. */
+.v2-hero {
+  background: #09080b !important;
+}
+.v2-hero::before {
+  content: none !important;
+  display: none !important;
+}
+.v2-hero::after {
+  content: none !important;
+  display: none !important;
+}
+.v2-stage-glow {
+  display: none !important;
+  background: none !important;
+}
+.v2-hero-copy h1 { color: #f8f6fa; }
+.v2-hero-copy > p { color: #aaa3b1; }
+.v2-hero-meta { color: #958a9d; }
+.v2-eyebrow { color: #c0a9d4; }
+
+/* Radial hover fill: violet blooms from the center to the pill edges. */
+.landing-page .v2-button-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #3d007a;
+  background: #3d007a;
+  color: #fff;
+  box-shadow: 0 8px 22px rgb(61 0 122 / 22%);
+  transition: color .25s ease, border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.landing-page .v2-button-primary::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: #b77be8;
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path .55s cubic-bezier(.2,.75,.2,1);
+}
+.landing-page .v2-button-primary:hover {
+  border-color: #b77be8;
+  background: #3d007a;
+  color: #1b1025;
+  transform: translateY(-2px);
+  box-shadow: 0 13px 30px rgb(183 123 232 / 30%);
+}
+.landing-page .v2-button-primary:hover::before {
+  clip-path: circle(145% at 50% 50%);
+}
+.landing-page .v2-button-primary:focus-visible {
+  outline: 3px solid rgb(183 123 232 / 45%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-page .v2-button-primary,
+  .landing-page .v2-button-primary::before {
+    transition: none !important;
+  }
+  .landing-page .v2-button-primary:hover { transform: none; }
+}
