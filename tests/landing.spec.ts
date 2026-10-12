@@ -120,7 +120,7 @@ test("app mobile navigation opens as a left-aligned list", async ({ page }) => {
 test("refined landing close has a clean navbar, FAQ and prominent final CTA", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".landing-nav-wrap")).toBeVisible();
-  await expect(page.locator(".landing-final-card")).toBeVisible();
+  await expect(page.locator(".landing-final-simple")).toBeVisible();
   await expect(page.locator(".landing-final-main-action")).toBeVisible();
   await expect(page.locator(".landing-footer-refined")).toBeVisible();
   await expect(page.locator(".landing-final-action")).toHaveCount(0);
