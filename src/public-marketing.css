@@ -6346,3 +6346,12 @@
     transition: none !important;
   }
 }
+
+/* No motion on FAQ text when a disclosure opens or closes. */
+.landing-page .landing-faq-list summary,
+.landing-page .landing-faq-list .faq-question,
+.landing-page .landing-faq-list .faq-toggle,
+.landing-page .landing-faq-list details p {
+  transition: none !important;
+  animation: none !important;
+}
