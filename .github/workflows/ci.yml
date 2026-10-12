@@ -40,7 +40,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Install scanner browser revision
-        run: npx playwright install chromium
+        run: node node_modules/playwright/cli.js install chromium
 
       - name: Check formatting
         shell: bash
