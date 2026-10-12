@@ -326,7 +326,7 @@ function Brand({ label }: { label: string }) {
   );
 }
 
-function FAQSection({ t, language }: { t: Record<string, string>; language: Language }) {
+function FAQSection({ t }: { t: Record<string, string> }) {
   const items = [
     [t.faqCheck, t.faqCheckAnswer],
     [t.faqWho, t.faqWhoAnswer],
@@ -538,7 +538,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <FAQSection t={t} language={language} />
+        <FAQSection t={t} />
 
         <section className="landing-final-section landing-final-feature" id="final-cta">
           <div className="landing-container landing-final-simple">
