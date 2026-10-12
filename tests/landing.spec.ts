@@ -259,3 +259,42 @@ test("primary hero button uses a violet center-out hover fill", async ({ page })
   const after = await button.evaluate((el) => getComputedStyle(el, "::before").clipPath);
   expect(after).toContain("circle");
 });
+
+
+test("FAQ title uses title case, flush-left lines and matching display weight", async ({ page }) => {
+  await page.setViewportSize({width:1440,height:900});
+  await page.goto("/#faq");
+  const heading = page.locator(".landing-faq-title .landing-faq-heading");
+  await expect(heading).toContainText("Frequently");
+  await expect(heading).toContainText("Asked");
+  await expect(heading).toContainText("Questions");
+  const styles = await heading.evaluate((el) => {
+    const em = el.querySelector("em") as HTMLElement;
+    return {
+      textAlign: getComputedStyle(el).textAlign,
+      weight: getComputedStyle(el).fontWeight,
+      html: el.innerHTML,
+      headingRect: el.getBoundingClientRect().toJSON(),
+      emRect: em.getBoundingClientRect().toJSON(),
+    };
+  });
+  expect(styles.textAlign).toBe("left");
+  expect(Number(styles.weight)).toBeGreaterThanOrEqual(650);
+  expect(styles.html).toContain("Frequently");
+  expect(styles.html).toContain("Asked");
+  expect(styles.html).toContain("Questions");
+});
+
+test("V2 hero restores the original light lilac gradient and removes only the round glow", async ({ page }) => {
+  await page.goto("/");
+  const hero = page.locator(".v2-hero");
+  const result = await hero.evaluate((el) => ({
+    backgroundImage: getComputedStyle(el).backgroundImage,
+    glow: getComputedStyle(el.querySelector(".v2-stage-glow")!).display,
+    backgroundColor: getComputedStyle(el).backgroundColor,
+  }));
+  expect(result.backgroundImage).toContain("radial-gradient");
+  expect(result.backgroundImage).toContain("linear-gradient");
+  expect(result.backgroundColor).not.toBe("rgb(9, 8, 11)");
+  expect(result.glow).toBe("none");
+});
