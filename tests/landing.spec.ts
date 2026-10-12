@@ -203,7 +203,7 @@ test("opening FAQ answers does not tilt, translate, or animate rows", async ({ p
   });
   for (const style of transforms) {
     expect(style.transform).toBe("none");
-    expect(style.transition).toContain("0s");
+    expect(parseFloat(style.transition)).toBe(0);
   }
 });
 
