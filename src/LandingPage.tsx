@@ -121,7 +121,7 @@ const translations: Record<Language, Record<string, string>> = {
     retestEyebrow: "The outcome",
     retestTitle: "See the fix.<br /><em>Then prove it stayed fixed.</em>",
     faqKicker: "Questions, answered.",
-    faqTitle: "Frequently asked<br /><em>questions</em>",
+    faqTitle: "Frequently<br />Asked<br /><em>Questions</em>",
     faqCheck: "What does Visibilio check?",
     faqCheckAnswer:
       "Visibilio measures real browser behavior and attaches viewport, selector, and measurement evidence to each finding.",
