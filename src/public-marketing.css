@@ -6199,3 +6199,159 @@
 .landing-page .landing-faq-list details[open] .faq-question {
   color: #28212f;
 }
+
+/* FAQ: keep the title in view only while the FAQ section itself is in view. */
+.landing-page .landing-faq-section {
+  overflow: visible;
+}
+.landing-page .landing-faq-grid {
+  align-items: start;
+}
+.landing-page .landing-faq-title {
+  position: sticky;
+  top: 112px;
+  align-self: start;
+  height: fit-content;
+}
+.landing-page .landing-faq-title .landing-faq-heading {
+  margin: 0;
+}
+.landing-page .landing-faq-list {
+  min-width: 0;
+}
+.landing-page .landing-faq-list details {
+  position: relative;
+  transform: none !important;
+  transition: none !important;
+  overflow: visible;
+}
+.landing-page .landing-faq-list details[open] {
+  transform: none !important;
+}
+.landing-page .landing-faq-list summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px;
+  align-items: center;
+  gap: 18px;
+  transform: none !important;
+  transition: color .18s ease;
+  list-style: none;
+  cursor: pointer;
+}
+.landing-page .landing-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.landing-page .landing-faq-list summary::marker {
+  content: "";
+}
+.landing-page .landing-faq-list .faq-question {
+  display: block;
+  min-width: 0;
+  color: #28212f !important;
+  line-height: 1.35;
+  transform: none !important;
+  transition: color .18s ease;
+}
+.landing-page .landing-faq-list details[open] .faq-question,
+.landing-page .landing-faq-list summary:hover .faq-question {
+  color: #28212f !important;
+}
+.landing-page .landing-faq-list details p {
+  position: static;
+  transform: none !important;
+  opacity: 1;
+  max-width: 66ch;
+  margin: 0 48px 22px 0;
+  color: #756e7c;
+  line-height: 1.75;
+}
+.landing-page .landing-faq-list .faq-toggle {
+  position: relative;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9d1e0;
+  border-radius: 50%;
+  background: transparent;
+  transform: none !important;
+  transition: background .18s ease, border-color .18s ease;
+}
+.landing-page .landing-faq-list .faq-toggle::before,
+.landing-page .landing-faq-list .faq-toggle::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: #71677c;
+  transform: none;
+  transition: opacity .18s ease;
+}
+.landing-page .landing-faq-list .faq-toggle::after {
+  transform: rotate(90deg);
+}
+.landing-page .landing-faq-list details[open] .faq-toggle {
+  border-color: #3d007a;
+  background: #3d007a;
+}
+.landing-page .landing-faq-list details[open] .faq-toggle::before,
+.landing-page .landing-faq-list details[open] .faq-toggle::after {
+  background: #fff;
+}
+.landing-page .landing-faq-list details[open] .faq-toggle::after {
+  opacity: 0;
+}
+
+/* The oversized grey hero orb is decorative only and has been removed. */
+.landing-page .landing-hero::before,
+.landing-page .landing-hero::after,
+.landing-page .landing-hero-visual::before,
+.landing-page .landing-hero-visual::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .landing-page .landing-faq-title {
+    position: sticky;
+    top: 92px;
+  }
+}
+@media (max-width: 640px) {
+  .landing-page .landing-faq-section {
+    overflow: visible;
+  }
+  .landing-page .landing-faq-grid {
+    align-items: start;
+  }
+  .landing-page .landing-faq-title {
+    position: static;
+  }
+  .landing-page .landing-faq-list summary {
+    grid-template-columns: minmax(0, 1fr) 31px;
+    min-height: 68px;
+    gap: 11px;
+  }
+  .landing-page .landing-faq-list details p {
+    margin: 0 38px 19px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-page .landing-faq-list summary,
+  .landing-page .landing-faq-list .faq-toggle,
+  .landing-page .landing-faq-list .faq-question {
+    transition: none !important;
+  }
+}
+
+/* No motion on FAQ text when a disclosure opens or closes. */
+.landing-page .landing-faq-list summary,
+.landing-page .landing-faq-list .faq-question,
+.landing-page .landing-faq-list .faq-toggle,
+.landing-page .landing-faq-list details p {
+  transition: none !important;
+  animation: none !important;
+}

@@ -163,3 +163,57 @@ test("premium navbar keeps links centered and stays within viewport", async ({ p
     expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.client);
   }
 });
+
+test("FAQ heading stays sticky while its questions scroll past, then leaves with the section", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#faq");
+  const heading = page.locator(".landing-faq-title");
+  const section = page.locator(".landing-faq-section");
+  await expect(heading).toBeVisible();
+
+  await page.evaluate(() => window.scrollTo(0, document.querySelector("#faq")!.getBoundingClientRect().top + window.scrollY + 120));
+  const stickyPosition = await heading.evaluate((el) => getComputedStyle(el).position);
+  expect(stickyPosition).toBe("sticky");
+
+  const titleRect = await heading.boundingBox();
+  const sectionRect = await section.boundingBox();
+  expect(titleRect).not.toBeNull();
+  expect(sectionRect).not.toBeNull();
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const endRect = await heading.boundingBox();
+  const endSectionRect = await section.boundingBox();
+  expect(endRect).not.toBeNull();
+  expect(endSectionRect).not.toBeNull();
+  expect(endRect!.y).toBeLessThan(endSectionRect!.y + endSectionRect!.height + 2);
+});
+
+test("opening FAQ answers does not tilt, translate, or animate rows", async ({ page }) => {
+  await page.goto("/#faq");
+  const item = page.locator(".landing-faq-list details").nth(1);
+  await item.locator("summary").click();
+  await expect(item).toHaveAttribute("open", "");
+  const transforms = await item.evaluate((el) => {
+    const summary = el.querySelector("summary")!;
+    const answer = el.querySelector("p")!;
+    return [el, summary, answer].map((node) => ({
+      transform: getComputedStyle(node).transform,
+      transition: getComputedStyle(node).transitionDuration,
+    }));
+  });
+  for (const style of transforms) {
+    expect(style.transform).toBe("none");
+    expect(parseFloat(style.transition)).toBe(0);
+  }
+});
+
+test("hero contains no oversized grey decorative orb", async ({ page }) => {
+  await page.goto("/");
+  const circles = await page.locator(".landing-hero, .landing-hero-visual").evaluateAll((nodes) =>
+    nodes.flatMap((node) => ["::before", "::after"].map((pseudo) => {
+      const style = getComputedStyle(node, pseudo);
+      return { display: style.display, content: style.content, background: style.backgroundColor };
+    }))
+  );
+  expect(circles.every((x) => x.display === "none" || x.content === "none")).toBeTruthy();
+});
