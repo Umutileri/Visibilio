@@ -340,15 +340,17 @@ function FAQSection({ t }: { t: Record<string, string> }) {
     <section className="landing-faq-section" id="faq">
       <div className="landing-container landing-faq-grid">
         <div className="landing-faq-title">
-          <span className="landing-section-kicker">{t.faqKicker}</span>
+          <span className="landing-section-kicker"><span className="faq-kicker-mark" />{t.faqKicker}</span>
           <h2 dangerouslySetInnerHTML={{ __html: t.faqTitle }} />
+          <p className="landing-faq-intro">{language === "TR" ? "Ürünün nasıl çalıştığını ve şu an nelerin kullanılabilir olduğunu öğrenin." : "A clearer look at how Visibilio works, what it checks, and what is available today."}</p>
         </div>
         <div className="landing-faq-list">
           {items.map(([question, answer], index) => (
-            <details key={question} open={index === 0}>
+            <details key={question} className={index === 0 ? "is-featured" : ""} open={index === 0}>
               <summary>
-                {question}
-                <span>+</span>
+                <span className="faq-index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="faq-question">{question}</span>
+                <span className="faq-toggle" aria-hidden="true"><i /></span>
               </summary>
               <p>{answer}</p>
             </details>
@@ -541,25 +543,47 @@ export default function LandingPage() {
 
         <FAQSection t={t} />
 
-        <section className="landing-final-section"><div className="landing-container landing-final-grid"><div><span className="landing-section-kicker">{t.finalKicker}</span><h2>See the issue.<br /><em>Make the next move.</em></h2><p>{t.finalBodyCopy}</p></div><div className="landing-final-action"><button className="landing-primary landing-primary-light" type="button" onClick={() => openApp()}>{t.finalAction} <span aria-hidden="true">↗</span></button><small>{t.finalSetup}</small></div></div></section>
+        <section className="landing-final-section landing-final-feature" id="final-cta">
+          <div className="landing-container">
+            <div className="landing-final-card">
+              <div className="landing-final-orbit landing-final-orbit-one" />
+              <div className="landing-final-orbit landing-final-orbit-two" />
+              <div className="landing-final-content">
+                <span className="landing-final-eyebrow"><i />{t.finalKicker}</span>
+                <h2>{language === "TR" ? <>Sonraki düzeltmenizi<br /><em>kanıtla tamamlayın.</em></> : <>Make your next fix<br /><em>one you can prove.</em></>}</h2>
+                <p>{t.finalBodyCopy}</p>
+                <button className="landing-final-main-action" type="button" onClick={() => openApp()} disabled={isOpeningAnalyzer}>
+                  {isOpeningAnalyzer ? t.analyzing : t.finalAction}
+                  <span aria-hidden="true">↗</span>
+                </button>
+                <small className="landing-final-note">{t.finalSetup}</small>
+              </div>
+              <div className="landing-final-aside" aria-hidden="true">
+                <span className="final-aside-label">VISIBILIO / NEXT STEP</span>
+                <div className="final-aside-mark">V<span>.</span></div>
+                <div className="final-aside-bottom"><i />{language === "TR" ? "ÖLÇ · DÜZELT · DOĞRULA" : "MEASURE · FIX · VERIFY"}</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="landing-footer">
+      <footer className="landing-footer landing-footer-refined">
         <div className="landing-container landing-footer-grid">
-          <div>
+          <div className="landing-footer-brand">
             <Brand label={t.homeAria} />
             <p>{t.footerTagline}</p>
           </div>
-          <div className="landing-footer-links">
-            {navLinks.map(([href, key]) => (
-              <a key={href} href={href}>
-                {t[key]}
-              </a>
-            ))}
-            <a href="#retest">{t.retest}</a>
+          <nav className="landing-footer-links" aria-label={language === "TR" ? "Alt menü" : "Footer navigation"}>
+            <a href="#v2-workflow">{t.how}</a>
+            <a href="#product">{t.product}</a>
+            <a href="#faq">{language === "TR" ? "SSS" : "FAQ"}</a>
             <a href="#app/overview">{t.workspace}</a>
+          </nav>
+          <div className="landing-footer-meta">
+            <span>© 2026 Visibilio</span>
+            <a href="#top" aria-label={language === "TR" ? "Başa dön" : "Back to top"}>↑</a>
           </div>
-          <small>Visibilio · 2026</small>
         </div>
       </footer>
     </div>
