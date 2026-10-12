@@ -4,7 +4,9 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches:
+      - main
+      - "feat/landing-toxic-violet-product-led"
 
 permissions:
   contents: read
