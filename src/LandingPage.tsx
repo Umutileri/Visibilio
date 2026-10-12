@@ -10,12 +10,12 @@ type Language = "EN" | "TR";
 
 const translations: Record<Language, Record<string, string>> = {
   EN: {
-    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", viewportWidthLabel: "Viewport width", documentWidthLabel: "Document width", featureStepsLabel: "Feature steps", outcomeAria: "Before and after UI measurement", homeAria: "Visibilio home", 
+    product: "Product", how: "How it works", evidence: "Evidence", retest: "Re-test", workspace: "Open app", start: "Start for free", browserCheck: "REAL BROWSER CHECK", liveCheck: "LIVE CHECK", demoPageTitle: "Pricing", urlStep1: "Enter a page", urlStep2: "Inspect the browser", urlStep3: "Get the finding", outcomeChange: "MEASURED CHANGE", outcomeResolved: "RESOLVED", outcomeRule: "responsive.horizontal-overflow", navLabel: "Main navigation", heroAnalyze: "Analyze a page", seeHow: "See the workflow", viewportWidthLabel: "Viewport width", documentWidthLabel: "Document width", featureStepsLabel: "Feature steps", outcomeAria: "Before and after UI measurement", outcomeSummary: "Before: 34 pixels of horizontal overflow at 390 pixel viewport. After: 0 pixels of overflow after re-testing.", homeAria: "Visibilio home", 
     heroEyebrow: "Website UI quality, backed by evidence.", heroTitle: "Find the UI issues.<br /><em>Know what to fix next.</em>",
     heroBody: "Run a browser-based UI check, inspect measurable findings, and re-test changes against the same rule.", finding: "Finding", contentExceeds: "Content extends beyond viewport", mobile: "mobile", measuredBrowser: "Measured in a real browser.",
     audience: "Built for developers, designers, and website owners.", audienceBody: "One workflow to find, understand, fix, and re-test the UI issues that matter.",
     startWebsite: "Start with your website", urlTitle: "Give us the URL.<br /><em>We’ll show you where to look.</em>",
-    urlBody: "Enter a page in the app, review its measured findings, and open the evidence behind each result.", urlLabel: "Website URL", analyze: "Analyze", urlNote: "Early access · browser checks run in the local development environment.",
+    urlBody: "Enter a page in the app, review its measured findings, and open the evidence behind each result.", urlLabel: "Website URL", analyze: "Analyze", analyzing: "Opening the analyzer…", urlNote: "Early access · browser checks run in the local development environment.",
     productEyebrow: "Why Visibilio", productTitle: "Know what broke.<br /><span>See the evidence behind it.</span>",
     productBody: "A layout can fail at one viewport and look perfectly fine at another. Visibilio checks the page in a real browser and records the conditions around each issue.",
     productBody2: "You can inspect the affected element, the tested viewport, and the measurement itself—then decide what to change. AI suggestions stay separate from those measured results.", proofTitle: "From uncertainty<br /><em>to a clear next step.</em>", proofLead: "See the issue, understand the evidence, make the change, and verify what actually improved.", proofFind: "Find", proofFindCopy: "See measurable issues before they become another debugging session.", proofUnderstand: "Understand", proofUnderstandCopy: "Get the browser context, affected element, and evidence in one place.", proofImprove: "Fix", proofImproveCopy: "Make the change, re-run the same check, and verify the result.", audienceDevelopers:"Developers", audienceDevelopersTitle:"Find the bug faster.", audienceDevelopersCopy:"Get viewport measurements, selectors, rule details, and evidence you can reproduce.", audienceOwners:"Website owners", audienceOwnersTitle:"Know what deserves attention.", audienceOwnersCopy:"See the issue in plain language before you need to understand the implementation.", audienceDesigners:"Designers", audienceDesignersTitle:"See the context behind the page.", audienceDesignersCopy:"Connect visual observations to the tested viewport and the evidence underneath them.", audienceExplore:"Explore the workflow", audienceSectionLink:"See how a finding moves from detection to re-test", whatYouGet:"01 / WHAT YOU GET", proofCaption:"A finding you can actually act on.", retestBefore:"BEFORE", retestAfter:"AFTER", retestOverflow:"overflow", retestWithin:"within viewport", retestFix:"FIX", retestRun:"RUN THE SAME CHECK", retestFoot:"Same rule · same viewport · measured again",
@@ -26,12 +26,12 @@ const translations: Record<Language, Record<string, string>> = {
     finalKicker: "Early access", finalTitle: "Make your next change<br /><em>with confidence.</em>", finalBody: "Made for developers, designers, and anyone responsible for a website.", finalAction: "Explore the product", finalSetup: "Early development · hosted scanning is not available yet.", footerTagline: "Website UI quality, backed by browser evidence.", languageLabel: "Language", openNavigation: "Open navigation", closeNavigation: "Close navigation", foundLabel: "FOUND", observedLabel: "OBSERVED", interpretedLabel: "INTERPRETED", beforeLabel: "BEFORE", afterLabel: "AFTER", overflowLabel: "overflow", withinViewportLabel: "within viewport", aiNotMeasurement: "AI-generated context · not a measurement", observedCopy: "34 px horizontal overflow", observedMeta: "viewport: 390 × 844 · selector: .pricing-grid", interpretedCopy: "Check fixed-width children and grid sizing first.", observedFact: "Document width is larger than the tested viewport."
   },
   TR: {
-    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?", viewportWidthLabel: "Ekran genişliği", documentWidthLabel: "Belge genişliği", featureStepsLabel: "Özellik adımları", outcomeAria: "Arayüz sorununun önce ve sonra ölçümü", homeAria: "Visibilio ana sayfa",
+    product: "Ürün", how: "Nasıl çalışır", evidence: "Kanıt", retest: "Tekrar test", workspace: "Uygulamayı aç", start: "Ücretsiz başla", browserCheck: "GERÇEK TARAYICI KONTROLÜ", liveCheck: "CANLI KONTROL", demoPageTitle: "Fiyatlandırma", urlStep1: "Bir sayfa girin", urlStep2: "Tarayıcıyı inceleyin", urlStep3: "Bulguyu alın", outcomeChange: "ÖLÇÜLEN DEĞİŞİM", outcomeResolved: "ÇÖZÜLDÜ", outcomeRule: "responsive.horizontal-overflow", navLabel: "Ana navigasyon", heroAnalyze: "Sayfayı analiz et", seeHow: "Nasıl çalışır?", viewportWidthLabel: "Ekran genişliği", documentWidthLabel: "Belge genişliği", featureStepsLabel: "Özellik adımları", outcomeAria: "Arayüz sorununun önce ve sonra ölçümü", outcomeSummary: "Önce: 390 piksel görünüm alanında 34 piksel yatay taşma. Sonra: tekrar testten sonra 0 piksel taşma.", homeAria: "Visibilio ana sayfa",
     heroEyebrow: "Gerçek tarayıcı kanıtlarıyla web sitesi arayüz kalitesi.", heroTitle: "Arayüz sorununu bulun.<br /><em>Sonraki düzeltmeyi netleştirin.</em>",
     heroBody: "Gerçek bir sayfayı tarayın; ölçülebilir arayüz sorunlarını görün, kanıtı anlayın ve yaptığınız düzeltmeyi tekrar test edin.", finding: "Bulgu", contentExceeds: "İçerik görünüm alanını aşıyor", mobile: "mobil", measuredBrowser: "Gerçek tarayıcıda ölçüldü.",
     audience: "Geliştiriciler, tasarımcılar ve web sitenizden sorumlu herkes için.", audienceBody: "Önemli arayüz sorunlarını bulmak, anlamak, düzeltmek ve tekrar test etmek için tek akış.",
     startWebsite: "Sayfanızla başlayın", urlTitle: "URL'yi verin.<br /><em>Nereye bakacağınızı birlikte bulalım.</em>",
-    urlBody: "Uygulamada bir sayfa girin, ölçülen bulguları inceleyin ve her sonucun arkasındaki kanıtı açın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", urlNote: "Erken erişim · tarayıcı kontrolleri şu an yerel geliştirme ortamında çalışır.",
+    urlBody: "Uygulamada bir sayfa girin, ölçülen bulguları inceleyin ve her sonucun arkasındaki kanıtı açın.", urlLabel: "Web sitesi URL'si", analyze: "Analiz et", analyzing: "Analiz açılıyor…", urlNote: "Erken erişim · tarayıcı kontrolleri şu an yerel geliştirme ortamında çalışır.",
     productEyebrow: "Neden Visibilio?", productTitle: "“Bir şeyler yanlış.”<br /><span>Artık nedenini görebilirsiniz.</span>",
     productBody: "Bir web sitesi nedenini söylemeden yanlış görünebilir. Visibilio puan veya tahmin yerine tarayıcıda gerçekten olanla başlar.",
     productBody2: "Böylece belirsiz bir sorun; neyin bozulduğu, nerede olduğu, neyin ölçüldüğü ve sırada neye bakılması gerektiği belli olan bir bulguya dönüşür.", proofTitle: "Belirsizlikten<br /><em>net bir sonraki adıma.</em>", proofLead: "Sorunu görün, tarayıcı kanıtını inceleyin, neyi değiştireceğinizi anlayın ve aynı kontrolle sonucu doğrulayın.", proofFind: "Bul", proofFindCopy: "Sorun büyümeden önce ölçülebilir UI problemlerini görün.", proofUnderstand: "Anla", proofUnderstandCopy: "Tarayıcı bağlamını, etkilenen öğeyi ve ölçüm kanıtını tek yerde görün.", proofImprove: "Düzelt", proofImproveCopy: "Değişikliği yapın, aynı kontrolü tekrar çalıştırın ve sonucun gerçekten düzeldiğini doğrulayın.", audienceDevelopers:"Geliştiriciler", audienceDevelopersTitle:"Hatanın kaynağını daha hızlı bulun.", audienceDevelopersCopy:"Viewport ölçümlerini, selector bilgilerini, kural ayrıntılarını ve yeniden üretebileceğiniz kanıtı görün.", audienceOwners:"Web sitesi sahipleri", audienceOwnersTitle:"Neyin öncelikli olduğunu bilin.", audienceOwnersCopy:"Uygulama ayrıntılarına girmeden önce sorunu anlaşılır biçimde görün.", audienceDesigners:"Tasarımcılar", audienceDesignersTitle:"Sayfanın arkasındaki bağlamı görün.", audienceDesignersCopy:"Görsel gözlemleri test edilen viewport ve altındaki kanıtla ilişkilendirin.", audienceExplore:"İş akışını inceleyin", audienceSectionLink:"Bir bulgunun tespitten tekrar teste nasıl ilerlediğini görün", whatYouGet:"01 / NE ALIRSINIZ", proofCaption:"Üzerinde gerçekten harekete geçebileceğiniz bir bulgu.", retestBefore:"ÖNCE", retestAfter:"SONRA", retestOverflow:"taşma", retestWithin:"viewport içinde", retestFix:"DÜZELT", retestRun:"AYNI KONTROLÜ TEKRAR ÇALIŞTIR", retestFoot:"Aynı kural · aynı viewport · yeniden ölçüldü",
@@ -316,6 +316,7 @@ export default function LandingPage() {
   const t = translations[language];
   const featureSteps = localizeFeatureSteps(language);
   const [activeStep, setActiveStep] = useState(0);
+  const [isOpeningAnalyzer, setIsOpeningAnalyzer] = useState(false);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -356,6 +357,7 @@ export default function LandingPage() {
   }, []);
 
   const openApp = (targetUrl?: string) => {
+    setIsOpeningAnalyzer(true);
     if (targetUrl?.trim()) {
       window.sessionStorage.setItem("visibilio-pending-url", targetUrl.trim());
     }
@@ -376,13 +378,13 @@ export default function LandingPage() {
             <a href="#retest" onClick={() => setMenuOpen(false)}>{t.retest}</a>
           </nav>
           <div className="landing-nav-actions">
-            <div className="landing-language-switcher" aria-label={t.languageLabel}>
+            <div className="landing-language-switcher" role="group" aria-label={t.languageLabel}>
               <button type="button" className={language === "EN" ? "is-active" : ""} onClick={() => setLanguage("EN")}>EN</button>
               <span>/</span>
               <button type="button" className={language === "TR" ? "is-active" : ""} onClick={() => setLanguage("TR")}>TR</button>
             </div>
             <a className="landing-signin" href="#app/overview">{t.workspace}</a>
-            <button className="landing-cta" type="button" onClick={() => openApp()}>{t.start}</button>
+            <button className="landing-cta" type="button" onClick={() => openApp()} disabled={isOpeningAnalyzer}>{isOpeningAnalyzer ? t.analyzing : t.start}</button>
             <button className="landing-menu-button" type="button" aria-controls="landing-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? t.closeNavigation : t.openNavigation} onClick={() => setMenuOpen((value) => !value)}><span /><span /></button>
           </div>
         </div>
@@ -400,7 +402,7 @@ export default function LandingPage() {
               <p>{t.heroBody}</p>
               <div className="landing-hero-actions">
                 <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span aria-hidden="true">↗</span></button>
-                <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span>↓</span></a>
+                <a className="landing-secondary" href="#how-it-works">{t.seeHow} <span aria-hidden="true">↓</span></a>
               </div>
               <div className="landing-hero-note landing-audience-callout">
                 <strong className="landing-audience-title">
@@ -450,10 +452,10 @@ export default function LandingPage() {
             }}>
               <label htmlFor="landing-url">{t.urlLabel}</label>
               <div className="landing-url-field">
-                <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing" required />
-                <button type="submit">{t.analyze} <span>↗</span></button>
+                <input id="landing-url" type="url" name="url" inputMode="url" autoComplete="url" placeholder="https://your-site.com/pricing…" required />
+                <button type="submit" disabled={isOpeningAnalyzer}>{isOpeningAnalyzer ? t.analyzing : t.analyze} <span aria-hidden="true">↗</span></button>
               </div>
-              <small>{t.urlNote}</small>
+              <small aria-live="polite">{isOpeningAnalyzer ? t.analyzing : t.urlNote}</small>
             </form>
           </div>
         </section>
@@ -483,7 +485,18 @@ export default function LandingPage() {
               </div>
               <div className="landing-feature-nav" role="tablist" aria-label={t.featureStepsLabel}>
                 {featureSteps.map((step, index) => (
-                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" id={`landing-feature-tab-${step.id}`} aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} onClick={() => stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}>
+                  <button key={step.id} className={index === activeStep ? "is-active" : ""} type="button" role="tab" id={`landing-feature-tab-${step.id}`} aria-selected={index === activeStep} aria-controls={`landing-feature-step-${step.id}`} tabIndex={index === activeStep ? 0 : -1} onKeyDown={(event) => {
+                    if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "ArrowUp" && event.key !== "ArrowLeft") return;
+                    event.preventDefault();
+                    const direction = event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1;
+                    const next = (index + direction + featureSteps.length) % featureSteps.length;
+                    setActiveStep(next);
+                    document.getElementById(`landing-feature-tab-${featureSteps[next].id}`)?.focus();
+                    stepRefs.current[next]?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }} onClick={() => {
+                    setActiveStep(index);
+                    stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}>
                     <span>{step.index}</span><strong>{step.title}</strong>
                   </button>
                 ))}
@@ -526,9 +539,9 @@ export default function LandingPage() {
               <span className="landing-section-kicker">{t.resultEyebrow}</span>
               <h2 dangerouslySetInnerHTML={{ __html: t.resultTitle }} />
               <p>{t.resultBody}</p>
-              <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span>↗</span></button>
+              <button className="landing-primary" type="button" onClick={() => openApp()}>{t.heroAnalyze} <span aria-hidden="true">↗</span></button>
             </div>
-            <div className="landing-outcome-visual" aria-label={t.outcomeAria}>
+            <div className="landing-outcome-visual" role="img" aria-label={t.outcomeAria} aria-describedby="landing-outcome-summary">
               <div className="outcome-visual-head">
                 <span>{t.outcomeChange}</span>
                 <b>{t.outcomeRule}</b>
@@ -564,6 +577,7 @@ export default function LandingPage() {
                 <span>{t.retestFoot}</span>
                 <strong>34 px → 0 px</strong>
               </div>
+              <p id="landing-outcome-summary" className="sr-only">{t.outcomeSummary}</p>
             </div>
           </div>
         </section>

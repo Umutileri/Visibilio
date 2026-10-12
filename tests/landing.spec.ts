@@ -254,7 +254,7 @@ test("landing accent surfaces are balanced rather than globally dark", async ({ 
   expect(darkSections).toBeLessThan(surfaces.length);
 });
 
-test("mobile audience cards keep label, heading, copy and link in a clear vertical hierarchy", async ({ page }) => {
+test("mobile audience cards keep label, heading and copy in a clear vertical hierarchy", async ({ page }) => {
   for (const width of [320, 375, 390, 430]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/");
@@ -265,7 +265,6 @@ test("mobile audience cards keep label, heading, copy and link in a clear vertic
         const label = element.querySelector(":scope > span")!.getBoundingClientRect();
         const heading = element.querySelector("h3")!.getBoundingClientRect();
         const copy = element.querySelector("p")!.getBoundingClientRect();
-        const link = element.querySelector("a")!.getBoundingClientRect();
         return {
           cardWidth: element.getBoundingClientRect().width,
           labelBottom: label.bottom,
@@ -273,17 +272,15 @@ test("mobile audience cards keep label, heading, copy and link in a clear vertic
           headingBottom: heading.bottom,
           copyTop: copy.top,
           copyBottom: copy.bottom,
-          linkTop: link.top,
-          linkBottom: link.bottom,
           cardBottom: element.getBoundingClientRect().bottom,
         };
       });
       expect(geometry.cardWidth).toBeGreaterThan(260);
       expect(geometry.headingTop).toBeGreaterThan(geometry.labelBottom);
       expect(geometry.copyTop).toBeGreaterThanOrEqual(geometry.headingBottom - 1);
-      expect(geometry.linkTop).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
-      expect(geometry.linkBottom).toBeLessThanOrEqual(geometry.cardBottom);
+      expect(geometry.copyBottom).toBeLessThanOrEqual(geometry.cardBottom);
     }
+    await expect(page.locator(".landing-audience-more")).toBeVisible();
   }
 });
 
