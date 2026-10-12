@@ -6192,3 +6192,10 @@
   .landing-page .landing-final-simple p { max-width: 40ch; font-size: .85rem; }
   .landing-page .landing-final-main-action { min-height: 50px; margin-top: 24px; }
 }
+
+
+/* Keep FAQ rows legible; open state changes only the control, not the text color. */
+.landing-page .landing-faq-list summary:hover .faq-question,
+.landing-page .landing-faq-list details[open] .faq-question {
+  color: #28212f;
+}
